@@ -30,3 +30,5 @@ Hosted offline support covers the shell and previously loaded optional assets. T
 
 
 Edition 34 checks exercise all 18 new workspaces and existing-tool advanced panels: actual SQL WASM and PDF rendering/editing, schema validation, migration ZIPs, sanitized SVG, portfolio HTML, reviewed API chains, data pivots/merges, graph fits, image Undo, packet encoding/capture and saved-state recovery. Accessibility covers a representative native workspace with no critical/serious axe violations; it is not a certification of every browser or assistive technology. The final graph-rendering timing fix and native layout-restore/navigation-capacity fixes were checked again with the repeatable browser/compatibility suites after the full original-suite run.
+
+CI on a fresh Chromium runner exposed delayed rendering of conflict choices. Result widgets now render synchronously with their report through a shared after-report hook; conflict export remains blocked until every choice is resolved. The browser suite checks that both conflict controls exist before resolving them.
