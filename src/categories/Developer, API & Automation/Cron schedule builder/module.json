@@ -1,0 +1,10 @@
+{
+  "id": "cron",
+  "category": "developer",
+  "routes": [
+    "cron"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 4
+}

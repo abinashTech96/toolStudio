@@ -1,0 +1,11 @@
+<!-- fragment:hashworkspace -->
+<section id="hashworkspace" class="extra-panel u23-workspace" hidden aria-label="Hash &amp; file inspection"><div class="panel-heading"><h2>Hash &amp; file inspection</h2></div></section>
+<!-- /fragment:hashworkspace -->
+
+<!-- fragment:hash -->
+<section id="hash" class="extra-panel" hidden aria-label="SHA-256 hash"><div class="panel-heading"><h2>SHA-256 hash</h2><button id="hashClear" class="small">Clear</button></div><label class="field"><span>Text (hashed as UTF-8)</span><textarea id="hashInput" class="developer-editor" rows="7"  spellcheck="false" placeholder=""></textarea></label><div class="developer-toolbar"><div class="row"><button id="hashText" class="small" >Hash text</button><button id="hashUpload" class="small" >Hash file (raw bytes)</button><input id="hashFile" type="file" accept="" hidden></div><button id="hashCopy" class="small" disabled>Copy hash</button></div><label class="field"><span>SHA-256 hexadecimal digest</span><textarea id="hashOutput" class="developer-editor" rows="3" readonly spellcheck="false" placeholder=""></textarea></label><p id="hashStatus" class="hint developer-status" role="status">Text and files stay local. Any file type up to 32 MiB is supported; filenames are not part of the digest.</p></section>
+<!-- /fragment:hash -->
+
+<!-- fragment:fileinspect -->
+<section id="fileinspect" class="extra-panel v9-panel" hidden aria-label="File inspector"><div class="panel-heading"><h2>File inspector</h2></div><div class="developer-toolbar"><button id="inspectUpload" class="small" >Inspect file</button><input id="inspectFile" type="file" accept="" hidden><button id="inspectClear" class="small" >Clear</button></div><p id="inspectStatus" class="hint" role="status" aria-live="polite"></p><div id="inspectResults" class="v9-results"></div><p class="hint">Reads only the first 512 bytes for signature hints. Optional SHA-256 reads the whole file, up to 50 MB. This tool does not execute files or scan them for malware.</p><div class="developer-toolbar"><button id="inspectHash" class="small" disabled>Calculate SHA-256</button></div><label class="field"><span>SHA-256 digest</span><textarea id="inspectDigest" class="developer-editor" rows="5" spellcheck="false" readonly ></textarea></label></section>
+<!-- /fragment:fileinspect -->

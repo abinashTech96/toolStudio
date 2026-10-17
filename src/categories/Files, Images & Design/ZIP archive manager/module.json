@@ -1,0 +1,10 @@
+{
+  "id": "archives",
+  "category": "media",
+  "routes": [
+    "archives"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 4
+}

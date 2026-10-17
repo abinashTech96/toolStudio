@@ -1,0 +1,10 @@
+{
+  "id": "notebook",
+  "category": "math",
+  "routes": [
+    "notebook"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}

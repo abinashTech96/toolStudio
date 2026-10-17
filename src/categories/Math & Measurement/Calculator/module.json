@@ -1,0 +1,11 @@
+{
+  "id": "calculator",
+  "category": "math",
+  "routes": [
+    "calculator",
+    "numberwords"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

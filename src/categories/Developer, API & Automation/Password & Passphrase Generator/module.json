@@ -1,0 +1,10 @@
+{
+  "id": "passwords",
+  "category": "developer",
+  "routes": [
+    "passwords"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 7
+}

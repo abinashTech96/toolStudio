@@ -1,0 +1,15 @@
+{
+  "id": "comparisonstudio",
+  "category": "json",
+  "routes": [
+    "jsondiff",
+    "textdiff",
+    "xml",
+    "excel",
+    "reconciliation",
+    "comparisonstudio"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 2
+}

@@ -1,0 +1,10 @@
+{
+  "id": "settings",
+  "category": "shared",
+  "routes": [
+    "settings"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

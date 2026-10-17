@@ -1,0 +1,10 @@
+{
+  "id": "matrices",
+  "category": "math",
+  "routes": [
+    "matrices"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 5
+}

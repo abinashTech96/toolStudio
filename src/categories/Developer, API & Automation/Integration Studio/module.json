@@ -1,0 +1,15 @@
+{
+  "id": "integrationstudio",
+  "category": "developer",
+  "routes": [
+    "apirequest",
+    "composite",
+    "apiresponse",
+    "integrationtests",
+    "integrationstudio",
+    "apiclient"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

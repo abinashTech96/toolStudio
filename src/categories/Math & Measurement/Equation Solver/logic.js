@@ -1,0 +1,13 @@
+// equations · stable live bindings are provided by the shared runtime context.
+// Initializer order preserves the existing tool behavior during this migration.
+export const id="equations";
+export function register(__studio33){
+__studio33.renderEquationFields = __studio33.$fn((function renderEquationFields(){const kind=__studio33.$('equationType').value,defs=kind==='linear'?[['a','2'],['b','-8']]:kind==='quadratic'?[['a','1'],['b','-5'],['c','6']]:[['a','1'],['b','1'],['c','5'],['d','1'],['e','-1'],['f','1']];__studio33.$('equationFields').replaceChildren();defs.forEach(__studio33.$fn(([name,value])=>{const field=__studio33.makeField(name,'eq_'+name,value,'text');field.querySelector('input').oninput=__studio33.renderEquations;__studio33.$('equationFields').append(field)},"([name,value])=>{const field=makeField(name,'eq_'+name,value,'text');field.querySelector('input').oninput=renderEquations;$('equationFields').append(field)}",""));__studio33.renderEquations()}),"function renderEquationFields(){const kind=$('equationType').value,defs=kind==='linear'?[['a','2'],['b','-8']]:kind==='quadratic'?[['a','1'],['b','-5'],['c','6']]:[['a','1'],['b','1'],['c','5'],['d','1'],['e','-1'],['f','1']];$('equationFields').replaceChildren();defs.forEach(([name,value])=>{const field=makeField(name,'eq_'+name,value,'text');field.querySelector('input').oninput=renderEquations;$('equationFields').append(field)});renderEquations()}","renderEquationFields");
+
+__studio33.renderEquations = __studio33.$fn((function renderEquations(){if(__studio33.u26Booting&&__studio33.$("equations").closest("[hidden]"))return;try{const kind=__studio33.$('equationType').value,names=kind==='linear'?['a','b']:kind==='quadratic'?['a','b','c']:['a','b','c','d','e','f'],solution=__studio33.solveEquation(kind,names.map(__studio33.$fn(x=>__studio33.numeric('eq_'+x),"x=>numeric('eq_'+x)","")));__studio33.metricList('equationResults',solution.items);__studio33.textParagraphs('equationSteps',solution.steps)}catch(e){__studio33.errorMetric('equationResults',e);__studio33.$('equationSteps').replaceChildren()}}),"function renderEquations(){if(u26Booting&&$(\"equations\").closest(\"[hidden]\"))return;try{const kind=$('equationType').value,names=kind==='linear'?['a','b']:kind==='quadratic'?['a','b','c']:['a','b','c','d','e','f'],solution=solveEquation(kind,names.map(x=>numeric('eq_'+x)));metricList('equationResults',solution.items);textParagraphs('equationSteps',solution.steps)}catch(e){errorMetric('equationResults',e);$('equationSteps').replaceChildren()}}","renderEquations");
+}
+export const steps=[
+[142,function initialize_142(__studio33){
+__studio33.$('equationType').onchange=__studio33.renderEquationFields;
+}]
+];

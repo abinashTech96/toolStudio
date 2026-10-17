@@ -1,0 +1,10 @@
+{
+  "id": "fractions",
+  "category": "math",
+  "routes": [
+    "fractions"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 4
+}

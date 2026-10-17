@@ -1,0 +1,14 @@
+{
+  "id": "datetoolkit",
+  "category": "productivity",
+  "routes": [
+    "dates",
+    "timestamp",
+    "businessdays",
+    "calendar",
+    "datetoolkit"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

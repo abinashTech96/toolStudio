@@ -1,0 +1,36 @@
+<!-- fragment:decision -->
+<section id="decision" class="extra-panel v9-panel" hidden aria-label="Decision matrix"><div class="panel-heading"><h2>Decision matrix</h2></div><label class="field"><span>Criteria, weights, and options (JSON)</span><textarea id="decisionInput" class="developer-editor" rows="5" spellcheck="false" >{
+  &quot;criteria&quot;: [
+    {
+      &quot;name&quot;: &quot;Cost&quot;,
+      &quot;weight&quot;: 3
+    },
+    {
+      &quot;name&quot;: &quot;Reliability&quot;,
+      &quot;weight&quot;: 5
+    },
+    {
+      &quot;name&quot;: &quot;Ease of use&quot;,
+      &quot;weight&quot;: 2
+    }
+  ],
+  &quot;options&quot;: [
+    {
+      &quot;name&quot;: &quot;Option A&quot;,
+      &quot;scores&quot;: [
+        9,
+        7,
+        8
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;Option B&quot;,
+      &quot;scores&quot;: [
+        6,
+        9,
+        7
+      ]
+    }
+  ]
+}</textarea></label><div class="developer-toolbar"><button id="decisionRun" class="small" >Rank options</button><button id="decisionUpload" class="small" >Upload JSON</button><input id="decisionFile" type="file" accept=".json,.txt" hidden><button id="decisionDownload" class="small" disabled>Download ranking JSON</button></div><p id="decisionStatus" class="hint" role="status" aria-live="polite"></p><div id="decisionResults" class="v9-results"></div><p class="hint">Scores range from 0 to 10; higher always means better. Weights are nonnegative and normalized automatically. For cost/risk, score lower cost/risk higher. Equal results remain tied.</p></section>
+<!-- /fragment:decision -->

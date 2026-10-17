@@ -1,0 +1,27 @@
+// decision · stable live bindings are provided by the shared runtime context.
+// Initializer order preserves the existing tool behavior during this migration.
+export const id="decision";
+export function register(__studio33){
+__studio33.invalidateDecision = __studio33.$fn((function invalidateDecision(){__studio33.decisionResult=null;__studio33.$('decisionResults').replaceChildren();__studio33.v9Invalidate(['decisionDownload'],'decisionStatus')}),"function invalidateDecision(){decisionResult=null;$('decisionResults').replaceChildren();v9Invalidate(['decisionDownload'],'decisionStatus')}","invalidateDecision");
+
+__studio33.validateFlow = (function validateFlow(source){if(source.length>50000)throw Error('Diagram source limit: 50,000 characters');let data;if(!source.trim())data={nodes:[],edges:[]};else if(source.trim().startsWith('{'))data=JSON.parse(source);else{data={nodes:[],edges:[]};for(const [i,line]of source.split(/\r?\n/).entries()){const text=line.trim();if(!text||text.startsWith('#'))continue;const edge=text.match(/^([\w-]+)\s*->\s*([\w-]+)(?:\s*:\s*(.*))?$/),node=text.match(/^([\w-]+)(?:\s*\[(process|decision|start|end)\])?\s*:\s*(.+)$/);if(edge)data.edges.push({from:edge[1],to:edge[2],label:edge[3]||''});else if(node)data.nodes.push({id:node[1],type:node[2]||'process',label:node[3]});else throw Error('Invalid diagram description at line '+(i+1)+'. Use id [type]: Label or from -> to : Label.')}}if(!data||!Array.isArray(data.nodes)||!Array.isArray(data.edges)||data.nodes.length>150||data.edges.length>300)throw Error('Provide up to 150 nodes and 300 edges');const ids=new Set(),nodes=data.nodes.map(n=>{if(!n||typeof n.id!=='string'||! /^[\w-]{1,64}$/.test(n.id)||ids.has(n.id))throw Error('Node IDs must be unique: 1–64 letters/digits/underscores/hyphens');ids.add(n.id);if(typeof n.label!=='string'||!n.label.trim()||n.label.length>160)throw Error('Node labels require 1–160 characters');const type=n.type||'process';if(!['process','decision','start','end'].includes(type))throw Error('Unknown node shape');return {id:n.id,label:n.label,type}}),edges=data.edges.map(e=>{if(!e||!ids.has(e.from)||!ids.has(e.to))throw Error('Every edge must refer to an existing node');if(e.label!==undefined&&(typeof e.label!=='string'||e.label.length>100))throw Error('Edge labels support up to 100 characters');return {from:e.from,to:e.to,label:e.label||''}});return {nodes,edges}});
+
+__studio33.layoutFlow = (function layoutFlow(data,direction='TD'){const incoming=new Map(data.nodes.map(n=>[n.id,0])),rank=new Map(data.nodes.map(n=>[n.id,0]));for(const e of data.edges)incoming.set(e.to,incoming.get(e.to)+1);const queue=data.nodes.filter(n=>!incoming.get(n.id)).map(n=>n.id),done=new Set();while(queue.length){const id=queue.shift();done.add(id);for(const e of data.edges.filter(e=>e.from===id)){rank.set(e.to,Math.max(rank.get(e.to),rank.get(id)+1));incoming.set(e.to,incoming.get(e.to)-1);if(!incoming.get(e.to))queue.push(e.to)}}let tail=Math.max(0,...rank.values());for(const n of data.nodes)if(!done.has(n.id))rank.set(n.id,++tail);const counts=new Map();return {nodes:data.nodes.map(n=>{const r=rank.get(n.id),column=counts.get(r)||0;counts.set(r,column+1);return {...n,x:direction==='LR'?40+r*290:40+column*260,y:direction==='LR'?40+column*180:40+r*180,width:190,height:n.type==='decision'?100:76}}),edges:data.edges,cycles:done.size<data.nodes.length}});
+}
+export const steps=[
+[812,function initialize_812(__studio33){
+__studio33.$('decisionRun').onclick=__studio33.$fn(()=>{__studio33.invalidateDecision();try{__studio33.decisionResult=__studio33.weightedDecision(__studio33.ordinaryJSON(__studio33.$('decisionInput').value));__studio33.v9Table('decisionResults',['Rank','Option','Weighted score / 10',...__studio33.decisionResult.criteria.map(c=>c.name+' (weight '+c.weight+')')],__studio33.decisionResult.options.map((o,i,all)=>[1+all.filter(x=>x.score>o.score+1e-12).length,o.name,o.score.toFixed(4),...o.scores]));__studio33.$('decisionDownload').disabled=false;__studio33.v9Status('decisionStatus',__studio33.decisionResult.options.length+' options ranked. Higher scores are better.')}catch(e){__studio33.v9Status('decisionStatus',e.message,true)}},"()=>{invalidateDecision();try{decisionResult=weightedDecision(ordinaryJSON($('decisionInput').value));v9Table('decisionResults',['Rank','Option','Weighted score / 10',...decisionResult.criteria.map(c=>c.name+' (weight '+c.weight+')')],decisionResult.options.map((o,i,all)=>[1+all.filter(x=>x.score>o.score+1e-12).length,o.name,o.score.toFixed(4),...o.scores]));$('decisionDownload').disabled=false;v9Status('decisionStatus',decisionResult.options.length+' options ranked. Higher scores are better.')}catch(e){v9Status('decisionStatus',e.message,true)}}","");
+}],
+[813,function initialize_813(__studio33){
+__studio33.$('decisionInput').oninput=__studio33.invalidateDecision;
+}],
+[814,function initialize_814(__studio33){
+__studio33.$('decisionDownload').onclick=__studio33.$fn(()=>{if(__studio33.decisionResult)__studio33.v9SaveJSON('decision-ranking.json',__studio33.decisionResult)},"()=>{if(decisionResult)v9SaveJSON('decision-ranking.json',decisionResult)}","");
+}],
+[815,function initialize_815(__studio33){
+__studio33.$('decisionUpload').onclick=__studio33.$fn(()=>__studio33.$('decisionFile').click(),"()=>$('decisionFile').click()","");
+}],
+[816,function initialize_816(__studio33){
+__studio33.uploadText('decisionInput','decisionFile',['json','txt'],__studio33.invalidateDecision,'decisionStatus');
+}]
+];

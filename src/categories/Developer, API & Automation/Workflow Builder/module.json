@@ -1,0 +1,10 @@
+{
+  "id": "workflows",
+  "category": "developer",
+  "routes": [
+    "workflows"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 3
+}

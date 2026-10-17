@@ -1,0 +1,11 @@
+{
+  "id": "qr",
+  "category": "media",
+  "routes": [
+    "qr",
+    "barcodes"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 3
+}

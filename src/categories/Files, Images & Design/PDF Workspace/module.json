@@ -1,0 +1,12 @@
+{
+  "id": "pdfworkspace",
+  "category": "media",
+  "routes": [
+    "pdf",
+    "pdfform",
+    "pdfworkspace"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}

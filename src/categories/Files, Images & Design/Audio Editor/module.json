@@ -1,0 +1,10 @@
+{
+  "id": "audioeditor",
+  "category": "media",
+  "routes": [
+    "audioeditor"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 5
+}

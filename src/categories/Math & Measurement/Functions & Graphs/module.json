@@ -1,0 +1,11 @@
+{
+  "id": "graph",
+  "category": "math",
+  "routes": [
+    "graph",
+    "calculus"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 2
+}

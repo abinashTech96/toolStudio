@@ -1,0 +1,12 @@
+{
+  "id": "formsworkspace",
+  "category": "productivity",
+  "routes": [
+    "formdesigner",
+    "responsedashboard",
+    "formsworkspace"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 2
+}

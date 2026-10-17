@@ -1,0 +1,14 @@
+{
+  "id": "careerdocuments",
+  "category": "career",
+  "routes": [
+    "careerdocuments",
+    "careerresume",
+    "careermatcher",
+    "careerachievements",
+    "careertemplates"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

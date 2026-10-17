@@ -1,0 +1,10 @@
+{
+  "id": "programmer",
+  "category": "developer",
+  "routes": [
+    "programmer"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 8
+}

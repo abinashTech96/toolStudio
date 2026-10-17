@@ -1,0 +1,13 @@
+{
+  "id": "texttoolkit",
+  "category": "text",
+  "routes": [
+    "characters",
+    "encoding",
+    "textutils",
+    "texttoolkit"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

@@ -1,0 +1,28 @@
+name: Validate Tool Studio
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run check
+      - run: npm test
+      - run: npm run test:compatibility
+      - run: python3 -m pip install -r Connection_Server/requirements.txt
+      - run: python3 tests/server.py
+      - run: node scripts/check.mjs --published
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: regression-results
+          path: test-results/

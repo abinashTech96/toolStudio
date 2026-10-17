@@ -1,0 +1,10 @@
+{
+  "id": "flowchart",
+  "category": "productivity",
+  "routes": [
+    "flowchart"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 4
+}

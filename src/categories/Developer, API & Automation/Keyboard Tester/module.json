@@ -1,0 +1,10 @@
+{
+  "id": "keyboard",
+  "category": "developer",
+  "routes": [
+    "keyboard"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 12
+}

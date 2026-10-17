@@ -1,0 +1,14 @@
+{
+  "id": "imagestudio",
+  "category": "media",
+  "routes": [
+    "camerastudio",
+    "images",
+    "annotation",
+    "contactsheet",
+    "imagestudio"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

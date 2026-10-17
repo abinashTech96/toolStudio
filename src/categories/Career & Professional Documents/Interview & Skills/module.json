@@ -1,0 +1,12 @@
+{
+  "id": "careerpreparation",
+  "category": "career",
+  "routes": [
+    "careerpreparation",
+    "careerinterview",
+    "careerskills"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}

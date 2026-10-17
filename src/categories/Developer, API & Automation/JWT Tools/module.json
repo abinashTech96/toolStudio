@@ -1,0 +1,12 @@
+{
+  "id": "jwtworkspace",
+  "category": "developer",
+  "routes": [
+    "jwt",
+    "jwtverify",
+    "jwtworkspace"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 5
+}

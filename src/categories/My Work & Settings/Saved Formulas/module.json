@@ -1,0 +1,10 @@
+{
+  "id": "formulas",
+  "category": "shared",
+  "routes": [
+    "formulas"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

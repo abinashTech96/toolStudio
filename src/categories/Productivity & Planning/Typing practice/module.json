@@ -1,0 +1,10 @@
+{
+  "id": "typing",
+  "category": "productivity",
+  "routes": [
+    "typing"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 7
+}

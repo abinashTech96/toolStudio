@@ -1,0 +1,15 @@
+* text=auto
+*.js text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+assets/** linguist-generated=true
+runtime/** linguist-generated=true
+offline/** linguist-generated=true
+index.html linguist-generated=true
+
+# Preserve whitespace inside upstream bundled templates and extracted styles.
+assets/** -whitespace
+public/assets/** -whitespace
+offline/** -whitespace
+src/shared/styles/** whitespace=-blank-at-eof

@@ -1,0 +1,24 @@
+<!-- fragment:expenses -->
+<section id="expenses" class="extra-panel v9-panel" hidden aria-label="Expense splitter"><div class="panel-heading"><h2>Expense splitter</h2></div><label class="field"><span>Participants and expenses (JSON)</span><textarea id="expenseInput" class="developer-editor" rows="5" spellcheck="false" >{
+  &quot;people&quot;: [
+    &quot;Asha&quot;,
+    &quot;Ben&quot;,
+    &quot;Chitra&quot;
+  ],
+  &quot;expenses&quot;: [
+    {
+      &quot;paidBy&quot;: &quot;Asha&quot;,
+      &quot;amount&quot;: &quot;120.00&quot;
+    },
+    {
+      &quot;paidBy&quot;: &quot;Ben&quot;,
+      &quot;amount&quot;: &quot;90.00&quot;,
+      &quot;shares&quot;: {
+        &quot;Asha&quot;: 1,
+        &quot;Ben&quot;: 2,
+        &quot;Chitra&quot;: 1
+      }
+    }
+  ]
+}</textarea></label><div class="developer-toolbar"><button id="expenseRun" class="small" >Calculate settlements</button><button id="expenseUpload" class="small" >Upload JSON</button><input id="expenseFile" type="file" accept=".json,.txt" hidden><button id="expenseDownload" class="small" disabled>Download settlement JSON</button></div><p id="expenseStatus" class="hint" role="status" aria-live="polite"></p><div id="expenseResults" class="v9-results"></div><p class="hint">Amounts use one currency and up to 2 decimal places. Omit shares for an equal split, or supply relative weights per participant. Rounding allocates every cent deterministically. Suggested settlements balance debts; they are not guaranteed to use the fewest transfers.</p></section>
+<!-- /fragment:expenses -->

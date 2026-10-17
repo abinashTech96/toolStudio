@@ -1,0 +1,10 @@
+{
+  "id": "flashcards",
+  "category": "productivity",
+  "routes": [
+    "flashcards"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 6
+}

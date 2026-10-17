@@ -1,0 +1,10 @@
+{
+  "id": "markdown",
+  "category": "text",
+  "routes": [
+    "markdown"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}

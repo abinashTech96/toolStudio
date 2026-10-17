@@ -1,0 +1,11 @@
+{
+  "id": "salesforce",
+  "category": "developer",
+  "routes": [
+    "salesforce",
+    "soql"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}

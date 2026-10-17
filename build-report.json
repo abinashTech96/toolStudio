@@ -1,0 +1,12 @@
+{
+  "version": 33,
+  "categories": 8,
+  "workspaces": 50,
+  "sourceModules": 63,
+  "legacyRoutes": 105,
+  "initialHTMLBytes": 268668,
+  "runtimeChunkBytes": 3404163,
+  "offlineBytes": 15908641,
+  "ocrAssetsVerified": 3,
+  "revision": "6c132a460258a154"
+}

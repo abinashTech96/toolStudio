@@ -1,0 +1,13 @@
+{
+  "id": "financeworkspace",
+  "category": "finance",
+  "routes": [
+    "finance",
+    "tools",
+    "interestrate",
+    "financeworkspace"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

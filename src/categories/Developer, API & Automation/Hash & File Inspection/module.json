@@ -1,0 +1,12 @@
+{
+  "id": "hashworkspace",
+  "category": "developer",
+  "routes": [
+    "hash",
+    "fileinspect",
+    "hashworkspace"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 6
+}

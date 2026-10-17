@@ -1,0 +1,7 @@
+.cs30-core[hidden],.cs30-native-core[hidden]{display:none!important}
+.cs30-groups{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:6px 0;font-size:.85em;color:var(--muted)}
+.cs30-transfer{border:1px solid var(--line);border-radius:8px;padding:8px;margin:8px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cs30-transfer p{margin:0;flex:1 1 200px;font-size:.9em}
+.cs30-group-note{font-size:12px;color:var(--muted);margin:0 0 6px}
+#workspace .cs30-native-core>.panel-heading{display:none}
+#workspace #imagestudio #camerastudio>.cs29-about,#workspace #imagestudio #camerastudio>.panel-heading{display:none}
+#cs30ResourceStatus{white-space:pre-line}.cs30-audit-table{width:100%;border-collapse:collapse}.cs30-audit-table td,.cs30-audit-table th{padding:8px;text-align:left;border-bottom:1px solid var(--line)}

@@ -1,0 +1,10 @@
+{
+  "id": "statistics",
+  "category": "math",
+  "routes": [
+    "statistics"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 6
+}

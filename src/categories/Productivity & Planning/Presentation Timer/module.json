@@ -1,0 +1,10 @@
+{
+  "id": "presentationtimer",
+  "category": "productivity",
+  "routes": [
+    "presentationtimer"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 5
+}

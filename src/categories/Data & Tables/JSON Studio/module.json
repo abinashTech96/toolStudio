@@ -1,0 +1,16 @@
+{
+  "id": "jsonstudio",
+  "category": "json",
+  "routes": [
+    "jsonformatter",
+    "explorer",
+    "schema",
+    "jsonmask",
+    "jsonmapping",
+    "jsonpath",
+    "jsonstudio"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

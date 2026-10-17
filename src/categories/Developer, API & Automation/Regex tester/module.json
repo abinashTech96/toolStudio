@@ -1,0 +1,10 @@
+{
+  "id": "regex",
+  "category": "developer",
+  "routes": [
+    "regex"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 10
+}

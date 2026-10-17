@@ -1,0 +1,10 @@
+{
+  "id": "logs",
+  "category": "developer",
+  "routes": [
+    "logs"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 2
+}

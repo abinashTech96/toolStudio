@@ -1,0 +1,10 @@
+{
+  "id": "videoframes",
+  "category": "media",
+  "routes": [
+    "videoframes"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 6
+}

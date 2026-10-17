@@ -1,0 +1,10 @@
+{
+  "id": "kanban",
+  "category": "productivity",
+  "routes": [
+    "kanban"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}

@@ -1,0 +1,143 @@
+
+/* Edition 19: device layouts and motion are independent of the selected theme. */
+:root{--u19-editor-size:14px;--u19-safe:16px;--u19-viewport:100dvh}
+.shell{position:relative;z-index:1}
+html[data-theme=pearl]{--bg:#eeeef5;--panel:#fdfdff;--surface:#f0f0f8;--text:#292d48;--muted:#606680;--line:#d7daeb;--accent:#5557b3;--on:#fff;--key:#fff;--op:#e8e8fb;--shadow:0 18px 70px #3d427519;--radius:24px;--u17-danger:#a52d46}
+html[data-theme=graphite]{--bg:#151b23;--panel:#1e2732;--surface:#26313f;--text:#edf3f8;--muted:#b1c0ce;--line:#45576a;--accent:#96d4dc;--on:#152c35;--key:#2a3745;--op:#324856;--shadow:0 24px 80px #0005;--radius:22px;--u17-danger:#ff9caa}
+html[data-theme=pearl] body::before,html[data-theme=graphite] body::before{z-index:0;inset:-15%;opacity:.65;transform:translate3d(0,0,0);background:radial-gradient(ellipse at 15% 20%,#b7b7f24a,transparent 40%),radial-gradient(ellipse at 85% 75%,#c0e8ee55,transparent 40%);animation:u19-drift 24s ease-in-out infinite alternate;contain:strict}
+html[data-theme=graphite] body::before{background:radial-gradient(ellipse at 15% 15%,#3b617344,transparent 40%),radial-gradient(ellipse at 80% 85%,#6276a02d,transparent 45%)}
+html[data-theme=pearl] .main-card,html[data-theme=graphite] .main-card{position:relative;isolation:isolate;border-color:var(--line);box-shadow:var(--shadow),inset 0 1px 0 #ffffff12}
+html[data-theme=pearl] .main-card.editor-fullscreen,html[data-theme=graphite] .main-card.editor-fullscreen{position:fixed}
+html[data-theme=pearl] .brand-icon,html[data-theme=graphite] .brand-icon{background:linear-gradient(135deg,var(--accent),var(--op));color:var(--text);box-shadow:0 4px 18px #7773}
+html[data-theme=pearl] button,html[data-theme=graphite] button{transition:background-color .18s,color .18s,border-color .18s,box-shadow .18s,transform .18s}
+html[data-theme=pearl] button:active,html[data-theme=graphite] button:active{transform:scale(.98)}
+html[data-theme=graphite] button:focus-visible{box-shadow:0 0 0 5px #96d4dc25}
+html[data-theme=pearl] .theme-choice[data-theme=pearl]{background:linear-gradient(140deg,#fff,#e5e4ff)}
+html[data-theme=graphite] .theme-choice[data-theme=graphite]{background:linear-gradient(140deg,#2d3c4b,#1b2530)}
+@keyframes u19-drift{from{transform:translate3d(-2%,-1%,0) scale(1)}to{transform:translate3d(2%,2%,0) scale(1.05)}}
+html[data-motion=reduced] *,html[data-motion=off] *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+html[data-motion=reduced] body::before,html[data-motion=off] body::before{transform:none!important;animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){html body::before{animation:none!important}html *,html *::before,html *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.u19-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.u19-device-button{white-space:nowrap}
+.u19-dialog{width:min(680px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--line);border-radius:20px;padding:22px;background:var(--panel);color:var(--text);box-shadow:var(--shadow)}
+.u19-dialog::backdrop{background:#10182788}
+.u19-dialog header{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-22px;z-index:2;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:16px}
+.u19-dialog h2{font-size:22px;margin:0}.u19-dialog p{line-height:1.6}.u19-dialog .field{margin:14px 0}.u19-dialog .field>span{display:block;margin-bottom:6px;font-size:14px;font-weight:600}
+.u19-dialog input,.u19-dialog select{width:100%;padding:12px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;min-height:44px}
+.u19-dialog button{border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);padding:10px 14px;min-height:44px}
+.u19-dialog .u19-mapping{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;margin:10px 0}.u19-dialog small{color:var(--muted)}
+.u19-settings-note{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:13px}
+.u19-exit{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));z-index:10000;min-height:48px!important;padding:10px 16px!important;border:2px solid var(--accent)!important;border-radius:12px!important;background:var(--panel)!important;color:var(--text)!important;box-shadow:0 3px 18px #0003;font-size:14px!important;font-weight:700!important;max-width:calc(100vw - 24px)}
+.u19-exit[hidden]{display:none!important}.u19-has-expanded .studio-header{padding-top:56px!important}
+.u19-has-expanded #editorFocusDialog>header{padding-top:60px!important}
+.u19-stage-expanded{position:fixed!important;inset:0!important;z-index:100;overflow:auto;padding:90px max(20px,env(safe-area-inset-right)) 30px!important;background:var(--panel);border-radius:0!important;max-height:100dvh}
+#ptStage:fullscreen{padding:90px 24px 30px;background:var(--panel);color:var(--text);overflow:auto}
+.u19-dialog.u19-expanded{width:100vw;max-width:100vw;height:var(--u19-viewport);max-height:var(--u19-viewport);margin:0;border-radius:0;padding:20px}.u19-dialog.u19-expanded header{padding-top:60px}
+.u19-reading-content{min-height:120px;overflow-wrap:anywhere;line-height:1.7}.u19-reading-content pre{font-size:var(--u19-editor-size);white-space:pre-wrap;overflow:auto;max-height:none;background:var(--surface);padding:18px;border-radius:12px}.u19-reading-content table{border-collapse:collapse;width:100%}.u19-reading-content td,.u19-reading-content th{border:1px solid var(--line);padding:12px;text-align:left}.u19-reading-content .u19-scroll-table{overflow:auto;max-width:100%}
+.u19-reader-target{background:var(--panel)}
+html textarea:not(#typingInput){font-size:var(--u19-editor-size)!important;line-height:1.6!important}
+html[data-editor-wrap=on] textarea:not(#typingInput){white-space:pre-wrap!important;overflow-wrap:anywhere!important}
+html[data-editor-wrap=off] textarea:not(#typingInput){white-space:pre!important;overflow-wrap:normal!important;word-break:normal!important;overflow-x:auto!important}
+.u19-view-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}.u19-view-actions button{min-height:40px}.u19-view-actions label{display:flex;align-items:center;gap:6px;font-size:12px}.u19-view-actions input[type=checkbox]{width:18px;height:18px;min-height:0!important}
+.u19-media-viewport{overflow:auto;max-width:100%;max-height:65vh;border:1px solid var(--line);border-radius:12px;overscroll-behavior:contain;background:var(--surface);position:relative}.u19-media-viewport canvas{display:block;max-width:100%;height:auto;margin:0!important;border:0!important;border-radius:0!important}.u19-media-viewport svg{display:block;max-width:100%}
+.u19-media-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}.u19-media-controls output{font-size:12px;color:var(--muted)}
+.u19-media-viewport:has(canvas[hidden]){display:none}
+.u19-row-detail{display:grid;grid-template-columns:minmax(90px,1fr) minmax(0,2fr);gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}.u19-row-detail dt,.u19-row-detail dd{margin:0;padding:12px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.u19-row-detail dt{background:var(--surface);font-weight:600}.u19-row-detail dd small{display:block;margin-top:4px}.u19-row-tools{display:flex;gap:8px;margin-top:16px}
+html[data-device-layout=mobile]{--u19-safe:8px}
+html[data-device-layout=mobile] body{padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(92px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))!important}
+html[data-device-layout=mobile] .shell,html[data-device-layout=mobile] .main-card,html[data-device-layout=mobile] .workspace,html[data-device-layout=mobile] .extra-panel{min-width:0;max-width:100%}
+html[data-device-layout=mobile] .main-card{padding:12px!important;border-radius:18px}
+html[data-device-layout=mobile] .top.studio-header{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;align-items:center;max-width:100%;padding:12px!important}
+html[data-device-layout=mobile] .studio-header .brand{grid-column:1;grid-row:1;min-width:0}
+html[data-device-layout=mobile] .studio-header .u19-device-button{grid-column:2;grid-row:1;padding:8px!important;font-size:12px!important}
+html[data-device-layout=mobile] .studio-header .compact-nav{grid-column:1 / -1;grid-row:2;width:100%!important;max-width:100%;display:flex!important}
+html[data-device-layout=mobile] .studio-header .top-actions{grid-column:1;grid-row:3;display:flex;flex-wrap:wrap;gap:5px;min-width:0}
+html[data-device-layout=mobile] .studio-header .studio-menu{grid-column:2;grid-row:3;justify-self:end}
+html[data-device-layout=mobile] .studio-header .top-actions button{padding:8px!important;font-size:12px!important}
+html[data-device-layout=mobile] .brand h1{font-size:18px}
+html[data-device-layout=mobile] .compact-nav{flex:1;min-width:0}
+html[data-device-layout=mobile] #commandToggle{width:100%!important;max-width:100%;min-width:0!important;flex:1!important;white-space:nowrap;border:1px solid var(--line);background:var(--surface);border-radius:10px;text-align:left}
+html[data-device-layout=mobile] button,html[data-device-layout=mobile] select,html[data-device-layout=mobile] summary{min-height:48px!important;touch-action:manipulation}
+html[data-device-layout=mobile] button{font-size:13px!important;padding:10px 12px!important;min-width:48px}
+html[data-device-layout=mobile] input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]){min-height:48px!important;font-size:16px!important}
+html[data-device-layout=mobile] select{font-size:16px!important}
+html[data-device-layout=mobile] .row,html[data-device-layout=mobile] .fields{flex-wrap:wrap;min-width:0}
+html[data-device-layout=mobile] .fields,html[data-device-layout=mobile] .json-editors,html[data-device-layout=mobile] .u17-editor-pair,html[data-device-layout=mobile] .u16-split{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+html[data-device-layout=mobile] .json-editors[data-mobile-pane]>[data-studio-pane]{display:block!important}
+html[data-device-layout=mobile] .field,html[data-device-layout=mobile] .row>*{min-width:0;max-width:100%}
+html[data-device-layout=mobile] .studio-divider{display:none!important}
+html[data-device-layout=mobile] .u16-split>.field{resize:none!important;width:100%!important}
+html[data-device-layout=mobile] textarea{min-height:190px!important;width:100%;max-width:100%}
+html[data-device-layout=mobile] .u17-mobile-actions{display:flex!important;position:fixed;left:0;right:0;bottom:0;z-index:25;gap:6px;padding:8px 8px max(8px,env(safe-area-inset-bottom));background:var(--panel);border-top:1px solid var(--line)}
+html[data-device-layout=mobile] .u17-mobile-actions[hidden]{display:none!important}
+html[data-device-layout=mobile] .u17-mobile-actions button{flex:1;min-width:0;font-size:12px!important}
+html[data-u19-keyboard=open] .u17-mobile-actions{display:none!important}
+html[data-device-layout=mobile] .command-overlay{padding:0!important;align-items:end}
+html[data-device-layout=mobile] .command-box{width:100%!important;max-width:100%!important;max-height:var(--u19-viewport);border-radius:20px 20px 0 0!important;margin:0;padding:18px!important}
+html[data-device-layout=mobile] #commandResults{max-height:calc(var(--u19-viewport) - 170px);overflow:auto}
+html[data-device-layout=mobile] .command-result{width:100%;min-height:56px!important}
+html[data-device-layout=mobile] .u19-dialog{width:100vw;max-width:100vw;max-height:var(--u19-viewport);margin:auto 0 0;border-radius:20px 20px 0 0;padding:18px}
+html[data-device-layout=mobile] .u19-dialog header{top:-18px}
+html[data-device-layout=mobile] .u19-dialog.u19-expanded{height:var(--u19-viewport);margin:0;border-radius:0}
+html[data-device-layout=mobile] #editorFocusDialog{width:100vw;max-width:100vw;height:var(--u19-viewport);max-height:var(--u19-viewport);margin:0;border-radius:0;padding:14px}
+html[data-device-layout=mobile] #editorFocusDialog textarea{flex:1;min-height:120px!important}
+html[data-device-layout=mobile] #keypads .key{min-height:56px!important;font-size:20px!important;padding:10px!important}
+html[data-device-layout=mobile] #keypads{display:flex!important;flex-direction:column;gap:10px}
+html[data-device-layout=mobile] #numberPad{order:1;width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+html[data-device-layout=mobile] #sciencePad:not([hidden]){order:2;width:100%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+html[data-device-layout=mobile] #sciencePad .key{font-size:15px!important;padding:8px 3px!important}
+html[data-device-layout=mobile] textarea#expression{height:56px!important;min-height:56px!important;max-height:120px!important}
+html[data-device-layout=mobile] #knTasks.cs-list .cs-task{min-height:100px;padding:16px}
+html[data-device-layout=mobile] #knTasks.cs-board{overflow:auto;max-width:100%}
+html[data-device-layout=mobile] .v12-table,html[data-device-layout=mobile] #dwGrid,html[data-device-layout=mobile] .v13-review,html[data-device-layout=mobile] .u18-report,html[data-device-layout=mobile] .u16-preview,html[data-device-layout=mobile] #excelPreview{overflow:auto;max-width:100%;overscroll-behavior:contain}
+html[data-device-layout=mobile] .u19-row-open{display:block}
+html[data-device-layout=desktop] .u17-mobile-actions{display:none!important}
+html[data-device-layout=tv]{--u19-safe:clamp(18px,3vw,64px);--u19-editor-size:20px}
+html[data-device-layout=tv] body{padding:var(--u19-safe)!important;font-size:22px}
+html[data-device-layout=tv] .shell{width:100%!important;max-width:1800px!important;margin:auto}
+html[data-device-layout=tv] .main-card{padding:28px!important;border-radius:24px;max-width:100%;min-width:0}
+html[data-device-layout=tv] .studio-header{gap:14px!important;flex-wrap:wrap}
+html[data-device-layout=tv] .brand h1{font-size:30px!important}
+html[data-device-layout=tv] .compact-nav{flex:1;flex-wrap:wrap;gap:12px}
+html[data-device-layout=tv] .compact-nav select{min-width:220px;flex:1}
+html[data-device-layout=tv] button,html[data-device-layout=tv] summary{min-height:56px!important;min-width:56px;font-size:20px!important;padding:12px 18px!important;line-height:1.3!important}
+html[data-device-layout=tv] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),html[data-device-layout=tv] select{font-size:21px!important;min-height:56px!important;padding:12px!important}
+html[data-device-layout=tv] input[type=checkbox],html[data-device-layout=tv] input[type=radio]{width:26px;height:26px}
+html[data-device-layout=tv] .field>span,html[data-device-layout=tv] .hint,html[data-device-layout=tv] .cs-help,html[data-device-layout=tv] .cs-intro,html[data-device-layout=tv] .u17-auto,html[data-device-layout=tv] .u19-settings-note{font-size:18px!important;line-height:1.6}
+html[data-device-layout=tv] .panel-heading h2{font-size:28px!important}
+html[data-device-layout=tv] .extra-panel .field{min-width:0}
+html[data-device-layout=tv] :is(button,input,select,textarea,summary,a,[tabindex]):focus{outline:4px solid var(--accent)!important;outline-offset:5px!important;box-shadow:0 0 0 9px var(--surface)!important}
+html[data-device-layout=tv] [data-u19-editing=true]{outline-style:dashed!important}
+html[data-device-layout=tv] .u17-mobile-actions{display:none!important}
+html[data-device-layout=tv] .v12-suite-tabs{display:flex;flex-wrap:nowrap;overflow:auto;gap:12px;padding:12px 6px;max-width:100%}
+html[data-device-layout=tv] .v12-suite-tabs button{flex:none}
+html[data-device-layout=tv] .u19-dialog{width:min(1050px,calc(100vw - 2 * var(--u19-safe)));max-height:calc(100dvh - 2 * var(--u19-safe));padding:28px}
+html[data-device-layout=tv] .u19-dialog header{top:-28px}
+html[data-device-layout=tv] .u19-dialog h2{font-size:28px}
+html[data-device-layout=tv] .u19-dialog.u19-expanded{width:100vw;max-width:100vw;max-height:100dvh}
+html[data-device-layout=tv] .command-box{width:min(1000px,90vw)!important;max-height:85vh;padding:28px}
+html[data-device-layout=tv] #commandResults{max-height:55vh;overflow:auto}
+html[data-device-layout=tv] #keypads .key{min-height:68px!important;font-size:26px!important}
+html[data-device-layout=tv] #calculator{max-width:1180px!important;width:100%}
+html[data-device-layout=tv] #sciencePad .key{font-size:21px!important}
+html[data-device-layout=tv] #ptClock{font-size:clamp(80px,12vw,200px)!important}
+html[data-device-layout=tv] #ptStage h3{font-size:36px}
+html[data-device-layout=tv] #knTasks.cs-board{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(300px,1fr);grid-template-columns:none;overflow:auto;max-width:100%;gap:20px;padding:12px}
+html[data-device-layout=tv] #knTasks .cs-task{padding:20px;font-size:22px!important;min-height:130px}
+html[data-device-layout=tv] #knTasks .cs-task strong{font-size:23px}
+html[data-device-layout=tv] #knTasks .cs-task .cs-chip{font-size:16px}
+html[data-device-layout=tv] .metrics strong,html[data-device-layout=tv] .cs-stat b{font-size:32px}
+html[data-device-layout=tv] .metrics span,html[data-device-layout=tv] .cs-stat small{font-size:18px}
+html[data-device-layout=tv] .v13-review,html[data-device-layout=tv] #dwGrid,html[data-device-layout=tv] .u18-report,html[data-device-layout=tv] .u16-preview{overflow:auto;max-width:100%;font-size:18px}
+html[data-device-layout=tv] .main-card.editor-fullscreen{inset:var(--u19-safe)!important;padding:28px!important}
+html[data-device-layout=tv] .u19-exit{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));min-height:56px!important;font-size:20px!important}
+html[data-device-layout=tv] .u19-has-expanded .studio-header{padding-top:70px!important}
+html[data-device-layout=tv] .u19-reading-content{font-size:24px}
+html[data-device-layout=tv] body::before{animation:none!important}
+.u19-row-open{display:none}
+html[data-device-layout=tv] .u19-row-open{display:block}
+.u19-result-summary{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:18px;font-size:inherit}
+.u19-detail-table{overflow:auto;max-width:100%}
+@media(max-width:500px){html[data-device-layout=tv] .compact-nav select{min-width:0;max-width:100%}html[data-device-layout=tv] .main-card{padding:16px!important}html[data-device-layout=tv] body{padding:12px!important}.u19-mapping{grid-template-columns:1fr!important}}
+

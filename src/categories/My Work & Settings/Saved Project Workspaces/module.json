@@ -1,0 +1,10 @@
+{
+  "id": "projectworkspaces",
+  "category": "shared",
+  "routes": [
+    "projectworkspaces"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

@@ -1,0 +1,10 @@
+{
+  "id": "decision",
+  "category": "productivity",
+  "routes": [
+    "decision"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 3
+}

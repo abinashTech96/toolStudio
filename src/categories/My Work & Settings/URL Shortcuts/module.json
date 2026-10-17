@@ -1,0 +1,10 @@
+{
+  "id": "shortcuts",
+  "category": "shared",
+  "routes": [
+    "shortcuts"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 0
+}

@@ -1,0 +1,10 @@
+{
+  "id": "uuid",
+  "category": "developer",
+  "routes": [
+    "uuid"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 9
+}

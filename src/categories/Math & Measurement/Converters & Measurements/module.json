@@ -1,0 +1,13 @@
+{
+  "id": "conversionworkspace",
+  "category": "math",
+  "routes": [
+    "converter",
+    "measurements",
+    "presets",
+    "conversionworkspace"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 7
+}

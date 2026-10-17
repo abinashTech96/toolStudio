@@ -1,0 +1,10 @@
+{
+  "id": "paymentids",
+  "category": "finance",
+  "routes": [
+    "paymentids"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 2
+}

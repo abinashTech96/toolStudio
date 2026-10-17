@@ -1,0 +1,13 @@
+{
+  "id": "dataworkbench",
+  "category": "json",
+  "routes": [
+    "jsoncsv",
+    "csvjson",
+    "sampledata",
+    "dataworkbench"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}

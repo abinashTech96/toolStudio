@@ -1,0 +1,716 @@
+{
+  "version": 33,
+  "categories": [
+    {
+      "id": "math",
+      "order": 0,
+      "label": "Math & Measurement",
+      "workspaces": [
+        "calculator",
+        "notebook",
+        "graph",
+        "equations",
+        "fractions",
+        "matrices",
+        "statistics",
+        "conversionworkspace"
+      ]
+    },
+    {
+      "id": "finance",
+      "order": 1,
+      "label": "Finance",
+      "workspaces": [
+        "financeworkspace",
+        "expenses",
+        "paymentids"
+      ]
+    },
+    {
+      "id": "text",
+      "order": 2,
+      "label": "Text & Writing",
+      "workspaces": [
+        "texttoolkit",
+        "markdown"
+      ]
+    },
+    {
+      "id": "json",
+      "order": 3,
+      "label": "Data & Tables",
+      "workspaces": [
+        "jsonstudio",
+        "dataworkbench",
+        "comparisonstudio"
+      ]
+    },
+    {
+      "id": "developer",
+      "order": 4,
+      "label": "Developer, API & Automation",
+      "workspaces": [
+        "integrationstudio",
+        "salesforce",
+        "logs",
+        "workflows",
+        "cron",
+        "jwtworkspace",
+        "hashworkspace",
+        "passwords",
+        "programmer",
+        "uuid",
+        "regex",
+        "subnets",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "media",
+      "order": 5,
+      "label": "Files, Images & Design",
+      "workspaces": [
+        "imagestudio",
+        "pdfworkspace",
+        "colors",
+        "qr",
+        "archives",
+        "audioeditor",
+        "videoframes"
+      ]
+    },
+    {
+      "id": "productivity",
+      "order": 6,
+      "label": "Productivity & Planning",
+      "workspaces": [
+        "datetoolkit",
+        "kanban",
+        "formsworkspace",
+        "decision",
+        "flowchart",
+        "presentationtimer",
+        "flashcards",
+        "typing"
+      ]
+    },
+    {
+      "id": "career",
+      "order": 7,
+      "label": "Career & Professional Documents",
+      "workspaces": [
+        "careerdocuments",
+        "careerpreparation"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "careerpreparation",
+      "category": "career",
+      "routes": [
+        "careerpreparation",
+        "careerinterview",
+        "careerskills"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "Interview & Skills"
+    },
+    {
+      "id": "careerdocuments",
+      "category": "career",
+      "routes": [
+        "careerdocuments",
+        "careerresume",
+        "careermatcher",
+        "careerachievements",
+        "careertemplates"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Resume & Applications"
+    },
+    {
+      "id": "comparisonstudio",
+      "category": "json",
+      "routes": [
+        "jsondiff",
+        "textdiff",
+        "xml",
+        "excel",
+        "reconciliation",
+        "comparisonstudio"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 2,
+      "label": "Comparison Studio"
+    },
+    {
+      "id": "dataworkbench",
+      "category": "json",
+      "routes": [
+        "jsoncsv",
+        "csvjson",
+        "sampledata",
+        "dataworkbench"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "Data Workbench"
+    },
+    {
+      "id": "jsonstudio",
+      "category": "json",
+      "routes": [
+        "jsonformatter",
+        "explorer",
+        "schema",
+        "jsonmask",
+        "jsonmapping",
+        "jsonpath",
+        "jsonstudio"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "JSON Studio"
+    },
+    {
+      "id": "cron",
+      "category": "developer",
+      "routes": [
+        "cron"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 4,
+      "label": "Cron schedule builder"
+    },
+    {
+      "id": "hashworkspace",
+      "category": "developer",
+      "routes": [
+        "hash",
+        "fileinspect",
+        "hashworkspace"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 6,
+      "label": "Hash & File Inspection"
+    },
+    {
+      "id": "integrationstudio",
+      "category": "developer",
+      "routes": [
+        "apirequest",
+        "composite",
+        "apiresponse",
+        "integrationtests",
+        "integrationstudio",
+        "apiclient"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Integration Studio"
+    },
+    {
+      "id": "jwtworkspace",
+      "category": "developer",
+      "routes": [
+        "jwt",
+        "jwtverify",
+        "jwtworkspace"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 5,
+      "label": "JWT Tools"
+    },
+    {
+      "id": "keyboard",
+      "category": "developer",
+      "routes": [
+        "keyboard"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 12,
+      "label": "Keyboard Tester"
+    },
+    {
+      "id": "logs",
+      "category": "developer",
+      "routes": [
+        "logs"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 2,
+      "label": "Log Analyzer"
+    },
+    {
+      "id": "subnets",
+      "category": "developer",
+      "routes": [
+        "subnets"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 11,
+      "label": "Network & Subnet Calculator"
+    },
+    {
+      "id": "passwords",
+      "category": "developer",
+      "routes": [
+        "passwords"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 7,
+      "label": "Password & Passphrase Generator"
+    },
+    {
+      "id": "programmer",
+      "category": "developer",
+      "routes": [
+        "programmer"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 8,
+      "label": "Programmer"
+    },
+    {
+      "id": "regex",
+      "category": "developer",
+      "routes": [
+        "regex"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 10,
+      "label": "Regex tester"
+    },
+    {
+      "id": "salesforce",
+      "category": "developer",
+      "routes": [
+        "salesforce",
+        "soql"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "Salesforce Utilities"
+    },
+    {
+      "id": "uuid",
+      "category": "developer",
+      "routes": [
+        "uuid"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 9,
+      "label": "UUID generator"
+    },
+    {
+      "id": "workflows",
+      "category": "developer",
+      "routes": [
+        "workflows"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 3,
+      "label": "Workflow Builder"
+    },
+    {
+      "id": "audioeditor",
+      "category": "media",
+      "routes": [
+        "audioeditor"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 5,
+      "label": "Audio Editor"
+    },
+    {
+      "id": "imagestudio",
+      "category": "media",
+      "routes": [
+        "camerastudio",
+        "images",
+        "annotation",
+        "contactsheet",
+        "imagestudio"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Camera & Image Studio"
+    },
+    {
+      "id": "colors",
+      "category": "media",
+      "routes": [
+        "colors",
+        "imagecolors"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 2,
+      "label": "Color & Accessibility"
+    },
+    {
+      "id": "pdfworkspace",
+      "category": "media",
+      "routes": [
+        "pdf",
+        "pdfform",
+        "pdfworkspace"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "PDF Workspace"
+    },
+    {
+      "id": "qr",
+      "category": "media",
+      "routes": [
+        "qr",
+        "barcodes"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 3,
+      "label": "QR & Barcodes"
+    },
+    {
+      "id": "videoframes",
+      "category": "media",
+      "routes": [
+        "videoframes"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 6,
+      "label": "Video Frame Extractor"
+    },
+    {
+      "id": "archives",
+      "category": "media",
+      "routes": [
+        "archives"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 4,
+      "label": "ZIP archive manager"
+    },
+    {
+      "id": "expenses",
+      "category": "finance",
+      "routes": [
+        "expenses"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "Expense splitter"
+    },
+    {
+      "id": "financeworkspace",
+      "category": "finance",
+      "routes": [
+        "finance",
+        "tools",
+        "interestrate",
+        "financeworkspace"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Finance & Loan Tools"
+    },
+    {
+      "id": "paymentids",
+      "category": "finance",
+      "routes": [
+        "paymentids"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 2,
+      "label": "Payment identifier validator"
+    },
+    {
+      "id": "notebook",
+      "category": "math",
+      "routes": [
+        "notebook"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "Calculation Notebook"
+    },
+    {
+      "id": "calculator",
+      "category": "math",
+      "routes": [
+        "calculator",
+        "numberwords"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Calculator"
+    },
+    {
+      "id": "conversionworkspace",
+      "category": "math",
+      "routes": [
+        "converter",
+        "measurements",
+        "presets",
+        "conversionworkspace"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 7,
+      "label": "Converters & Measurements"
+    },
+    {
+      "id": "equations",
+      "category": "math",
+      "routes": [
+        "equations"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 3,
+      "label": "Equation Solver"
+    },
+    {
+      "id": "fractions",
+      "category": "math",
+      "routes": [
+        "fractions"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 4,
+      "label": "Fractions & Exact Forms"
+    },
+    {
+      "id": "graph",
+      "category": "math",
+      "routes": [
+        "graph",
+        "calculus"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 2,
+      "label": "Functions & Graphs"
+    },
+    {
+      "id": "matrices",
+      "category": "math",
+      "routes": [
+        "matrices"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 5,
+      "label": "Matrices & Vectors"
+    },
+    {
+      "id": "statistics",
+      "category": "math",
+      "routes": [
+        "statistics"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 6,
+      "label": "Statistics"
+    },
+    {
+      "id": "settings",
+      "category": "shared",
+      "routes": [
+        "settings"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Formatting & Backup"
+    },
+    {
+      "id": "formulas",
+      "category": "shared",
+      "routes": [
+        "formulas"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Saved Formulas"
+    },
+    {
+      "id": "projectworkspaces",
+      "category": "shared",
+      "routes": [
+        "projectworkspaces"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Saved Project Workspaces"
+    },
+    {
+      "id": "shortcuts",
+      "category": "shared",
+      "routes": [
+        "shortcuts"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "URL Shortcuts"
+    },
+    {
+      "id": "datetoolkit",
+      "category": "productivity",
+      "routes": [
+        "dates",
+        "timestamp",
+        "businessdays",
+        "calendar",
+        "datetoolkit"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Date, Time & Events"
+    },
+    {
+      "id": "decision",
+      "category": "productivity",
+      "routes": [
+        "decision"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 3,
+      "label": "Decision matrix"
+    },
+    {
+      "id": "flashcards",
+      "category": "productivity",
+      "routes": [
+        "flashcards"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 6,
+      "label": "Flashcards & Study Mode"
+    },
+    {
+      "id": "flowchart",
+      "category": "productivity",
+      "routes": [
+        "flowchart"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 4,
+      "label": "Flowchart builder"
+    },
+    {
+      "id": "formsworkspace",
+      "category": "productivity",
+      "routes": [
+        "formdesigner",
+        "responsedashboard",
+        "formsworkspace"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 2,
+      "label": "Forms Workspace"
+    },
+    {
+      "id": "kanban",
+      "category": "productivity",
+      "routes": [
+        "kanban"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "Kanban Board"
+    },
+    {
+      "id": "presentationtimer",
+      "category": "productivity",
+      "routes": [
+        "presentationtimer"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 5,
+      "label": "Presentation Timer"
+    },
+    {
+      "id": "typing",
+      "category": "productivity",
+      "routes": [
+        "typing"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 7,
+      "label": "Typing practice"
+    },
+    {
+      "id": "markdown",
+      "category": "text",
+      "routes": [
+        "markdown"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 1,
+      "label": "Markdown preview"
+    },
+    {
+      "id": "texttoolkit",
+      "category": "text",
+      "routes": [
+        "characters",
+        "encoding",
+        "textutils",
+        "texttoolkit"
+      ],
+      "kind": "migrated",
+      "resources": [],
+      "order": 0,
+      "label": "Text Toolkit"
+    }
+  ],
+  "sourceModules": 63,
+  "legacyRoutes": 105
+}

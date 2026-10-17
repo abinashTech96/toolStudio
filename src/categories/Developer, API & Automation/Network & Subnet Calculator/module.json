@@ -1,0 +1,10 @@
+{
+  "id": "subnets",
+  "category": "developer",
+  "routes": [
+    "subnets"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 11
+}

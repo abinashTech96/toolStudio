@@ -1,0 +1,10 @@
+{
+  "id": "expenses",
+  "category": "finance",
+  "routes": [
+    "expenses"
+  ],
+  "kind": "migrated",
+  "resources": [],
+  "order": 1
+}
