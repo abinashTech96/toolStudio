@@ -46,3 +46,14 @@ Large vendor engines and OCR data load on demand. Resource requests are deduplic
 Cache names include the project scope and build revision. The worker handles only same-origin GET requests under the app's known static paths. It does not cache arbitrary API endpoints or outbound requests. Cache-first static resources and network-first navigation support reloads after installation; optional engines are cached when fetched. The worker removes only older caches belonging to its own scope.
 
 `npm run publish:root` copies `dist` into the repository root and records managed paths. Do not put handwritten files at generated paths. Old app/guide/Connection filenames redirect while preserving query strings and fragments. The downloadable offline pair is in `offline/` on the site.
+
+
+## Edition 34 native workspaces
+
+The registry now contains 11 categories, 68 workspaces, 81 source modules and 123 routes. The original 105 route IDs and 63 migrated modules remain intact. Eighteen native workspace folders use `kind: "native"` metadata. Their entry files reexport mount functions from `src/advanced/workspaces/`; esbuild emits split ES modules loaded on first open. Existing-tool panels in `src/advanced/enhancements/` mount only when expanded.
+
+`src/advanced/runtime.js` installs the native routes after legacy initialization and before lifecycle diagnostics. It integrates workspace tabs, task shortcuts, layout preferences, opt-in draft recovery, recipes and validated backup/reset state. Native state uses `calc-studio-advanced-v34`; the existing storage keys are retained. Draft recovery excludes file/password controls and masks detected credentials and email addresses, but is not a general sensitive-data classifier.
+
+`ui.js` supplies labelled controls, action cancellation, result revision checks, paged tables and report export. `algorithms.js` contains deterministic transformations. Heavy SQL, schema validation, simulation and large-file profiles run in terminable worker jobs with time and size limits. Optional SQL WASM, PDF.js and PDF editing engines are copied from pinned dependencies, hashed and loaded locally. Imported data does not execute application code. Integration requests and device writes require explicit reviewed actions.
+
+`npm ci` is required before building. `build-advanced.mjs` emits hosted chunks and an equivalent offline IIFE, with optional engine bytes embedded in the offline build. `pack-offline.mjs` gzip-packs the published standalone file and bundles its decompressor; `check --published` compares unpacked output with the generated raw file. The hosted service worker precaches native code and caches optional engines on first use. No server is required for these modules; remote APIs still need their own endpoint and browser CORS permission.

@@ -20,7 +20,7 @@ export function installLifecycle(context, registry, resources) {
   };
   const publicAPI = window.calcStudio;
   window.calcStudio = Object.freeze({...publicAPI,
-    architecture: () => ({version: 33, categories: registry.categories.length, workspaces: registry.modules.length,
+    architecture: () => ({version: registry.version, categories: registry.categories.length, workspaces: registry.modules.length,
       sourceModules: registry.sourceModules, resources: resources?.status() || {mode: 'embedded'},
       current, generation, initialized: [...timings.keys()]}),
     ensureToolResources: (id, target = '') => resources ? resources.ensure(context.$requirements(context.u23Home(id), target)) : Promise.resolve(),

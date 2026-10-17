@@ -1,0 +1,10 @@
+{
+  "id": "schemadesigner",
+  "kind": "native",
+  "routes": [
+    "schemadesigner"
+  ],
+  "category": "systems",
+  "order": 115,
+  "description": "Schema Designer advanced workspace"
+}

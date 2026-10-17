@@ -1,61 +1,62 @@
 {
   "date": "2026-10-17",
   "build": {
-    "version": 33,
-    "categories": 8,
-    "workspaces": 50,
-    "sourceModules": 63,
+    "version": 34,
+    "categories": 11,
+    "workspaces": 68,
+    "sourceModules": 81,
     "legacyRoutes": 105,
-    "initialHTMLBytes": 268668,
-    "runtimeChunkBytes": 3404163,
-    "offlineBytes": 15908641,
+    "totalRoutes": 123,
+    "initialHTMLBytes": 268740,
+    "runtimeChunkBytes": 3404196,
+    "offlineBytes": 20191820,
     "ocrAssetsVerified": 3,
-    "revision": "6c132a460258a154"
+    "revision": "6cc6cd789facb345"
   },
   "legacy": {
     "suites": 35,
-    "checks": 11161,
+    "checks": 11411,
     "results": [
       {
         "suite": "device",
         "exit": 0,
-        "seconds": 26.3,
-        "checks": 570
+        "seconds": 28.9,
+        "checks": 660
       },
       {
         "suite": "targeted",
         "exit": 0,
-        "seconds": 7.0,
+        "seconds": 6.6,
         "checks": 25
       },
       {
         "suite": "themes",
         "exit": 0,
-        "seconds": 14.6,
+        "seconds": 14.9,
         "checks": 55
       },
       {
         "suite": "navigation",
         "exit": 0,
-        "seconds": 69.7,
+        "seconds": 68.3,
         "checks": 1096
       },
       {
         "suite": "nav-extra",
         "exit": 0,
-        "seconds": 3.1,
+        "seconds": 2.9,
         "checks": 19
       },
       {
         "suite": "improvements",
         "exit": 0,
-        "seconds": 16.2,
+        "seconds": 15.6,
         "checks": 52
       },
       {
         "suite": "organization",
         "exit": 0,
-        "seconds": 5.8,
+        "seconds": 6.1,
         "checks": 59
       },
       {
@@ -67,43 +68,43 @@
       {
         "suite": "performance",
         "exit": 0,
-        "seconds": 7.7,
+        "seconds": 8.0,
         "checks": 73
       },
       {
         "suite": "performance-edges",
         "exit": 0,
-        "seconds": 6.3,
+        "seconds": 6.9,
         "checks": 45
       },
       {
         "suite": "capabilities",
         "exit": 0,
-        "seconds": 6.6,
+        "seconds": 5.6,
         "checks": 31
       },
       {
         "suite": "capabilities-edges",
         "exit": 0,
-        "seconds": 12.7,
+        "seconds": 12.4,
         "checks": 97
       },
       {
         "suite": "capabilities-compat",
         "exit": 0,
-        "seconds": 3.3,
+        "seconds": 3.1,
         "checks": 6
       },
       {
         "suite": "refinement",
         "exit": 0,
-        "seconds": 4.9,
+        "seconds": 5.0,
         "checks": 102
       },
       {
         "suite": "refinement-device-edges23",
         "exit": 0,
-        "seconds": 5.9,
+        "seconds": 5.8,
         "checks": 40
       },
       {
@@ -115,31 +116,31 @@
       {
         "suite": "camera",
         "exit": 0,
-        "seconds": 11.9,
+        "seconds": 11.6,
         "checks": 84
       },
       {
         "suite": "camera-devices",
         "exit": 0,
-        "seconds": 8.6,
+        "seconds": 8.3,
         "checks": 135
       },
       {
         "suite": "camera-edges",
         "exit": 0,
-        "seconds": 3.5,
+        "seconds": 3.3,
         "checks": 21
       },
       {
         "suite": "camera25",
         "exit": 0,
-        "seconds": 5.5,
+        "seconds": 5.2,
         "checks": 73
       },
       {
         "suite": "camera25-edges",
         "exit": 0,
-        "seconds": 3.2,
+        "seconds": 2.9,
         "checks": 31
       },
       {
@@ -151,90 +152,90 @@
       {
         "suite": "camera26-edges",
         "exit": 0,
-        "seconds": 3.9,
+        "seconds": 3.6,
         "checks": 34
       },
       {
         "suite": "career",
         "exit": 0,
-        "seconds": 3.1,
+        "seconds": 4.4,
         "checks": 64
       },
       {
         "suite": "career-edges",
         "exit": 0,
-        "seconds": 8.2,
+        "seconds": 10.9,
         "checks": 167
       },
       {
         "suite": "navigation28",
         "exit": 0,
-        "seconds": 13.6,
-        "checks": 503
+        "seconds": 20.0,
+        "checks": 560
       },
       {
         "suite": "compact29",
         "exit": 0,
-        "seconds": 24.0,
-        "checks": 333
+        "seconds": 28.1,
+        "checks": 369
       },
       {
         "suite": "consolidation30",
         "exit": 0,
-        "seconds": 14.8,
-        "checks": 642
+        "seconds": 17.3,
+        "checks": 714
       },
       {
         "suite": "sharedprocessing30",
         "exit": 0,
-        "seconds": 2.0,
+        "seconds": 2.1,
         "checks": 8
       },
       {
         "suite": "engines31",
         "exit": 0,
-        "seconds": 1.3,
+        "seconds": 1.5,
         "checks": 87
       },
       {
         "suite": "workflows31",
         "exit": 0,
-        "seconds": 6.3,
-        "checks": 39
+        "seconds": 5.8,
+        "checks": 37
       },
       {
         "suite": "media31",
         "exit": 0,
-        "seconds": 5.6,
+        "seconds": 5.2,
         "checks": 27
       },
       {
         "suite": "documents31",
         "exit": 0,
-        "seconds": 3.9,
+        "seconds": 3.6,
         "checks": 19
       },
       {
         "suite": "devices31",
         "exit": 0,
-        "seconds": 11.0,
-        "checks": 417
+        "seconds": 9.8,
+        "checks": 414
       },
       {
         "suite": "edges31",
         "exit": 0,
-        "seconds": 4.6,
+        "seconds": 4.4,
         "checks": 18
       }
     ]
   },
   "hosted": {
-    "checks": 131,
+    "checks": 151,
     "errors": [],
     "passed": [
-      "105 legacy routes and 50 workspaces",
+      "123 routes and 68 workspaces (all 105 legacy routes retained)",
       "No OCR or vendor engines downloaded at startup",
-      "Eight category modules",
+      "Eleven category modules",
       "Hosted route careerdocuments",
       "Hosted route careerpreparation",
       "Hosted route careerresume",
@@ -340,6 +341,24 @@
       "Hosted route financeworkspace",
       "Hosted route conversionworkspace",
       "Hosted route statistics",
+      "Hosted route portfoliobuilder",
+      "Hosted route qualitystudio",
+      "Hosted route querystudio",
+      "Hosted route contractstudio",
+      "Hosted route migrationstudio",
+      "Hosted route documentcompare",
+      "Hosted route vectorstudio",
+      "Hosted route citationmanager",
+      "Hosted route evidenceboard",
+      "Hosted route researchnotebook",
+      "Hosted route simulationstudio",
+      "Hosted route capacityplanner",
+      "Hosted route dependencyexplorer",
+      "Hosted route schemadesigner",
+      "Hosted route coveragematrix",
+      "Hosted route fixturebuilder",
+      "Hosted route testcasestudio",
+      "Hosted route localizationstudio",
       "JSON formatting",
       "JSON Schema generation",
       "Null and empty value inspection",
@@ -362,8 +381,64 @@
       "OCR button loads original engine and recognizes generated image",
       "Scoped service worker reloads app offline",
       "Self-contained file build starts",
+      "Packed standalone offline file starts",
+      "Packed offline SQLite engine runs without a server",
       "No browser runtime errors: "
     ]
+  },
+  "advanced": {
+    "unitChecks": 62,
+    "browser": {
+      "checks": 43,
+      "failures": [],
+      "errors": [],
+      "passed": [
+        "All old and new routes registered",
+        "contractstudio default workflow",
+        "qualitystudio default workflow",
+        "localizationstudio default workflow",
+        "simulationstudio default workflow",
+        "researchnotebook default workflow",
+        "citationmanager default workflow",
+        "evidenceboard default workflow",
+        "testcasestudio default workflow",
+        "fixturebuilder default workflow",
+        "coveragematrix default workflow",
+        "schemadesigner default workflow",
+        "dependencyexplorer default workflow",
+        "capacityplanner default workflow",
+        "OpenAPI full-schema response validation",
+        "SQL engine aggregation and query plan",
+        "SQL rejects writes and permits a new run after error",
+        "Migration review and ZIP export",
+        "Vector selection and sanitized export",
+        "Portfolio preview and standalone export",
+        "Generate PDF comparison fixtures",
+        "PDF comparison extracts text and highlights pixels",
+        "JSON pointer edits and missing paths",
+        "JSON streaming profile",
+        "Data pivot and streamed CSV profile",
+        "Streamed CSV rejects malformed quotes and keeps final empty cells",
+        "Worker jobs cancel before returning results",
+        "Three-way conflict requires explicit resolution",
+        "Salesforce metadata mapping and access review",
+        "Multi-log correlation, redaction and metrics",
+        "Graph sliders and residuals",
+        "PDF fields, bookmarks, contents and labels",
+        "Image layers preserve base and existing Undo",
+        "Reviewed request chain and assertions",
+        "Workspace tabs retain inputs",
+        "Reviewed recipes persist, recover drafts and roll back storage failures",
+        "Native backups validate and include workspace state",
+        "Native hidden-tool preference survives reload",
+        "Protocol builder, checksum and bounded capture",
+        "Native views fit mobile and expose labelled controls",
+        "Native accessibility critical and serious checks",
+        "Native draft, layout and recipe reset scopes preserve unrelated data",
+        "No browser runtime errors"
+      ]
+    },
+    "performanceBudgetChecks": 7
   },
   "connection": {
     "protocol": {

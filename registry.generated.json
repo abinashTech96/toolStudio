@@ -1,5 +1,5 @@
 {
-  "version": 33,
+  "version": 34,
   "categories": [
     {
       "id": "math",
@@ -13,7 +13,8 @@
         "fractions",
         "matrices",
         "statistics",
-        "conversionworkspace"
+        "conversionworkspace",
+        "simulationstudio"
       ]
     },
     {
@@ -32,7 +33,8 @@
       "label": "Text & Writing",
       "workspaces": [
         "texttoolkit",
-        "markdown"
+        "markdown",
+        "localizationstudio"
       ]
     },
     {
@@ -42,7 +44,9 @@
       "workspaces": [
         "jsonstudio",
         "dataworkbench",
-        "comparisonstudio"
+        "comparisonstudio",
+        "querystudio",
+        "qualitystudio"
       ]
     },
     {
@@ -62,7 +66,9 @@
         "uuid",
         "regex",
         "subnets",
-        "keyboard"
+        "keyboard",
+        "contractstudio",
+        "migrationstudio"
       ]
     },
     {
@@ -76,7 +82,9 @@
         "qr",
         "archives",
         "audioeditor",
-        "videoframes"
+        "videoframes",
+        "documentcompare",
+        "vectorstudio"
       ]
     },
     {
@@ -100,7 +108,38 @@
       "label": "Career & Professional Documents",
       "workspaces": [
         "careerdocuments",
-        "careerpreparation"
+        "careerpreparation",
+        "portfoliobuilder"
+      ]
+    },
+    {
+      "id": "research",
+      "order": 9,
+      "label": "Knowledge & Research",
+      "workspaces": [
+        "researchnotebook",
+        "citationmanager",
+        "evidenceboard"
+      ]
+    },
+    {
+      "id": "testing",
+      "order": 10,
+      "label": "Testing & Quality",
+      "workspaces": [
+        "testcasestudio",
+        "fixturebuilder",
+        "coveragematrix"
+      ]
+    },
+    {
+      "id": "systems",
+      "order": 11,
+      "label": "Systems & Architecture",
+      "workspaces": [
+        "schemadesigner",
+        "dependencyexplorer",
+        "capacityplanner"
       ]
     }
   ],
@@ -117,6 +156,17 @@
       "resources": [],
       "order": 1,
       "label": "Interview & Skills"
+    },
+    {
+      "id": "portfoliobuilder",
+      "kind": "native",
+      "routes": [
+        "portfoliobuilder"
+      ],
+      "category": "career",
+      "order": 108,
+      "description": "Portfolio Builder advanced workspace",
+      "label": "Portfolio Builder"
     },
     {
       "id": "careerdocuments",
@@ -150,6 +200,17 @@
       "label": "Comparison Studio"
     },
     {
+      "id": "qualitystudio",
+      "kind": "native",
+      "routes": [
+        "qualitystudio"
+      ],
+      "category": "json",
+      "order": 103,
+      "description": "Data Quality Studio advanced workspace",
+      "label": "Data Quality Studio"
+    },
+    {
       "id": "dataworkbench",
       "category": "json",
       "routes": [
@@ -179,6 +240,39 @@
       "resources": [],
       "order": 0,
       "label": "JSON Studio"
+    },
+    {
+      "id": "querystudio",
+      "kind": "native",
+      "routes": [
+        "querystudio"
+      ],
+      "category": "json",
+      "order": 102,
+      "description": "Query Studio advanced workspace",
+      "label": "Query Studio"
+    },
+    {
+      "id": "contractstudio",
+      "kind": "native",
+      "routes": [
+        "contractstudio"
+      ],
+      "category": "developer",
+      "order": 100,
+      "description": "API Contract Studio advanced workspace",
+      "label": "API Contract Studio"
+    },
+    {
+      "id": "migrationstudio",
+      "kind": "native",
+      "routes": [
+        "migrationstudio"
+      ],
+      "category": "developer",
+      "order": 101,
+      "description": "Code Migration Studio advanced workspace",
+      "label": "Code Migration Studio"
     },
     {
       "id": "cron",
@@ -372,6 +466,17 @@
       "label": "Color & Accessibility"
     },
     {
+      "id": "documentcompare",
+      "kind": "native",
+      "routes": [
+        "documentcompare"
+      ],
+      "category": "media",
+      "order": 104,
+      "description": "Document Comparison Studio advanced workspace",
+      "label": "Document Comparison Studio"
+    },
+    {
       "id": "pdfworkspace",
       "category": "media",
       "routes": [
@@ -395,6 +500,17 @@
       "resources": [],
       "order": 3,
       "label": "QR & Barcodes"
+    },
+    {
+      "id": "vectorstudio",
+      "kind": "native",
+      "routes": [
+        "vectorstudio"
+      ],
+      "category": "media",
+      "order": 105,
+      "description": "SVG & Vector Studio advanced workspace",
+      "label": "SVG & Vector Studio"
     },
     {
       "id": "videoframes",
@@ -453,6 +569,39 @@
       "resources": [],
       "order": 2,
       "label": "Payment identifier validator"
+    },
+    {
+      "id": "citationmanager",
+      "kind": "native",
+      "routes": [
+        "citationmanager"
+      ],
+      "category": "research",
+      "order": 110,
+      "description": "Citation Manager advanced workspace",
+      "label": "Citation Manager"
+    },
+    {
+      "id": "evidenceboard",
+      "kind": "native",
+      "routes": [
+        "evidenceboard"
+      ],
+      "category": "research",
+      "order": 111,
+      "description": "Evidence Board advanced workspace",
+      "label": "Evidence Board"
+    },
+    {
+      "id": "researchnotebook",
+      "kind": "native",
+      "routes": [
+        "researchnotebook"
+      ],
+      "category": "research",
+      "order": 109,
+      "description": "Research Notebook advanced workspace",
+      "label": "Research Notebook"
     },
     {
       "id": "notebook",
@@ -535,6 +684,17 @@
       "resources": [],
       "order": 5,
       "label": "Matrices & Vectors"
+    },
+    {
+      "id": "simulationstudio",
+      "kind": "native",
+      "routes": [
+        "simulationstudio"
+      ],
+      "category": "math",
+      "order": 106,
+      "description": "Simulation Studio advanced workspace",
+      "label": "Simulation Studio"
     },
     {
       "id": "statistics",
@@ -686,6 +846,83 @@
       "label": "Typing practice"
     },
     {
+      "id": "capacityplanner",
+      "kind": "native",
+      "routes": [
+        "capacityplanner"
+      ],
+      "category": "systems",
+      "order": 117,
+      "description": "Capacity Planner advanced workspace",
+      "label": "Capacity Planner"
+    },
+    {
+      "id": "dependencyexplorer",
+      "kind": "native",
+      "routes": [
+        "dependencyexplorer"
+      ],
+      "category": "systems",
+      "order": 116,
+      "description": "Dependency Explorer advanced workspace",
+      "label": "Dependency Explorer"
+    },
+    {
+      "id": "schemadesigner",
+      "kind": "native",
+      "routes": [
+        "schemadesigner"
+      ],
+      "category": "systems",
+      "order": 115,
+      "description": "Schema Designer advanced workspace",
+      "label": "Schema Designer"
+    },
+    {
+      "id": "coveragematrix",
+      "kind": "native",
+      "routes": [
+        "coveragematrix"
+      ],
+      "category": "testing",
+      "order": 114,
+      "description": "Coverage Matrix advanced workspace",
+      "label": "Coverage Matrix"
+    },
+    {
+      "id": "fixturebuilder",
+      "kind": "native",
+      "routes": [
+        "fixturebuilder"
+      ],
+      "category": "testing",
+      "order": 113,
+      "description": "Fixture Builder advanced workspace",
+      "label": "Fixture Builder"
+    },
+    {
+      "id": "testcasestudio",
+      "kind": "native",
+      "routes": [
+        "testcasestudio"
+      ],
+      "category": "testing",
+      "order": 112,
+      "description": "Test Case Studio advanced workspace",
+      "label": "Test Case Studio"
+    },
+    {
+      "id": "localizationstudio",
+      "kind": "native",
+      "routes": [
+        "localizationstudio"
+      ],
+      "category": "text",
+      "order": 107,
+      "description": "Localization Studio advanced workspace",
+      "label": "Localization Studio"
+    },
+    {
       "id": "markdown",
       "category": "text",
       "routes": [
@@ -711,6 +948,7 @@
       "label": "Text Toolkit"
     }
   ],
-  "sourceModules": 63,
-  "legacyRoutes": 105
+  "sourceModules": 81,
+  "legacyRoutes": 105,
+  "totalRoutes": 123
 }

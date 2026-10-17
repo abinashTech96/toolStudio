@@ -1,0 +1,10 @@
+{
+  "id": "qualitystudio",
+  "kind": "native",
+  "routes": [
+    "qualitystudio"
+  ],
+  "category": "json",
+  "order": 103,
+  "description": "Data Quality Studio advanced workspace"
+}

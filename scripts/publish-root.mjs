@@ -1,5 +1,6 @@
 // Keep existing main/root GitHub Pages hosting working without changing site settings.
 import fs from 'node:fs';
+import {packOffline} from './pack-offline.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -8,6 +9,6 @@ const names=walk(path.join(root,'dist')).map(p=>path.relative(path.join(root,'di
 const manifest=path.join(root,'.generated-files.json');
 const previous=fs.existsSync(manifest)?JSON.parse(fs.readFileSync(manifest,'utf8')):[];
 for(const name of previous){if(name.includes('..')||path.isAbsolute(name))throw Error('Unsafe generated manifest entry');if(!names.includes(name))fs.rmSync(path.join(root,name),{force:true});}
-for(const name of names){const to=path.join(root,name);fs.mkdirSync(path.dirname(to),{recursive:true});fs.copyFileSync(path.join(root,'dist',name),to);}
+for(const name of names){const to=path.join(root,name);fs.mkdirSync(path.dirname(to),{recursive:true});if(name==='offline/Calc_Studio_Offline.html')fs.writeFileSync(to,await packOffline(fs.readFileSync(path.join(root,'dist',name),'utf8')));else fs.copyFileSync(path.join(root,'dist',name),to);}
 fs.writeFileSync(manifest,JSON.stringify(names,null,2)+'\n');
 console.log('Prepared '+names.length+' generated GitHub Pages files in repository root.');

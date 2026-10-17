@@ -1,0 +1,10 @@
+{
+  "id": "evidenceboard",
+  "kind": "native",
+  "routes": [
+    "evidenceboard"
+  ],
+  "category": "research",
+  "order": 111,
+  "description": "Evidence Board advanced workspace"
+}

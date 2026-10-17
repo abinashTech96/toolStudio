@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]),bytes=p=>fs.statSync(p).size;
+const report=JSON.parse(fs.readFileSync('dist/build-report.json','utf8'));
+assert(report.initialHTMLBytes<350000,'Hosted shell exceeds 350 KB');
+const runtime=walk('dist/runtime').filter(p=>p.endsWith('.js')),runtimeBytes=runtime.reduce((n,p)=>n+bytes(p),0);
+assert(runtimeBytes<4200000,'Total runtime code exceeds 4.2 MB');
+assert(walk('dist/assets/styles').reduce((n,p)=>n+bytes(p),0)<250000,'Style budget exceeds 250 KB');
+assert.equal(report.ocrAssetsVerified,3);assert.equal(report.totalRoutes,123);
+const registry=JSON.parse(fs.readFileSync('dist/registry.generated.json','utf8'));assert.equal(registry.modules.filter(m=>m.kind==='native').length,18);
+const html=fs.readFileSync('dist/index.html','utf8');assert(!/<script[^>]+src="[^\"]*assets\/(?:ocr|advanced|vendor)/.test(html),'Heavy engines must remain lazy');
+console.log(JSON.stringify({checks:7,initialHTMLBytes:report.initialHTMLBytes,runtimeBytes,totalRoutes:report.totalRoutes,passed:true}));

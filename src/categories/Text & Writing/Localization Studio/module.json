@@ -1,0 +1,10 @@
+{
+  "id": "localizationstudio",
+  "kind": "native",
+  "routes": [
+    "localizationstudio"
+  ],
+  "category": "text",
+  "order": 107,
+  "description": "Localization Studio advanced workspace"
+}

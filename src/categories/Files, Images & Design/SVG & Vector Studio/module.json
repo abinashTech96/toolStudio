@@ -1,0 +1,10 @@
+{
+  "id": "vectorstudio",
+  "kind": "native",
+  "routes": [
+    "vectorstudio"
+  ],
+  "category": "media",
+  "order": 105,
+  "description": "SVG & Vector Studio advanced workspace"
+}

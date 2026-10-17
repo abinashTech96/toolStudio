@@ -1,0 +1,10 @@
+{
+  "id": "portfoliobuilder",
+  "kind": "native",
+  "routes": [
+    "portfoliobuilder"
+  ],
+  "category": "career",
+  "order": 108,
+  "description": "Portfolio Builder advanced workspace"
+}

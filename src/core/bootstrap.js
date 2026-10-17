@@ -14,6 +14,8 @@ try {
   const resources = createResources(context, config.resourceConfig, base);
   context.$requirements = resourceRequirements;
   guardResourceActions(context, resources);
+  const advanced=await import(new URL(config.advancedRuntime,base));
+  advanced.install(context,config.registry,{baseURL:base.href,assets:config.advancedAssets});
   installLifecycle(context, config.registry, resources);
   document.body.removeAttribute('data-loading'); document.getElementById('studioBoot')?.remove();
   window.__toolStudioReady = true;

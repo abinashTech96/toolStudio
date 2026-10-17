@@ -1,0 +1,10 @@
+{
+  "id": "capacityplanner",
+  "kind": "native",
+  "routes": [
+    "capacityplanner"
+  ],
+  "category": "systems",
+  "order": 117,
+  "description": "Capacity Planner advanced workspace"
+}

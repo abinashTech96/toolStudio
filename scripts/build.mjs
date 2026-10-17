@@ -1,4 +1,6 @@
 import fs from 'node:fs';
+import {buildAdvanced} from './build-advanced.mjs';
+import {gzipSync} from 'node:zlib';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
@@ -36,32 +38,35 @@ for(const asset of plan.resources.ocr){const data=fs.readFileSync(path.join(root
 function factory(record){const text=read(record.path).replace(/^export\s+/gm,'');return'(()=>{\n'+text+'\nreturn {id,register,steps};\n})()'}
 const groups=new Map();for(const record of moduleRecords){const key=moduleMap.has(record.id)?moduleMap.get(record.id).category:record.id.startsWith('core/')?'core':'shared';if(!groups.has(key))groups.set(key,[]);groups.get(key).push(record)}
 const chunks=[];for(const[key,records]of groups){const text='export const modules=[\n'+records.map(factory).join(',\n')+'\n];\n',href='runtime/'+key+'.'+hash(text).slice(0,12)+'.js';write(href,text);chunks.push(href)}
-const registry={version:33,categories:categories.filter(c=>c.id!=='shared'),modules:modules.map(({path,...m})=>m),sourceModules:moduleRecords.length,legacyRoutes:seed.tools.length};
+const advanced=await buildAdvanced(root,out,modules);
+const registry={version:34,categories:categories.filter(c=>c.id!=='shared'),modules:modules.map(({path,...m})=>m),sourceModules:moduleRecords.length+modules.filter(m=>m.kind==='native').length,legacyRoutes:seed.tools.length,totalRoutes:modules.reduce((n,m)=>n+m.routes.length,0)};
 write('registry.generated.json',JSON.stringify(registry,null,2)+'\n');
 const runtimeFiles={};for(const name of ['context','resources','lifecycle']){const text=read('src/core/'+name+'.js'),href='runtime/'+name+'.'+hash(text).slice(0,12)+'.js';write(href,text);runtimeFiles[name]=href}
-const config={registry,chunks,resourceConfig:plan.resources,bindings:plan.bindings,context:runtimeFiles.context,resourceRuntime:runtimeFiles.resources,lifecycle:runtimeFiles.lifecycle};
+const config={registry,chunks,advancedRuntime:advanced.runtime,advancedAssets:advanced.assets,resourceConfig:plan.resources,bindings:plan.bindings,context:runtimeFiles.context,resourceRuntime:runtimeFiles.resources,lifecycle:runtimeFiles.lifecycle};
 let boot=read('src/core/bootstrap.js').replace('/* BUILD_CONFIG */',JSON.stringify(config));
 const bootURL='runtime/bootstrap.'+hash(boot).slice(0,12)+'.js';write(bootURL,boot);
 hosted=hosted.replace('<!-- studio-runtime -->','<script type="module" src="./'+bootURL+'"></script>');
 hosted=hosted.replace('</head>','<link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#253d32"></head>');
 hosted=hosted.replace('<body','<body data-loading="true"');hosted=hosted.replace('</body>','<div id="studioBoot" role="status" style="position:fixed;inset:0;z-index:99999;display:grid;place-content:center;background:#f4f7f0;color:#253d32;font:18px system-ui;text-align:center"><p id="studioBootText">Opening Tool Studio…</p><button id="studioBootRetry" hidden onclick="location.reload()">Retry</button></div></body>');
+hosted=hosted.replace('</head>','<link rel="stylesheet" href="./'+advanced.style+'"></head>');
 write('index.html',hosted);
 // The offline build comes from the same source modules, with assets embedded for file:// use.
 const runtimeInline=['context','lifecycle'].map(name=>read('src/core/'+name+'.js').replace(/^export\s+/gm,'')).join('\n');
 const inlineVendors=Object.entries(plan.resources.vendors).map(([key,href])=>'__studio33.studioLibraryFactories['+JSON.stringify(key)+']=('+read('public/'+href).replace(/^\/\/[^\n]*\n/,'').replace(/^export default /,'').replace(/;\s*$/,'')+');').join('\n');
 const inlineWorkers=Object.entries(plan.resources.workers).map(([key,href])=>'__studio33['+JSON.stringify(key)+']='+JSON.stringify(read('public/'+href))+';').join('\n');
 const aliases='let '+plan.bindings.join(',')+';\nconst __studio33=createContext('+JSON.stringify(plan.bindings)+');\n'+plan.bindings.map(name=>'Object.defineProperty(__studio33,'+JSON.stringify(name)+',{get:()=>'+name+',set:value=>{'+name+'=value},configurable:true});').join('\n');
-const code="'use strict';\n(()=>{\n"+runtimeInline+'\n'+aliases+'\nconst modules=['+moduleRecords.map(factory).join(',\n')+'];\ninitializeModules(__studio33,modules);\n'+inlineVendors+'\n'+inlineWorkers+'\n__studio33.studioWordlist='+read('public/'+plan.resources.wordlist)+';\ninstallLifecycle(__studio33,'+JSON.stringify(registry)+',null);\nwindow.__toolStudioReady=true;\n})();';
-offline=offline.replace('<!-- studio-runtime -->',()=>'<script>\n'+code.replace(/<\/script/gi,'<\\/script')+'\n</script>');write('offline/Calc_Studio_Offline.html',offline);
+const code="'use strict';\n(()=>{\n"+runtimeInline+'\n'+aliases+'\nconst modules=['+moduleRecords.map(factory).join(',\n')+'];\ninitializeModules(__studio33,modules);\n'+inlineVendors+'\n'+inlineWorkers+'\n__studio33.studioWordlist='+read('public/'+plan.resources.wordlist)+';\n'+advanced.offline+'\nStudioAdvanced.install(__studio33,'+JSON.stringify(registry)+',{assets:'+JSON.stringify(advanced.assets)+',embedded:'+JSON.stringify(advanced.embedded)+'});\ninstallLifecycle(__studio33,'+JSON.stringify(registry)+',null);\nwindow.__toolStudioReady=true;\n})();';
+offline=offline.replace('<!-- studio-runtime -->',()=>'<script>\n'+code.replace(/<\/script/gi,'<\\/script')+'\n</script>');offline=offline.replace('</head>',()=>'<style>'+advanced.css+'</style></head>');write('offline/Calc_Studio_Offline.html',offline);
 for(const file of files(path.join(root,'public'))){const rel=path.relative(path.join(root,'public'),file);write(rel,fs.readFileSync(file))}
 for(const file of files(path.join(root,'src/connections')))write('connections/'+path.basename(file),fs.readFileSync(file));
 const connectionShell=read('src/connections/index.html').replace('<link rel="stylesheet" href="./styles.css">','<style>'+read('src/connections/styles.css')+'</style>');
-const connectionParts=['websocket','bluetooth','usb','signaling','connection'].map(name=>read('src/connections/'+name+'.js').replace(/^import[^\n]*\n/gm,'').replace(/^export\s+/gm,''));
+write('connections/packet.js',advanced.packet);
+const connectionParts=['protocol','websocket','bluetooth','usb','signaling','connection'].map(name=>read('src/connections/'+name+'.js').replace(/^import[^\n]*\n/gm,'').replace(/^export\s+/gm,''));
 const qrInline='const inlineQREngines={'+['qrencode','qrdecode'].map(key=>JSON.stringify(key)+':('+read('public/'+plan.resources.vendors[key]).replace(/^\/\/[^\n]*\n/,'').replace(/^export default /,'').replace(/;\s*$/,'')+')').join(',')+'};\nconst inlineQRCache={};async function loadQR(kind){return inlineQRCache[kind]||(inlineQRCache[kind]=inlineQREngines[kind]())}\n';
-write('offline/Calc_Studio_Connection.html',connectionShell.replace('<script type="module" src="./connection.js"></script>',()=>'<script>\n'+(qrInline+connectionParts.join('\n')).replace(/<\/script/gi,'<\\/script')+'\n</script>'));
+write('offline/Calc_Studio_Connection.html',connectionShell.replace('<script type="module" src="./connection.js"></script>',()=>'<script>\n'+(advanced.packetInline+'\nconst {packetEncode,packetDecode}=PacketEngine;\n'+qrInline+connectionParts.join('\n')).replace(/<\/script/gi,'<\\/script')+'\n</script>'));
 // Old bookmarks and filenames remain valid after deploying the modular build.
 const redirect=to=>'<!doctype html><meta charset="utf-8"><title>Tool Studio</title><script>location.replace('+JSON.stringify(to)+'+location.search+location.hash)</script><a href="'+to+'">Open Tool Studio</a>';
 write('Calc_Studio(1).html',redirect('./index.html'));write('Calc_Studio_Connection.html',redirect('./connections/index.html'));write('Calc_Studio_Guide_Tool.html',redirect('./guide.html'));write('Calc_Studio_Guide(2).html',redirect('./guide.html'));write('.nojekyll','');
-const precache=['./','./index.html','./registry.generated.json','./manifest.webmanifest','./assets/icon.svg','./guide.html',...chunks.map(p=>'./'+p),'./'+bootURL,...Object.values(runtimeFiles).map(p=>'./'+p),...styles.map(p=>'./'+p.href),...files(path.join(out,'connections')).map(p=>'./'+path.relative(out,p))];
+const precache=['./','./index.html','./registry.generated.json','./manifest.webmanifest','./assets/icon.svg','./guide.html',...chunks.map(p=>'./'+p),'./'+bootURL,...Object.values(runtimeFiles).map(p=>'./'+p),...styles.map(p=>'./'+p.href),'./'+advanced.style,...files(path.join(out,'runtime/advanced')).map(p=>'./'+path.relative(out,p)),...files(path.join(out,'connections')).map(p=>'./'+path.relative(out,p))];
 const revision=hash(hosted+files(out).filter(p=>!p.includes(path.sep+'offline'+path.sep)).sort().map(p=>path.relative(out,p)+':'+hash(fs.readFileSync(p))).join('\n')).slice(0,16);let worker=read('src/core/service-worker.js').replace('/* CACHE_VERSION */',JSON.stringify(revision)).replace('/* PRECACHE */',JSON.stringify(precache));write('sw.js',worker);
-const report={version:33,categories:registry.categories.length,workspaces:modules.length,sourceModules:moduleRecords.length,legacyRoutes:seed.tools.length,initialHTMLBytes:Buffer.byteLength(hosted),runtimeChunkBytes:chunks.reduce((n,p)=>n+fs.statSync(path.join(out,p)).size,0),offlineBytes:Buffer.byteLength(offline),ocrAssetsVerified:plan.resources.ocr.length,revision};write('build-report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+const report={version:34,categories:registry.categories.length,workspaces:modules.length,sourceModules:moduleRecords.length+modules.filter(m=>m.kind==='native').length,legacyRoutes:seed.tools.length,totalRoutes:registry.totalRoutes,initialHTMLBytes:Buffer.byteLength(hosted),runtimeChunkBytes:chunks.reduce((n,p)=>n+fs.statSync(path.join(out,p)).size,0),offlineBytes:Buffer.byteLength(offline),ocrAssetsVerified:plan.resources.ocr.length,revision};write('build-report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));

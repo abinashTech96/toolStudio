@@ -1,0 +1,7 @@
+import{node}from'./ui.js';
+import{integrationAdvanced,salesforceAdvanced,logsAdvanced}from'./enhancements/developer.js';
+import{jsonAdvanced,dataAdvanced,comparisonAdvanced}from'./enhancements/data.js';
+import{graphAdvanced}from'./enhancements/graph.js';
+import{imageAdvanced,pdfAdvanced}from'./enhancements/media.js';
+const installers={integrationstudio:integrationAdvanced,salesforce:salesforceAdvanced,logs:logsAdvanced,jsonstudio:jsonAdvanced,dataworkbench:dataAdvanced,comparisonstudio:comparisonAdvanced,graph:graphAdvanced,imagestudio:imageAdvanced,pdfworkspace:pdfAdvanced};
+export function mountEnhancements(api,root,id){const home=api.c.u23Home(id),install=installers[home];if(!root||!install||root.querySelector(':scope>.a34-extension[data-advanced-feature]'))return null;const details=node('details',undefined,{class:'a34-extension','data-advanced-feature':home}),summary=node('summary','Advanced '+({imagestudio:'layers & masks',pdfworkspace:'document navigation',integrationstudio:'request workflows',salesforce:'metadata & access review',logs:'multi-log analysis',jsonstudio:'tree editing & mappings',dataworkbench:'data operations',comparisonstudio:'merge review',graph:'parameter exploration'}[home]||'features')),panel=node('div',undefined,{id:'a34-'+id});details.append(summary,panel);root.append(details);let instance=null;details.addEventListener('toggle',()=>{if(details.open&&!instance){try{instance=install(api,panel)}catch(e){panel.replaceChildren(node('p',e.message))}}});return{dispose:()=>instance?.dispose?.()}}

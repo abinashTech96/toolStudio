@@ -17,6 +17,8 @@ jobs:
       - run: npm run build
       - run: npm run check
       - run: npm test
+      - run: npm run test:advanced
+      - run: npm run test:budgets
       - run: npm run test:compatibility
       - run: python3 -m pip install -r Connection_Server/requirements.txt
       - run: python3 tests/server.py

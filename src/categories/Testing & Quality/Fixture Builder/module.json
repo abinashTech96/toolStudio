@@ -1,0 +1,10 @@
+{
+  "id": "fixturebuilder",
+  "kind": "native",
+  "routes": [
+    "fixturebuilder"
+  ],
+  "category": "testing",
+  "order": 113,
+  "description": "Fixture Builder advanced workspace"
+}

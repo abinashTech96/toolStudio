@@ -1,0 +1,10 @@
+{
+  "id": "contractstudio",
+  "kind": "native",
+  "routes": [
+    "contractstudio"
+  ],
+  "category": "developer",
+  "order": 100,
+  "description": "API Contract Studio advanced workspace"
+}

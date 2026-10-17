@@ -1,0 +1,10 @@
+{
+  "id": "documentcompare",
+  "kind": "native",
+  "routes": [
+    "documentcompare"
+  ],
+  "category": "media",
+  "order": 104,
+  "description": "Document Comparison Studio advanced workspace"
+}

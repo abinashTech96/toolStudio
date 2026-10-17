@@ -1,0 +1,10 @@
+{
+  "id": "testcasestudio",
+  "kind": "native",
+  "routes": [
+    "testcasestudio"
+  ],
+  "category": "testing",
+  "order": 112,
+  "description": "Test Case Studio advanced workspace"
+}

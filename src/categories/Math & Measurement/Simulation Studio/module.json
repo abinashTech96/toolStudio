@@ -1,0 +1,10 @@
+{
+  "id": "simulationstudio",
+  "kind": "native",
+  "routes": [
+    "simulationstudio"
+  ],
+  "category": "math",
+  "order": 106,
+  "description": "Simulation Studio advanced workspace"
+}

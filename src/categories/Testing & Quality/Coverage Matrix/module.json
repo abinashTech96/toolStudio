@@ -1,0 +1,10 @@
+{
+  "id": "coveragematrix",
+  "kind": "native",
+  "routes": [
+    "coveragematrix"
+  ],
+  "category": "testing",
+  "order": 114,
+  "description": "Coverage Matrix advanced workspace"
+}

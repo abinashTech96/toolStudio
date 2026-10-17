@@ -1,0 +1,10 @@
+{
+  "id": "migrationstudio",
+  "kind": "native",
+  "routes": [
+    "migrationstudio"
+  ],
+  "category": "developer",
+  "order": 101,
+  "description": "Code Migration Studio advanced workspace"
+}

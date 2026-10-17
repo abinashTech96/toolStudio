@@ -1,0 +1,10 @@
+{
+  "id": "dependencyexplorer",
+  "kind": "native",
+  "routes": [
+    "dependencyexplorer"
+  ],
+  "category": "systems",
+  "order": 116,
+  "description": "Dependency Explorer advanced workspace"
+}

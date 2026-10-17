@@ -1,0 +1,10 @@
+{
+  "id": "citationmanager",
+  "kind": "native",
+  "routes": [
+    "citationmanager"
+  ],
+  "category": "research",
+  "order": 110,
+  "description": "Citation Manager advanced workspace"
+}

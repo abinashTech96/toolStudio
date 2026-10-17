@@ -1,0 +1,10 @@
+{
+  "id": "researchnotebook",
+  "kind": "native",
+  "routes": [
+    "researchnotebook"
+  ],
+  "category": "research",
+  "order": 109,
+  "description": "Research Notebook advanced workspace"
+}

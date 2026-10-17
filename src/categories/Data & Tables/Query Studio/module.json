@@ -1,0 +1,10 @@
+{
+  "id": "querystudio",
+  "kind": "native",
+  "routes": [
+    "querystudio"
+  ],
+  "category": "json",
+  "order": 102,
+  "description": "Query Studio advanced workspace"
+}
