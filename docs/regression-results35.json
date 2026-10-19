@@ -1,0 +1,480 @@
+{
+  "edition": 35,
+  "date": "2026-10-19",
+  "localBrowser": "Chromium 153.0.8010.0",
+  "results": {
+    "advanced-browser": {
+      "checks": 43,
+      "failures": [],
+      "errors": [],
+      "passed": [
+        "All old and new routes registered",
+        "contractstudio default workflow",
+        "qualitystudio default workflow",
+        "localizationstudio default workflow",
+        "simulationstudio default workflow",
+        "researchnotebook default workflow",
+        "citationmanager default workflow",
+        "evidenceboard default workflow",
+        "testcasestudio default workflow",
+        "fixturebuilder default workflow",
+        "coveragematrix default workflow",
+        "schemadesigner default workflow",
+        "dependencyexplorer default workflow",
+        "capacityplanner default workflow",
+        "OpenAPI full-schema response validation",
+        "SQL engine aggregation and query plan",
+        "SQL rejects writes and permits a new run after error",
+        "Migration review and ZIP export",
+        "Vector selection and sanitized export",
+        "Portfolio preview and standalone export",
+        "Generate PDF comparison fixtures",
+        "PDF comparison extracts text and highlights pixels",
+        "JSON pointer edits and missing paths",
+        "JSON streaming profile",
+        "Data pivot and streamed CSV profile",
+        "Streamed CSV rejects malformed quotes and keeps final empty cells",
+        "Worker jobs cancel before returning results",
+        "Three-way conflict requires explicit resolution",
+        "Salesforce metadata mapping and access review",
+        "Multi-log correlation, redaction and metrics",
+        "Graph sliders and residuals",
+        "PDF fields, bookmarks, contents and labels",
+        "Image layers preserve base and existing Undo",
+        "Reviewed request chain and assertions",
+        "Workspace tabs retain inputs",
+        "Reviewed recipes persist, recover drafts and roll back storage failures",
+        "Native backups validate and include workspace state",
+        "Native hidden-tool preference survives reload",
+        "Protocol builder, checksum and bounded capture",
+        "Native views fit mobile and expose labelled controls",
+        "Native accessibility critical and serious checks",
+        "Native draft, layout and recipe reset scopes preserve unrelated data",
+        "No browser runtime errors"
+      ]
+    },
+    "smoke": {
+      "checks": 151,
+      "errors": [],
+      "passed": [
+        "123 routes and 68 workspaces (all 105 legacy routes retained)",
+        "No OCR or vendor engines downloaded at startup",
+        "Eleven category modules",
+        "Hosted route careerdocuments",
+        "Hosted route careerpreparation",
+        "Hosted route careerresume",
+        "Hosted route careermatcher",
+        "Hosted route careerachievements",
+        "Hosted route careerinterview",
+        "Hosted route careerskills",
+        "Hosted route careertemplates",
+        "Hosted route camerastudio",
+        "Hosted route calculator",
+        "Hosted route notebook",
+        "Hosted route graph",
+        "Hosted route equations",
+        "Hosted route fractions",
+        "Hosted route converter",
+        "Hosted route dates",
+        "Hosted route finance",
+        "Hosted route programmer",
+        "Hosted route formulas",
+        "Hosted route tools",
+        "Hosted route measurements",
+        "Hosted route matrices",
+        "Hosted route calculus",
+        "Hosted route presets",
+        "Hosted route settings",
+        "Hosted route characters",
+        "Hosted route jsonformatter",
+        "Hosted route jsondiff",
+        "Hosted route regex",
+        "Hosted route encoding",
+        "Hosted route jsoncsv",
+        "Hosted route timestamp",
+        "Hosted route textdiff",
+        "Hosted route csvjson",
+        "Hosted route explorer",
+        "Hosted route salesforce",
+        "Hosted route uuid",
+        "Hosted route hash",
+        "Hosted route textutils",
+        "Hosted route schema",
+        "Hosted route logs",
+        "Hosted route jsonmask",
+        "Hosted route apirequest",
+        "Hosted route jwt",
+        "Hosted route soql",
+        "Hosted route cron",
+        "Hosted route sampledata",
+        "Hosted route markdown",
+        "Hosted route composite",
+        "Hosted route apiresponse",
+        "Hosted route jsonmapping",
+        "Hosted route jsonpath",
+        "Hosted route xml",
+        "Hosted route integrationtests",
+        "Hosted route businessdays",
+        "Hosted route jwtverify",
+        "Hosted route excel",
+        "Hosted route qr",
+        "Hosted route images",
+        "Hosted route pdf",
+        "Hosted route colors",
+        "Hosted route interestrate",
+        "Hosted route numberwords",
+        "Hosted route paymentids",
+        "Hosted route decision",
+        "Hosted route typing",
+        "Hosted route expenses",
+        "Hosted route fileinspect",
+        "Hosted route shortcuts",
+        "Hosted route archives",
+        "Hosted route flowchart",
+        "Hosted route subnets",
+        "Hosted route passwords",
+        "Hosted route barcodes",
+        "Hosted route calendar",
+        "Hosted route imagecolors",
+        "Hosted route annotation",
+        "Hosted route audioeditor",
+        "Hosted route videoframes",
+        "Hosted route pdfform",
+        "Hosted route formdesigner",
+        "Hosted route flashcards",
+        "Hosted route presentationtimer",
+        "Hosted route keyboard",
+        "Hosted route contactsheet",
+        "Hosted route kanban",
+        "Hosted route dataworkbench",
+        "Hosted route reconciliation",
+        "Hosted route workflows",
+        "Hosted route responsedashboard",
+        "Hosted route jsonstudio",
+        "Hosted route texttoolkit",
+        "Hosted route datetoolkit",
+        "Hosted route pdfworkspace",
+        "Hosted route projectworkspaces",
+        "Hosted route comparisonstudio",
+        "Hosted route integrationstudio",
+        "Hosted route imagestudio",
+        "Hosted route formsworkspace",
+        "Hosted route apiclient",
+        "Hosted route jwtworkspace",
+        "Hosted route hashworkspace",
+        "Hosted route financeworkspace",
+        "Hosted route conversionworkspace",
+        "Hosted route statistics",
+        "Hosted route portfoliobuilder",
+        "Hosted route qualitystudio",
+        "Hosted route querystudio",
+        "Hosted route contractstudio",
+        "Hosted route migrationstudio",
+        "Hosted route documentcompare",
+        "Hosted route vectorstudio",
+        "Hosted route citationmanager",
+        "Hosted route evidenceboard",
+        "Hosted route researchnotebook",
+        "Hosted route simulationstudio",
+        "Hosted route capacityplanner",
+        "Hosted route dependencyexplorer",
+        "Hosted route schemadesigner",
+        "Hosted route coveragematrix",
+        "Hosted route fixturebuilder",
+        "Hosted route testcasestudio",
+        "Hosted route localizationstudio",
+        "JSON formatting",
+        "JSON Schema generation",
+        "Null and empty value inspection",
+        "Lazy QR encoder produces a downloadable code",
+        "Lazy barcode library generates SVG",
+        "Lazy PDF library round trip",
+        "Lazy archive library round trip",
+        "Lazy spreadsheet library round trip",
+        "Hosted Markdown worker rendering",
+        "Original OCR assets load on demand",
+        "Existing backup API retained",
+        "Fullscreen Normal view control",
+        "Normal view restores app",
+        "Category and tool controls in mobile",
+        "Category and tool controls in tv",
+        "Category and tool controls in desktop",
+        "Mobile page fits viewport",
+        "Layout preference survives reload",
+        "Connection redirect preserves authenticated tab bridge",
+        "OCR button loads original engine and recognizes generated image",
+        "Scoped service worker reloads app offline",
+        "Self-contained file build starts",
+        "Packed standalone offline file starts",
+        "Packed offline SQLite engine runs without a server",
+        "No browser runtime errors: "
+      ]
+    },
+    "reliability-unit": {
+      "checks": 24,
+      "failures": [],
+      "passed": [
+        "Reject rounded decimals",
+        "Reject unsafe integral values",
+        "Allow exact decimal and exponent forms",
+        "Reject duplicate escaped object keys",
+        "Report field path and position",
+        "Bound nested structures",
+        "Loss-aware nested numbers remain strings",
+        "Profile exact large numeric tokens structurally",
+        "Malformed JSON remains rejected",
+        "Collect all table columns",
+        "Duplicate query labels avoid existing suffixes",
+        "Raw CSV preserves later columns and formula text",
+        "Spreadsheet CSV escapes risky strings but preserves numbers",
+        "UTF-8 and UTF-16 BOM detection",
+        "Reject invalid UTF-8 bytes",
+        "Batch preflight bounds aggregate bytes",
+        "Substitution retains numbers booleans and nested objects",
+        "JSON body substitution escapes strings",
+        "Missing and null Workbench cells stay distinct",
+        "Unsafe Workbench numbers stay exact text",
+        "Deduplicate writes and retain unsaved state after quota failures",
+        "Preserve corrupt storage until explicit recovery",
+        "Concurrent edits require reviewed adoption or replacement",
+        "Workbench structured cells retain nested values"
+      ]
+    },
+    "reliability-browser": {
+      "checks": 19,
+      "failures": [],
+      "passed": [
+        "chromium: Strict precision errors focus the actual source field",
+        "chromium: SQL database reuse, complete columns and exact integer results",
+        "chromium: SQL cancellation terminates work and supports recovery",
+        "chromium: Full CSV includes later fields and supports search and page jump",
+        "chromium: Async stale previews cannot be applied",
+        "chromium: Declined Apply reports cancellation and preserves data",
+        "chromium: Missing null and unsafe values survive Workbench bridge",
+        "chromium: CSV profile flags unsafe values without rounded extrema",
+        "chromium: Typed request substitutions escape body values",
+        "chromium: Editing a busy workspace cancels it on navigation",
+        "chromium: Closing a workspace releases previews while retaining source",
+        "chromium: Aliases produce one canonical workspace tab",
+        "chromium: Mobile portrait landscape and TV keep controls visible",
+        "chromium: Cold JSON format does not load the schema engine",
+        "chromium: Debounced writes and bounded diagnostic histories",
+        "chromium: Cross-tab conflict requires explicit review",
+        "chromium: Corrupt record is preserved until explicit recovery",
+        "chromium: Throttled typing and repeated navigation stay responsive",
+        "chromium: No runtime errors"
+      ],
+      "metrics": {
+        "chromium": {
+          "startupReadyMs": 494,
+          "longTasks": [
+            64
+          ],
+          "actions": [
+            {
+              "workspace": "querystudio",
+              "durationMs": 44
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 73
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 17
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 29
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 8
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 260
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 1
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 15
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 1
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 10
+            },
+            {
+              "workspace": "a34-apiclient",
+              "durationMs": 3
+            },
+            {
+              "workspace": "a34-apiclient",
+              "durationMs": 18
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 36
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 30
+            }
+          ],
+          "inputFramesMs": [
+            24.800000000046566,
+            9.400000000139698,
+            40.0999999998603,
+            8.200000000186265,
+            38.5999999998603,
+            22.899999999906868,
+            21.199999999953434,
+            13.899999999906868,
+            40.4000000001397,
+            25.100000000093132,
+            9.199999999953434,
+            46.300000000046566,
+            43.800000000046566,
+            33.5999999998603,
+            9.5,
+            8.699999999953434,
+            32.199999999953434
+          ],
+          "workspaceSwitches": {
+            "querystudio": 9.600000000093132,
+            "dataworkbench": 6.7999999998137355,
+            "integrationstudio": 24.5999999998603,
+            "capacityplanner": 4.699999999953434,
+            "jsonstudio": 5.900000000139698
+          },
+          "domNodes": 1070,
+          "heapBytes": 17100000,
+          "workers": {
+            "created": 6,
+            "completed": 9,
+            "cancelled": 2,
+            "workers": 2,
+            "busy": 0
+          },
+          "storageWrites": 3
+        },
+        "cpu4xTypingMs": 36,
+        "heapGrowthBytes": 14484
+      }
+    },
+    "updates": {
+      "checks": 5,
+      "failures": [],
+      "passed": [
+        "New release waits while an existing client remains open",
+        "Old lazy assets survive a deployment that removes their files",
+        "Explicit activation is blocked when another tab is open",
+        "Content-identical optional caches migrate through reviewed activation",
+        "No update runtime errors"
+      ]
+    },
+    "server-test-results": {
+      "checks": 13,
+      "failures": []
+    },
+    "engines31-test-results": {
+      "checks": 87,
+      "failures": [],
+      "errors": []
+    },
+    "workflows31-test-results": {
+      "checks": 39,
+      "failures": [],
+      "errors": []
+    },
+    "media31-test-results": {
+      "checks": 27,
+      "failures": [],
+      "errors": []
+    },
+    "documents31-test-results": {
+      "checks": 19,
+      "failures": [],
+      "errors": []
+    },
+    "edges31-test-results": {
+      "checks": 18,
+      "failures": [],
+      "errors": []
+    },
+    "hardware-test-results": {
+      "checks": 20,
+      "failures": [],
+      "errors": [],
+      "physicalHardware": false
+    },
+    "advanced-unit": {
+      "checks": 62,
+      "failures": []
+    },
+    "budgets": {
+      "checks": 7,
+      "failures": []
+    }
+  },
+  "benchmark": {
+    "baseline": "5a2db5a87ee2b73e6782705f2c1c0b2c01506701",
+    "browser": "153.0.8010.0",
+    "note": "Three fresh local headless contexts each; timings are environment-specific, not physical-device claims.",
+    "runs": {
+      "before": [
+        {
+          "readyMs": 466.4000000001397,
+          "maxLongTaskMs": 267,
+          "decodedJSBytes": 3538936
+        },
+        {
+          "readyMs": 419.80000000004657,
+          "maxLongTaskMs": 280,
+          "decodedJSBytes": 3538936
+        },
+        {
+          "readyMs": 382.80000000004657,
+          "maxLongTaskMs": 231,
+          "decodedJSBytes": 3538936
+        }
+      ],
+      "after": [
+        {
+          "readyMs": 579,
+          "maxLongTaskMs": 55,
+          "decodedJSBytes": 3492648
+        },
+        {
+          "readyMs": 519.9000000001397,
+          "maxLongTaskMs": 59,
+          "decodedJSBytes": 3492648
+        },
+        {
+          "readyMs": 407.5,
+          "maxLongTaskMs": 51,
+          "decodedJSBytes": 3492648
+        }
+      ]
+    },
+    "summary": {
+      "before": {
+        "medianReadyMs": 419.80000000004657,
+        "medianMaxLongTaskMs": 267,
+        "decodedJSBytes": 3538936
+      },
+      "after": {
+        "medianReadyMs": 519.9000000001397,
+        "medianMaxLongTaskMs": 55,
+        "decodedJSBytes": 3492648
+      }
+    }
+  }
+}

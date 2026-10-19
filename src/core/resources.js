@@ -40,7 +40,7 @@ export function resourceRequirements(home, targetId = '') {
     markdown: ['markdownBundleSource'], jsonstudio: ['schemaBundleSource'],
     workflows: ['schemaBundleSource'], integrationstudio: ['schemaBundleSource'], passwords: ['wordlist']
   };
-  const keys = [...(tools[home] || [])];
+  let keys = [...(tools[home] || [])];if(targetId){if(home==='jsonstudio')keys=/schemaValidate/i.test(targetId)?['schemaBundleSource']:[];if(home==='qr')keys=/Scan|Decode|Read/i.test(targetId)?['qrdecode']:/Barcode/i.test(targetId)?['barcode']:/Generate|Make|Build|Download|Print/i.test(targetId)?['qrencode']:[];if(['dataworkbench','comparisonstudio'].includes(home)&&!/XLS|Excel|File|Upload|Sheet/i.test(targetId))keys=[];if(['integrationstudio','workflows'].includes(home)&&!/Schema|Validate|Run|Test/i.test(targetId))keys=[];}
   if (home === 'imagestudio') {
     if (/OCR|Extract/.test(targetId) && !/Whole|Copy|Undo|Redo|Download|Clear|Layout|Numbers/.test(targetId)) keys.push('ocr');
     if (/PDF|BuildPDF/.test(targetId)) keys.push('pdf');
@@ -57,6 +57,7 @@ export function guardResourceActions(context, resources) {
   async function guard(event) {
     const target = event.target.closest?.('button,input,select');
     if (!target || replay.has(target) || event.defaultPrevented) return;
+    if(target.closest('.a34'))return;
     const home = context.u23Home(context.activeView), keys = resourceRequirements(home, target.id);
     if(!context.$(home)?.contains(target))return;
     if(event.type==='click'&&(target.matches('input[type=file],select')||/Upload|Files|FileButton|Photo|Camera/.test(target.id)))return;

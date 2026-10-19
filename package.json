@@ -1,6 +1,6 @@
 {
   "name": "toolstudio",
-  "version": "34.0.0",
+  "version": "35.0.0",
   "private": true,
   "type": "module",
   "description": "Category-based Calc Studio source and a GitHub Pages build",
@@ -12,7 +12,10 @@
     "publish:root": "npm run build && node scripts/publish-root.mjs",
     "test:compatibility": "node tests/compatibility.mjs",
     "test:advanced": "node tests/advanced.unit.mjs && node tests/advanced.browser.mjs",
-    "test:budgets": "node tests/budgets.mjs"
+    "test:budgets": "node tests/budgets.mjs",
+    "test:reliability": "node tests/reliability.unit.mjs && node tests/reliability.browser.mjs",
+    "test:updates": "node tests/update.browser.mjs",
+    "benchmark": "node tests/benchmark.mjs"
   },
   "engines": {
     "node": ">=22.13"

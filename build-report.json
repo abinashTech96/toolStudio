@@ -1,13 +1,13 @@
 {
-  "version": 34,
+  "version": 35,
   "categories": 11,
   "workspaces": 68,
   "sourceModules": 81,
   "legacyRoutes": 105,
   "totalRoutes": 123,
   "initialHTMLBytes": 268740,
-  "runtimeChunkBytes": 3404196,
-  "offlineBytes": 20191883,
+  "runtimeChunkBytes": 3370654,
+  "offlineBytes": 20216919,
   "ocrAssetsVerified": 3,
-  "revision": "c9bf8a9a67559fc8"
+  "revision": "bf8a7a6967eef775"
 }

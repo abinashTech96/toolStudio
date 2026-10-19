@@ -12,16 +12,17 @@ export function createContext(bindings, options = {}) {
   return context;
 }
 
-export function initializeModules(context, modules) {
+export function initializeModules(context, modules, {cooperative=false}={}) {
   for (const module of modules) module.register(context);
   const initializers = modules.flatMap(module => module.steps.map(([order, run]) => ({order, run, module: module.id})));
   initializers.sort((a, b) => a.order - b.order);
   const seen = new Set();
-  for (const initializer of initializers) {
+  const run=initializer=>{
     if (seen.has(initializer.order)) throw new Error('Duplicate initializer order: ' + initializer.order);
     seen.add(initializer.order);
     try { initializer.run(context); }
     catch (cause) { throw new Error('Initialization failed in ' + initializer.module + ' (' + initializer.order + '): ' + cause.message, {cause}); }
   }
-  return context;
+  if(!cooperative){for(const initializer of initializers)run(initializer);return context}
+  return(async()=>{let start=performance.now();for(const initializer of initializers){run(initializer);if(performance.now()-start>=8){if(globalThis.scheduler?.yield)await scheduler.yield();else await new Promise(resolve=>setTimeout(resolve,0));start=performance.now()}}return context})();
 }

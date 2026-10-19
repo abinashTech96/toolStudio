@@ -57,3 +57,8 @@ The registry now contains 11 categories, 68 workspaces, 81 source modules and 12
 `ui.js` supplies labelled controls, action cancellation, result revision checks, paged tables and report export. `algorithms.js` contains deterministic transformations. Heavy SQL, schema validation, simulation and large-file profiles run in terminable worker jobs with time and size limits. Optional SQL WASM, PDF.js and PDF editing engines are copied from pinned dependencies, hashed and loaded locally. Imported data does not execute application code. Integration requests and device writes require explicit reviewed actions.
 
 `npm ci` is required before building. `build-advanced.mjs` emits hosted chunks and an equivalent offline IIFE, with optional engine bytes embedded in the offline build. `pack-offline.mjs` gzip-packs the published standalone file and bundles its decompressor; `check --published` compares unpacked output with the generated raw file. The hosted service worker precaches native code and caches optional engines on first use. No server is required for these modules; remote APIs still need their own endpoint and browser CORS permission.
+
+
+## Edition 35 lifecycle
+
+Hosted initialization preserves original order while yielding between slices. `src/advanced/safety.js` owns exact-value, structured-input, encoding and export helpers; `storage.js` owns workspace save/recovery/conflict transitions. Advanced workers are pooled and bounded; SQL retains imports only while its source is unchanged. Workspace preview resources are disposable, while source inputs remain available. Service-worker activation waits for a reviewed handover. See [performance and limits](performance35.md).

@@ -13,7 +13,7 @@ try{
  for(let n=0;n<100;n++){try{if((await fetch(base)).ok)break}catch{}await new Promise(r=>setTimeout(r,50));}
  browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
- await context.route('**/runtime/bootstrap.*.js',async route=>{const response=await route.fetch();const text=(await response.text()).replace('initializeModules(context, groups.flat());','initializeModules(context, groups.flat()); window.testContext=context;');await route.fulfill({response,body:text});});
+ await context.route('**/runtime/bootstrap.*.js',async route=>{const response=await route.fetch();const text=(await response.text()).replace('await initializeModules(context, groups.flat(),{cooperative:true});','await initializeModules(context, groups.flat(),{cooperative:true}); window.testContext=context;');await route.fulfill({response,body:text});});
  const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
  await page.goto(base);await page.waitForFunction(()=>window.__toolStudioReady);
  check(await page.evaluate(()=>calcStudio.tools().length===123&&calcStudio.modules().length===68),'123 routes and 68 workspaces (all 105 legacy routes retained)');

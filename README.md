@@ -67,6 +67,8 @@ The scoped service worker caches the application shell and resources already use
 
 Options → Connection opens a separate tab. GitHub Pages serves static files and **does not host a WebSocket/signaling server**. Manual WebRTC pairing remains available; room-code pairing needs your configured HTTPS/WSS endpoint. See [Connection server setup](Connection_Server/README.md). Bluetooth and USB require a compatible browser and device. Automated adapter tests do not certify physical hardware or every TV browser.
 
+See [edition 35 performance, accuracy and recovery](docs/performance35.md) for the latest existing-tool improvements and explicit limits.
+
 See [edition 34 features](docs/features34.md) for the new workspaces, existing-tool improvements, limits and reviewed actions.
 
 No existing tool or OCR functionality was removed. See [regression report](docs/regression.md) for validation and limits.

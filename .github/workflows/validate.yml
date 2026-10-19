@@ -13,11 +13,15 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run build
       - run: npm run check
       - run: npm test
       - run: npm run test:advanced
+      - run: npm run test:reliability
+        env:
+          BROWSER_MATRIX: chromium,firefox,webkit
+      - run: npm run test:updates
       - run: npm run test:budgets
       - run: npm run test:compatibility
       - run: python3 -m pip install -r Connection_Server/requirements.txt

@@ -1,34 +1,34 @@
-# Edition 34 regression — 17 October 2026
+# Edition 35 regression — 19 October 2026
 
-The final hosted and offline builds passed the following checks. No existing tool was removed.
+No existing tool was removed. The topbar and original OCR assets remain. The build retains 11 categories, 68 workspaces, 81 source modules and all 123 routes, including the 105 original routes.
 
-| Validation | Result |
+| Validation | Local result |
 | --- | --- |
-| Existing regression suite | 35 suites, 11,411 checks; no failures or page errors |
-| Hosted project-path and offline browser suite | 151 checks; no browser errors |
-| Connection protocol and responsive UI | 86 checks |
-| Bluetooth/USB adapter mocks | 20 checks |
-| Tab bridge and native ICE timeout handling | 8 checks |
-| Optional static/signaling server | 13 checks |
-| Build | 11 categories, 68 workspaces, 81 source modules, 123 routes |
-| New algorithm/state checks | 62 checks |
-| New workspace/enhancement browser checks | 43 checks, including accessibility, storage failure, reset and packet capture |
-| Performance budgets | 7 checks |
-| OCR integrity | All 3 original binary/model hashes verified |
+| Hosted/project-path and standalone offline smoke suite | 151 checks |
+| Existing advanced algorithms/state | 62 checks |
+| Existing native workspaces and enhancements | 43 checks |
+| Retained functional compatibility suites | 210 checks across engines, workflows, media, documents, edge cases and hardware mocks |
+| New accuracy/storage unit checks | 24 checks |
+| New reliability browser checks | 19 Chromium checks |
+| Two-version service-worker upgrade | 5 checks |
+| Build/performance budgets | 7 checks |
+| Optional Connection server | 13 checks |
+| Source/published output validation | Syntax, asset references, original OCR hashes, full route inventory and reproducible published output |
 
-The original suites cover navigation, responsive controls, all six themes, fullscreen exit, reset/backup scopes, deferred DOM rendering, text/data processing, camera editing, PDF/media exports, career documents, forms and Kanban. Fixtures were regenerated from the modular offline build. Their file paths and function-scope hooks were adapted for the migration. Inventory assertions were updated for 123 routes, 68 workspaces and 11 categories. Inactive-interface assertions now expect 67 parked workspaces. Original route and runtime behavior checks remain intact. Connection hosted readiness waits for native installation before reading the complete registry.
+The new browser tests exercise unsafe integers, duplicate query columns, SQL database reuse and cancellation/retry, complete CSV exports, search/page jumps, stale async previews, declined Apply, missing/null Workbench values, typed POST bodies, navigation cancellation, workspace release, canonical alias tabs, mobile/landscape/TV viewport bounds, deferred schema loading, bounded histories/writes, cross-tab conflicts and corrupt-record recovery. Chromium also checks typing under 4× CPU throttling and heap growth after repeated navigation with garbage collection.
 
-Hosted checks exercise every route under `/toolStudio/`, confirm that no OCR/vendor engines download during initial startup, and run QR/barcode generation, PDF/archive/spreadsheet round trips and Markdown worker rendering. A generated image containing `STUDIO 123` is recognized through the actual on-demand OCR button. The suite also tests saved layout preferences, mobile controls, Normal view, Connection redirect/bridge authentication, service-worker-controlled offline reload and both raw and packed standalone offline files, including a SQLite query from the packed file.
+The validation workflow runs the shared reliability checks in Chromium, Firefox and WebKit. CI output is authoritative for those browser runs; local validation uses Chromium. Physical phones/TVs and real Bluetooth/USB devices are not certified by browser mocks or viewport emulation.
 
-The checked-in `npm test` and `npm run test:compatibility` provide repeatable hosted/offline checks plus the engine, workflow, media, document, edge and mocked-hardware regression subset. The optional Python server suite runs with `python3 tests/server.py` after installing `Connection_Server/requirements.txt`. Full original-suite and new-suite summaries are recorded in [regression-results.json](regression-results.json).
+## Measured startup comparison
 
-## Limits
+Three fresh local headless Chromium contexts per build, same environment and local server; baseline commit `5a2db5a`. Service workers were disabled for this measurement.
 
-Bluetooth/USB tests use explicit simulated devices; no physical hardware was connected. The runtime cannot gather native WebRTC ICE candidates, so data-channel protocol checks use an explicit WebRTC test interface. Local WebSocket echo and room signaling were exercised against real local servers; native ICE failure/cleanup was tested separately. Cross-network WebRTC, TURN deployment and platform-specific TV remote keys still need real-device verification.
+| Metric | Edition 34 median | Edition 35 median |
+| --- | ---: | ---: |
+| Application readiness | 420 ms | 520 ms |
+| Longest startup task | 267 ms | 55 ms |
+| Decoded startup JavaScript | 3,538,936 bytes | 3,492,648 bytes |
 
-Hosted offline support covers the shell and previously loaded optional assets. The standalone offline file embeds all engines and models. Application initialization still loads the category chunks at startup; the large third-party engines and OCR resources load on demand. Migrated workspaces retain shared dependencies, as described in [architecture.md](architecture.md).
+Cooperative initialization substantially reduced the longest blocking task; readiness was 100 ms later in this run. These timings describe this environment, rather than a device-wide speed guarantee. Raw runs are in `regression-results35.json` and can be reproduced with `npm run benchmark`.
 
-
-Edition 34 checks exercise all 18 new workspaces and existing-tool advanced panels: actual SQL WASM and PDF rendering/editing, schema validation, migration ZIPs, sanitized SVG, portfolio HTML, reviewed API chains, data pivots/merges, graph fits, image Undo, packet encoding/capture and saved-state recovery. Accessibility covers a representative native workspace with no critical/serious axe violations; it is not a certification of every browser or assistive technology. The final graph-rendering timing fix and native layout-restore/navigation-capacity fixes were checked again with the repeatable browser/compatibility suites after the full original-suite run.
-
-CI on a fresh Chromium runner exposed delayed rendering of conflict choices. Result widgets now render synchronously with their report through a shared after-report hook; conflict export remains blocked until every choice is resolved. The browser suite checks that both conflict controls exist before resolving them.
+See [edition 35 changes and limits](performance35.md), [edition 34 historical report](regression34.md) and the validation workflow artifacts for detailed results. Edition 34's historical 11,411-check report is retained separately; that entire historical harness is not claimed as a fresh edition 35 run.
