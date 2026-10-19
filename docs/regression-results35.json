@@ -266,34 +266,46 @@
       ],
       "metrics": {
         "chromium": {
-          "startupReadyMs": 494,
+          "startupReadyMs": 426.69999999995343,
           "longTasks": [
-            64
+            50
           ],
           "actions": [
-            {
-              "workspace": "querystudio",
-              "durationMs": 44
-            },
-            {
-              "workspace": "querystudio",
-              "durationMs": 73
-            },
-            {
-              "workspace": "querystudio",
-              "durationMs": 17
-            },
             {
               "workspace": "querystudio",
               "durationMs": 29
             },
             {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 35
+            },
+            {
               "workspace": "querystudio",
-              "durationMs": 8
+              "durationMs": 53
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 6
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 50
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 43
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 260
+              "durationMs": 258
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 0
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 40
             },
             {
               "workspace": "a34-dataworkbench",
@@ -301,19 +313,11 @@
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 15
-            },
-            {
-              "workspace": "a34-dataworkbench",
-              "durationMs": 1
-            },
-            {
-              "workspace": "a34-dataworkbench",
-              "durationMs": 10
+              "durationMs": 41
             },
             {
               "workspace": "a34-apiclient",
-              "durationMs": 3
+              "durationMs": 2
             },
             {
               "workspace": "a34-apiclient",
@@ -321,52 +325,54 @@
             },
             {
               "workspace": "querystudio",
-              "durationMs": 36
+              "durationMs": 23
             },
             {
               "workspace": "querystudio",
-              "durationMs": 30
+              "durationMs": 58
             }
           ],
           "inputFramesMs": [
-            24.800000000046566,
-            9.400000000139698,
-            40.0999999998603,
-            8.200000000186265,
-            38.5999999998603,
+            16.299999999813735,
+            31.199999999953434,
             22.899999999906868,
-            21.199999999953434,
-            13.899999999906868,
-            40.4000000001397,
-            25.100000000093132,
-            9.199999999953434,
-            46.300000000046566,
-            43.800000000046566,
-            33.5999999998603,
-            9.5,
-            8.699999999953434,
-            32.199999999953434
+            16.699999999953434,
+            9.799999999813735,
+            18.300000000046566,
+            27.699999999953434,
+            18.5,
+            19,
+            29.5999999998603,
+            12.300000000046566,
+            3.9000000001396984,
+            16.800000000046566,
+            15.899999999906868,
+            19.5,
+            11.299999999813735,
+            39.89999999990687,
+            12.899999999906868,
+            30.300000000046566
           ],
           "workspaceSwitches": {
-            "querystudio": 9.600000000093132,
-            "dataworkbench": 6.7999999998137355,
-            "integrationstudio": 24.5999999998603,
-            "capacityplanner": 4.699999999953434,
-            "jsonstudio": 5.900000000139698
+            "querystudio": 8.599999999860302,
+            "dataworkbench": 5.399999999906868,
+            "integrationstudio": 17.700000000186265,
+            "capacityplanner": 5.199999999953434,
+            "jsonstudio": 3.7999999998137355
           },
           "domNodes": 1070,
-          "heapBytes": 17100000,
+          "heapBytes": 18200000,
           "workers": {
-            "created": 6,
+            "created": 7,
             "completed": 9,
             "cancelled": 2,
             "workers": 2,
             "busy": 0
           },
-          "storageWrites": 3
+          "storageWrites": 1
         },
-        "cpu4xTypingMs": 36,
-        "heapGrowthBytes": 14484
+        "cpu4xTypingMs": 50,
+        "heapGrowthBytes": 15728
       }
     },
     "updates": {
@@ -431,49 +437,49 @@
     "runs": {
       "before": [
         {
-          "readyMs": 466.4000000001397,
-          "maxLongTaskMs": 267,
+          "readyMs": 402.0999999998603,
+          "maxLongTaskMs": 252,
           "decodedJSBytes": 3538936
         },
         {
-          "readyMs": 419.80000000004657,
-          "maxLongTaskMs": 280,
+          "readyMs": 372.69999999995343,
+          "maxLongTaskMs": 238,
           "decodedJSBytes": 3538936
         },
         {
-          "readyMs": 382.80000000004657,
-          "maxLongTaskMs": 231,
+          "readyMs": 449.80000000004657,
+          "maxLongTaskMs": 292,
           "decodedJSBytes": 3538936
         }
       ],
       "after": [
         {
-          "readyMs": 579,
-          "maxLongTaskMs": 55,
-          "decodedJSBytes": 3492648
-        },
-        {
-          "readyMs": 519.9000000001397,
-          "maxLongTaskMs": 59,
-          "decodedJSBytes": 3492648
-        },
-        {
-          "readyMs": 407.5,
+          "readyMs": 384.9000000001397,
           "maxLongTaskMs": 51,
-          "decodedJSBytes": 3492648
+          "decodedJSBytes": 3492664
+        },
+        {
+          "readyMs": 445.19999999995343,
+          "maxLongTaskMs": 59,
+          "decodedJSBytes": 3492664
+        },
+        {
+          "readyMs": 377.80000000004657,
+          "maxLongTaskMs": 0,
+          "decodedJSBytes": 3492664
         }
       ]
     },
     "summary": {
       "before": {
-        "medianReadyMs": 419.80000000004657,
-        "medianMaxLongTaskMs": 267,
+        "medianReadyMs": 402.0999999998603,
+        "medianMaxLongTaskMs": 252,
         "decodedJSBytes": 3538936
       },
       "after": {
-        "medianReadyMs": 519.9000000001397,
-        "medianMaxLongTaskMs": 55,
-        "decodedJSBytes": 3492648
+        "medianReadyMs": 384.9000000001397,
+        "medianMaxLongTaskMs": 51,
+        "decodedJSBytes": 3492664
       }
     }
   }

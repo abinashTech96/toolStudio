@@ -25,10 +25,10 @@ Three fresh local headless Chromium contexts per build, same environment and loc
 
 | Metric | Edition 34 median | Edition 35 median |
 | --- | ---: | ---: |
-| Application readiness | 420 ms | 520 ms |
-| Longest startup task | 267 ms | 55 ms |
-| Decoded startup JavaScript | 3,538,936 bytes | 3,492,648 bytes |
+| Application readiness | 402 ms | 385 ms |
+| Longest startup task | 252 ms | 51 ms |
+| Decoded startup JavaScript | 3,538,936 bytes | 3,492,664 bytes |
 
-Cooperative initialization substantially reduced the longest blocking task; readiness was 100 ms later in this run. These timings describe this environment, rather than a device-wide speed guarantee. Raw runs are in `regression-results35.json` and can be reproduced with `npm run benchmark`.
+Cooperative initialization substantially reduced the longest blocking task; readiness was 17 ms earlier in this run. These timings describe this environment, rather than a device-wide speed guarantee. Raw runs are in `regression-results35.json` and can be reproduced with `npm run benchmark`.
 
 See [edition 35 changes and limits](performance35.md), [edition 34 historical report](regression34.md) and the validation workflow artifacts for detailed results. Edition 34's historical 11,411-check report is retained separately; that entire historical harness is not claimed as a fresh edition 35 run.
