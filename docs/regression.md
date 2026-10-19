@@ -9,7 +9,7 @@ No existing tool was removed. The topbar and original OCR assets remain. The bui
 | Existing native workspaces and enhancements | 43 checks |
 | Retained functional compatibility suites | 210 checks across engines, workflows, media, documents, edge cases and hardware mocks |
 | New accuracy/storage unit checks | 24 checks |
-| New reliability browser checks | 19 Chromium checks |
+| New reliability browser checks | 20 Chromium checks |
 | Two-version service-worker upgrade | 5 checks |
 | Build/performance budgets | 7 checks |
 | Optional Connection server | 13 checks |

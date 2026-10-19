@@ -241,7 +241,7 @@
       ]
     },
     "reliability-browser": {
-      "checks": 19,
+      "checks": 20,
       "failures": [],
       "passed": [
         "chromium: Strict precision errors focus the actual source field",
@@ -252,6 +252,7 @@
         "chromium: Declined Apply reports cancellation and preserves data",
         "chromium: Missing null and unsafe values survive Workbench bridge",
         "chromium: CSV profile flags unsafe values without rounded extrema",
+        "chromium: PDF mixed aspect ratios are bounded before pixel allocation",
         "chromium: Typed request substitutions escape body values",
         "chromium: Editing a busy workspace cancels it on navigation",
         "chromium: Closing a workspace releases previews while retaining source",
@@ -266,102 +267,109 @@
       ],
       "metrics": {
         "chromium": {
-          "startupReadyMs": 488.90000000037253,
+          "startupReadyMs": 447.79999999981374,
           "longTasks": [
-            52
+            50
           ],
           "actions": [
             {
               "workspace": "querystudio",
-              "durationMs": 30
+              "durationMs": 29
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 39
+              "durationMs": 35
             },
             {
               "workspace": "querystudio",
-              "durationMs": 54
+              "durationMs": 65
             },
             {
               "workspace": "querystudio",
-              "durationMs": 22
+              "durationMs": 35
             },
             {
               "workspace": "querystudio",
-              "durationMs": 26
+              "durationMs": 29
             },
             {
               "workspace": "querystudio",
-              "durationMs": 9
-            },
-            {
-              "workspace": "a34-dataworkbench",
-              "durationMs": 258
-            },
-            {
-              "workspace": "a34-dataworkbench",
-              "durationMs": 1
-            },
-            {
-              "workspace": "a34-dataworkbench",
-              "durationMs": 10
-            },
-            {
-              "workspace": "a34-dataworkbench",
-              "durationMs": 1
-            },
-            {
-              "workspace": "a34-dataworkbench",
-              "durationMs": 11
-            },
-            {
-              "workspace": "a34-apiclient",
-              "durationMs": 2
-            },
-            {
-              "workspace": "a34-apiclient",
               "durationMs": 37
             },
             {
-              "workspace": "querystudio",
-              "durationMs": 49
+              "workspace": "a34-dataworkbench",
+              "durationMs": 259
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 1
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 7
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 1
+            },
+            {
+              "workspace": "a34-dataworkbench",
+              "durationMs": 14
+            },
+            {
+              "workspace": "documentcompare",
+              "durationMs": 161
+            },
+            {
+              "workspace": "a34-apiclient",
+              "durationMs": 3
+            },
+            {
+              "workspace": "a34-apiclient",
+              "durationMs": 34
             },
             {
               "workspace": "querystudio",
-              "durationMs": 50
+              "durationMs": 43
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 24
             }
           ],
           "inputFramesMs": [
-            13.399999999906868,
-            35.1999999997206,
-            29.899999999906868,
-            17,
-            9.200000000186265,
-            13.399999999906868,
-            33.10000000009313,
-            22,
-            16.600000000093132,
+            14.800000000279397,
+            33.799999999813735,
+            21,
+            19.899999999906868,
+            14,
+            17.799999999813735,
+            2.3999999999068677,
+            17.5,
             31.600000000093132,
-            6.2000000001862645,
-            33.89999999990687,
-            2.5,
-            33.60000000009313,
-            31.300000000279397,
+            0.7999999998137355,
+            4.899999999906868,
+            2.7999999998137355,
+            17.899999999906868,
+            25.399999999906868,
+            19.5,
+            9.899999999906868,
+            29.600000000093132,
+            25.100000000093132,
+            28.5,
             21.799999999813735,
-            33.1999999997206,
-            27.899999999906868,
-            22
+            22.600000000093132
           ],
           "workspaceSwitches": {
-            "querystudio": 8.100000000093132,
-            "dataworkbench": 6.7999999998137355,
-            "integrationstudio": 24.699999999720603,
-            "capacityplanner": 7.599999999627471,
-            "jsonstudio": 5.5
+            "querystudio": 6.100000000093132,
+            "dataworkbench": 7.5,
+            "documentcompare": 7.5,
+            "integrationstudio": 20.800000000279397,
+            "capacityplanner": 3.5,
+            "jsonstudio": 5.2999999998137355
           },
-          "domNodes": 1070,
-          "heapBytes": 18200000,
+          "domNodes": 1073,
+          "heapBytes": 20500000,
           "workers": {
             "created": 7,
             "completed": 9,
@@ -371,8 +379,8 @@
           },
           "storageWrites": 1
         },
-        "cpu4xTypingMs": 40,
-        "heapGrowthBytes": 12968
+        "cpu4xTypingMs": 30,
+        "heapGrowthBytes": 22144
       }
     },
     "updates": {
