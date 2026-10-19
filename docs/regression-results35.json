@@ -267,38 +267,40 @@
       ],
       "metrics": {
         "chromium": {
-          "startupReadyMs": 447.79999999981374,
+          "startupReadyMs": 791.0999999996275,
           "longTasks": [
-            50
+            73,
+            52,
+            51
           ],
           "actions": [
             {
               "workspace": "querystudio",
-              "durationMs": 29
+              "durationMs": 131
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 35
+              "durationMs": 46
             },
             {
               "workspace": "querystudio",
-              "durationMs": 65
+              "durationMs": 95
             },
             {
               "workspace": "querystudio",
-              "durationMs": 35
+              "durationMs": 16
             },
             {
               "workspace": "querystudio",
-              "durationMs": 29
+              "durationMs": 67
             },
             {
               "workspace": "querystudio",
-              "durationMs": 37
+              "durationMs": 11
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 259
+              "durationMs": 263
             },
             {
               "workspace": "a34-dataworkbench",
@@ -306,19 +308,19 @@
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 7
+              "durationMs": 15
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 1
+              "durationMs": 2
             },
             {
               "workspace": "a34-dataworkbench",
-              "durationMs": 14
+              "durationMs": 16
             },
             {
               "workspace": "documentcompare",
-              "durationMs": 161
+              "durationMs": 273
             },
             {
               "workspace": "a34-apiclient",
@@ -326,47 +328,47 @@
             },
             {
               "workspace": "a34-apiclient",
+              "durationMs": 38
+            },
+            {
+              "workspace": "querystudio",
+              "durationMs": 70
+            },
+            {
+              "workspace": "querystudio",
               "durationMs": 34
-            },
-            {
-              "workspace": "querystudio",
-              "durationMs": 43
-            },
-            {
-              "workspace": "querystudio",
-              "durationMs": 24
             }
           ],
           "inputFramesMs": [
-            14.800000000279397,
-            33.799999999813735,
-            21,
-            19.899999999906868,
-            14,
-            17.799999999813735,
-            2.3999999999068677,
-            17.5,
-            31.600000000093132,
-            0.7999999998137355,
+            23.299999999813735,
+            38.799999999813735,
+            38.799999999813735,
+            3.2000000001862645,
+            27.699999999720603,
+            23.699999999720603,
+            17.399999999906868,
+            13,
+            20.199999999720603,
+            41.8000000002794,
+            6.399999999906868,
+            36.799999999813735,
             4.899999999906868,
-            2.7999999998137355,
-            17.899999999906868,
-            25.399999999906868,
-            19.5,
-            9.899999999906868,
-            29.600000000093132,
-            25.100000000093132,
-            28.5,
-            21.799999999813735,
-            22.600000000093132
+            35,
+            36.700000000186265,
+            18.399999999906868,
+            37.5,
+            29.899999999906868,
+            35.5,
+            19.59999999962747,
+            28
           ],
           "workspaceSwitches": {
-            "querystudio": 6.100000000093132,
-            "dataworkbench": 7.5,
-            "documentcompare": 7.5,
-            "integrationstudio": 20.800000000279397,
-            "capacityplanner": 3.5,
-            "jsonstudio": 5.2999999998137355
+            "querystudio": 9,
+            "dataworkbench": 8.899999999906868,
+            "documentcompare": 11.100000000093132,
+            "integrationstudio": 26.899999999906868,
+            "capacityplanner": 6.5,
+            "jsonstudio": 6.2000000001862645
           },
           "domNodes": 1073,
           "heapBytes": 20500000,
@@ -377,10 +379,10 @@
             "workers": 2,
             "busy": 0
           },
-          "storageWrites": 1
+          "storageWrites": 3
         },
-        "cpu4xTypingMs": 30,
-        "heapGrowthBytes": 22144
+        "cpu4xTypingMs": 38,
+        "heapGrowthBytes": 23276
       }
     },
     "updates": {
