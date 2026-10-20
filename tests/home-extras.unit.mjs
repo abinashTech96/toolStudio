@@ -1,0 +1,15 @@
+import assert from'node:assert/strict';import fs from'node:fs';import{defaultHomePreferences,validateHomePreferences,displayVersion,fileTargets}from'../src/core/home-state.js';import{validateState,defaultState}from'../src/advanced/state.js';
+const ids=new Set(['jsonformatter','querystudio']),passed=[];const test=(name,run)=>{run();passed.push(name);console.log('PASS',name)};
+test('Home stores only validated route and category metadata',()=>assert.deepEqual(validateHomePreferences({version:1,lastTool:'querystudio',categories:['json','math']},ids),{version:1,lastTool:'querystudio',categories:['json','math']}));
+test('Missing preferences use defaults',()=>assert.deepEqual(validateHomePreferences(null,ids),defaultHomePreferences()));
+test('Unknown routes are rejected',()=>assert.throws(()=>validateHomePreferences({version:1,lastTool:'missing',categories:[]},ids)));
+test('Duplicate and hostile category IDs are rejected',()=>{for(const categories of[['math','math'],['__proto__']])assert.throws(()=>validateHomePreferences({version:1,lastTool:'',categories},ids))});
+test('Editor text cannot be included in Home preferences',()=>assert.throws(()=>validateHomePreferences({...defaultHomePreferences(),text:'private'},ids)));
+test('Backup state validates Home preferences',()=>{assert.equal(validateState({...defaultState(),projects:{home:{version:1,lastTool:'querystudio',categories:[]}}},ids).projects.home.lastTool,'querystudio');assert.throws(()=>validateState({...defaultState(),projects:{home:{version:99}}},ids))});
+test('Version label derives from semantic version',()=>{assert.equal(displayVersion('35.1.0'),'v35.01');assert.equal(displayVersion('35.1.2'),'v35.01.2')});
+test('JSON offers a choice of compatible tools',()=>assert.deepEqual(fileTargets({name:'data.JSON',size:20}).map(t=>t.route),['jsonformatter','dataworkbench']));
+test('CSV and spreadsheets route to Workbench',()=>{for(const ext of['csv','tsv','xlsx'])assert.equal(fileTargets({name:'data.'+ext,size:20})[0].input,'dwFile')});
+test('PDF and images route through existing file controls',()=>{assert.equal(fileTargets({name:'doc.pdf',size:20})[0].input,'pdfFiles');assert.equal(fileTargets({name:'photo.png',size:20})[0].input,'ciFile')});
+test('Text and logs retain tool choice',()=>{assert.equal(fileTargets({name:'debug.log',size:20})[0].route,'logs');assert.equal(fileTargets({name:'text.txt',size:20}).length,3)});
+test('Unsupported or oversized files are rejected before reading',()=>{assert.throws(()=>fileTargets({name:'run.exe',size:20}));assert.throws(()=>fileTargets({name:'data.json',size:21*1048576}));assert.throws(()=>fileTargets({name:'data.json',size:-1}))});
+fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/home-extras-unit.json',JSON.stringify({checks:passed.length,passed,failures:[]},null,2));

@@ -1,6 +1,7 @@
 import {installGamesLauncher} from './games-launcher.js';
+import {installHomeExtras} from './home-extras.js';
 /** The launcher is presentation only; workspace IDs and saved records stay stable. */
-export function installHome(c, registry) {
+export function installHome(c, registry, options={}) {
   installGamesLauncher(c);
   const node = (tag, text, className) => {
     const el = document.createElement(tag);
@@ -74,6 +75,8 @@ export function installHome(c, registry) {
   const homeButton = button('Home',()=>showHome(true),'pill home-button');homeButton.id='homeButton';
   document.querySelector('.brand').after(homeButton);
 
+  const extras=installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render});
+
   function launch(entry) {
     if (entry.feature) c.n28FeatureOpen(entry.feature);
     else c.openTab(entry.id);
@@ -101,11 +104,12 @@ export function installHome(c, registry) {
       for(const entry of entries)row.append(button(entry.label,()=>c.openTab(entry.id)));
       section.append(row);personal.append(section);
     }
+    extras.renderPersonal();
     personal.hidden=!personal.childElementCount||!!search.value.trim()||!!category;
   }
   function render() {
     renderPersonal(); categoryGrid.replaceChildren();
-    for(const cat of registry.categories) {
+    for(const cat of extras.categories()) {
       const available=registry.modules.filter(m=>m.category===cat.id&&(optional.checked||!c.u23IsExtra(m.id))).length;
       if(!available)continue;
       const card=button('',()=>{category=category===cat.id?'':cat.id;expanded=true;render();results.scrollIntoView({block:'start'})},'home-category');
@@ -138,6 +142,9 @@ export function installHome(c, registry) {
     if(!total){const empty=node('div',undefined,'home-empty');empty.append(node('h3','No tools found'),node('p','Try a shorter search or include optional tools.'),button('Reset filters',()=>{search.value='';category='';expanded=false;optional.checked=false;render();search.focus()}));grid.append(empty)}
     more.hidden=!limited||total<=8;
     homeButton.setAttribute('aria-current',visible?'page':'false');
+    extras.render();
+    browse.hidden=!!search.value.trim();
+    if(search.value.trim())searchBox.after(results);else browse.after(results);
   }
   function address(id) {
     const url=new URL(location.href);url.hash=new URLSearchParams({tool:id}).toString();
@@ -162,7 +169,7 @@ export function installHome(c, registry) {
     if(id==='home'){showHome(true);return 'home'}
     if(!Object.hasOwn(c.views,id))return;
     visible=false;home.hidden=true;delete document.body.dataset.home;homeButton.setAttribute('aria-current','false');
-    const result=previousOpen(id);
+    const result=previousOpen(id);extras.remember(c.activeView);
     const linked=new URLSearchParams(location.hash.slice(1)).get('tool');
     // Suite bookmarks can resolve to a remembered feature. Preserve their address
     // during startup and history traversal rather than inserting another entry.

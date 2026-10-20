@@ -1,0 +1,36 @@
+{
+  "totalChecks": 744,
+  "additionalChecks": {
+    "advancedUnit": 62,
+    "architectureUnit": 12,
+    "budgets": 7
+  },
+  "suites": {
+    "smoke": 151,
+    "home": 28,
+    "navigation": 6,
+    "advanced-browser": 43,
+    "reliability-unit": 24,
+    "reliability-browser": 20,
+    "updates": 5,
+    "update-ui": 5,
+    "engines31-test-results": 87,
+    "workflows31-test-results": 39,
+    "media31-test-results": 27,
+    "documents31-test-results": 19,
+    "edges31-test-results": 18,
+    "hardware-test-results": 20,
+    "server-test-results": 13,
+    "games-unit": 14,
+    "games-browser": 54,
+    "games-brain-unit": 26,
+    "games-brain-browser": 23,
+    "home-extras-unit": 12,
+    "home-extras-browser": 22,
+    "home-release": 7
+  },
+  "retainedWorkspaces": 68,
+  "retainedRoutes": 123,
+  "appVersion": "35.2.0",
+  "localBrowser": "Chromium 153"
+}
