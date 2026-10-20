@@ -1,0 +1,76 @@
+{
+  "totalChecks": 581,
+  "additionalChecks": {
+    "advancedUnits": 62,
+    "architectureUnits": 12,
+    "buildBudgets": 7
+  },
+  "suites": {
+    "navigation.json": {
+      "checks": 6,
+      "failures": [],
+      "errors": []
+    },
+    "reliability-browser.json": {
+      "checks": 20,
+      "failures": []
+    },
+    "edges31-test-results.json": {
+      "checks": 18,
+      "failures": [],
+      "errors": []
+    },
+    "advanced-browser.json": {
+      "checks": 43,
+      "failures": [],
+      "errors": []
+    },
+    "updates.json": {
+      "checks": 5,
+      "failures": []
+    },
+    "smoke.json": {
+      "checks": 151,
+      "errors": []
+    },
+    "hardware-test-results.json": {
+      "checks": 20,
+      "failures": [],
+      "errors": []
+    },
+    "reliability-unit.json": {
+      "checks": 24,
+      "failures": []
+    },
+    "engines31-test-results.json": {
+      "checks": 87,
+      "failures": [],
+      "errors": []
+    },
+    "server-test-results.json": {
+      "checks": 13,
+      "failures": []
+    },
+    "workflows31-test-results.json": {
+      "checks": 39,
+      "failures": [],
+      "errors": []
+    },
+    "home.json": {
+      "checks": 28,
+      "errors": []
+    },
+    "documents31-test-results.json": {
+      "checks": 19,
+      "failures": [],
+      "errors": []
+    },
+    "media31-test-results.json": {
+      "checks": 27,
+      "failures": [],
+      "errors": []
+    }
+  },
+  "retainedWorkspaceIDs": 68,
+  "retainedRouteIDs": 123
+}

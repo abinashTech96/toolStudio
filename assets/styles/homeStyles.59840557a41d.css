@@ -1,0 +1,34 @@
+/* Home uses the same theme tokens as every workspace. */
+body[data-home=true] .shell{max-width:1180px!important}
+body[data-home=true] #workspace{display:block!important;max-width:none!important}
+body[data-home=true] #historyPanel,body[data-home=true] #historyToggle,body[data-home=true] #u17MobileBar,body[data-home=true] .u17-mobile-actions{display:none!important}
+body[data-home=true] .main-card{padding:30px!important;overflow:visible}
+body[data-home=true] .main-card>:not(#studioHome):not(dialog):not(#commandOverlay):not(.a35-storage[data-state=failed]):not(.a35-storage[data-state=conflict]){display:none!important}
+body[data-home=true] .compact-nav .u21-picker,body[data-home=true] .compact-nav #favoriteToggle{display:none!important}
+body[data-home=true] #favoriteToggle,body[data-home=true] #undoEdit,body[data-home=true] #redoEdit{display:none!important}
+body[data-home=true] .studio-header .compact-nav{flex:0 1 auto!important;min-width:0!important;margin-left:auto}
+.home-button{white-space:nowrap}.home-button[aria-current=page]{background:var(--accent);color:var(--on);border-color:var(--accent)}
+.studio-home{font-size:14px;line-height:1.55;color:var(--text)}
+.studio-home h1,.studio-home h2,.studio-home h3,.studio-home p{margin:0}
+.studio-home h2{font-size:17px;letter-spacing:-.02em}.studio-home button{font:inherit}
+.home-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:center;padding:12px 0 28px;border-bottom:1px solid var(--line)}
+.home-eyebrow{font-size:10px;font-weight:750;letter-spacing:.16em;color:var(--muted);margin-bottom:12px!important}
+.studio-home h1{font-size:clamp(26px,3.5vw,40px);line-height:1.15;letter-spacing:-.045em;max-width:650px}
+.home-intro{max-width:570px;color:var(--muted);margin-top:14px!important;font-size:15px}
+.home-stat{display:grid;min-width:150px;border-left:1px solid var(--line);padding:12px 0 12px 28px}.home-stat strong{font-size:48px;line-height:1.1;font-weight:550;letter-spacing:-.07em}.home-stat span{font-size:14px}.home-stat small{margin-top:8px;font-size:11px;color:var(--muted)}
+.home-search-box{padding:24px 0}.home-search-box label{display:block;font-weight:650;margin-bottom:8px}.home-search-row{display:flex;gap:8px}.home-search-row input{min-width:0;flex:1;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);padding:14px 16px;font-size:15px}.home-search-help{display:block;color:var(--muted);margin-top:7px;font-size:11px}
+.home-chip,.home-clear,.home-more{border:1px solid var(--line);background:var(--surface);color:var(--text);padding:8px 12px;border-radius:9px;min-height:38px}.home-chip:hover,.home-clear:hover,.home-more:hover{border-color:var(--accent)}
+.home-personal{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 0 26px}.home-personal h2{font-size:13px;color:var(--muted);margin-bottom:9px}.home-quick-links{display:flex;flex-wrap:wrap;gap:6px}.home-quick-links button{font-size:12px;min-height:36px}
+.home-section-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px}.home-section-heading>.home-chip{font-size:12px;background:transparent}
+.home-category-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.home-category{display:grid;grid-template-columns:1fr auto;align-content:start;gap:6px;padding:16px!important;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--text);min-width:0;transition:border-color .15s,background .15s}
+.home-category:hover,.home-category[aria-pressed=true]{background:var(--surface);border-color:var(--accent)}
+.home-category-icon{grid-column:1;font:600 21px ui-monospace,monospace;color:var(--accent);height:32px}.home-category small{grid-column:2;grid-row:1;align-self:center;color:var(--muted);font-size:10px}.home-category strong{grid-column:1/-1;font-size:13px;line-height:1.35}.home-category p{grid-column:1/-1;font-size:11px;color:var(--muted);line-height:1.5}
+.home-results{margin-top:28px;scroll-margin-top:90px}.home-optional{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px}.home-optional input{accent-color:var(--accent)}.home-count{font-size:12px;color:var(--muted);margin:-4px 0 14px!important}
+.home-tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.home-tool-card{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-width:0}.home-tool-card:hover{border-color:var(--accent)}
+.home-tool-open{display:flex;flex-direction:column;gap:6px;width:100%;height:100%;min-height:125px;padding:17px 48px 17px 18px!important;border:0;border-radius:12px;background:transparent;color:var(--text);text-align:left}.home-tool-open small{font-size:10px;color:var(--muted)}.home-tool-open strong{font-size:15px;line-height:1.35}.home-tool-open span{font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+.home-star{position:absolute;right:9px;top:12px;border:0;background:transparent;color:var(--accent);font-size:22px!important;width:34px;height:34px;border-radius:8px;padding:0!important}.home-star:hover{background:var(--panel)}
+.home-more{display:block;margin:18px auto 0;min-width:180px}.home-empty{grid-column:1/-1;padding:32px;text-align:center;border:1px dashed var(--line);border-radius:12px}.home-empty p{margin:8px 0 16px!important;color:var(--muted)}
+.home-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.home-footer>span{margin-right:auto}.home-footer button{font-size:11px;min-height:34px}
+@media(max-width:900px){.home-category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.home-stat{display:none}.home-hero{grid-template-columns:1fr;gap:0}}
+@media(max-width:600px){body[data-home=true] .main-card{padding:18px!important}.home-hero{padding-top:4px;padding-bottom:20px}.home-intro{font-size:13px}.home-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-category{padding:12px!important}.home-category p{display:none}.home-tool-grid,.home-personal{grid-template-columns:1fr}.home-personal{gap:16px}.home-section-heading{align-items:flex-start;flex-wrap:wrap}.home-search-row input{font-size:13px;padding:12px}.home-footer>span{width:100%}.home-tool-open{min-height:112px}.home-button{min-height:38px!important}}

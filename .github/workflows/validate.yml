@@ -17,6 +17,8 @@ jobs:
       - run: npm run build
       - run: npm run check
       - run: npm test
+      - run: npm run test:home
+      - run: npm run test:navigation
       - run: npm run test:advanced
       - run: npm run test:reliability
         env:

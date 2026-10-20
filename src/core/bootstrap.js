@@ -2,14 +2,15 @@ const config = /* BUILD_CONFIG */;
 const base = new URL('../', import.meta.url);
 const status = document.getElementById('studioBootText');
 try {
-  const [{createContext, initializeModules}, {createResources, resourceRequirements, guardResourceActions}, {installLifecycle}] = await Promise.all([
-    import(new URL(config.context, base)), import(new URL(config.resourceRuntime, base)), import(new URL(config.lifecycle, base))
+  const [{createContext, initializeModules, sourceResolver}, {createResources, resourceRequirements, guardResourceActions}, {installLifecycle}, {installHome}, sourceResponse] = await Promise.all([
+    import(new URL(config.context, base)), import(new URL(config.resourceRuntime, base)), import(new URL(config.lifecycle, base)), import(new URL(config.home, base)), fetch(new URL(config.serializedSources, base))
   ]);
   const groups = await Promise.all(config.chunks.map(async path => {
     const result = await import(new URL(path, base));
     return result.modules;
   }));
-  const context = createContext(config.bindings, {baseURL: base.href});
+  if (!sourceResponse.ok) throw Error('Helper sources could not load');
+  const context = createContext(config.bindings, {baseURL: base.href, serializedSources: sourceResolver(new Uint8Array(await sourceResponse.arrayBuffer()))});
   await initializeModules(context, groups.flat(),{cooperative:true});
   const resources = createResources(context, config.resourceConfig, base);
   context.$requirements = resourceRequirements;
@@ -17,6 +18,7 @@ try {
   const advanced=await import(new URL(config.advancedRuntime,base));
   advanced.install(context,config.registry,{baseURL:base.href,assets:config.advancedAssets});
   installLifecycle(context, config.registry, resources);
+  installHome(context, config.registry);
   document.body.removeAttribute('data-loading'); document.getElementById('studioBoot')?.remove();
   window.__toolStudioReady = true;
   if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register(new URL('sw.js', base), {scope: base.pathname}).then(registration=>{const notify=()=>{if(registration.waiting)window.dispatchEvent(new CustomEvent('toolstudio:update',{detail:{registration}}))};notify();registration.addEventListener('updatefound',()=>registration.installing?.addEventListener('statechange',notify))}).catch(error => console.warn('Offline cache unavailable', error));
