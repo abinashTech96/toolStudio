@@ -9,19 +9,22 @@
     "check": "node scripts/check.mjs",
     "serve": "node scripts/serve.mjs",
     "test": "node tests/smoke.mjs",
+    "test:home": "node tests/home.browser.mjs",
     "publish:root": "npm run build && node scripts/publish-root.mjs",
     "test:compatibility": "node tests/compatibility.mjs",
     "test:advanced": "node tests/advanced.unit.mjs && node tests/advanced.browser.mjs",
     "test:budgets": "node tests/budgets.mjs",
     "test:reliability": "node tests/reliability.unit.mjs && node tests/reliability.browser.mjs",
     "test:updates": "node tests/update.browser.mjs",
-    "benchmark": "node tests/benchmark.mjs"
+    "benchmark": "node tests/benchmark.mjs",
+    "test:navigation": "node tests/architecture.unit.mjs && node tests/navigation.browser.mjs"
   },
   "engines": {
     "node": ">=22.13"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
+    "acorn": "8.15.0",
     "esbuild": "0.28.2",
     "fflate": "0.8.3",
     "pdf-lib": "1.17.1",

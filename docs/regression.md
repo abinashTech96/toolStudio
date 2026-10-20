@@ -1,5 +1,15 @@
 # Edition 35 regression — 19 October 2026
 
+## Homepage follow-up — 20 October 2026
+
+The root URL now opens Home. Hosted and standalone offline builds share the same dashboard, category directory, feature search, favorites and recent-tool links. The tool inventory remains 68 workspaces and 123 routes.
+
+Local Chromium validation passed: 28 homepage checks (including viewport bounds, a scoped WCAG A/AA audit, exact SOQL/EMI routing, native favorite reload, input retention, suite bookmarks and browser history), 151 smoke checks, 62 advanced unit checks, 43 advanced browser checks, 24 reliability unit checks, 20 reliability browser checks, 210 retained compatibility checks, 5 service-worker update checks and 7 build budgets. Source and published-output validation also passed. Homepage results and the existing browser-suite evidence are recorded in [home-regression-results.json](home-regression-results.json). The OCR fixture now waits for full application readiness before opening its workspace.
+
+These follow-up runs used local headless Chromium. Firefox and WebKit remain covered by the configured CI reliability matrix; they were not rerun locally for this change.
+
+## Previous edition 35 validation
+
 No existing tool was removed. The topbar and original OCR assets remain. The build retains 11 categories, 68 workspaces, 81 source modules and all 123 routes, including the 105 original routes.
 
 | Validation | Local result |

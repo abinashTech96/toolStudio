@@ -1,0 +1,12 @@
+/* Common controls use existing theme tokens and retain device-specific sizing. */
+:root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px}
+.main-card :is(.studio-actions,.a34-actions){gap:var(--studio-control-gap);align-items:center;flex-wrap:wrap}
+.main-card :is(.studio-actions,.a34-actions)>button{min-height:var(--studio-control-height);border-radius:var(--studio-control-radius);font:inherit;line-height:1.3}
+.main-card .a34-actions>button[data-primary=true],.main-card .studio-actions>button[data-studio-action="1"]{background:var(--accent);color:var(--on);border-color:var(--accent)}
+.main-card .studio-actions>button:is([data-studio-action="2"],[data-studio-action="3"]){background:var(--surface);color:var(--text);border:1px solid var(--line)}
+.main-card .studio-actions>button[data-studio-action="4"]{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.main-card :is(.a34,.cs29-surface) :is(input,select,textarea){border-radius:var(--studio-control-radius)}
+.main-card :is(.a34-output,.a34-table){border:1px solid var(--line);border-radius:var(--studio-control-radius);background:var(--panel)}
+.main-card :is(button,input,select,textarea):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.main-card *{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+@media(max-width:750px){.main-card :is(.studio-actions,.a34-actions)>button{min-height:44px}}

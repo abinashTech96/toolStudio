@@ -62,3 +62,13 @@ The registry now contains 11 categories, 68 workspaces, 81 source modules and 12
 ## Edition 35 lifecycle
 
 Hosted initialization preserves original order while yielding between slices. `src/advanced/safety.js` owns exact-value, structured-input, encoding and export helpers; `storage.js` owns workspace save/recovery/conflict transitions. Advanced workers are pooled and bounded; SQL retains imports only while its source is unchanged. Workspace preview resources are disposable, while source inputs remain available. Service-worker activation waits for a reviewed handover. See [performance and limits](performance35.md).
+
+## Home, registry navigation and helper sources
+
+`src/core/home.js` adds Home after native registration, preserving the 123 tool routes and existing state keys. `src/core/catalog.js` derives workspace labels and category membership from the generated registry for dropdowns, including shared saved-work tools. Legacy feature aliases and optional-tool visibility remain available.
+
+`src/shared/services/` contains five shared service modules; `src/shared/initializers/` contains four groups preserving all 1,083 initializer positions. `utilities.js` composes these modules. Legacy tools still share ordered initialization and live bindings; independent deletion/lazy initialization of every original tool is not yet supported.
+
+The hosted build pools literal original-source arguments to `$fn` using `scripts/serialized-sources.mjs`. Exact sources are stored in a hashed, gzip-compressed resource and resolved when serialization needs them. The service worker precaches that resource. Executable helper bodies are unchanged; the standalone build retains inline sources. Compatibility tests cover workers and exported forms.
+
+`src/shared/styles/workspace.css` supplies shared control tokens, action hierarchy, output styling, keyboard focus and scrollbar styling using existing theme variables. Device-specific sizing remains available.

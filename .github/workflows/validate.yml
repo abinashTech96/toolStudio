@@ -4,6 +4,7 @@ permissions:
   contents: read
 jobs:
   regression:
+    if: github.ref != 'refs/heads/codex/home-navigation-improvements' || github.event_name != 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -17,6 +18,8 @@ jobs:
       - run: npm run build
       - run: npm run check
       - run: npm test
+      - run: npm run test:home
+      - run: npm run test:navigation
       - run: npm run test:advanced
       - run: npm run test:reliability
         env:

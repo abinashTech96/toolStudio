@@ -1,3 +1,5 @@
+import {gunzipSync,strFromU8} from 'fflate';
+export function sourceResolver(bytes){let sources;return index=>{sources ||= JSON.parse(strFromU8(gunzipSync(bytes)));if(typeof sources[index]!=='string')throw Error('Missing serialized helper source: '+index);return sources[index]}}
 /** Live bindings preserve shared tool state while modules move out of the old closure. */
 export function createContext(bindings, options = {}) {
   const context = Object.create(null);
@@ -5,7 +7,7 @@ export function createContext(bindings, options = {}) {
   context.$options = options;
   context.$fn = (fn, originalSource, inferredName = '') => {
     // Workers and exported forms serialize helpers. Keep their original standalone source.
-    Object.defineProperty(fn, 'toString', {value: () => originalSource, configurable: true});
+    Object.defineProperty(fn, 'toString', {value: () => typeof originalSource === 'number' ? options.serializedSources(originalSource) : originalSource, configurable: true});
     if (!fn.name && inferredName) Object.defineProperty(fn, 'name', {value: inferredName, configurable: true});
     return fn;
   };

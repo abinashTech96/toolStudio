@@ -1,0 +1,15 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {gzipSync} from 'node:zlib';
+import {createSourcePool} from '../scripts/serialized-sources.mjs';
+import {createContext,sourceResolver,initializeModules} from '../src/core/context.js';
+import {navigationCatalog} from '../src/core/catalog.js';
+const registry=JSON.parse(fs.readFileSync('registry.generated.json','utf8')),groups=navigationCatalog(registry);
+assert.equal(groups.flatMap(g=>g.tools).length,68);assert.equal(new Set(groups.flatMap(g=>g.tools)).size,68);
+assert(registry.modules.every(m=>groups.find(g=>g.id===(m.category==='shared'?'saved':m.category)).tools.includes(m.id)));
+const renamed=structuredClone(registry);renamed.categories[0].label='Renamed category';assert.equal(navigationCatalog(renamed)[0].label,'Renamed category');
+const pool=createSourcePool(),text=pool.transform('const f=__studio33.$fn(()=>42,"()=>42","f"); const g=__studio33.$fn(()=>42,"()=>42","g");');
+assert.equal(pool.sources.length,1);assert(text.includes('$fn(()=>42,0,"f")'));
+const context=createContext([],{serializedSources:sourceResolver(gzipSync(JSON.stringify(pool.sources)))}),fn=context.$fn(()=>42,0,'f');
+assert.equal(fn(),42);assert.equal(fn.toString(),'()=>42');assert.equal(context.$fn(()=>1,'original source').toString(),'original source');
+const original=await import('../src/shared/utilities.js');assert.equal(original.steps.length,1083);assert.equal(new Set(original.steps.map(([order])=>order)).size,1083);
+const visited=[];initializeModules({},[{id:'test',register(){visited.push('register')},steps:[[2,()=>visited.push(2)],[1,()=>visited.push(1)]]}]);assert.deepEqual(visited,['register',1,2]);
+console.log('PASS 12 architecture checks');

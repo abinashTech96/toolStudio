@@ -6,6 +6,8 @@ Browser tools for calculation, data, development, files and professional documen
 
 The source is organized into **11 categories, 68 workspaces and 81 application modules**. All **105 existing tool routes** remain available alongside **18 new routes** (123 total). The topbar, saved data keys and reviewed Connection permissions are retained.
 
+The root URL opens a searchable Home dashboard with category cards, favorites and recent tools. Search can open individual features such as SOQL or Loan / EMI. Use **Home** to return without clearing workspace inputs. Bookmarks using `#tool=<id>` still open the requested workspace; browser Back/Forward works between Home and tools. Both hosted and standalone offline builds include the dashboard.
+
 ## Build and run
 
 Requires Node.js 22.13 or newer. Install the pinned build dependencies first. Runtime engines are bundled locally; no production CDN requests are required.
@@ -30,6 +32,8 @@ npx playwright install chromium
 npm run build
 npm run check
 npm test
+npm run test:home
+npm run test:navigation
 npm run test:advanced
 npm run test:budgets
 npm run test:compatibility

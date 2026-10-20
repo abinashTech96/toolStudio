@@ -1,9 +1,7 @@
+import {installCatalog} from './catalog.js';
 /** Workspace transitions expose a bounded lifecycle and retain original cancellation. */
 export function installLifecycle(context, registry, resources) {
-  // Folder labels change presentation without changing bookmarks or saved data keys.
-  for (const category of registry.categories) if(context.n28Categories[category.id]) context.n28Categories[category.id].label = category.label;
-  for (const module of registry.modules) if(Object.hasOwn(context.views,module.id)) context.views[module.id] = module.label;
-  context.n28Index = null; context.u23MenuApply();
+  installCatalog(context, registry);
   const modules = new Map(registry.modules.map(module => [module.id, module]));
   let controller = new AbortController(), current = context.u23Home(context.activeView), generation = 0;
   const timings = new Map(),longTasks=[],actions=[],inputs=[];const startup=performance.now();try{new PerformanceObserver(list=>{for(const e of list.getEntries()){longTasks.push(Math.round(e.duration));if(longTasks.length>100)longTasks.shift()}}).observe({type:'longtask',buffered:true})}catch{}window.addEventListener('toolstudio:action',event=>{actions.push(event.detail);if(actions.length>50)actions.shift()});document.addEventListener('input',()=>{const start=performance.now();requestAnimationFrame(()=>{inputs.push(performance.now()-start);if(inputs.length>100)inputs.shift()})});
