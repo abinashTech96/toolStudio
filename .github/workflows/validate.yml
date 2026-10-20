@@ -4,7 +4,6 @@ permissions:
   contents: read
 jobs:
   regression:
-    if: github.ref != 'refs/heads/codex/connection-easy'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
