@@ -4,7 +4,6 @@ permissions:
   contents: read
 jobs:
   regression:
-    if: github.ref != 'refs/heads/codex/games-brain' && github.head_ref != 'codex/games-brain'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
