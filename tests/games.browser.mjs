@@ -1,0 +1,69 @@
+import assert from'node:assert/strict';
+import fs from'node:fs';
+import path from'node:path';
+import{pathToFileURL}from'node:url';
+import{spawn}from'node:child_process';
+import{chromium}from'playwright';
+import AxeBuilder from'@axe-core/playwright';
+import{shuffledPairs}from'../src/games/engines.js';
+const port=4196,base='http://127.0.0.1:'+port+'/toolStudio/',passed=[],errors=[];
+const server=spawn(process.execPath,['scripts/serve.mjs'],{env:{...process.env,PORT:String(port)},stdio:'pipe'});
+let browser;const check=(v,n)=>{assert(v,n);passed.push(n);console.log('PASS',n)};
+try{
+ for(let n=0;n<100;n++){try{if((await fetch(base)).ok)break}catch{}await new Promise(r=>setTimeout(r,50))}
+ browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
+ const context=await browser.newContext({viewport:{width:1280,height:1000}});await context.addInitScript(()=>Math.random=()=>0);
+ const main=await context.newPage();main.on('pageerror',e=>errors.push(e.message));const requests=[];main.on('request',r=>requests.push(r.url()));
+ await main.goto(base);await main.waitForFunction(()=>window.__toolStudioReady);
+ check(!requests.some(u=>/\/games\//.test(u)),'Main app loads no game engines or assets');
+ await main.evaluate(()=>calcStudio.openTool('jsonformatter'));await main.locator('#jsonInput').fill('{"keep":"workspace"}');
+ await main.locator('.studio-menu').evaluate(e=>e.open=true);
+ const popup=context.waitForEvent('page');await main.locator('#studioGamesButton').click();const page=await popup;page.on('pageerror',e=>errors.push(e.message));await page.waitForSelector('#board .tile');
+ check(page.url()===base+'games/index.html','Options Games opens separate page under GitHub Pages subpath');
+ check(await page.evaluate(()=>window.opener===null),'Games has no opener bridge to the tool workspace');
+ check(await main.locator('#jsonInput').inputValue()==='{"keep":"workspace"}','Launching games retains existing tool input');
+ check(await page.locator('#gamePicker button').count()===4,'All four game choices are available');
+ await page.locator('#board').press('ArrowLeft');
+ check(await page.locator('#gameStatus').innerText()==='Score 4 · Merge equal tiles.','2048 keyboard move merges tiles and updates score');
+ await page.getByRole('button',{name:'Move down',exact:true}).click();
+ check(await page.locator('.tile[data-value="4"]').count()===1,'2048 direction buttons preserve merged tile');
+ await page.locator('#restart').click();check(await page.locator('.tile:not([data-value="0"])').count()===2,'New game resets 2048 to two tiles');
+ await page.locator('[data-game=ttt]').click();await page.locator('#board button').nth(0).click();
+ check(await page.locator('#board button',{}).filter({hasText:'X'}).count()===1&&await page.locator('#board button').filter({hasText:'O'}).count()===1,'Tic-tac-toe computer responds to player move');
+ await page.getByLabel('Opponent',{exact:true}).selectOption('two');
+ for(const i of[0,3,1,4,2])await page.locator('#board button').nth(i).click();
+ check(await page.locator('#gameStatus').innerText()==='X wins!','Two-player Tic-tac-toe detects a win');
+ check(await page.locator('#board button:disabled').count()===9,'Completed game blocks additional moves');
+ await page.locator('#restart').click();check(await page.locator('#board button:disabled').count()===0,'New game resets finished Tic-tac-toe');
+ await page.locator('[data-game=memory]').click();const deck=shuffledPairs(()=>0),pairs=Array.from({length:8},(_,v)=>deck.flatMap((n,i)=>n===v?[i]:[]));
+ const mismatch=[0,deck.findIndex(v=>v!==deck[0])];await page.locator('#board button').nth(mismatch[0]).click();await page.locator('#board button').nth(mismatch[1]).click();
+ check(await page.locator('#board .revealed').count()===2,'Memory reveals two cards for review');
+ await page.waitForFunction(()=>document.querySelectorAll('#board .revealed').length===0);
+ check(await page.locator('#gameStatus').innerText()==='0 / 8 pairs · 1 move','Memory hides mismatches after review');
+ for(const[a,b]of pairs){await page.locator('#board button').nth(a).click();await page.locator('#board button').nth(b).click()}
+ check((await page.locator('#gameStatus').innerText()).includes('All eight pairs found')&&await page.locator('#board .matched').count()===16,'Memory can be completed and counts pairs');
+ await page.locator('#restart').click();await page.locator('#board button').nth(mismatch[0]).click();await page.locator('#board button').nth(mismatch[1]).click();await page.locator('[data-game="2048"]').click();await page.waitForTimeout(900);
+ check(await page.locator('#board .tile').count()===16,'Switching games cancels pending memory callbacks');
+ await page.locator('[data-game=snake]').click();check(await page.locator('#board .body').count()===2,'Snake begins with three segments and is paused');
+ await page.locator('#pause').click();await page.waitForFunction(()=>document.querySelector('#board .head')===document.querySelector('#board').children[7*16+8]);
+ await page.locator('#board').press('Space');const head=await page.locator('#board .head').evaluate(el=>[...el.parentElement.children].indexOf(el));await page.waitForTimeout(350);
+ check(await page.locator('#board .head').evaluate(el=>[...el.parentElement.children].indexOf(el))===head,'Snake pause stops movement');
+ await page.locator('#pause').click();await page.evaluate(()=>window.dispatchEvent(new Event('blur')));
+ check((await page.locator('#gameStatus').innerText()).includes('Paused'),'Snake pauses when window loses focus');
+ await page.locator('#restart').click();await page.locator('#pause').click();await page.waitForFunction(()=>document.querySelector('#gameStatus').textContent.includes('Game over'));
+ check(await page.locator('#pause').isDisabled(),'Snake wall collision ends play');
+ for(const width of[320,390,768,1440]){await page.setViewportSize({width,height:900});for(const id of['2048','snake','memory','ttt']){await page.locator('[data-game="'+id+'"]').click();check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),id+' fits '+width+'px viewport')}}
+ await page.setViewportSize({width:1280,height:1000});await page.locator('[data-game="2048"]').click();
+ const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze();check(audit.violations.length===0,'Games accessibility audit: '+JSON.stringify(audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
+ await page.screenshot({path:'test-results/games-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/games-mobile.png',fullPage:true});
+ // The main tab registers the offline worker; games enter its cache only on use.
+ await main.evaluate(async()=>{await navigator.serviceWorker.ready});await main.reload();await main.waitForFunction(()=>window.__toolStudioReady);await page.reload();await page.waitForSelector('.tile');
+ await page.waitForFunction(async()=>{const keys=await caches.keys();for(const k of keys){const c=await caches.open(k);if(await c.match(new URL('./engines.js',location.href)))return true}return false});
+ await context.setOffline(true);await page.reload();await page.waitForSelector('.tile');check(await page.locator('#gameTitle').innerText()==='2048','Previously opened Games page reloads offline');await context.setOffline(false);
+ const offline=await context.newPage();offline.on('pageerror',e=>errors.push(e.message));await offline.goto(pathToFileURL(path.resolve('dist/offline/Calc_Studio_Offline.html')).href);await offline.waitForFunction(()=>window.__toolStudioReady);
+ await offline.locator('.studio-menu').evaluate(e=>e.open=true);const offPopup=context.waitForEvent('page');await offline.locator('#studioGamesButton').click();const standalone=await offPopup;standalone.on('pageerror',e=>errors.push(e.message));await standalone.waitForSelector('.tile');
+ check(standalone.url().endsWith('/offline/Calc_Studio_Games.html'),'Standalone launcher opens companion Games file');
+ check(await standalone.evaluate(()=>!document.querySelector('script[src],link[rel=stylesheet]')),'Standalone Games file embeds all game code and styling');
+ await standalone.locator('[data-game=memory]').click();check(await standalone.locator('#board button').count()===16,'Standalone games play without module fetching');
+ check(errors.length===0,'No game or main-app runtime errors: '+errors.join(';'));
+}finally{await browser?.close();server.kill();fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/games-browser.json',JSON.stringify({checks:passed.length,passed,errors},null,2))}

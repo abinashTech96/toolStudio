@@ -1,0 +1,20 @@
+import assert from'node:assert/strict';
+import fs from'node:fs';
+import{outcome,bestMove,slide2048,spawnTile,canMove2048,shuffledPairs,foodFor,stepSnake}from'../src/games/engines.js';
+const passed=[];function test(name,fn){fn();passed.push(name);console.log('PASS',name)}
+test('2048 merges each tile only once and scores combined values',()=>{const b=[2,2,2,2,...Array(12).fill(0)],r=slide2048(b,'left');assert.deepEqual(r.board.slice(0,4),[4,4,0,0]);assert.equal(r.score,8);assert.equal(b[0],2)});
+test('2048 resolves right, up and down without crossing rows',()=>{assert.deepEqual(slide2048([2,2,4,0,...Array(12).fill(0)],'right').board.slice(0,4),[0,0,4,4]);const b=[2,0,0,0,2,...Array(11).fill(0)];assert.equal(slide2048(b,'up').board[0],4);assert.equal(slide2048(b,'down').board[12],4)});
+test('2048 no-op never reports a move and rejects invalid directions',()=>{const b=[2,...Array(15).fill(0)];assert.equal(slide2048(b,'left').changed,false);assert.throws(()=>slide2048(b,'oops'))});
+test('2048 spawns only in empty squares without mutating its input',()=>{const b=[4,...Array(15).fill(0)],n=spawnTile(b,()=>0);assert.equal(n[0],4);assert.equal(n[1],2);assert.equal(b[1],0);assert.deepEqual(spawnTile(Array(16).fill(2)),Array(16).fill(2))});
+test('2048 detects a blocked board and adjacent merge opportunities',()=>{const b=[2,4,2,4,4,2,4,2,2,4,2,4,4,2,4,2];assert.equal(canMove2048(b),false);b[0]=4;assert.equal(canMove2048(b),true)});
+test('Tic-tac-toe identifies all winning lines and draws',()=>{for(const ids of[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]){const b=Array(9).fill('');ids.forEach(i=>b[i]='X');assert.equal(outcome(b),'X')}assert.equal(outcome(['X','O','X','X','O','O','O','X','X']),'draw')});
+test('Computer takes wins and blocks immediate losses',()=>{assert.equal(bestMove(['O','O','','X','X','','','','']),2);assert.equal(bestMove(['X','X','','','O','','','','']),2)});
+test('Computer cannot lose against any legal human continuation',()=>{let ends=0;function visit(b){const result=outcome(b);if(result){assert.notEqual(result,'X');ends++;return}for(let i=0;i<9;i++)if(!b[i]){const n=b.slice();n[i]='X';if(!outcome(n)){const m=bestMove(n);assert(m>=0&&!n[m]);n[m]='O'}visit(n)}}visit(Array(9).fill(''));assert(ends>100)});
+test('Memory has exactly eight unique pairs after shuffle',()=>{for(const random of[()=>0,()=>.999,Math.random]){const d=shuffledPairs(random);assert.equal(d.length,16);for(let i=0;i<8;i++)assert.equal(d.filter(x=>x===i).length,2)}});
+const snake={body:[[2,2],[1,2],[0,2]],direction:'right',food:[4,4],score:0};
+test('Snake moves without growth and ignores reversal',()=>{const next=stepSnake(snake,'left',6);assert.deepEqual(next.body,[[3,2],[2,2],[1,2]]);assert.equal(snake.body.length,3)});
+test('Snake eating grows, scores and places food away from body',()=>{const n=stepSnake({...snake,food:[3,2]},'right',6,()=>0);assert.equal(n.body.length,4);assert.equal(n.score,1);assert(!n.body.some(p=>p.join()===n.food.join()))});
+test('Snake walls and self collisions end the game',()=>{assert(stepSnake({...snake,body:[[5,2],[4,2]]},'right',6).over);assert(stepSnake({...snake,body:[[2,2],[2,3],[3,3],[3,2],[4,2]]},'right',6).over)});
+test('Snake may enter the vacated tail cell',()=>{const s={...snake,body:[[2,2],[2,3],[3,3],[3,2]]};assert.equal(stepSnake(s,'right',6).over,false)});
+test('Snake full-board win has no impossible food retry',()=>{const n=stepSnake({body:[[0,0],[0,1],[1,1]],direction:'up',food:[1,0],score:0},'right',2);assert.equal(n.won,true);assert.equal(n.food,null);assert.equal(foodFor([[0,0]],1),null)});
+fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/games-unit.json',JSON.stringify({checks:passed.length,passed},null,2));

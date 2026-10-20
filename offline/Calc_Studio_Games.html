@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>Games · Tool Studio</title><style>:root{color-scheme:light;--ink:#203e35;--muted:#526b61;--bg:#edf2e9;--paper:#fafbf5;--line:#cedbcd;--accent:#315f48;font:16px/1.5 system-ui,sans-serif;color:var(--ink);background:var(--bg)}*{box-sizing:border-box}body{margin:0}button,a,select{touch-action:manipulation}button,select{font:inherit;color:inherit;border:1px solid var(--line);background:var(--paper);border-radius:12px;min-height:48px;padding:10px 16px;cursor:pointer}button:hover,a:hover{filter:brightness(.96)}button:focus-visible,a:focus-visible,select:focus-visible,#board:focus-visible{outline:3px solid #bc6328;outline-offset:4px}button:disabled{cursor:default;opacity:.7}a{color:inherit;text-decoration:none}header{max-width:1100px;margin:18px auto;display:flex;align-items:center;gap:18px;padding:12px 20px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}header>a:last-child{margin-left:auto;min-height:48px;display:flex;align-items:center}.brand{display:flex;gap:10px;align-items:center;font-size:21px;font-weight:800}.section-label{border-left:1px solid var(--line);padding-left:18px;color:var(--muted)}main{max-width:1000px;margin:auto;padding:20px}.intro h1{font-size:clamp(30px,5vw,48px);letter-spacing:-.04em;margin:4px 0}.intro p{color:var(--muted);margin:8px 0}.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:800;color:var(--muted)}#gamePicker{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 20px}#gamePicker button{text-align:left;font-weight:750;padding:16px}#gamePicker small{display:block;font-size:12px;font-weight:400;color:var(--muted)}#gamePicker button[aria-pressed=true]{background:var(--accent);color:white;border-color:var(--accent)}#gamePicker button[aria-pressed=true] small{color:#e2edde}.play-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:24px;max-width:700px;margin:auto}.game-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.game-heading h2{font-size:29px;margin:0}.game-heading p{margin:0}#instructions{color:var(--muted);font-size:14px;max-width:54ch}#gameStatus{font-weight:700;min-height:24px}#gameOptions label{display:flex;gap:10px;align-items:center;flex-wrap:wrap}#board{width:min(100%,420px);margin:20px auto;aspect-ratio:1;border-radius:16px;touch-action:pan-y}#board.tiles,#board.memory,#board.ttt{display:grid;gap:8px;padding:8px;background:var(--line)}#board.tiles,#board.memory{grid-template-columns:repeat(4,minmax(0,1fr))}#board.ttt{grid-template-columns:repeat(3,minmax(0,1fr))}.tile{display:grid;place-items:center;border-radius:9px;background:#dce5d6;min-width:0;font-size:clamp(18px,4vw,34px);font-weight:800;color:#203e35}.tile[data-value="2"]{background:#f3ead8}.tile[data-value="4"]{background:#ecdbb4}.tile[data-value="8"]{background:#e9b980}.tile[data-value="16"]{background:#e7a867}.tile[data-value="32"],.tile[data-value="64"]{background:#dc936a}.tile.high{background:#315f48;color:white;font-size:clamp(15px,4vw,28px)}.memory button,.ttt button{padding:0;min-height:48px;font-size:clamp(22px,5vw,42px);background:#f7f9f2;font-weight:750}.memory button.matched{background:#cae3cb;opacity:1;color:#203e35}.memory button.revealed{background:#f4dfb6}.ttt button{font-size:clamp(30px,6vw,60px)}#board.snake{display:grid;grid-template-columns:repeat(16,1fr);gap:1px;padding:8px;background:#d7e2cf}#board.snake span{border-radius:2px;background:#e5eddc}#board.snake .body{background:#467652}#board.snake .head{background:#183b29}#board.snake .food{background:#c5572b;border-radius:50%}#gameControls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.dpad{display:grid;grid-template-columns:repeat(3,56px);gap:6px}.dpad button{font-size:20px;padding:6px}.dpad button:first-child{grid-column:2}.dpad button:nth-child(2){grid-column:1}.hint,.footnote{font-size:12px;color:var(--muted);text-align:center}.hint{margin-top:18px}.footnote{margin:24px 0}#pause{align-self:center}@media(max-width:560px){header{margin:8px;gap:12px;padding:6px 12px}.brand{font-size:17px}.section-label{padding-left:12px;font-size:14px}header>a:last-child{font-size:12px}main{padding:16px}#gamePicker{grid-template-columns:repeat(2,1fr);margin-top:20px}#gamePicker button{padding:12px}.play-card{padding:16px;border-radius:18px}#board{gap:5px}.game-heading h2{font-size:25px}.game-heading button{font-size:14px;padding:8px 12px}}@media(prefers-color-scheme:dark){:root{--ink:#e1eddf;--muted:#b1c5b8;--bg:#17261f;--paper:#21352a;--line:#425b49;--accent:#315f48}.memory button,.ttt button{color:#203e35}}
+
+#board.tiles,#board.memory{grid-template-rows:repeat(4,minmax(0,1fr))}#board.ttt{grid-template-rows:repeat(3,minmax(0,1fr))}#board.tiles,#board.snake{touch-action:none}
+</style></head>
+<body><header><a class="brand" href="../index.html" id="studioLink">∑ <span>tool studio</span></a><span class="section-label">Games</span><a href="../guide.html" id="guideLink">Studio guide</a></header>
+<main><section class="intro"><p class="eyebrow">A LITTLE PLAY TIME</p><h1>Take a small break.</h1><p>Four familiar games. Pick one and play at your own pace.</p></section>
+<nav aria-label="Choose a game" id="gamePicker"><button data-game="2048" aria-pressed="true">2048 <small>Slide & merge</small></button><button data-game="snake" aria-pressed="false">Snake <small>Find your rhythm</small></button><button data-game="memory" aria-pressed="false">Memory Match <small>Find eight pairs</small></button><button data-game="ttt" aria-pressed="false">Tic-tac-toe <small>Solo or together</small></button></nav>
+<section class="play-card" aria-labelledby="gameTitle"><div class="game-heading"><div><p class="eyebrow" id="gameTag"></p><h2 id="gameTitle">2048</h2></div><button id="restart">New game</button></div><p id="instructions"></p><div id="gameOptions"></div><p id="gameStatus" role="status" aria-live="polite"></p><div id="board" role="group" tabindex="0" aria-label="Game board"></div><div id="gameControls"></div><p class="hint" id="keyboardHint"></p></section>
+<p class="footnote">No sign-in. No ads. Games run on this device. Scores reset with a new game.</p></main><script>(() => {
+  // src/games/engines.js
+  var lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+  function outcome(board2) {
+    for (const line of lines) if (board2[line[0]] && line.every((i) => board2[i] === board2[line[0]])) return board2[line[0]];
+    return board2.every(Boolean) ? "draw" : null;
+  }
+  function bestMove(board2) {
+    const score = (b, turn) => {
+      const end = outcome(b);
+      if (end) return end === "O" ? 10 : end === "X" ? -10 : 0;
+      const values = b.flatMap((v, i) => {
+        if (v) return [];
+        const next = b.slice();
+        next[i] = turn;
+        return [score(next, turn === "O" ? "X" : "O")];
+      });
+      return turn === "O" ? Math.max(...values) : Math.min(...values);
+    };
+    if (outcome(board2)) return -1;
+    let move = -1, value = -Infinity;
+    for (const i of [4, 0, 2, 6, 8, 1, 3, 5, 7]) if (!board2[i]) {
+      const next = board2.slice();
+      next[i] = "O";
+      const n = score(next, "X");
+      if (n > value) {
+        value = n;
+        move = i;
+      }
+    }
+    return move;
+  }
+  function slide2048(board2, direction) {
+    if (!["left", "right", "up", "down"].includes(direction)) throw Error("Invalid direction");
+    const next = board2.slice();
+    let score = 0;
+    for (let line = 0; line < 4; line++) {
+      const ids = Array.from({ length: 4 }, (_, i) => direction === "left" ? line * 4 + i : direction === "right" ? line * 4 + 3 - i : direction === "up" ? i * 4 + line : (3 - i) * 4 + line);
+      const values = ids.map((i) => board2[i]).filter(Boolean), merged = [];
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === values[i + 1]) {
+          const n = values[i] * 2;
+          merged.push(n);
+          score += n;
+          i++;
+        } else merged.push(values[i]);
+      }
+      ids.forEach((id, i) => next[id] = merged[i] || 0);
+    }
+    return { board: next, score, changed: next.some((v, i) => v !== board2[i]) };
+  }
+  function spawnTile(board2, random = Math.random) {
+    const empty = board2.flatMap((v, i) => v ? [] : [i]), next = board2.slice();
+    if (empty.length) next[empty[Math.floor(random() * empty.length)]] = random() < 0.9 ? 2 : 4;
+    return next;
+  }
+  function canMove2048(board2) {
+    return ["left", "right", "up", "down"].some((d) => slide2048(board2, d).changed);
+  }
+  function shuffledPairs(random = Math.random) {
+    const deck = Array.from({ length: 16 }, (_, i) => i % 8);
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    return deck;
+  }
+  var vectors = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  function foodFor(body, size = 16, random = Math.random) {
+    const empty = Array.from({ length: size * size }, (_, i) => [i % size, Math.floor(i / size)]).filter((p) => !body.some((q) => q[0] === p[0] && q[1] === p[1]));
+    return empty.length ? empty[Math.floor(random() * empty.length)] : null;
+  }
+  function stepSnake(state2, direction, size = 16, random = Math.random) {
+    const prior = vectors[state2.direction], asked = vectors[direction] || prior, dir = asked[0] === -prior[0] && asked[1] === -prior[1] ? state2.direction : direction;
+    const v = vectors[dir] || prior, head = [state2.body[0][0] + v[0], state2.body[0][1] + v[1]], eat = !!state2.food && head[0] === state2.food[0] && head[1] === state2.food[1];
+    const occupied = eat ? state2.body : state2.body.slice(0, -1);
+    if (head.some((n) => n < 0 || n >= size) || occupied.some((p) => p[0] === head[0] && p[1] === head[1])) return { ...state2, over: true };
+    const body = [head, ...state2.body];
+    if (!eat) body.pop();
+    const food = eat ? foodFor(body, size, random) : state2.food;
+    return { body, food, direction: dir, score: state2.score + (eat ? 1 : 0), over: !food, won: !food };
+  }
+
+  // src/games/app.js
+  var $ = (id) => document.getElementById(id);
+  var board = $("board");
+  var status = $("gameStatus");
+  var picker = $("gamePicker");
+  var symbols = ["\u25CF", "\u25B2", "\u25A0", "\u25C6", "\u2605", "\u2602", "\u265C", "\u2600"];
+  var names = ["circle", "triangle", "square", "diamond", "star", "umbrella", "rook", "sun"];
+  var game = "2048";
+  var state;
+  var mode = "solo";
+  var timer = null;
+  var memoryTimer = null;
+  var pending = null;
+  var running = false;
+  var origin = null;
+  function node(tag, text, cls) {
+    const n = document.createElement(tag);
+    if (text !== void 0) n.textContent = text;
+    if (cls) n.className = cls;
+    return n;
+  }
+  function button(text, fn, label) {
+    const b = node("button", text);
+    b.type = "button";
+    b.onclick = fn;
+    if (label) b.setAttribute("aria-label", label);
+    return b;
+  }
+  function stop() {
+    clearInterval(timer);
+    clearTimeout(memoryTimer);
+    timer = null;
+    memoryTimer = null;
+    running = false;
+  }
+  function setStatus(text) {
+    if (status.textContent !== text) status.textContent = text;
+  }
+  function directions(action) {
+    const pad = node("div", void 0, "dpad");
+    for (const [d, s] of [["up", "\u2191"], ["left", "\u2190"], ["down", "\u2193"], ["right", "\u2192"]]) pad.append(button(s, () => action(d), "Move " + d));
+    return pad;
+  }
+  function start(id) {
+    stop();
+    game = id;
+    pending = null;
+    board.replaceChildren();
+    $("gameControls").replaceChildren();
+    $("gameOptions").replaceChildren();
+    board.className = "";
+    for (const b of picker.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.game === game));
+    const info = { 2048: ["2048", "ONE MORE MERGE", "Use arrows, swipe, or the direction buttons to combine equal tiles. Reach 2048, then keep going.", "Arrow keys work while the board is focused."], snake: ["Snake", "KEEP GROWING", "Collect orange food without hitting a wall or yourself. Press Start when you are ready.", "Arrows or WASD to steer \xB7 Space to pause. Leaving this tab pauses play."], memory: ["Memory Match", "LOOK. REMEMBER. MATCH.", "Turn over two cards at a time and find all eight pairs.", "Use Tab and Enter to reveal cards."], ttt: ["Tic-tac-toe", "THREE IN A ROW", "You play X. Complete a row, column, or diagonal before O.", "Use Tab and Enter to choose an empty square."] }[id];
+    $("gameTitle").textContent = info[0];
+    $("gameTag").textContent = info[1];
+    $("instructions").textContent = info[2];
+    $("keyboardHint").textContent = info[3];
+    board.setAttribute("aria-label", info[0] + " game board");
+    if (game === "2048") {
+      state = { board: spawnTile(spawnTile(Array(16).fill(0))), score: 0 };
+      board.className = "tiles";
+      $("gameControls").append(directions(move2048));
+      render2048();
+    }
+    if (game === "ttt") {
+      state = Array(9).fill("");
+      board.className = "ttt";
+      const label = node("label", "Opponent "), select = node("select");
+      select.setAttribute("aria-label", "Opponent");
+      for (const [v, t] of [["solo", "Computer"], ["two", "Two players"]]) {
+        const o = node("option", t);
+        o.value = v;
+        select.append(o);
+      }
+      select.value = mode;
+      select.onchange = () => {
+        mode = select.value;
+        start("ttt");
+      };
+      label.append(select);
+      $("gameOptions").append(label);
+      renderTTT();
+    }
+    if (game === "memory") {
+      state = { deck: shuffledPairs(), open: [], matched: [], moves: 0 };
+      board.className = "memory";
+      state.deck.forEach((_, i) => {
+        const b = button("?", () => flip(i), "Card " + (i + 1) + ", face down");
+        b.dataset.index = i;
+        board.append(b);
+      });
+      renderMemory();
+    }
+    if (game === "snake") {
+      const body = [[7, 7], [6, 7], [5, 7]];
+      state = { body, food: foodFor(body), direction: "right", score: 0, over: false };
+      board.className = "snake";
+      board.replaceChildren(...Array.from({ length: 256 }, () => node("span")));
+      const pause = button("Start", toggleSnake);
+      pause.id = "pause";
+      $("gameControls").append(pause, directions(steer));
+      renderSnake();
+    }
+  }
+  function render2048() {
+    board.replaceChildren(...state.board.map((v) => {
+      const n = node("div", v || "", v >= 128 ? "tile high" : "tile");
+      n.dataset.value = v;
+      n.setAttribute("role", "img");
+      n.setAttribute("aria-label", v ? String(v) : "Empty");
+      return n;
+    }));
+    const over = !canMove2048(state.board);
+    setStatus("Score " + state.score + (over ? " \xB7 No moves left. Start a new game." : state.board.some((n) => n >= 2048) ? " \xB7 2048 reached! Keep going." : " \xB7 Merge equal tiles."));
+  }
+  function move2048(dir) {
+    if (game !== "2048") return;
+    const next = slide2048(state.board, dir);
+    if (next.changed) {
+      state = { board: spawnTile(next.board), score: state.score + next.score };
+      render2048();
+    }
+  }
+  function renderTTT() {
+    const end = outcome(state), turn = state.filter(Boolean).length % 2 ? "O" : "X";
+    board.replaceChildren(...state.map((v, i) => {
+      const b = button(v || "\xB7", () => playTTT(i), "Row " + (Math.floor(i / 3) + 1) + ", column " + (i % 3 + 1) + (v ? ", " + v : ", empty"));
+      b.disabled = !!v || !!end;
+      return b;
+    }));
+    setStatus(end === "draw" ? "A draw. Play again?" : end ? end + " wins!" : turn + " to play" + (mode === "solo" ? " \xB7 You are X." : ""));
+  }
+  function playTTT(i) {
+    if (state[i] || outcome(state)) return;
+    const next = state.slice(), turn = next.filter(Boolean).length % 2 ? "O" : "X";
+    next[i] = turn;
+    state = next;
+    if (mode === "solo" && !outcome(state)) {
+      const choice = bestMove(state);
+      if (choice >= 0) state[choice] = "O";
+    }
+    renderTTT();
+    if (!outcome(state)) board.querySelector("button:not(:disabled)")?.focus();
+    else board.focus();
+  }
+  function renderMemory() {
+    for (const [i, b] of [...board.children].entries()) {
+      const shown = state.open.includes(i) || state.matched.includes(i);
+      b.textContent = shown ? symbols[state.deck[i]] : "?";
+      b.className = state.matched.includes(i) ? "matched" : shown ? "revealed" : "";
+      b.setAttribute("aria-label", "Card " + (i + 1) + ", " + (shown ? names[state.deck[i]] : "face down") + (state.matched.includes(i) ? ", matched" : ""));
+      b.setAttribute("aria-disabled", String(shown || state.open.length === 2));
+    }
+    setStatus(state.matched.length === 16 ? "All eight pairs found in " + state.moves + " moves!" : state.matched.length / 2 + " / 8 pairs \xB7 " + state.moves + (state.moves === 1 ? " move" : " moves"));
+  }
+  function flip(i) {
+    if (state.open.length === 2 || state.open.includes(i) || state.matched.includes(i)) return;
+    state.open.push(i);
+    if (state.open.length === 2) {
+      state.moves++;
+      const [a, b] = state.open;
+      if (state.deck[a] === state.deck[b]) {
+        state.matched.push(a, b);
+        state.open = [];
+      } else memoryTimer = setTimeout(() => {
+        state.open = [];
+        renderMemory();
+      }, 850);
+    }
+    renderMemory();
+  }
+  function renderSnake() {
+    const cells = [...board.children];
+    for (const c of cells) c.className = "";
+    state.body.forEach((p, i) => cells[p[1] * 16 + p[0]].className = i ? "body" : "head");
+    if (state.food) cells[state.food[1] * 16 + state.food[0]].className = "food";
+    setStatus("Score " + state.score + (state.over ? state.won ? " \xB7 Board complete!" : " \xB7 Game over. Start a new game." : running ? " \xB7 Playing." : " \xB7 Paused."));
+    $("pause").textContent = running ? "Pause" : state.over ? "Game over" : "Start / Resume";
+    $("pause").disabled = state.over;
+  }
+  function steer(dir) {
+    if (game !== "snake" || pending || state.over) return;
+    const a = vectors[state.direction], b = vectors[dir];
+    if (a[0] === -b[0] && a[1] === -b[1]) return;
+    pending = dir;
+  }
+  function pauseSnake() {
+    clearInterval(timer);
+    timer = null;
+    running = false;
+    if (game === "snake") renderSnake();
+  }
+  function toggleSnake() {
+    if (game !== "snake" || state.over) return;
+    if (running) {
+      pauseSnake();
+      return;
+    }
+    running = true;
+    board.focus();
+    timer = setInterval(() => {
+      state = stepSnake(state, pending || state.direction);
+      pending = null;
+      if (state.over) pauseSnake();
+      else renderSnake();
+    }, 150);
+    renderSnake();
+  }
+  $("restart").onclick = () => {
+    start(game);
+    board.focus();
+  };
+  picker.onclick = (e) => {
+    const b = e.target.closest("[data-game]");
+    if (b) {
+      start(b.dataset.game);
+      board.focus();
+    }
+  };
+  board.onkeydown = (e) => {
+    const dirs = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right" };
+    if (dirs[e.key] && ["snake", "2048"].includes(game)) {
+      e.preventDefault();
+      if (game === "snake") steer(dirs[e.key]);
+      else move2048(dirs[e.key]);
+    }
+    if (game === "snake" && e.code === "Space") {
+      e.preventDefault();
+      toggleSnake();
+    }
+  };
+  board.onpointerdown = (e) => {
+    origin = [e.clientX, e.clientY];
+  };
+  board.onpointerup = (e) => {
+    if (!origin) return;
+    const dx = e.clientX - origin[0], dy = e.clientY - origin[1];
+    origin = null;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+    const dir = Math.abs(dx) > Math.abs(dy) ? dx > 0 ? "right" : "left" : dy > 0 ? "down" : "up";
+    if (game === "2048") move2048(dir);
+    if (game === "snake") steer(dir);
+  };
+  board.onpointercancel = () => origin = null;
+  window.addEventListener("blur", () => {
+    if (game === "snake") pauseSnake();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && game === "snake") pauseSnake();
+  });
+  window.addEventListener("pagehide", () => {
+    stop();
+    if (game === "memory" && state.open.length === 2) {
+      state.open = [];
+      renderMemory();
+    }
+    if (game === "snake") renderSnake();
+  });
+  if (location.protocol === "file:") {
+    $("studioLink").href = "./Calc_Studio_Offline.html";
+    $("guideLink").hidden = true;
+  }
+  start("2048");
+})();
+</script></body></html>

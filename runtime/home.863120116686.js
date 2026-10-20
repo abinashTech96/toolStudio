@@ -1,5 +1,22 @@
+// src/core/games-launcher.js
+function installGamesLauncher(c) {
+  const link = document.createElement("a");
+  link.id = "studioGamesButton";
+  link.className = "pill";
+  link.textContent = "Games";
+  link.href = new URL("Calc_Studio_Games.html", location.href).href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.setAttribute("aria-label", "Games (opens in a new tab)");
+  link.onclick = () => {
+    c.u21Options.open = false;
+  };
+  c.cs32Button.after(link);
+}
+
 // src/core/home.js
 function installHome(c, registry) {
+  installGamesLauncher(c);
   const node = (tag, text, className) => {
     const el = document.createElement(tag);
     if (text !== void 0) el.textContent = text;

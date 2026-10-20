@@ -76,3 +76,7 @@ See [edition 35 performance, accuracy and recovery](docs/performance35.md) for t
 See [edition 34 features](docs/features34.md) for the new workspaces, existing-tool improvements, limits and reviewed actions.
 
 No existing tool or OCR functionality was removed. See [regression report](docs/regression.md) for validation and limits.
+
+## Games
+
+Options → **Games** opens a separate page with 2048, Snake, Memory Match and Tic-tac-toe. See [Games usage and offline packaging](docs/games.md). Run npm run test:games for rule and browser regression checks.
