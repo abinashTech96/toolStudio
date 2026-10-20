@@ -17,7 +17,8 @@
     "test:reliability": "node tests/reliability.unit.mjs && node tests/reliability.browser.mjs",
     "test:updates": "node tests/update.browser.mjs",
     "benchmark": "node tests/benchmark.mjs",
-    "test:navigation": "node tests/architecture.unit.mjs && node tests/navigation.browser.mjs"
+    "test:navigation": "node tests/architecture.unit.mjs && node tests/navigation.browser.mjs",
+    "test:games": "node tests/games.unit.mjs && node tests/games.browser.mjs"
   },
   "engines": {
     "node": ">=22.13"

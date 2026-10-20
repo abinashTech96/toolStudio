@@ -1,5 +1,7 @@
+import {installGamesLauncher} from './games-launcher.js';
 /** The launcher is presentation only; workspace IDs and saved records stay stable. */
 export function installHome(c, registry) {
+  installGamesLauncher(c);
   const node = (tag, text, className) => {
     const el = document.createElement(tag);
     if (text !== undefined) el.textContent = text;
