@@ -1,6 +1,6 @@
 {
   "name": "toolstudio",
-  "version": "35.3.0",
+  "version": "35.4.0",
   "private": true,
   "type": "module",
   "description": "Category-based Calc Studio source and a GitHub Pages build",
@@ -20,14 +20,17 @@
     "test:navigation": "node tests/architecture.unit.mjs && node tests/navigation.browser.mjs",
     "test:games": "node tests/games.unit.mjs && node tests/games-brain.unit.mjs && node tests/games.browser.mjs && node tests/games-brain.browser.mjs",
     "test:home-extras": "node tests/home-extras.unit.mjs && node tests/home-extras.browser.mjs && node tests/home-release.browser.mjs",
-    "test:connection": "node tests/connection-guide.unit.mjs && node tests/connection.browser.mjs"
+    "test:connection": "node tests/connection-guide.unit.mjs && node tests/connection.browser.mjs",
+    "test:career": "node tests/career.unit.mjs && node tests/career.browser.mjs"
   },
   "engines": {
     "node": ">=22.13"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
+    "@pdf-lib/fontkit": "1.1.1",
     "acorn": "8.15.0",
+    "dejavu-fonts-ttf": "2.37.3",
     "esbuild": "0.28.2",
     "fflate": "0.8.3",
     "pdf-lib": "1.17.1",
