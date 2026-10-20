@@ -82,3 +82,7 @@ No existing tool or OCR functionality was removed. See [regression report](docs/
 Options → Games opens seven separate games with local coaching, difficulty controls, fullscreen/Exit and opt-in progress saving. See [Games guide](docs/games.md) and [v35.02 release behavior](docs/release-v35.02.md). Home includes the full Guide, version, reviewed file entry and saved-project review; update notices identify the installed and waiting versions.
 
 Run npm run test:games, npm run test:home-extras and npm run test:updates along with the existing regression suites.
+
+## Guided Connection setup
+
+Options → Connection now starts with a method chooser and readable setup guides for phone/computer pairing, BLE, USB and WebSocket. Manual pairing and advanced tools remain available. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.

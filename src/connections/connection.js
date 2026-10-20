@@ -1,3 +1,4 @@
+import{installEasyConnection}from'./easy.js';
 import {installProtocol} from './protocol.js';
 import {packetEncode,packetDecode} from './packet.js';
 import{installWebsocket}from"./websocket.js";
@@ -84,8 +85,9 @@ const adapterAPI={state,$,MAX,bytes,dec,enc,notice,log,bind,button,node,fmt,desc
 const{closeWS,wsURL}=installWebsocket(adapterAPI);
 const{closeBLE}=installBluetooth(adapterAPI);
 const{closeUSB}=installUsb(adapterAPI);
-installSignaling({state,$,wsURL,initPeer,bind,validateSignal,signalData,gathered,notice,review});
+installSignaling({state,$,wsURL,initPeer,bind,validateSignal,signalData,gathered,notice,review,copy});
 installProtocol({...adapterAPI,packetEncode,packetDecode,download,review,page});
+installEasyConnection({...adapterAPI,page,closeBLE});
 window.connectionStudio=Object.freeze({version:1,disconnect,status:()=>({peer:state.pc?.connectionState||'closed',approved:state.approved&&state.peerApproved,bridge:state.bridge,files:state.received.length,permissions:permissions()}),createOffer:offer,importSignal,shutdown:()=>{disconnect();closeWS();void closeBLE();void closeUSB();}});
 window.addEventListener('pagehide',()=>{state.disposed=true;state.port?.postMessage({type:'detach'});disconnect();closeWS();void closeBLE();void closeUSB();state.port?.postMessage({type:'revoke'});state.port?.close()});
 })();

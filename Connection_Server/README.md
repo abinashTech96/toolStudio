@@ -2,6 +2,8 @@
 
 This optional helper serves the bundled HTML pages and exchanges WebRTC offers/answers using short-lived pairing codes. It does not relay files, messages, photos, results, or remote commands. No service is hosted automatically.
 
+For the guided page and end-user instructions, see [Connection setup](../docs/connection-guide.md). The browser start screen offers a per-method guide before requesting a connection.
+
 ## Local setup
 
 Build the modular app first (`npm run build` from the repository root). Install Python 3.11 or newer, then run from the repository root:
