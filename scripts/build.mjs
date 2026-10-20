@@ -66,7 +66,7 @@ for(const file of files(path.join(root,'public'))){const rel=path.relative(path.
 for(const file of files(path.join(root,'src/connections')))write('connections/'+path.basename(file),fs.readFileSync(file));
 const connectionShell=read('src/connections/index.html').replace('<link rel="stylesheet" href="./styles.css">','<style>'+read('src/connections/styles.css')+'</style>');
 write('connections/packet.js',advanced.packet);
-const connectionParts=['protocol','websocket','bluetooth','usb','signaling','connection'].map(name=>read('src/connections/'+name+'.js').replace(/^import[^\n]*\n/gm,'').replace(/^export\s+/gm,''));
+const connectionParts=['protocol','websocket','bluetooth','usb','signaling','guides','easy','connection'].map(name=>read('src/connections/'+name+'.js').replace(/^import[^\n]*\n/gm,'').replace(/^export\s+/gm,''));
 const qrInline='const inlineQREngines={'+['qrencode','qrdecode'].map(key=>JSON.stringify(key)+':('+read('public/'+plan.resources.vendors[key]).replace(/^\/\/[^\n]*\n/,'').replace(/^export default /,'').replace(/;\s*$/,'')+')').join(',')+'};\nconst inlineQRCache={};async function loadQR(kind){return inlineQRCache[kind]||(inlineQRCache[kind]=inlineQREngines[kind]())}\n';
 write('offline/Calc_Studio_Connection.html',connectionShell.replace('<script type="module" src="./connection.js"></script>',()=>'<script>\n'+(advanced.packetInline+'\nconst {packetEncode,packetDecode}=PacketEngine;\n'+qrInline+connectionParts.join('\n')).replace(/<\/script/gi,'<\\/script')+'\n</script>'));
 // Games are a separate page; only a small Options link is bundled into the main app.
