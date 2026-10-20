@@ -18,11 +18,11 @@ try{
  check(!requests.some(u=>/\/games\//.test(u)),'Main app loads no game engines or assets');
  await main.evaluate(()=>calcStudio.openTool('jsonformatter'));await main.locator('#jsonInput').fill('{"keep":"workspace"}');
  await main.locator('.studio-menu').evaluate(e=>e.open=true);
- const popup=context.waitForEvent('page');await main.locator('#studioGamesButton').click();const page=await popup;page.on('pageerror',e=>errors.push(e.message));await page.waitForSelector('#board .tile');
+ const popup=context.waitForEvent('page');await main.locator('#studioGamesButton').click();const page=await popup;page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());await page.waitForSelector('#board .tile');
  check(page.url()===base+'games/index.html','Options Games opens separate page under GitHub Pages subpath');
  check(await page.evaluate(()=>window.opener===null),'Games has no opener bridge to the tool workspace');
  check(await main.locator('#jsonInput').inputValue()==='{"keep":"workspace"}','Launching games retains existing tool input');
- check(await page.locator('#gamePicker button').count()===4,'All four game choices are available');
+ check(await page.locator('#gamePicker button').count()===7,'All seven game choices are available');
  await page.locator('#board').press('ArrowLeft');
  check(await page.locator('#gameStatus').innerText()==='Score 4 · Merge equal tiles.','2048 keyboard move merges tiles and updates score');
  await page.getByRole('button',{name:'Move down',exact:true}).click();
@@ -41,7 +41,7 @@ try{
  await page.waitForFunction(()=>document.querySelectorAll('#board .revealed').length===0);
  check(await page.locator('#gameStatus').innerText()==='0 / 8 pairs · 1 move','Memory hides mismatches after review');
  for(const[a,b]of pairs){await page.locator('#board button').nth(a).click();await page.locator('#board button').nth(b).click()}
- check((await page.locator('#gameStatus').innerText()).includes('All eight pairs found')&&await page.locator('#board .matched').count()===16,'Memory can be completed and counts pairs');
+ check((await page.locator('#gameStatus').innerText()).includes('All 8 pairs found')&&await page.locator('#board .matched').count()===16,'Memory can be completed and counts pairs');
  await page.locator('#restart').click();await page.locator('#board button').nth(mismatch[0]).click();await page.locator('#board button').nth(mismatch[1]).click();await page.locator('[data-game="2048"]').click();await page.waitForTimeout(900);
  check(await page.locator('#board .tile').count()===16,'Switching games cancels pending memory callbacks');
  await page.locator('[data-game=snake]').click();check(await page.locator('#board .body').count()===2,'Snake begins with three segments and is paused');
@@ -52,7 +52,7 @@ try{
  check((await page.locator('#gameStatus').innerText()).includes('Paused'),'Snake pauses when window loses focus');
  await page.locator('#restart').click();await page.locator('#pause').click();await page.waitForFunction(()=>document.querySelector('#gameStatus').textContent.includes('Game over'));
  check(await page.locator('#pause').isDisabled(),'Snake wall collision ends play');
- for(const width of[320,390,768,1440]){await page.setViewportSize({width,height:900});for(const id of['2048','snake','memory','ttt']){await page.locator('[data-game="'+id+'"]').click();check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),id+' fits '+width+'px viewport')}}
+ for(const width of[320,390,768,1440]){await page.setViewportSize({width,height:900});for(const id of['2048','snake','memory','ttt','sudoku','mines','connect4']){await page.locator('[data-game="'+id+'"]').click();check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),id+' fits '+width+'px viewport')}}
  await page.setViewportSize({width:1280,height:1000});await page.locator('[data-game="2048"]').click();
  const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze();check(audit.violations.length===0,'Games accessibility audit: '+JSON.stringify(audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))));
  await page.screenshot({path:'test-results/games-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/games-mobile.png',fullPage:true});
