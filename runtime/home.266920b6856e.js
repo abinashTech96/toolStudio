@@ -14,8 +14,297 @@ function installGamesLauncher(c) {
   c.cs32Button.after(link);
 }
 
+// src/core/home-state.js
+function displayVersion(version) {
+  const match = /^(\d+)\.(\d+)\.(\d+)$/.exec(version);
+  if (!match) return "v35.00";
+  return "v" + match[1] + "." + match[2].padStart(2, "0") + (Number(match[3]) ? "." + match[3] : "");
+}
+function fileTargets(file) {
+  if (!file || typeof file.name !== "string" || !Number.isFinite(file.size) || file.size < 0 || file.size > 20 * 1048576) throw Error("Choose one file up to 20 MiB.");
+  const extension = file.name.split(".").at(-1).toLowerCase();
+  const json = { route: "jsonformatter", input: "jsonFile", label: "JSON Formatter" }, table = { route: "dataworkbench", input: "dwFile", label: "Data Workbench" }, log = { route: "logs", input: "logFiles", label: "Apex Log Analyzer" }, text = { route: "characters", input: "charFile", label: "Text Toolkit" };
+  if (extension === "json") return [json, table];
+  if (["csv", "tsv", "xlsx", "xls", "ods"].includes(extension)) return [table];
+  if (extension === "pdf") return [{ route: "pdf", input: "pdfFiles", label: "PDF Workspace" }];
+  if (["png", "jpg", "jpeg", "webp", "gif", "bmp"].includes(extension)) return [{ route: "camerastudio", input: "ciFile", label: "Camera & Image Studio" }];
+  if (extension === "log") return [log, text];
+  if (extension === "txt") return [text, json, log];
+  throw Error("Use JSON, CSV, TSV, spreadsheets, PDF, images, TXT or LOG files.");
+}
+
+// src/core/home-extras.js
+function installHomeExtras({ c, registry, options, home, personal, browse, footer, search, grid, render }) {
+  const node = (tag, text, className) => {
+    const e = document.createElement(tag);
+    if (text !== void 0) e.textContent = text;
+    if (className) e.className = className;
+    return e;
+  };
+  const button = (label, run, className = "home-chip") => {
+    const e = node("button", label, className);
+    e.type = "button";
+    e.onclick = run;
+    return e;
+  };
+  let inputRevision = 0, navigationRevision = 0;
+  document.addEventListener("input", () => inputRevision++, true);
+  const api = c.$advanced.api, prefs = () => api.homePreferences(), save = (change, immediate = true) => {
+    try {
+      api.saveHomePreferences({ ...prefs(), ...change }, { immediate });
+      return true;
+    } catch (e) {
+      c.toast(e.message);
+      return false;
+    }
+  };
+  const version = displayVersion(registry.appVersion || "35.0.0");
+  document.title = "Tool Studio \u2014 " + version;
+  const guide = button("Guide", () => {
+    if (options.guideHTML) {
+      const url = URL.createObjectURL(new Blob([options.guideHTML], { type: "text/html" }));
+      window.open(url, "_blank", "noopener");
+      setTimeout(() => URL.revokeObjectURL(url), 6e4);
+    } else window.open(new URL("./guide.html", location.href), "_blank", "noopener");
+  });
+  const headerGuide = c.$("u18GuideOpen");
+  headerGuide?.addEventListener("click", (event) => {
+    if (document.body.dataset.home === "true") {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      guide.click();
+    }
+  }, true);
+  guide.id = "homeGuide";
+  guide.setAttribute("aria-label", "Open guide");
+  const actions = node("div", void 0, "home-hero-actions");
+  const versionLabel = node("span", version, "home-version");
+  versionLabel.title = "Application version " + (registry.appVersion || "35.0.0");
+  actions.append(guide, versionLabel);
+  home.querySelector(".home-hero").append(actions);
+  const tasks = node("section", void 0, "home-task-shortcuts");
+  tasks.setAttribute("aria-label", "Task shortcuts");
+  for (const [label, id] of [["Format JSON", "jsonformatter"], ["Analyze Apex log", "logs"], ["Compare files", "excel"], ["Calculate EMI", "tools"]]) tasks.append(button(label, () => {
+    if (id === "tools") c.n28FeatureOpen(c.n28Entry("home:task:emi", "tools", "Loan / EMI", "", { loan: true }));
+    else c.openTab(id);
+  }));
+  personal.after(tasks);
+  const drop = node("section", void 0, "home-drop"), dropTitle = node("h2", "Drop a file to begin"), file = node("input");
+  file.type = "file";
+  file.id = "homeFile";
+  file.accept = ".json,.csv,.tsv,.xlsx,.xls,.ods,.pdf,.png,.jpg,.jpeg,.webp,.gif,.bmp,.txt,.log";
+  file.hidden = true;
+  const choose = button("Choose file", () => file.click()), fileStatus = node("p", "JSON, spreadsheets, PDF, images or logs \xB7 up to 20 MiB", "home-file-status");
+  fileStatus.setAttribute("role", "status");
+  const review = node("div", void 0, "home-file-review"), target = node("select"), targetLabel = node("label", "Open with");
+  target.id = "homeFileTarget";
+  targetLabel.htmlFor = target.id;
+  let pendingFile, targets = [], ticket = 0, busy = false;
+  const clear = () => {
+    ticket++;
+    pendingFile = null;
+    targets = [];
+    file.value = "";
+    review.hidden = true;
+    fileStatus.textContent = "JSON, spreadsheets, PDF, images or logs \xB7 up to 20 MiB";
+  };
+  const open = button("Open selected file", async () => {
+    if (busy || !pendingFile) return;
+    const selected = pendingFile, chosen = targets[Number(target.value)], token = ++ticket;
+    if (!confirm("Open " + selected.name + " in " + chosen.label + "? This replaces that tool\u2019s current file or input.")) return;
+    busy = true;
+    open.disabled = true;
+    try {
+      c.openTab(chosen.route);
+      const navigation = navigationRevision, revision = inputRevision;
+      await window.calcStudio.ensureToolResources(chosen.route, chosen.input);
+      if (token !== ticket || pendingFile !== selected) return;
+      if (navigation !== navigationRevision || revision !== inputRevision || c.activeView !== chosen.route || document.body.dataset.home === "true") {
+        fileStatus.textContent = "Inputs or workspace changed. Review the file and open again.";
+        return;
+      }
+      const input = c.$(chosen.input);
+      if (!input) throw Error("This file input is unavailable. Open the file from inside the tool.");
+      const transfer = new DataTransfer();
+      transfer.items.add(selected);
+      input.files = transfer.files;
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      clear();
+    } catch (e) {
+      fileStatus.textContent = e.message;
+      c.toast(e.message);
+    } finally {
+      busy = false;
+      open.disabled = false;
+    }
+  });
+  open.id = "homeFileOpen";
+  review.append(targetLabel, target, open, button("Cancel file", clear));
+  review.hidden = true;
+  drop.append(dropTitle, choose, file, fileStatus, review);
+  tasks.after(drop);
+  const accept = (files) => {
+    clear();
+    try {
+      if (files.length !== 1) throw Error("Choose one file at a time.");
+      targets = fileTargets(files[0]);
+      pendingFile = files[0];
+      target.replaceChildren(...targets.map((t, i) => new Option(t.label, String(i))));
+      fileStatus.textContent = pendingFile.name + " \xB7 " + Math.ceil(pendingFile.size / 1024) + " KiB. Choose a tool to open it.";
+      review.hidden = false;
+    } catch (e) {
+      fileStatus.textContent = e.message;
+    }
+  };
+  file.onchange = () => accept([...file.files]);
+  target.onchange = () => ticket++;
+  drop.ondragover = (e) => {
+    if (e.dataTransfer?.types.includes("Files")) {
+      e.preventDefault();
+      drop.classList.add("home-dragover");
+    }
+  };
+  drop.ondragleave = () => drop.classList.remove("home-dragover");
+  drop.ondrop = (e) => {
+    e.preventDefault();
+    drop.classList.remove("home-dragover");
+    accept([...e.dataTransfer.files]);
+  };
+  const projects = node("section", void 0, "home-projects"), projectList = node("div", void 0, "home-project-list");
+  projects.append(node("h2", "Recent saved projects"), projectList);
+  footer.before(projects);
+  const custom = node("details", void 0, "home-customize"), summary = node("summary", "Personalize Home"), customBody = node("div");
+  custom.append(summary, customBody);
+  footer.before(custom);
+  const personalize = button("Personalize Home", () => {
+    custom.open = !custom.open;
+    if (custom.open) {
+      custom.scrollIntoView({ block: "nearest" });
+      summary.focus();
+    }
+  });
+  footer.append(personalize);
+  const status = node("span", void 0, "home-network-status"), update = button("Update ready", () => document.querySelector(".a35-update button")?.click());
+  update.hidden = true;
+  footer.firstElementChild.replaceWith(node("span", version, "home-footer-version"));
+  footer.prepend(status);
+  footer.append(update);
+  const statusUpdate = () => {
+    status.textContent = location.protocol === "file:" ? "Standalone \xB7 offline ready" : navigator.onLine ? "Online" + (navigator.serviceWorker?.controller ? " \xB7 offline cache active" : "") : "Offline \xB7 previously loaded tools available";
+  };
+  for (const type of ["online", "offline"]) window.addEventListener(type, statusUpdate);
+  navigator.serviceWorker?.addEventListener("controllerchange", statusUpdate);
+  window.addEventListener("toolstudio:update", () => {
+    update.hidden = false;
+  });
+  statusUpdate();
+  function renderProjects() {
+    const snapshots = [...c.v12State.snapshots || []].sort((a, b) => Date.parse(b.updatedAt || b.createdAt) - Date.parse(a.updatedAt || a.createdAt)).slice(0, 3);
+    projectList.replaceChildren();
+    projects.hidden = !snapshots.length;
+    for (const snap of snapshots) {
+      const row = node("article"), date = new Date(snap.updatedAt || snap.createdAt), tools = Object.keys(snap.tools).map((id) => c.views[id] || id).slice(0, 3).join(", ");
+      row.append(node("strong", snap.name), node("small", tools + " \xB7 " + (Number.isFinite(date.getTime()) ? date.toLocaleDateString() : "Saved snapshot")), button("Review " + snap.name, () => {
+        c.openTab("projectworkspaces");
+        c.$("wsSaved").value = snap.id;
+        c.$("wsSaved").dispatchEvent(new Event("change", { bubbles: true }));
+        c.$("wsSaved").focus();
+      }));
+      projectList.append(row);
+    }
+  }
+  const orderedCategories = () => {
+    const map = new Map(registry.categories.map((x) => [x.id, x]));
+    return [...prefs().categories, ...registry.categories.map((x) => x.id)].filter((id, i, all) => all.indexOf(id) === i && map.has(id)).map((id) => map.get(id));
+  };
+  function renderCustomize() {
+    customBody.replaceChildren(node("p", "Pin workspaces with the star on each card. Move favorites and categories into your preferred order."));
+    for (const [kind, ids] of [["favorites", [...c.favorites]], ["categories", orderedCategories().map((x) => x.id)]]) {
+      const list = node("div", void 0, "home-order-list");
+      list.append(node("h3", kind === "favorites" ? "Favorites" : "Categories"));
+      for (const [id, index] of ids.map((id2, index2) => [id2, index2])) {
+        const label = kind === "favorites" ? c.views[id] : registry.categories.find((x) => x.id === id)?.label;
+        if (!label) continue;
+        const row = node("div");
+        row.append(node("span", label));
+        for (const [delta, word] of [[-1, "earlier"], [1, "later"]]) {
+          const move = button("Move " + label + " " + word, () => {
+            const next = [...ids];
+            [next[index], next[index + delta]] = [next[index + delta], next[index]];
+            let saved;
+            if (kind === "categories") saved = save({ categories: next });
+            else {
+              saved = c.csPersist("calc-studio-favorites", next);
+              if (saved) {
+                c.favorites = next;
+                c.renderFavorites();
+              }
+            }
+            if (saved) {
+              render();
+              (customBody.querySelector('[data-order="' + kind + "-" + (index + delta) + "-" + delta + '"]:not([disabled])') || customBody.querySelector('[data-order="' + kind + "-" + (index + delta) + "-" + -delta + '"]'))?.focus();
+            }
+          });
+          move.dataset.order = kind + "-" + index + "-" + delta;
+          move.textContent = delta < 0 ? "\u2191" : "\u2193";
+          move.setAttribute("aria-label", "Move " + label + " " + word);
+          move.disabled = index + delta < 0 || index + delta >= ids.length;
+          row.append(move);
+        }
+        list.append(row);
+      }
+      customBody.append(list);
+    }
+    customBody.append(button("Reset category order", () => {
+      if (save({ categories: [] })) render();
+    }));
+  }
+  const keydown = (e) => {
+    if (document.body.dataset.home !== "true" || e.altKey || e.ctrlKey || e.metaKey || e.isComposing) return;
+    const editing = e.target.closest?.("input,textarea,select,[contenteditable=true]");
+    if (e.key === "/" && !editing) {
+      e.preventDefault();
+      search.focus();
+      return;
+    }
+    const buttons = [...grid.querySelectorAll(".home-tool-open")], index = buttons.indexOf(document.activeElement);
+    if ((document.activeElement === search || index >= 0) && ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].includes(e.key) && buttons.length) {
+      e.preventDefault();
+      buttons[Math.max(0, Math.min(buttons.length - 1, index + (e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 1)))].focus();
+    } else if (index >= 0 && e.key === "Escape") {
+      e.preventDefault();
+      search.focus();
+    }
+  };
+  document.addEventListener("keydown", keydown);
+  const header = document.querySelector(".top");
+  if (globalThis.ResizeObserver) {
+    new ResizeObserver(() => home.style.setProperty("--home-header-height", header.getBoundingClientRect().height + "px")).observe(header);
+  }
+  return {
+    categories: orderedCategories,
+    remember(id) {
+      navigationRevision++;
+      if (prefs().lastTool !== id) save({ lastTool: id }, false);
+    },
+    renderPersonal() {
+      const id = prefs().lastTool;
+      if (id && Object.hasOwn(c.views, id)) {
+        const section = node("section", void 0, "home-continue");
+        section.append(node("h2", "Continue working"), button(c.views[id], () => c.openTab(id)));
+        personal.prepend(section);
+      }
+    },
+    render() {
+      renderProjects();
+      renderCustomize();
+      statusUpdate();
+    }
+  };
+}
+
 // src/core/home.js
-function installHome(c, registry) {
+function installHome(c, registry, options = {}) {
   installGamesLauncher(c);
   const node = (tag, text, className) => {
     const el = document.createElement(tag);
@@ -139,6 +428,7 @@ function installHome(c, registry) {
   const homeButton = button("Home", () => showHome(true), "pill home-button");
   homeButton.id = "homeButton";
   document.querySelector(".brand").after(homeButton);
+  const extras = installHomeExtras({ c, registry, options, home, personal, browse, footer, search, grid, render });
   function launch(entry) {
     if (entry.feature) c.n28FeatureOpen(entry.feature);
     else c.openTab(entry.id);
@@ -177,12 +467,13 @@ function installHome(c, registry) {
       section.append(row);
       personal.append(section);
     }
+    extras.renderPersonal();
     personal.hidden = !personal.childElementCount || !!search.value.trim() || !!category;
   }
   function render() {
     renderPersonal();
     categoryGrid.replaceChildren();
-    for (const cat of registry.categories) {
+    for (const cat of extras.categories()) {
       const available = registry.modules.filter((m) => m.category === cat.id && (optional.checked || !c.u23IsExtra(m.id))).length;
       if (!available) continue;
       const card = button("", () => {
@@ -234,6 +525,10 @@ function installHome(c, registry) {
     }
     more.hidden = !limited || total <= 8;
     homeButton.setAttribute("aria-current", visible ? "page" : "false");
+    extras.render();
+    browse.hidden = !!search.value.trim();
+    if (search.value.trim()) searchBox.after(results);
+    else browse.after(results);
   }
   function address(id) {
     const url = new URL(location.href);
@@ -284,6 +579,7 @@ function installHome(c, registry) {
     delete document.body.dataset.home;
     homeButton.setAttribute("aria-current", "false");
     const result = previousOpen(id);
+    extras.remember(c.activeView);
     const linked = new URLSearchParams(location.hash.slice(1)).get("tool");
     if (linked !== id && linked !== c.activeView) address(c.activeView);
     return result;
