@@ -27,13 +27,15 @@ Base: v37 (`5ac85f8`). Preserve all 69 workspaces and 124 routes.
 - [x] Shared controls/tokens and responsive verification.
 - [x] First legacy feature isolation and explicit dependency inventory.
 
-## Release gates
-- [ ] Targeted failure/cancellation/roundtrip tests.
-- [ ] Full existing regression and all route/tool inventory checks.
-- [ ] Build, published artifact consistency and size budgets.
-- [ ] Commit/push reviewable PR; no merge or deployment requested.
+## Release gates and evidence
 
-This checklist records implementation and evidence; unchecked items are not claimed complete.
+The review branch must pass these gates before it is ready to merge:
+- `npm run test:workflows`: rejected operations, cancellation, sharing, RIS, constraints, date boundaries, PDF rollback, Career import and all five PDF templates.
+- `npm run test:regression`: all 19 suites, including the original tools, route inventory, offline startup, recovery, updates, compatibility and optional server.
+- Build validation, stylesheet/engine budgets and `node scripts/check.mjs --published`.
+- CI runs PDF/UI and the new workflow suite in Chromium, Firefox and WebKit. CI also runs real WebRTC pairing; local container runs explicitly record the RTC limitation.
+
+Results and downloadable test artifacts are attached to the checks on [PR #9](https://github.com/abinashTech96/toolStudio/pull/9). A green check is required; this document does not replace the executable results. The PR retains all 69 workspaces / 124 routes and does not merge or deploy itself.
 
 
 Implementation notes:
