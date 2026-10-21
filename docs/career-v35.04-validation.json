@@ -49,5 +49,5 @@
     "Selectable-text PDF and DOCX import round trips",
     "Standalone offline PDF export without network"
   ],
-  "notes": "All existing local suites passed. Affected Career suites and syntax/budget/published checks were re-run after final localized refinements, including explicit long-import rejection without changing source text or project data. Final whole-project CI, real network pairing and cross-browser reliability must pass before review completion."
+  "notes": "All existing local suites passed. Affected Career suites and syntax/budget/published checks were re-run after final localized refinements, including explicit long-import rejection without changing source text or project data. Final whole-project CI, real network pairing and cross-browser reliability must pass before review completion. Whole-project CI exposed an existing random-board assumption in the Games restart test. Its setup now guarantees a real move and explicitly verifies that the restart dialog was declined; the preservation assertion remains unchanged."
 }
