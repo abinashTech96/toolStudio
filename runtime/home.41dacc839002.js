@@ -539,7 +539,10 @@ function installHome(c, registry, options = {}) {
     try {
       history.pushState(null, "", url);
     } catch {
-      if (location.hash !== url.hash) location.hash = url.hash;
+      try {
+        if (location.hash !== url.hash) location.hash = url.hash;
+      } catch {
+      }
     }
   }
   function showHome(focus = false, write = true) {
