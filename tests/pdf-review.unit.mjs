@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {readPDFText} from '../src/advanced/assets.js';
 import {createSession,validateSession,validateReviews,sourceStatus,remapSession,counts,rectangle,exportable,digest} from '../src/pdf-review/model.js';
 import {validateGuidedState,reviewBundle} from '../src/guided/model.js';
 const checks=[];function test(name,fn){fn();checks.push(name)}
@@ -22,4 +23,15 @@ test('saved reviews retain source identity in project bundles',()=>{const state=
 test('project restore rejects malformed nested review state',()=>{const state={version:1,workspaces:{'pdf-review':{sessions:[{...original,pages:[]}]}}};assert.throws(()=>validateGuidedState(state))});
 test('saved-review limits prevent unbounded storage',()=>{assert.throws(()=>validateReviews({sessions:Array(11).fill(original)}));assert.throws(()=>validateReviews({sessions:[original,original]}))});
 assert.equal(await digest(new Uint8Array([1,2,3])),'039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81');checks.push('source identity uses SHA-256');
+// A stream exposing only getReader mirrors Safari without async stream iteration.
+{
+ let released = 0, calls = 0;
+ const options = {includeMarkedContent: true};
+ const chunks = [{items: [{str: 'Résumé'}], styles: {f1: {fontFamily: 'sans'}}, lang: null}, {items: [{str: 'समीक्षा'}], styles: {f2: {}}, lang: 'hi'}];
+ const result = await readPDFText({streamTextContent(value) {assert.equal(value, options); return {getReader: () => ({read: async () => calls < chunks.length ? {value: chunks[calls++], done: false} : {done: true}, releaseLock() {released++}})}}}, options);
+ assert.deepEqual(result.items.map(x => x.str), ['Résumé', 'समीक्षा']);
+ assert.deepEqual(Object.keys(result.styles), ['f1', 'f2']); assert.equal(result.lang, 'hi'); assert.equal(released, 1);
+ await assert.rejects(readPDFText({streamTextContent: () => ({getReader: () => ({read: async () => {throw Error('Broken PDF stream')}, releaseLock() {released++}})})}), /Broken PDF stream/);
+ assert.equal(released, 2); checks.push('PDF text streams preserve chunks and release readers on success and error without async iteration');
+}
 console.log(JSON.stringify({suite:'pdf-review-unit',checks:checks.length,passed:true}));
