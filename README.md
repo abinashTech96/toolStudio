@@ -87,8 +87,8 @@ Run npm run test:games, npm run test:home-extras and npm run test:updates along 
 
 Options → Connection now starts with a method chooser and readable setup guides for phone/computer pairing, BLE, USB and WebSocket. Manual pairing and advanced tools remain available. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.
 
-## Career Studio (v35.04)
+## Career Studio (v35.05)
 
-Career & Professional Documents → Career Studio connects advanced resume editing, reviewed PDF/DOCX/text import, variants and checkpoints, applications and submission snapshots, evidence, interview practice, learning goals, appraisals, professional documents, portfolios and offer comparisons. Existing career tools remain available with their original data.
+Career & Professional Documents → Career Studio connects advanced resume editing, reviewed PDF/DOCX/text import, variants and checkpoints, applications and submission snapshots, evidence, interview practice, learning goals, appraisals, professional documents, portfolios and offer comparisons. Career Studio is the single main Career entry. Earlier editors remain under Earlier tools & import with their original routes and data. New alignment controls, reviewed page-impact previews, guided import repair and an application checklist simplify the workflow.
 
 See [the Career Studio guide](docs/career-studio.md), [accepted scope](docs/career-studio-backlog.md) and run npm run test:career together with all existing regression suites.

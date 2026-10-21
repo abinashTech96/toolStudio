@@ -1,3 +1,4 @@
+import {isEarlierWorkspace} from "./catalog.js";
 import {installGamesLauncher} from './games-launcher.js';
 import {installHomeExtras} from './home-extras.js';
 /** The launcher is presentation only; workspace IDs and saved records stay stable. */
@@ -110,7 +111,7 @@ export function installHome(c, registry, options={}) {
   function render() {
     renderPersonal(); categoryGrid.replaceChildren();
     for(const cat of extras.categories()) {
-      const available=registry.modules.filter(m=>m.category===cat.id&&(optional.checked||!c.u23IsExtra(m.id))).length;
+      const available=registry.modules.filter(m=>!isEarlierWorkspace(registry,m)&&m.category===cat.id&&(optional.checked||!c.u23IsExtra(m.id))).length;
       if(!available)continue;
       const card=button('',()=>{category=category===cat.id?'':cat.id;expanded=true;render();results.scrollIntoView({block:'start'})},'home-category');
       card.dataset.category=cat.id;card.setAttribute('aria-pressed',String(category===cat.id));
@@ -118,7 +119,7 @@ export function installHome(c, registry, options={}) {
       categoryGrid.append(card);
     }
     const query=c.n28Normalize(search.value),tokens=query.split(' ').filter(Boolean);
-    let entries=registry.modules.filter(mod=>(!category||mod.category===category)&&(optional.checked||!c.u23IsExtra(mod.id))).map(mod=>({id:mod.id,label:mod.label,category:mod.category,description:descriptions[mod.id]||mod.description}));
+    let entries=registry.modules.filter(mod=>!isEarlierWorkspace(registry,mod)&&(!category||mod.category===category)&&(optional.checked||!c.u23IsExtra(mod.id))).map(mod=>({id:mod.id,label:mod.label,category:mod.category,description:descriptions[mod.id]||mod.description}));
     if(query) {
       // The shared index includes legacy features and their exact navigation actions.
       const features=c.n28GetIndex().filter(e=>!e.root&&(!c.u23IsExtra(e.id)||optional.checked));

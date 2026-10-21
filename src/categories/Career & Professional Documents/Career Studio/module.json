@@ -1,1 +1,21 @@
-{"id":"careerstudio","kind":"native","routes":["careerstudio"],"category":"career","order":-1,"description":"Connected career dashboard, visual resumes, applications, evidence, interview practice, portfolios, professional documents, growth, appraisals and offer comparison"}
+{
+  "id": "careerstudio",
+  "kind": "native",
+  "routes": [
+    "careerstudio"
+  ],
+  "category": "career",
+  "order": -1,
+  "description": "Connected career dashboard, visual resumes, applications, evidence, interview practice, portfolios, professional documents, growth, appraisals and offer comparison",
+  "searchTerms": [
+    "resume",
+    "work experience",
+    "education",
+    "job requirements",
+    "earlier keyword matcher",
+    "skills matrix",
+    "portfolio",
+    "cover letter",
+    "custom alignment"
+  ]
+}

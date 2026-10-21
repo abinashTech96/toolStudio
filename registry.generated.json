@@ -1,6 +1,6 @@
 {
   "version": 35,
-  "appVersion": "35.4.0",
+  "appVersion": "35.5.0",
   "categories": [
     {
       "id": "math",
@@ -155,6 +155,17 @@
       "category": "career",
       "order": -1,
       "description": "Connected career dashboard, visual resumes, applications, evidence, interview practice, portfolios, professional documents, growth, appraisals and offer comparison",
+      "searchTerms": [
+        "resume",
+        "work experience",
+        "education",
+        "job requirements",
+        "earlier keyword matcher",
+        "skills matrix",
+        "portfolio",
+        "cover letter",
+        "custom alignment"
+      ],
       "label": "Career Studio"
     },
     {
@@ -168,6 +179,7 @@
       "kind": "migrated",
       "resources": [],
       "order": 1,
+      "supersededBy": "careerstudio",
       "label": "Interview & Skills"
     },
     {
@@ -179,6 +191,7 @@
       "category": "career",
       "order": 108,
       "description": "Portfolio Builder advanced workspace",
+      "supersededBy": "careerstudio",
       "label": "Portfolio Builder"
     },
     {
@@ -194,6 +207,7 @@
       "kind": "migrated",
       "resources": [],
       "order": 0,
+      "supersededBy": "careerstudio",
       "label": "Resume & Applications"
     },
     {

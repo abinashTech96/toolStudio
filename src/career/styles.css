@@ -4,3 +4,14 @@
 .career-table-wrap{max-width:100%;overflow:auto}.career-table-wrap table{min-width:600px}.career-table-wrap:focus-visible{outline:3px solid var(--career-accent);outline-offset:2px}
 
 .career-studio details>button,.career-card>button{margin:4px 6px 4px 0}
+/* Compact career navigation and task-specific controls. */
+.career-subnav{justify-content:flex-start;align-items:center}.career-subnav>.career-field{margin:0;width:min(100%,350px)}
+.career-more{position:relative;margin:0!important;padding:7px 12px!important}.career-more>summary{min-height:28px;line-height:28px}.career-more[open]{flex-basis:100%}.career-more button{margin:4px 6px 4px 0}
+.career-heading{gap:12px;padding:12px 0}.career-heading h2{font-size:clamp(25px,3vw,34px)}.career-heading .career-actions{justify-content:flex-end}
+.career-editor-layout{grid-template-columns:minmax(0,var(--career-editor,48%)) minmax(0,1fr);gap:16px}.career-editor-layout>div{min-width:0}.career-advanced{margin-top:18px!important}
+.career-compare,.career-import-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.career-compare .career-card{padding:8px}.career-compare iframe{height:380px}.career-dialog{width:min(1150px,96vw)}
+.career-import-columns textarea{max-height:440px}.career-import-findings:empty{display:none}.career-checklist .career-actions{display:grid;grid-template-columns:24px minmax(0,1fr);gap:6px}.career-checklist .career-actions button{text-align:start}.career-checklist small{grid-column:2}
+.career-paper{min-width:0;max-width:100%}.career-editor input[type=range]{width:100%}.career-studio input[type=range]{accent-color:var(--career-accent)}
+@media(max-width:850px){.career-editor-layout{grid-template-columns:minmax(0,1fr)}.career-subnav{display:flex}.career-compare,.career-import-columns{grid-template-columns:minmax(0,1fr)}.career-heading .career-actions{justify-content:flex-start}.career-paper{padding:20px!important}.career-nav{grid-template-columns:repeat(3,minmax(0,1fr))}.career-nav button:last-child{grid-column:auto}.career-dialog{width:96vw;padding:12px}}
+
+@media(max-width:850px){.career-studio .career-field:has(input[type=range]),.career-split-label{display:none!important}}
