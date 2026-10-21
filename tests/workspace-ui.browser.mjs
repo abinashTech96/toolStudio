@@ -4,6 +4,7 @@ const server=await startFixtureServer(4239),base='http://127.0.0.1:4239/toolStud
 const test=async(name,fn)=>{try{await fn();checks.push(name);console.log('PASS',name)}catch(e){failures.push({name,error:e.stack});console.log('FAIL',name,e.message.slice(0,800));for(const d of await page.locator('dialog[open]').all())await d.evaluate(e=>e.close())}};
 try{
  browser=await browsers[kind].launch({headless:true,...(kind==='chromium'?{args:['--no-sandbox'],...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})}:{})});const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ await context.route('**/sw.js',route=>route.abort());
  await context.route('**/runtime/bootstrap.*.js',async route=>{const r=await route.fetch();await route.fulfill({response:r,body:(await r.text()).replace('await initializeModules(context, groups.flat(),{cooperative:true});','await initializeModules(context, groups.flat(),{cooperative:true});window.testContext=context;')})});
  page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());await page.goto(base);await page.waitForFunction(()=>window.__toolStudioReady);
  await test('all workspace and route inventories are retained',async()=>{const modules=await page.evaluate(()=>calcStudio.modules());assert.equal(modules.length,69);assert.equal(modules.reduce((n,m)=>n+m.routes.length,0),124)});
