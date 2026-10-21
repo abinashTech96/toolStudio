@@ -20,7 +20,7 @@ function datasetPicker(api, ui, { label = "Shared dataset", load = () => {
     row.append(b);
   };
   button("Refresh shared datasets", refresh);
-  button("Inspect dataset lineage & memory",()=>ui.report({dataset:getDataset(select.value),usage:datasetUsage()}));
+  button("Inspect dataset lineage & memory",()=>{const{rows,...dataset}=getDataset(select.value);ui.report({dataset,rows:rows.length,usage:datasetUsage()})});
   button("Replace selected with Data Workbench",()=>{const rows=api.getRows();if(!rows.length)throw Error('Load Data Workbench first');if(!confirm('Replace selected shared dataset? Export it first if you need the old rows.'))return;putDataset(getDataset(select.value).name,rows,{replace:select.value,operation:'replace from Workbench'});refresh()});
   button("Delete selected shared dataset",()=>{const d=getDataset(select.value);if(confirm('Delete shared dataset '+d.name+'? Other editors keep their loaded copies.')){deleteDataset(select.value);refresh()}});
   button("Load selected dataset", () => {

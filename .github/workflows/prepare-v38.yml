@@ -28,3 +28,5 @@ jobs:
             git commit -m 'Generate v38 hosted and offline release files'
             git push origin HEAD:codex/unified-workflows-v38
           fi
+
+# Rebuild the final shared CSS, isolated task rules and responsive workflow controls.
