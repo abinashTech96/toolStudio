@@ -6,5 +6,6 @@
   ],
   "category": "career",
   "order": 108,
-  "description": "Portfolio Builder advanced workspace"
+  "description": "Portfolio Builder advanced workspace",
+  "supersededBy": "careerstudio"
 }

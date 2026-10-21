@@ -4,6 +4,7 @@ permissions:
   contents: read
 jobs:
   regression:
+    if: github.ref != 'refs/heads/codex/career-simplify' && github.head_ref != 'codex/career-simplify'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

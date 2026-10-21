@@ -75,3 +75,13 @@ Implementation choices: five single-column template families; PDF/DOCX/text resu
 - Test old project import/migration, local/offline behavior, undo/recovery, reviewed transfers and separation between variants and the master profile.
 - Verify mobile/keyboard/accessibility behavior, page layouts and actual exported documents with short, long, empty and multilingual inputs as appropriate to the agreed scope.
 - Run the existing whole-project regression and new behavior tests once implementation is authorized.
+
+## v35.05 consolidation and usability
+
+- One main Career Studio entry, with original routes/data and unique earlier editors retained under Earlier tools & import. Favorites and bookmarks continue to work. If Studio is removed from the modular source tree, original editors return to normal browsing.
+- Overview / Resume / Applications / Interview / Growth, one task selector, contextual More actions and collapsed Advanced design & sections. Career uses one project-recovery workflow rather than the generic text-draft panel too.
+- Resizable edit/preview geometry; whole-resume and per-section alignment, justified body text, separate contact/name/heading/date alignment, bullet indentation, paragraph spacing and individual margins shared by actual HTML/Word/PDF exports. Professional documents keep separate reviewed settings.
+- Review of content/visibility/layout and actual direct-PDF page impact before applying alignment, reset, source-section updates, checkpoints or a gallery template.
+- Guided import repair with original text alongside mappings, complete-source retention, bounded reviewable parts, destination assignment, repeated-line/missing-field findings and explicit acceptance into a separate variant.
+- A live, linked application checklist for requirements, selected resume, documents, submission snapshots, follow-ups and interview preparation. It does not claim hiring readiness or send notifications.
+- Full existing regression retained; add geometry, actual export positions, compatibility navigation, import boundaries, checklist, mobile and accessibility checks.

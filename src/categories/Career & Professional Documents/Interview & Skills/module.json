@@ -8,5 +8,6 @@
   ],
   "kind": "migrated",
   "resources": [],
-  "order": 1
+  "order": 1,
+  "supersededBy": "careerstudio"
 }
