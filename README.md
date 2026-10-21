@@ -105,3 +105,18 @@ See [the guided workflow guide](docs/guided-workflows.md), [accepted scope](docs
 PDF Workspace now includes a reader with page-linked comments, checklist decisions, source-checked sessions, version-review handoff and reviewed stamp/PDF export. Shared controls add native-select search, focused editor/result views, adjustable pane widths and device/theme styling across existing tools, Connection and Games. All 69 workspaces and 124 routes remain available.
 
 See [the PDF/UI guide](docs/pdf-review-ui.md), [validation evidence](docs/pdf-review-ui-validation.json) and [accepted requirements](docs/pdf-review-device-ui-backlog.md). Run `npm run test:pdf-ui` for focused checks or `npm run test:regression` for the complete suite.
+
+
+## Shared workflows and reliability (v38.00)
+
+The Project centre keeps reusable records and selected source files in this tab. Share and review requests, environments, OpenAPI contracts, Salesforce describe metadata and research sources before applying them to another editor. Export selected records explicitly. Reusable uploads are limited to 20 files / 60 MB; remove them when finished. Working records are not automatically recovered after closing the page.
+
+Shared datasets support explicit replace/delete, lineage, 20 datasets / 8 MB aggregate, and selected bundle exports. Restore preflights capacity before writing saved workflows. The centre also links to existing guided bundles, Career projects, PDF review sessions and original Settings backups.
+
+Task navigation retains the existing tools and routes. Planning reviews changes against a Kanban snapshot before updating matching task IDs; Kanban Undo and timeline dates remain available. Calendar exports use dated VTODO records. Schema Designer offers SQLite, PostgreSQL and MySQL with foreign-key target/type validation; DDL is a reviewed draft and is not executed.
+
+Localization uses the pinned FormatJS ICU parser for nested plural/select syntax and escaped literals; translation reviews retain up to 20 explicit runs. Citation drafts preserve volume, issue, page ranges, DOI and Unicode authors; RIS roundtrips include multiline fields. Citation outputs remain publisher-review drafts rather than complete CSL style certification.
+
+Games use bounded worker analysis for Sudoku generation/hints, Connect Four and the heavier coaches. Sudoku solutions and repeated analysis are cached with fixed limits. The separate Connection page includes browser/API and user-triggered pairing-server checks. Physical Bluetooth/USB hardware still needs device-specific testing.
+
+Run `npm run test:workflows` for rejected-operation and sharing coverage, `npm run test:regression` for all suites, and `npm run inventory` after a dependency change. `docs/dependency-inventory.json` records exact npm pins/integrities, vendor hashes and the Python server pin. Vendor hashes identify the preserved bundles; npm audit does not cover those bundles or Python.
