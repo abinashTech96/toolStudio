@@ -21,13 +21,16 @@ jobs:
       - run: npm run test:home-extras
       - run: npm run test:games
       - run: npm run test:connection
-      - run: npm run test:pdf-ui
-      - run: npm run test:pdf-ui
-        env:
-          REVIEW_BROWSER: firefox
-      - run: npm run test:pdf-ui
-        env:
-          REVIEW_BROWSER: webkit
+      - name: PDF and UI checks in Chromium, Firefox and WebKit
+        run: |
+          failed=0
+          for review_browser in chromium firefox webkit; do
+            echo "PDF/UI browser: $review_browser"
+            if ! REVIEW_BROWSER="$review_browser" npm run test:pdf-ui; then
+              failed=1
+            fi
+          done
+          exit "$failed"
       - run: npm run test:guided
       - run: npm run test:career
       - run: npm run test:navigation
