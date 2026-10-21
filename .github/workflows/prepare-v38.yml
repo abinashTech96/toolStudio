@@ -31,3 +31,4 @@ jobs:
 
 # Rebuild the final shared CSS, isolated task rules and responsive workflow controls.
 # Validate every precache resource after stylesheet consolidation.
+# Bound workspace-tab intrinsic overflow across browser engines.
