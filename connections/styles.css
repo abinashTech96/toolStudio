@@ -66,3 +66,6 @@ html:is([data-layout=tv],[data-device-layout=tv]) :is(button,select,input,summar
 /* Fixed menus must not retain a desktop offset after a narrow viewport resize. */
 html .studio-menu-body,html .theme-menu{left:clamp(12px,var(--u21-menu-x,12px),calc(100vw - min(var(--u21-menu-width,320px),calc(100vw - 24px)) - 12px))!important}
 details:not([open])>:is(.studio-menu-body,.theme-menu){display:none!important}
+/* Keep the open-workspace strip's intrinsic width inside its scroll container. */
+.a34-workspace-bar{width:100%;min-width:0;box-sizing:border-box;contain:inline-size layout paint}
+.a34-workspace-bar>span{display:flex;flex:0 0 auto;align-items:center}

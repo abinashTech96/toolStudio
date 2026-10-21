@@ -65,6 +65,9 @@ html:is([data-layout=tv],[data-device-layout=tv]) :is(button,select,input,summar
 /* Fixed menus must not retain a desktop offset after a narrow viewport resize. */
 html .studio-menu-body,html .theme-menu{left:clamp(12px,var(--u21-menu-x,12px),calc(100vw - min(var(--u21-menu-width,320px),calc(100vw - 24px)) - 12px))!important}
 details:not([open])>:is(.studio-menu-body,.theme-menu){display:none!important}
+/* Keep the open-workspace strip's intrinsic width inside its scroll container. */
+.a34-workspace-bar{width:100%;min-width:0;box-sizing:border-box;contain:inline-size layout paint}
+.a34-workspace-bar>span{display:flex;flex:0 0 auto;align-items:center}
 </style></head>
 <body><header><a class="brand" href="../index.html" id="studioLink">∑ <span>tool studio</span></a><span class="section-label">Games</span><a href="../guide.html" id="guideLink">Studio guide</a></header>
 <main><section class="intro"><p class="eyebrow">A LITTLE PLAY TIME</p><h1>Take a small break.</h1><p>Seven games, thoughtful opponents and a helpful coach. Play at your own pace.</p></section>
