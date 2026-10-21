@@ -119,3 +119,9 @@ The user subsequently authorized the complete batch, including the nine capabili
 9. Bug Reproduction Pack: selected masked inputs, steps, release version and expected/actual results.
 
 All capabilities extend existing workspaces. No new main routes were introduced.
+
+## Next accepted planning wave — PDF review and device-wide UI
+
+The user accepted the PDF reading/review/annotation proposals and requested UI optimization across all devices. Track PDF-01–PDF-06 and UI-01–UI-14 in [PDF review and device-wide UI backlog](pdf-review-device-ui-backlog.md).
+
+Status: planning only. This wave is separate from the implemented v36.00 items above. Preserve every existing tool, route and entered work; run targeted and full regression when runtime changes are implemented.
