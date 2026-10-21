@@ -247,11 +247,11 @@
     "totalRoutes": 124
   },
   "generatedFiles": 144,
-  "buildRevision": "0878c26ee777b020",
+  "buildRevision": "a719902df3672c66",
   "budgets": {
     "initialHTMLBytes": 269228,
     "initialHTMLLimit": 350000,
-    "runtimeBytes": 2663177,
+    "runtimeBytes": 2663332,
     "runtimeLimit": 4200000,
     "styleBytes": 178870,
     "styleLimit": 250000,
@@ -294,83 +294,84 @@
     "runs": {
       "before": [
         {
-          "readyMs": 551.3999999994412,
-          "maxLongTaskMs": 51,
-          "decodedJSBytes": 2290303,
-          "inputFrameMedianMs": 45.200000000186265,
-          "scrollFrameMedianMs": 45.200000000186265,
+          "readyMs": 5942,
+          "maxLongTaskMs": 533,
+          "decodedJSBytes": 2274214,
+          "inputFrameMedianMs": 124.80000000004657,
+          "scrollFrameMedianMs": 68.39999999990687,
           "heapBytes": 18200000,
           "domNodes": 1266
         },
         {
-          "readyMs": 724.5,
-          "maxLongTaskMs": 59,
-          "decodedJSBytes": 2290303,
-          "inputFrameMedianMs": 50.200000000186265,
-          "scrollFrameMedianMs": 49.09999999962747,
-          "heapBytes": 19300000,
+          "readyMs": 2326.7999999998137,
+          "maxLongTaskMs": 660,
+          "decodedJSBytes": 2274214,
+          "inputFrameMedianMs": 65.89999999990687,
+          "scrollFrameMedianMs": 64.30000000004657,
+          "heapBytes": 18200000,
           "domNodes": 1266
         },
         {
-          "readyMs": 620.4000000003725,
-          "maxLongTaskMs": 56,
+          "readyMs": 1599.1000000000931,
+          "maxLongTaskMs": 146,
           "decodedJSBytes": 2290303,
-          "inputFrameMedianMs": 37.700000000186265,
-          "scrollFrameMedianMs": 40.90000000037253,
-          "heapBytes": 19300000,
+          "inputFrameMedianMs": 76.19999999995343,
+          "scrollFrameMedianMs": 59.699999999953434,
+          "heapBytes": 17100000,
           "domNodes": 1266
         }
       ],
       "after": [
         {
-          "readyMs": 716.2000000001863,
-          "maxLongTaskMs": 64,
-          "decodedJSBytes": 2302484,
-          "inputFrameMedianMs": 45.5,
-          "scrollFrameMedianMs": 47.5,
-          "heapBytes": 19300000,
+          "readyMs": 1699.6000000000931,
+          "maxLongTaskMs": 145,
+          "decodedJSBytes": 2302639,
+          "inputFrameMedianMs": 65.20000000018626,
+          "scrollFrameMedianMs": 61.10000000009313,
+          "heapBytes": 18200000,
           "domNodes": 1275
         },
         {
-          "readyMs": 609.4000000003725,
-          "maxLongTaskMs": 0,
-          "decodedJSBytes": 2302484,
-          "inputFrameMedianMs": 46.299999999813735,
-          "scrollFrameMedianMs": 42.299999999813735,
-          "heapBytes": 19300000,
-          "domNodes": 1275
-        },
-        {
-          "readyMs": 619.5999999996275,
-          "maxLongTaskMs": 57,
-          "decodedJSBytes": 2302484,
-          "inputFrameMedianMs": 42.59999999962747,
-          "scrollFrameMedianMs": 50.09999999962747,
+          "readyMs": 1228.4000000001397,
+          "maxLongTaskMs": 110,
+          "decodedJSBytes": 2302639,
+          "inputFrameMedianMs": 58,
+          "scrollFrameMedianMs": 65.0999999998603,
           "heapBytes": 17100000,
+          "domNodes": 1275
+        },
+        {
+          "readyMs": 949,
+          "maxLongTaskMs": 93,
+          "decodedJSBytes": 2302639,
+          "inputFrameMedianMs": 54.39999999990687,
+          "scrollFrameMedianMs": 54.60000000009313,
+          "heapBytes": 19300000,
           "domNodes": 1275
         }
       ]
     },
     "summary": {
       "before": {
-        "medianReadyMs": 620.4000000003725,
-        "medianMaxLongTaskMs": 56,
-        "decodedJSBytes": 2290303,
-        "medianInputFrameMs": 45.200000000186265,
-        "medianScrollFrameMs": 45.200000000186265,
-        "medianHeapBytes": 19300000,
+        "medianReadyMs": 2326.7999999998137,
+        "medianMaxLongTaskMs": 533,
+        "decodedJSBytes": 2274214,
+        "medianInputFrameMs": 76.19999999995343,
+        "medianScrollFrameMs": 64.30000000004657,
+        "medianHeapBytes": 18200000,
         "domNodes": 1266
       },
       "after": {
-        "medianReadyMs": 619.5999999996275,
-        "medianMaxLongTaskMs": 57,
-        "decodedJSBytes": 2302484,
-        "medianInputFrameMs": 45.5,
-        "medianScrollFrameMs": 47.5,
-        "medianHeapBytes": 19300000,
+        "medianReadyMs": 1228.4000000001397,
+        "medianMaxLongTaskMs": 110,
+        "decodedJSBytes": 2302639,
+        "medianInputFrameMs": 58,
+        "medianScrollFrameMs": 61.10000000009313,
+        "medianHeapBytes": 18200000,
         "domNodes": 1275
       }
-    }
+    },
+    "buildRevision": "a719902df3672c66"
   },
   "limitations": [
     "Local real WebRTC pairing is skipped because the container cannot establish ICE; the CI workflow runs the existing real-pairing tests without that flag.",
@@ -378,5 +379,13 @@
     "Phone/tablet/TV/large-text coverage is browser emulation; physical mobile keyboards, stylus and TV remote testing remain manual.",
     "Heap metrics are coarse Chromium estimates, not peak memory measurements or physical-device performance claims.",
     "PDF annotations depend on reader support; stamps are not signatures or secure redaction."
-  ]
+  ],
+  "recordedRegressionBuildRevision": "0878c26ee777b020",
+  "compatibilityFixes": [
+    "PDF text uses explicit stream readers without async stream iteration.",
+    "Offline file URLs use the bundled PDF.js loopback fallback to avoid WebKit module-worker stalls.",
+    "Browser URL navigation quotas cannot interrupt workspace switching.",
+    "Cancellation is exercised through public controls in one browser task."
+  ],
+  "ciCoverage": "Existing full regression and independent Chromium, Firefox and WebKit PDF/UI jobs; results and current logs are attached to PR #8."
 }
