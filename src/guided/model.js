@@ -310,7 +310,7 @@ function repayment({ principal, annualRate, payment, startDate, months = 360 }, 
     if (rateEvents.length) rate = Number(rateEvents[0].amount);
     const extra = current.filter((e) => e.type === "extra").reduce((n, e) => n + Number(e.amount), 0), fee = cents(current.filter((e) => e.type === "fee").reduce((n, e) => n + Number(e.amount), 0)), interest = cents(balance * rate / 1200), opening = balance, paid = cents(Math.min(balance + interest + fee, payment + extra));
     balance = cents(balance + interest + fee - paid);
-    const date = new Date(Date.UTC(base.getUTCFullYear(), base.getUTCMonth() + month, 1)), last = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0)).getUTCDate();
+    const date = new Date(base);date.setUTCDate(1);date.setUTCMonth(base.getUTCMonth()+month);const lastDate=new Date(date);lastDate.setUTCMonth(lastDate.getUTCMonth()+1);lastDate.setUTCDate(0);const last=lastDate.getUTCDate();
     date.setUTCDate(Math.min(base.getUTCDate(), last));
     schedule.push({ month, date: date.toISOString().slice(0, 10), opening, annualRate: rate, interest, fee, extra: cents(extra), payment: paid, balance });
   }
