@@ -4,7 +4,6 @@ permissions:
   contents: read
 jobs:
   regression:
-    if: github.ref != 'refs/heads/codex/career-studio' && github.head_ref != 'codex/career-studio'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
