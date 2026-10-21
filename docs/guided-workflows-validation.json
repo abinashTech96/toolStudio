@@ -1,0 +1,125 @@
+{
+  "version": "36.0.0",
+  "base": "36b209ff6e07c8f9a352fefa2158968e145caf78",
+  "status": "Local regression passed; GitHub final validation pending",
+  "localChecks": 987,
+  "guidedChecks": 87,
+  "suites": {
+    "advanced-browser.json": 43,
+    "career-browser.json": 37,
+    "career-unit.json": 58,
+    "connection-easy-browser.json": 15,
+    "connection-guide-unit.json": 8,
+    "documents31-test-results.json": 19,
+    "edges31-test-results.json": 18,
+    "engines31-test-results.json": 87,
+    "games-brain-browser.json": 23,
+    "games-brain-unit.json": 26,
+    "games-browser.json": 54,
+    "games-unit.json": 14,
+    "hardware-test-results.json": 20,
+    "home-extras-browser.json": 22,
+    "home-extras-unit.json": 12,
+    "home-release.json": 7,
+    "home.json": 28,
+    "media31-test-results.json": 27,
+    "navigation.json": 6,
+    "reliability-browser.json": 20,
+    "reliability-unit.json": 24,
+    "server-test-results.json": 13,
+    "smoke.json": 152,
+    "update-ui.json": 5,
+    "updates.json": 5,
+    "workflows31-test-results.json": 39,
+    "architecture-unit": 12,
+    "advanced-unit": 62,
+    "budgets": 7,
+    "career-simple-unit.json": 19,
+    "career-simple-browser.json": 18,
+    "guided-unit.json": 49,
+    "guided-browser.json": 38
+  },
+  "fullRegression": {
+    "passed": true,
+    "suites": [
+      {
+        "name": "check",
+        "exitCode": 0
+      },
+      {
+        "name": "smoke",
+        "exitCode": 0
+      },
+      {
+        "name": "home",
+        "exitCode": 0
+      },
+      {
+        "name": "home-extras",
+        "exitCode": 0
+      },
+      {
+        "name": "games",
+        "exitCode": 0
+      },
+      {
+        "name": "connection",
+        "exitCode": 0
+      },
+      {
+        "name": "guided",
+        "exitCode": 0
+      },
+      {
+        "name": "career",
+        "exitCode": 0
+      },
+      {
+        "name": "navigation",
+        "exitCode": 0
+      },
+      {
+        "name": "advanced",
+        "exitCode": 0
+      },
+      {
+        "name": "reliability",
+        "exitCode": 0
+      },
+      {
+        "name": "updates",
+        "exitCode": 0
+      },
+      {
+        "name": "budgets",
+        "exitCode": 0
+      },
+      {
+        "name": "compatibility",
+        "exitCode": 0
+      },
+      {
+        "name": "connection-server",
+        "exitCode": 0
+      },
+      {
+        "name": "published",
+        "exitCode": 0
+      }
+    ]
+  },
+  "finalTargetedVerification": [
+    "47+2 guided unit checks after final numeric precision guards",
+    "38 guided browser scenarios",
+    "source/registry/generated checks",
+    "runtime/style budgets",
+    "published root checks"
+  ],
+  "buildRevision": "162f9e2792cec0e4",
+  "runtimeBytes": 2625359,
+  "workspaces": 69,
+  "routes": 124,
+  "legacyRoutes": 105,
+  "localConnectionNote": "Serverless local Chromium has no usable ICE interfaces. Local connection tests use CONNECTION_SKIP_REAL_RTC=1; GitHub CI runs real pairing without this flag.",
+  "ciStatus": "Pending review-branch preparation"
+}

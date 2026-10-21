@@ -92,3 +92,10 @@ Options → Connection now starts with a method chooser and readable setup guide
 Career & Professional Documents → Career Studio connects advanced resume editing, reviewed PDF/DOCX/text import, variants and checkpoints, applications and submission snapshots, evidence, interview practice, learning goals, appraisals, professional documents, portfolios and offer comparisons. Career Studio is the single main Career entry. Earlier editors remain under Earlier tools & import with their original routes and data. New alignment controls, reviewed page-impact previews, guided import repair and an application checklist simplify the workflow.
 
 See [the Career Studio guide](docs/career-studio.md), [accepted scope](docs/career-studio-backlog.md) and run npm run test:career together with all existing regression suites.
+
+
+## Guided workflows (v36.00)
+
+Existing categories now include form-based guided tasks for API chains, Salesforce review, shared complete datasets, images/files, project planning, unit calculations/formula tests, repayment events, schema migrations, test execution, translations, research and portable project bundles. All 69 workspaces and 124 routes remain available. Existing editors are retained, and changes require reviewed apply/handoff actions.
+
+See [the guided workflow guide](docs/guided-workflows.md), [accepted scope](docs/improvement-backlog.md) and [regression evidence](docs/guided-workflows-validation.json). Run `npm run test:guided` for the new workflows or `npm run test:regression` for a fresh build and every existing/new suite. Install browser runtimes and Connection_Server Python requirements first. Large datasets/documents remain memory-only unless explicitly exported; device saving is opt-in.
