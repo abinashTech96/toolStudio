@@ -1,3 +1,6 @@
+// src/core/catalog.js
+var isEarlierWorkspace = (registry, module) => !!module.supersededBy && registry.modules.some((m) => m.id === module.supersededBy);
+
 // src/core/games-launcher.js
 function installGamesLauncher(c) {
   const link = document.createElement("a");
@@ -474,7 +477,7 @@ function installHome(c, registry, options = {}) {
     renderPersonal();
     categoryGrid.replaceChildren();
     for (const cat of extras.categories()) {
-      const available = registry.modules.filter((m) => m.category === cat.id && (optional.checked || !c.u23IsExtra(m.id))).length;
+      const available = registry.modules.filter((m) => !isEarlierWorkspace(registry, m) && m.category === cat.id && (optional.checked || !c.u23IsExtra(m.id))).length;
       if (!available) continue;
       const card = button("", () => {
         category = category === cat.id ? "" : cat.id;
@@ -488,7 +491,7 @@ function installHome(c, registry, options = {}) {
       categoryGrid.append(card);
     }
     const query = c.n28Normalize(search.value), tokens = query.split(" ").filter(Boolean);
-    let entries = registry.modules.filter((mod) => (!category || mod.category === category) && (optional.checked || !c.u23IsExtra(mod.id))).map((mod) => ({ id: mod.id, label: mod.label, category: mod.category, description: descriptions[mod.id] || mod.description }));
+    let entries = registry.modules.filter((mod) => !isEarlierWorkspace(registry, mod) && (!category || mod.category === category) && (optional.checked || !c.u23IsExtra(mod.id))).map((mod) => ({ id: mod.id, label: mod.label, category: mod.category, description: descriptions[mod.id] || mod.description }));
     if (query) {
       const features = c.n28GetIndex().filter((e) => !e.root && (!c.u23IsExtra(e.id) || optional.checked));
       if (tokens.includes("emi")) features.unshift(c.n28Entry("home:emi", "tools", "Loan / EMI", "calculate emi calculator loan repayment", { loan: true }));
