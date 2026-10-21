@@ -2,7 +2,7 @@
 
 Accepted: 2026-10-21
 
-Status: implementation authorized on 2026-10-21. The v37.00 implementation is in review on `codex/pdf-review-responsive-ui`; all 17 local regression suites passed (1,045 checks). See [implemented behavior and limits](pdf-review-ui.md) and [validation evidence](pdf-review-ui-validation.json). This branch preserves all 69 workspaces, 124 routes and 105 legacy route IDs. Physical-device verification remains separate from automated browser coverage.
+Status: implementation authorized on 2026-10-21. The v37.00 implementation is in review on `codex/pdf-review-responsive-ui`; all 17 local regression suites passed (1,046 checks). See [implemented behavior and limits](pdf-review-ui.md) and [validation evidence](pdf-review-ui-validation.json). This branch preserves all 69 workspaces, 124 routes and 105 legacy route IDs. Physical-device verification remains separate from automated browser coverage.
 
 ## PDF Workspace: reading, review and annotation
 

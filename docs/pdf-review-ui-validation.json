@@ -2,8 +2,8 @@
   "version": "37.0.0",
   "base": "e718569cd97f1f5cb49637e1fecc2b3fe298b5ce",
   "status": "Local full regression passed. GitHub CI results are attached to the review pull request.",
-  "localChecks": 1045,
-  "addedChecks": 58,
+  "localChecks": 1046,
+  "addedChecks": 59,
   "suites": {
     "advanced-browser.json": 43,
     "career-browser.json": 37,
@@ -40,11 +40,11 @@
     "guided-browser.json": 38,
     "pdf-review-browser-chromium.json": 20,
     "workspace-ui-chromium.json": 13,
-    "pdf-review-unit": 25
+    "pdf-review-unit": 26
   },
   "regression": {
     "appVersion": "37.0.0",
-    "createdAt": "2026-10-21T12:28:28.562Z",
+    "createdAt": "2026-10-21T13:07:38.876Z",
     "environment": {
       "node": "v24.19.0",
       "browserMatrix": "default",
@@ -59,7 +59,7 @@
           "check"
         ],
         "exitCode": 0,
-        "durationMs": 15693,
+        "durationMs": 14399,
         "log": "test-results/regression-check.log"
       },
       {
@@ -69,7 +69,7 @@
           "test"
         ],
         "exitCode": 0,
-        "durationMs": 11947,
+        "durationMs": 12809,
         "log": "test-results/regression-smoke.log"
       },
       {
@@ -80,7 +80,7 @@
           "test:home"
         ],
         "exitCode": 0,
-        "durationMs": 5527,
+        "durationMs": 5878,
         "log": "test-results/regression-home.log"
       },
       {
@@ -91,7 +91,7 @@
           "test:home-extras"
         ],
         "exitCode": 0,
-        "durationMs": 12904,
+        "durationMs": 14281,
         "log": "test-results/regression-home-extras.log"
       },
       {
@@ -102,7 +102,7 @@
           "test:games"
         ],
         "exitCode": 0,
-        "durationMs": 25129,
+        "durationMs": 25809,
         "log": "test-results/regression-games.log"
       },
       {
@@ -113,7 +113,7 @@
           "test:connection"
         ],
         "exitCode": 0,
-        "durationMs": 7425,
+        "durationMs": 8082,
         "log": "test-results/regression-connection.log"
       },
       {
@@ -124,7 +124,7 @@
           "test:guided"
         ],
         "exitCode": 0,
-        "durationMs": 25168,
+        "durationMs": 26976,
         "log": "test-results/regression-guided.log"
       },
       {
@@ -135,7 +135,7 @@
           "test:pdf-ui"
         ],
         "exitCode": 0,
-        "durationMs": 27621,
+        "durationMs": 31788,
         "log": "test-results/regression-pdf-ui.log"
       },
       {
@@ -146,7 +146,7 @@
           "test:career"
         ],
         "exitCode": 0,
-        "durationMs": 83873,
+        "durationMs": 88030,
         "log": "test-results/regression-career.log"
       },
       {
@@ -157,7 +157,7 @@
           "test:navigation"
         ],
         "exitCode": 0,
-        "durationMs": 8381,
+        "durationMs": 8973,
         "log": "test-results/regression-navigation.log"
       },
       {
@@ -168,7 +168,7 @@
           "test:advanced"
         ],
         "exitCode": 0,
-        "durationMs": 17577,
+        "durationMs": 17355,
         "log": "test-results/regression-advanced.log"
       },
       {
@@ -179,7 +179,7 @@
           "test:reliability"
         ],
         "exitCode": 0,
-        "durationMs": 10521,
+        "durationMs": 11610,
         "log": "test-results/regression-reliability.log"
       },
       {
@@ -190,7 +190,7 @@
           "test:updates"
         ],
         "exitCode": 0,
-        "durationMs": 3737,
+        "durationMs": 3864,
         "log": "test-results/regression-updates.log"
       },
       {
@@ -201,7 +201,7 @@
           "test:budgets"
         ],
         "exitCode": 0,
-        "durationMs": 184,
+        "durationMs": 214,
         "log": "test-results/regression-budgets.log"
       },
       {
@@ -212,7 +212,7 @@
           "test:compatibility"
         ],
         "exitCode": 0,
-        "durationMs": 36010,
+        "durationMs": 40213,
         "log": "test-results/regression-compatibility.log"
       },
       {
@@ -222,7 +222,7 @@
           "tests/server.py"
         ],
         "exitCode": 0,
-        "durationMs": 171,
+        "durationMs": 193,
         "log": "test-results/regression-connection-server.log"
       },
       {
@@ -233,7 +233,7 @@
           "--published"
         ],
         "exitCode": 0,
-        "durationMs": 14202,
+        "durationMs": 15228,
         "log": "test-results/regression-published.log"
       }
     ],
@@ -246,12 +246,12 @@
     "legacyRoutes": 105,
     "totalRoutes": 124
   },
-  "generatedFiles": 143,
-  "buildRevision": "79583d1d02398093",
+  "generatedFiles": 144,
+  "buildRevision": "0878c26ee777b020",
   "budgets": {
     "initialHTMLBytes": 269228,
     "initialHTMLLimit": 350000,
-    "runtimeBytes": 2662795,
+    "runtimeBytes": 2663177,
     "runtimeLimit": 4200000,
     "styleBytes": 178870,
     "styleLimit": 250000,
@@ -284,7 +284,8 @@
       "Keyboard select search and focus restoration",
       "TV mode retains editor typing; normal view exit"
     ],
-    "screenshots": "GitHub Actions regression-results artifact contains PDF, phone and all-theme UI captures."
+    "screenshots": "GitHub Actions regression-results artifact contains PDF, phone and all-theme UI captures.",
+    "pdfTextWithoutAsyncStreamIteration": true
   },
   "performance": {
     "baseline": "e718569cd97f1f5cb49637e1fecc2b3fe298b5ce",
@@ -293,79 +294,79 @@
     "runs": {
       "before": [
         {
-          "readyMs": 467.60000000009313,
-          "maxLongTaskMs": 0,
+          "readyMs": 551.3999999994412,
+          "maxLongTaskMs": 51,
           "decodedJSBytes": 2290303,
-          "inputFrameMedianMs": 35.10000000009313,
-          "scrollFrameMedianMs": 41.200000000186265,
+          "inputFrameMedianMs": 45.200000000186265,
+          "scrollFrameMedianMs": 45.200000000186265,
+          "heapBytes": 18200000,
+          "domNodes": 1266
+        },
+        {
+          "readyMs": 724.5,
+          "maxLongTaskMs": 59,
+          "decodedJSBytes": 2290303,
+          "inputFrameMedianMs": 50.200000000186265,
+          "scrollFrameMedianMs": 49.09999999962747,
           "heapBytes": 19300000,
           "domNodes": 1266
         },
         {
-          "readyMs": 508.40000000037253,
-          "maxLongTaskMs": 52,
+          "readyMs": 620.4000000003725,
+          "maxLongTaskMs": 56,
           "decodedJSBytes": 2290303,
-          "inputFrameMedianMs": 37.89999999990687,
-          "scrollFrameMedianMs": 38,
+          "inputFrameMedianMs": 37.700000000186265,
+          "scrollFrameMedianMs": 40.90000000037253,
           "heapBytes": 19300000,
-          "domNodes": 1266
-        },
-        {
-          "readyMs": 463.20000000018626,
-          "maxLongTaskMs": 0,
-          "decodedJSBytes": 2290303,
-          "inputFrameMedianMs": 34.200000000186265,
-          "scrollFrameMedianMs": 34.89999999990687,
-          "heapBytes": 17100000,
           "domNodes": 1266
         }
       ],
       "after": [
         {
-          "readyMs": 505.89999999990687,
-          "maxLongTaskMs": 0,
-          "decodedJSBytes": 2302117,
-          "inputFrameMedianMs": 38,
-          "scrollFrameMedianMs": 35.3000000002794,
+          "readyMs": 716.2000000001863,
+          "maxLongTaskMs": 64,
+          "decodedJSBytes": 2302484,
+          "inputFrameMedianMs": 45.5,
+          "scrollFrameMedianMs": 47.5,
           "heapBytes": 19300000,
           "domNodes": 1275
         },
         {
-          "readyMs": 463.39999999990687,
+          "readyMs": 609.4000000003725,
           "maxLongTaskMs": 0,
-          "decodedJSBytes": 2302117,
-          "inputFrameMedianMs": 39.59999999962747,
-          "scrollFrameMedianMs": 35.89999999990687,
+          "decodedJSBytes": 2302484,
+          "inputFrameMedianMs": 46.299999999813735,
+          "scrollFrameMedianMs": 42.299999999813735,
           "heapBytes": 19300000,
           "domNodes": 1275
         },
         {
-          "readyMs": 409.79999999981374,
-          "maxLongTaskMs": 0,
-          "decodedJSBytes": 2302117,
-          "inputFrameMedianMs": 35.39999999990687,
-          "scrollFrameMedianMs": 34.299999999813735,
-          "heapBytes": 19300000,
+          "readyMs": 619.5999999996275,
+          "maxLongTaskMs": 57,
+          "decodedJSBytes": 2302484,
+          "inputFrameMedianMs": 42.59999999962747,
+          "scrollFrameMedianMs": 50.09999999962747,
+          "heapBytes": 17100000,
           "domNodes": 1275
         }
       ]
     },
     "summary": {
       "before": {
-        "medianReadyMs": 467.60000000009313,
-        "medianMaxLongTaskMs": 0,
+        "medianReadyMs": 620.4000000003725,
+        "medianMaxLongTaskMs": 56,
         "decodedJSBytes": 2290303,
-        "medianInputFrameMs": 35.10000000009313,
-        "medianScrollFrameMs": 38,
+        "medianInputFrameMs": 45.200000000186265,
+        "medianScrollFrameMs": 45.200000000186265,
         "medianHeapBytes": 19300000,
         "domNodes": 1266
       },
       "after": {
-        "medianReadyMs": 463.39999999990687,
-        "medianMaxLongTaskMs": 0,
-        "decodedJSBytes": 2302117,
-        "medianInputFrameMs": 38,
-        "medianScrollFrameMs": 35.3000000002794,
+        "medianReadyMs": 619.5999999996275,
+        "medianMaxLongTaskMs": 57,
+        "decodedJSBytes": 2302484,
+        "medianInputFrameMs": 45.5,
+        "medianScrollFrameMs": 47.5,
         "medianHeapBytes": 19300000,
         "domNodes": 1275
       }
@@ -373,7 +374,7 @@
   },
   "limitations": [
     "Local real WebRTC pairing is skipped because the container cannot establish ICE; the CI workflow runs the existing real-pairing tests without that flag.",
-    "Local browser is Chromium; CI runs the PDF/UI suites in Chromium, Firefox and WebKit, plus the existing cross-browser reliability suite.",
+    "Local browser is Chromium; PDF text coverage also disables async stream iteration to exercise Safari-compatible readers. CI runs PDF/UI and reliability checks in Chromium, Firefox and WebKit.",
     "Phone/tablet/TV/large-text coverage is browser emulation; physical mobile keyboards, stylus and TV remote testing remain manual.",
     "Heap metrics are coarse Chromium estimates, not peak memory measurements or physical-device performance claims.",
     "PDF annotations depend on reader support; stamps are not signatures or secure redaction."
