@@ -21,6 +21,7 @@ jobs:
       - run: npm run test:home-extras
       - run: npm run test:games
       - run: npm run test:connection
+      - run: npm run test:career
       - run: npm run test:navigation
       - run: npm run test:advanced
       - run: npm run test:reliability

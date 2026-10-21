@@ -1,6 +1,6 @@
 {
   "version": 35,
-  "appVersion": "35.3.0",
+  "appVersion": "35.4.0",
   "categories": [
     {
       "id": "math",
@@ -108,6 +108,7 @@
       "order": 7,
       "label": "Career & Professional Documents",
       "workspaces": [
+        "careerstudio",
         "careerdocuments",
         "careerpreparation",
         "portfoliobuilder"
@@ -145,6 +146,17 @@
     }
   ],
   "modules": [
+    {
+      "id": "careerstudio",
+      "kind": "native",
+      "routes": [
+        "careerstudio"
+      ],
+      "category": "career",
+      "order": -1,
+      "description": "Connected career dashboard, visual resumes, applications, evidence, interview practice, portfolios, professional documents, growth, appraisals and offer comparison",
+      "label": "Career Studio"
+    },
     {
       "id": "careerpreparation",
       "category": "career",
@@ -949,7 +961,7 @@
       "label": "Text Toolkit"
     }
   ],
-  "sourceModules": 81,
+  "sourceModules": 82,
   "legacyRoutes": 105,
-  "totalRoutes": 123
+  "totalRoutes": 124
 }

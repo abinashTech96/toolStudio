@@ -3,7 +3,7 @@ import {createSourcePool} from '../scripts/serialized-sources.mjs';
 import {createContext,sourceResolver,initializeModules} from '../src/core/context.js';
 import {navigationCatalog} from '../src/core/catalog.js';
 const registry=JSON.parse(fs.readFileSync('registry.generated.json','utf8')),groups=navigationCatalog(registry);
-assert.equal(groups.flatMap(g=>g.tools).length,68);assert.equal(new Set(groups.flatMap(g=>g.tools)).size,68);
+assert.equal(groups.flatMap(g=>g.tools).length,69);assert.equal(new Set(groups.flatMap(g=>g.tools)).size,69);
 assert(registry.modules.every(m=>groups.find(g=>g.id===(m.category==='shared'?'saved':m.category)).tools.includes(m.id)));
 const renamed=structuredClone(registry);renamed.categories[0].label='Renamed category';assert.equal(navigationCatalog(renamed)[0].label,'Renamed category');
 const pool=createSourcePool(),text=pool.transform('const f=__studio33.$fn(()=>42,"()=>42","f"); const g=__studio33.$fn(()=>42,"()=>42","g");');
