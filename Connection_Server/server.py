@@ -19,12 +19,12 @@ CLIENTS = set()
 TTL = 300
 MAX_CLIENTS = 64
 ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-ALLOWED = {'index.html', 'guide.html', 'sw.js', 'registry.generated.json', 'manifest.webmanifest', 'Calc_Studio(1).html', 'Calc_Studio_Connection.html', 'Calc_Studio_Guide(2).html', 'Calc_Studio_Guide_Tool.html'}
+ALLOWED = {'index.html', 'guide.html', 'sw.js', 'registry.generated.json', 'manifest.webmanifest', 'Calc_Studio(1).html', 'Calc_Studio_Connection.html', 'Calc_Studio_Games.html', 'Calc_Studio_Guide(2).html', 'Calc_Studio_Guide_Tool.html'}
 
 async def static(request):
     name = request.match_info.get('name') or 'index.html'
     candidate = (ROOT / name).resolve()
-    allowed = name in ALLOWED or name.startswith(('assets/', 'runtime/', 'connections/', 'offline/'))
+    allowed = name in ALLOWED or name.startswith(('assets/', 'runtime/', 'connections/', 'games/', 'offline/'))
     if not allowed or not candidate.is_relative_to(ROOT) or not candidate.is_file() or any(part.startswith('.') for part in Path(name).parts):
         raise web.HTTPNotFound()
     return web.FileResponse(candidate, headers={

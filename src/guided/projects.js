@@ -1,6 +1,7 @@
 import { guided, node, editor, field, download, readText, changed } from "./ui.js";
 import { parse, clone, reviewBundle, validateGuidedState, bounded } from "./model.js";
 import { bundleDatasets, putDataset } from "./data.js";
+import {preflightDatasets,datasetEntries} from './dataset-store.js';
 import { digest } from "./files.js";
 const encode = (bytes) => {
   let value = "";
@@ -15,6 +16,9 @@ function projects(api, root) {
   const refs = editor(ui, "Document references", [], [field("name", "Expected linked filename")], { max: 100 }), includeData = ui.field("Include shared datasets", "", "checkbox"), includeLayouts = ui.field("Include workspace layouts", "", "checkbox");
   includeData.checked = true;
   includeLayouts.checked = true;
+  const datasetChoice=node('fieldset',undefined,{class:'a34-wide'}),datasetChecks=new Map();
+  function refreshDatasets(){const old=new Map([...datasetChecks].map(([id,c])=>[id,c.checked]));datasetChecks.clear();datasetChoice.replaceChildren(node('legend','Datasets to include in export'));for(const d of datasetEntries()){const label=node('label'),check=node('input',undefined,{type:'checkbox',checked:old.get(d.id)??true,'aria-label':'Export dataset '+d.id});datasetChecks.set(d.id,check);label.append(check,node('span',d.name+' · '+d.rows+' rows · '+d.bytes+' bytes'));datasetChoice.append(label)}}
+  ui.action('Refresh export dataset choices',()=>{refreshDatasets();return{available:datasetChecks.size}});ui.body.append(datasetChoice);refreshDatasets();
   const selection = node("fieldset", void 0, { class: "a34-wide" });
   selection.append(node("legend", "Choose items to restore"));
   ui.body.append(selection);
@@ -31,7 +35,7 @@ function projects(api, root) {
   ui.action("Review project bundle for export", async (signal, task) => {
     const files = await readDocuments();
     if (!task.current()) return;
-    bundle = { format: "toolstudio-work-bundle", version: 1, title: title.value, appVersion: api.appVersion, state: api.guidedState(), datasets: includeData.checked ? bundleDatasets() : [], layouts: includeLayouts.checked ? api.guidedLayouts() : {}, files, references: [...new Set([...refs.get().map((r) => r.name),...(api.guidedState().workspaces['pdf-review']?.sessions||[]).map(s=>s.document.name)])] };
+    bundle = { format: "toolstudio-work-bundle", version: 1, title: title.value, appVersion: api.appVersion, state: api.guidedState(), datasets: includeData.checked ? bundleDatasets([...datasetChecks].filter(([,c])=>c.checked).map(([id])=>id)) : [], layouts: includeLayouts.checked ? api.guidedLayouts() : {}, files, references: [...new Set([...refs.get().map((r) => r.name),...(api.guidedState().workspaces['pdf-review']?.sessions||[]).map(s=>s.document.name)])] };
     const report = reviewBundle(bundle, api.guidedState());
     exportRevision = ui.revision;
     return { title: bundle.title, savedWorkflows: Object.keys(bundle.state.workspaces), datasets: bundle.datasets.map((d) => ({ name: d.name, rows: d.rows.length })), documents: files.map(({ content, ...f }) => f), layoutCount: Object.keys(bundle.layouts).length, missingReferences: report.missing, pdfReviewSources: (bundle.state.workspaces['pdf-review']?.sessions||[]).map(s=>({review:s.title,source:s.document.name,sha256:s.document.sha256,attachedMatch:files.some(f=>f.sha256===s.document.sha256)})), note: "Review document contents and saved inputs before sharing this project" };
@@ -100,6 +104,7 @@ function projects(api, root) {
     for (const c of selected) if (c.kind === "workflow") state.workspaces[c.id] = clone(candidate.state.workspaces[c.id]);
     const layouts = api.guidedLayouts();
     for (const c of selected) if (c.kind === "layout") layouts[c.id] = clone(candidate.layouts[c.id]);
+    preflightDatasets(selected.filter(c=>c.kind==='dataset').map(c=>candidate.datasets[Number(c.id)]));
     api.saveGuidedBundle(validateGuidedState(state), layouts);
     for (const c of selected) if (c.kind === "dataset") {
       const d = candidate.datasets[Number(c.id)];

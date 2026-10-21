@@ -15,6 +15,10 @@ async def main():
       async with ClientSession() as client:
         async with client.get(origin+'/Calc_Studio_Connection.html') as r:
             check(r.status==200 and r.headers.get('X-Frame-Options')=='DENY','Host serves Connection page with frame protection')
+        for route in ['games/index.html','games/app.js','games/analysis-worker.bundle.js','Calc_Studio_Games.html']:
+            async with client.get(origin+'/'+route) as r:check(r.status==200,'Static Games route '+route)
+        for route in ['games/.secret','src/core/context.js','Connection_Server/server.py']:
+            async with client.get(origin+'/'+route) as r:check(r.status==404,'Source/hidden path excluded '+route)
         async with client.get(origin+'/server.py') as r:check(r.status==404,'Static allowlist excludes server source')
         try:
             await client.ws_connect(url,origin='https://attacker.example')

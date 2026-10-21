@@ -1,3 +1,4 @@
+import {messageArguments} from '../advanced/icu.js';
 // Offline workflow models. These never send requests or mutate a workspace.
 import { validateReviews } from '../pdf-review/model.js';
 import { jsonPointer, differences, maskSecrets, graphDependencies } from "../advanced/algorithms.js";
@@ -349,7 +350,7 @@ function selectedAssertions(before, after, paths) {
 }
 const placeholders = (text) => [...String(text || "").matchAll(/\{\{\s*([\w.]+)\s*\}\}|\{([A-Za-z_]\w*)\}|%(\d+\$)?[sdif]/g)].map((m) => m[1] || m[2] || m[0]).sort();
 function translationReview(rows, terms = []) {
-  return rows.map((r) => ({ ...r, issue: JSON.stringify(placeholders(r.source)) !== JSON.stringify(placeholders(r.translation)) ? "Placeholders differ" : "", suggestions: terms.filter((t) => String(r.source).toLowerCase().includes(String(t.source).toLowerCase()) && !String(r.translation).toLowerCase().includes(String(t.translation).toLowerCase())).map((t) => t.source + " \u2192 " + t.translation) }));
+ return rows.map(r=>{let issue='';try{const args=text=>/\{\{|%(?:\d+\$)?[sdif]/.test(text)?placeholders(text):messageArguments(text);if(JSON.stringify(args(r.source))!==JSON.stringify(args(r.translation)))issue='Placeholders differ'}catch(e){issue='Invalid ICU message: '+e.message}return{...r,issue,suggestions:terms.filter(t=>String(r.source).toLowerCase().includes(String(t.source).toLowerCase())&&!String(r.translation).toLowerCase().includes(String(t.translation).toLowerCase())).map(t=>t.source+' → '+t.translation)}});
 }
 function markdownOutline(text) {
   let fenced = false;
