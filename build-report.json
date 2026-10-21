@@ -6,9 +6,9 @@
   "sourceModules": 82,
   "legacyRoutes": 105,
   "totalRoutes": 124,
-  "initialHTMLBytes": 269228,
-  "runtimeChunkBytes": 2421414,
-  "offlineBytes": 23819013,
+  "initialHTMLBytes": 268184,
+  "runtimeChunkBytes": 2423951,
+  "offlineBytes": 23835711,
   "ocrAssetsVerified": 3,
-  "revision": "4a0aba0662b0ac60"
+  "revision": "8812d607f8adacaf"
 }
