@@ -4,7 +4,6 @@ permissions:
   contents: read
 jobs:
   regression:
-    if: github.ref != 'refs/heads/codex/pdf-review-responsive-ui' && github.head_ref != 'codex/pdf-review-responsive-ui'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
