@@ -5,7 +5,7 @@ permissions:
 jobs:
   regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,6 +21,7 @@ jobs:
       - run: npm run test:home-extras
       - run: npm run test:games
       - run: npm run test:connection
+      - run: npm run test:guided
       - run: npm run test:career
       - run: npm run test:navigation
       - run: npm run test:advanced
