@@ -4,7 +4,6 @@ permissions:
   contents: read
 jobs:
   regression:
-    if: github.ref != 'refs/heads/codex/cross-category-workflows' && github.head_ref != 'codex/cross-category-workflows'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

@@ -1,7 +1,7 @@
 {
   "version": "36.0.0",
   "base": "36b209ff6e07c8f9a352fefa2158968e145caf78",
-  "status": "Local regression passed; GitHub final validation pending",
+  "status": "Local validation passed",
   "localChecks": 987,
   "guidedChecks": 87,
   "suites": {
@@ -109,7 +109,7 @@
     ]
   },
   "finalTargetedVerification": [
-    "47+2 guided unit checks after final numeric precision guards",
+    "49 guided unit checks including numeric precision guards",
     "38 guided browser scenarios",
     "source/registry/generated checks",
     "runtime/style budgets",
@@ -121,5 +121,14 @@
   "routes": 124,
   "legacyRoutes": 105,
   "localConnectionNote": "Serverless local Chromium has no usable ICE interfaces. Local connection tests use CONNECTION_SKIP_REAL_RTC=1; GitHub CI runs real pairing without this flag.",
-  "ciStatus": "Pending review-branch preparation"
+  "ci": {
+    "pullRequest": "https://github.com/abinashTech96/toolStudio/pull/7",
+    "workflow": "Validate Tool Studio",
+    "coverage": [
+      "Full regression against this branch",
+      "Real WebRTC pairing without local skip flag",
+      "Existing reliability matrix: Chromium, Firefox, WebKit"
+    ],
+    "results": "See pull-request checks for the current GitHub results"
+  }
 }
