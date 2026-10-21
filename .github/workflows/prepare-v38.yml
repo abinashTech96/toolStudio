@@ -30,3 +30,4 @@ jobs:
           fi
 
 # Rebuild the final shared CSS, isolated task rules and responsive workflow controls.
+# Validate every precache resource after stylesheet consolidation.
