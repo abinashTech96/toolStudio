@@ -1,3 +1,4 @@
+import {messageArguments} from '../advanced/icu.js';
 // Offline workflow models. These never send requests or mutate a workspace.
 import { validateReviews } from '../pdf-review/model.js';
 import { jsonPointer, differences, maskSecrets, graphDependencies } from "../advanced/algorithms.js";
@@ -309,7 +310,7 @@ function repayment({ principal, annualRate, payment, startDate, months = 360 }, 
     if (rateEvents.length) rate = Number(rateEvents[0].amount);
     const extra = current.filter((e) => e.type === "extra").reduce((n, e) => n + Number(e.amount), 0), fee = cents(current.filter((e) => e.type === "fee").reduce((n, e) => n + Number(e.amount), 0)), interest = cents(balance * rate / 1200), opening = balance, paid = cents(Math.min(balance + interest + fee, payment + extra));
     balance = cents(balance + interest + fee - paid);
-    const date = new Date(Date.UTC(base.getUTCFullYear(), base.getUTCMonth() + month, 1)), last = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0)).getUTCDate();
+    const date = new Date(base);date.setUTCDate(1);date.setUTCMonth(base.getUTCMonth()+month);const lastDate=new Date(date);lastDate.setUTCMonth(lastDate.getUTCMonth()+1);lastDate.setUTCDate(0);const last=lastDate.getUTCDate();
     date.setUTCDate(Math.min(base.getUTCDate(), last));
     schedule.push({ month, date: date.toISOString().slice(0, 10), opening, annualRate: rate, interest, fee, extra: cents(extra), payment: paid, balance });
   }
@@ -349,7 +350,7 @@ function selectedAssertions(before, after, paths) {
 }
 const placeholders = (text) => [...String(text || "").matchAll(/\{\{\s*([\w.]+)\s*\}\}|\{([A-Za-z_]\w*)\}|%(\d+\$)?[sdif]/g)].map((m) => m[1] || m[2] || m[0]).sort();
 function translationReview(rows, terms = []) {
-  return rows.map((r) => ({ ...r, issue: JSON.stringify(placeholders(r.source)) !== JSON.stringify(placeholders(r.translation)) ? "Placeholders differ" : "", suggestions: terms.filter((t) => String(r.source).toLowerCase().includes(String(t.source).toLowerCase()) && !String(r.translation).toLowerCase().includes(String(t.translation).toLowerCase())).map((t) => t.source + " \u2192 " + t.translation) }));
+ return rows.map(r=>{let issue='';try{const args=text=>/\{\{|%(?:\d+\$)?[sdif]/.test(text)?placeholders(text):messageArguments(text);if(JSON.stringify(args(r.source))!==JSON.stringify(args(r.translation)))issue='Placeholders differ'}catch(e){issue='Invalid ICU message: '+e.message}return{...r,issue,suggestions:terms.filter(t=>String(r.source).toLowerCase().includes(String(t.source).toLowerCase())&&!String(r.translation).toLowerCase().includes(String(t.translation).toLowerCase())).map(t=>t.source+' → '+t.translation)}});
 }
 function markdownOutline(text) {
   let fenced = false;

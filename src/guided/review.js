@@ -100,9 +100,13 @@ function translations(api, root) {
     return [x.issue, ...x.suggestions];
   } });
   terms = editor(ui, "Terminology", [{ source: "Hello", translation: "Namaste" }], [field("source", "Source term"), field("translation", "Preferred translation")], { max: 500, changed: () => strings.refreshValidation() });
-  ui.action("Check placeholders and terminology", () => translationReview(strings.get(), terms.get()));
+  let history=[];
+  ui.action("Check placeholders and terminology", () => {const rows=translationReview(strings.get(),terms.get());history.push({time:new Date().toISOString(),strings:clone(strings.get()),terms:clone(terms.get()),issues:rows.filter(r=>r.issue||r.suggestions.length).length});history=history.slice(-20);return rows});
+  ui.action('Review translation history',()=>history.map((h,i)=>({review:i+1,time:h.time,strings:h.strings.length,issues:h.issues})));
+  ui.action('Export translation review history',()=>download('translation-review-history.json',{version:1,reviews:history}));
   ui.action("Export translation grid", () => download("translation-grid.json", { strings: strings.get(), terminology: terms.get() }));
-  projectControls(api, ui, "translations", () => ({ strings: strings.get(), terms: terms.get() }), (v) => {
+  projectControls(api, ui, "translations", () => ({ strings: strings.get(), terms: terms.get(),history }), (v) => {
+    history=Array.isArray(v.history)?v.history.slice(-20):[];
     strings.set(v.strings);
     terms.set(v.terms);
   });
@@ -113,6 +117,10 @@ function research(api, root) {
   const sources = editor(ui, "Sources", [], [field("id", "Source ID"), field("title", "Title"), field("url", "URL"), field("reviewedOn", "Reviewed on", "date"), field("reviewDue", "Review due", "date")], { max: 500 });
   const notes = editor(ui, "Notes", [], [field("id", "Note ID"), field("sourceId", "Source ID"), field("text", "Note", "textarea"), field("locator", "Page / section")], { max: 1e3 });
   const claims = editor(ui, "Evidence", [], [field("claim", "Claim"), field("sourceId", "Source ID"), field("passage", "Exact passage", "textarea"), field("locator", "Document page / section"), field("relation", "Relation", "text", ["supports", "contradicts", "context"]), field("review", "Human review", "text", ["needs-review", "reviewed", "rejected"])], { max: 1e3 });
+  ui.action('Share research sources with project',()=>({shared:api.sharedProject.putRecord('sources','Research sources',sources.get()).id}));
+  let sharedSources=null,sharedSourceRevision=-1;
+  ui.action('Review project research sources',()=>{sharedSources=api.sharedProject.listRecords('sources').at(-1);if(!sharedSources)throw Error('Share sources from a Research tool first');sharedSourceRevision=ui.revision;return sharedSources});
+  ui.action('Apply reviewed project research sources',()=>{if(!sharedSources||sharedSourceRevision!==ui.revision||!api.sharedProject.listRecords().some(r=>r.id===sharedSources.id&&r.revision===sharedSources.revision))throw Error('Review current project sources first');if(!confirm('Replace research source rows with reviewed project sources?'))return{$cancelled:true};sources.set(sharedSources.value);sharedSources=null;return{$inputsUpdated:true,loaded:sources.get().length}});
   ui.action("Review evidence and references", () => researchReview(sources.get(), notes.get(), claims.get()));
   ui.action("Export linked research notes", () => download("research-notes.json", { sources: sources.get(), notes: notes.get(), claims: claims.get(), review: researchReview(sources.get(), notes.get(), claims.get()) }));
   projectControls(api, ui, "research", () => ({ sources: sources.get(), notes: notes.get(), claims: claims.get() }), (v) => {

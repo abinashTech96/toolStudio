@@ -21,6 +21,8 @@ jobs:
       - run: npm run test:home-extras
       - run: npm run test:games
       - run: npm run test:connection
+      - run: npm run test:workflows
+      - run: node scripts/dependency-inventory.mjs --check
       - run: npm run test:guided
       - run: npm run test:career
       - run: npm run test:navigation
@@ -60,6 +62,7 @@ jobs:
       - run: npx playwright install --with-deps "${{ matrix.browser }}"
       - run: npm run build
       - run: npm run test:pdf-ui
+      - run: npm run test:workflows
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1,3 +1,4 @@
+import {planningAdapter,calendarTasks} from '../workflows/planning.js';
 import { guided, node, editor, field, download, projectControls, changed, readText } from "./ui.js";
 import { parse, workload, calculateNotebook, formulaTests, repayment, reconcile, markdownOutline } from "./model.js";
 import { parseCSV } from "./data.js";
@@ -14,9 +15,13 @@ function planning(api, root) {
     const cards = api.c.knCurrent?.()?.tasks;
     if (!Array.isArray(cards)) throw Error("Open a board in Kanban. You can also enter project tasks directly.");
     if (!confirm("Replace guided tasks with " + cards.length + " Kanban tasks?")) return { $cancelled: true };
-    tasks.set(cards.map((c, i) => ({ id: c.id || "task-" + (i + 1), title: c.title || c.text || "", status: "todo", due: c.due || "", hours: 0, blockedReason: "", noteId: "", decisionId: "" })));
+    tasks.set(planningAdapter(api.c).read());
     return { $inputsUpdated: true, imported: cards.length, note: "Review statuses and enter estimates" };
   });
+  let sync=null,syncRevision=-1;
+  ui.action('Review workload sync to Kanban',()=>{const adapter=planningAdapter(api.c);sync={board:adapter.snapshot(),rows:tasks.get()};syncRevision=ui.revision;return{updates:sync.rows.map(t=>({id:t.id,title:t.title,status:t.status,due:t.due,hours:t.hours})),note:'Updates matching task IDs. Existing Kanban Undo and timeline/calendar use the same task dates.'}});
+  ui.action('Apply reviewed workload to Kanban',()=>{if(!sync||syncRevision!==ui.revision)throw Error('Review current workload sync first');if(!confirm('Update reviewed Kanban tasks, statuses, hours and dates?'))return{$cancelled:true};const n=planningAdapter(api.c).apply(sync.rows,sync.board);sync=null;return{updated:n,undo:'Kanban Undo'}});
+  ui.action('Export dated tasks to calendar',()=>{download('project-tasks.ics',calendarTasks(tasks.get()),'text/calendar');return{datedTasks:tasks.get().filter(t=>t.due).length}});
   projectControls(api, ui, "project-planning", () => ({ name: project.value, notes: notes.get(), decisions: decisions.get(), tasks: tasks.get(), week: week.value, capacity: capacity.value }), (v) => {
     project.value = v.name;
     notes.set(v.notes);

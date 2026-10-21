@@ -1,3 +1,4 @@
+import {readPDFText} from '../advanced/assets.js';
 import {layoutSettings, blockLayout} from "./layout.js";
 import { zipSync, unzipSync, strToU8, strFromU8 } from "fflate";
 import { lines, sections, sectionNames, safeURL, profile } from "./model.js";
@@ -142,7 +143,7 @@ async function extractResume(file, api) {
       if (pdf.numPages > 50) throw Error("Import at most 50 PDF pages");
       let text = "";
       for (let i = 1; i <= pdf.numPages; i++) {
-        const p = await pdf.getPage(i), content = await p.getTextContent();
+        const p = await pdf.getPage(i), content = await readPDFText(p);
         let previousY = null;
         for (const item of content.items) {
           const y = item.transform?.[5];

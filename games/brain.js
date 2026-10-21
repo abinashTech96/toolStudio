@@ -27,7 +27,9 @@ export function snakeHint(state,size=16){let best=null,rank=-Infinity;for(const 
 }
 export function sudokuCandidates(board,i){if(board[i])return[];const row=Math.floor(i/9),col=i%9,used=new Set();for(let j=0;j<81;j++)if(Math.floor(j/9)===row||j%9===col||Math.floor(j/27)===Math.floor(row/3)&&Math.floor(j%9/3)===Math.floor(col/3))used.add(board[j]);return[1,2,3,4,5,6,7,8,9].filter(v=>!used.has(v))}
 export function sudokuConflicts(board){const bad=new Set();for(let i=0;i<81;i++)if(board[i])for(let j=i+1;j<81;j++)if(board[i]===board[j]&&(Math.floor(i/9)===Math.floor(j/9)||i%9===j%9||Math.floor(i/27)===Math.floor(j/27)&&Math.floor(i%9/3)===Math.floor(j%9/3))){bad.add(i);bad.add(j)}return[...bad]}
-export function solveSudoku(input,limit=1){if(input.length!==81||sudokuConflicts(input).length)return{count:0,solution:null};const b=input.slice();let count=0,solution=null,nodes=0,exhausted=false;
+const sudokuCache=new Map();
+export function solveSudoku(input,limit=1){const key=limit+':'+input.join(',');if(sudokuCache.has(key))return structuredClone(sudokuCache.get(key));const result=solveSudokuUncached(input,limit);if(!result.exhausted){sudokuCache.set(key,structuredClone(result));if(sudokuCache.size>64)sudokuCache.delete(sudokuCache.keys().next().value)}return result}
+function solveSudokuUncached(input,limit=1){if(input.length!==81||sudokuConflicts(input).length)return{count:0,solution:null};const b=input.slice();let count=0,solution=null,nodes=0,exhausted=false;
  function visit(){if(++nodes>250000){exhausted=true;return;}let id=-1,choices;for(let i=0;i<81;i++)if(!b[i]){const c=sudokuCandidates(b,i);if(!c.length)return;if(!choices||c.length<choices.length){id=i;choices=c;if(c.length===1)break}}if(id<0){count++;solution??=b.slice();return}for(const v of choices){b[id]=v;visit();if(count>=limit)break}b[id]=0}visit();return{count:exhausted?limit:count,solution,exhausted};
 }
 export function createSudoku(level='medium',random=Math.random){const group=()=>shuffle([0,1,2],random),rows=group().flatMap(g=>group().map(r=>g*3+r)),cols=group().flatMap(g=>group().map(c=>g*3+c)),digits=shuffle([1,2,3,4,5,6,7,8,9],random);

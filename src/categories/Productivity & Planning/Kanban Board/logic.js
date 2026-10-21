@@ -1,3 +1,4 @@
+import {taskDone,taskBlocked} from '../../../workflows/task-status.js';
 // kanban · stable live bindings are provided by the shared runtime context.
 // Initializer order preserves the existing tool behavior during this migration.
 export const id="kanban";
@@ -71,11 +72,11 @@ __studio33.knCurrent = __studio33.$fn(()=>__studio33.knData.boards.find(__studio
 
 }],
 [1105,function initialize_1105(__studio33){
-__studio33.knDone = (b,t)=>b.columns.find(c=>c.id===t.column)?.done===true;
+__studio33.knDone = taskDone;
 
 }],
 [1106,function initialize_1106(__studio33){
-__studio33.knBlocked = __studio33.$fn((b,t)=>t.dependencies.some(__studio33.$fn(id=>!__studio33.knDone(b,b.tasks.find(x=>x.id===id)),"id=>!knDone(b,b.tasks.find(x=>x.id===id))",""))||t.subtasks.some(s=>!s.done),"(b,t)=>t.dependencies.some(id=>!knDone(b,b.tasks.find(x=>x.id===id)))||t.subtasks.some(s=>!s.done)","knBlocked");
+__studio33.knBlocked = __studio33.$fn(taskBlocked,"(b,t)=>t.dependencies.some(id=>!knDone(b,b.tasks.find(x=>x.id===id)))||t.subtasks.some(s=>!s.done)","knBlocked");
 
 }],
 [1113,function initialize_1113(__studio33){

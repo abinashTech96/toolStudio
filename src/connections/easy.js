@@ -1,3 +1,4 @@
+import {installConnectionDoctor} from './doctor.js';
 import{connectionGuides,connectionCapabilities}from'./guides.js';
 export function installEasyConnection(api){
  const{state,$,node,button,page}=api,nav=document.querySelector('nav'),header=document.querySelector('header .row');
@@ -17,7 +18,7 @@ export function installEasyConnection(api){
  const methodNames={wifi:['Phone or computer','Wi-Fi / network · share files and results'],bluetooth:['Bluetooth device','Compatible BLE sensors and peripherals'],usb:['USB hardware','A documented USB device interface'],websocket:['WebSocket server','Connect to an endpoint you choose']};
  chooser=node('div',undefined,'connection-chooser');chooser.id='connectionChooser';
  for(const[k,[name,desc]]of Object.entries(methodNames)){const card=node('article',undefined,'method-card'),open=button(name,()=>{selected=k;goto(connectionGuides[k].target,connectionGuides[k].focus)});open.dataset.connectKind=k;open.className='method-open';open.append(node('small',desc));const available=node('p','','method-support');available.dataset.support=k;const help=button('Read '+name+' guide',()=>showGuide(k));help.className='method-guide';card.append(open,available,help);chooser.append(card)}
- devices.append(chooser,peerSetup);nav.querySelector('[data-page=devices]').onclick=()=>{page('devices');peerSetup.hidden=true;chooser.hidden=false};
+ devices.append(chooser,peerSetup);installConnectionDoctor(api);nav.querySelector('[data-page=devices]').onclick=()=>{page('devices');peerSetup.hidden=true;chooser.hidden=false};
  const steps=node('ol',undefined,'connection-progress');steps.setAttribute('aria-label','Pairing progress');for(const s of['Set up','Connect','Verify & test'])steps.append(node('li',s));peerSetup.prepend(steps);
  const pairGrid=peerSetup.querySelector('.grid'),sessionCard=pairGrid.children[0],codeCard=pairGrid.children[1];pairGrid.prepend(codeCard);
  const allowHeading=[...sessionCard.querySelectorAll('h3')].find(h=>h.textContent.startsWith('Allow'));

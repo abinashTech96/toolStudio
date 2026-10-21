@@ -1,26 +1,6 @@
 import { guided, node, editor, field, download, projectControls, changed, readText, table } from "./ui.js";
 import { parse, clone, bounded, columns, transformRows, apiRehearsal, acceptanceReport } from "./model.js";
-const shelf = /* @__PURE__ */ new Map();
-let generation = 0;
-function datasetEntries() {
-  return [...shelf].map(([id, v]) => ({ id, name: v.name, rows: v.rows.length, revision: v.revision }));
-}
-function clearDatasets() {
-  shelf.clear();
-  generation++;
-}
-function putDataset(name, rows) {
-  bounded(rows, 5e4, "Dataset");
-  if (columns(rows).length > 200 || JSON.stringify(rows).length > 4e6) throw Error("Dataset limits: 4 MB, 50,000 rows, 200 columns");
-  const id = "dataset-" + ++generation;
-  shelf.set(id, { name: name || id, rows: clone(rows), revision: generation });
-  return id;
-}
-const getDataset = (id) => {
-  const value = shelf.get(id);
-  if (!value) throw Error("Select an available shared dataset");
-  return clone(value);
-};
+import {bundleDatasets,clearDatasets,datasetEntries,getDataset,putDataset,deleteDataset,datasetUsage} from './dataset-store.js';
 function datasetPicker(api, ui, { label = "Shared dataset", load = () => {
 } } = {}) {
   const select = ui.field(label, "", "select", []), row = ui.row(), refresh = () => {
@@ -40,6 +20,9 @@ function datasetPicker(api, ui, { label = "Shared dataset", load = () => {
     row.append(b);
   };
   button("Refresh shared datasets", refresh);
+  button("Inspect dataset lineage & memory",()=>{const{rows,...dataset}=getDataset(select.value);ui.report({dataset,rows:rows.length,usage:datasetUsage()})});
+  button("Replace selected with Data Workbench",()=>{const rows=api.getRows();if(!rows.length)throw Error('Load Data Workbench first');if(!confirm('Replace selected shared dataset? Export it first if you need the old rows.'))return;putDataset(getDataset(select.value).name,rows,{replace:select.value,operation:'replace from Workbench'});refresh()});
+  button("Delete selected shared dataset",()=>{const d=getDataset(select.value);if(confirm('Delete shared dataset '+d.name+'? Other editors keep their loaded copies.')){deleteDataset(select.value);refresh()}});
   button("Load selected dataset", () => {
     const d = getDataset(select.value);
     load(d.rows, d);
@@ -138,7 +121,7 @@ function dataWorkflow(api, root) {
   });
   ui.action("Share reviewed result", () => {
     if (!candidate || reviewRevision !== ui.revision) throw Error("Review the current result first");
-    return { shared: putDataset(name.value + " result", candidate.rows), rows: candidate.rows.length };
+    return { shared: putDataset(name.value + " result", candidate.rows,{operation:JSON.stringify(candidate.history).slice(0,160)}), rows: candidate.rows.length };
   });
   ui.action("Export complete reviewed dataset", () => {
     if (!candidate || reviewRevision !== ui.revision) throw Error("Review the current result first");
@@ -259,9 +242,6 @@ function handoff(api, root, id) {
     return { exportedRows: rows.length };
   });
   return ui;
-}
-function bundleDatasets() {
-  return [...shelf].map(([id, v]) => ({ id, ...clone(v) }));
 }
 export {
   bundleDatasets,
