@@ -1,12 +1,12 @@
 {
   "version": "35.4.0",
   "base": "efa4030e532a1e7ab713fd85c7cac3f0f8e991c3",
-  "localChecks": 861,
-  "careerChecks": 93,
+  "localChecks": 863,
+  "careerChecks": 95,
   "suites": {
     "advanced-browser.json": 43,
-    "career-browser.json": 36,
-    "career-unit.json": 57,
+    "career-browser.json": 37,
+    "career-unit.json": 58,
     "connection-easy-browser.json": 15,
     "connection-guide-unit.json": 8,
     "documents31-test-results.json": 19,
@@ -49,5 +49,5 @@
     "Selectable-text PDF and DOCX import round trips",
     "Standalone offline PDF export without network"
   ],
-  "notes": "All existing local suites passed. Affected Career suites and syntax/budget/published checks were re-run after final localized refinements. Final whole-project CI, real network pairing and cross-browser reliability must pass before review completion."
+  "notes": "All existing local suites passed. Affected Career suites and syntax/budget/published checks were re-run after final localized refinements, including explicit long-import rejection without changing source text or project data. Final whole-project CI, real network pairing and cross-browser reliability must pass before review completion."
 }
