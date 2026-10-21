@@ -1,4 +1,5 @@
 // Offline workflow models. These never send requests or mutate a workspace.
+import { validateReviews } from '../pdf-review/model.js';
 import { jsonPointer, differences, maskSecrets, graphDependencies } from "../advanced/algorithms.js";
 import { parseStructuredJSON, exactNumber } from "../advanced/safety.js";
 const parse = parseStructuredJSON;
@@ -409,6 +410,7 @@ const savedShapes = {
 };
 function validateWorkflow(id, value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw Error("Invalid saved workflow " + id);
+  if (id === 'pdf-review') validateReviews(value);
   const shape = savedShapes[id];
   if (shape) for (const [key, max] of Object.entries(shape)) bounded(value[key], max, id + " " + key);
   if (id === "salesforce-builder" && typeof value.metadata !== "string") throw Error("Describe metadata must be text");

@@ -119,3 +119,11 @@ The user subsequently authorized the complete batch, including the nine capabili
 9. Bug Reproduction Pack: selected masked inputs, steps, release version and expected/actual results.
 
 All capabilities extend existing workspaces. No new main routes were introduced.
+
+## PDF review and device-wide UI · v37.00
+
+The user accepted the PDF reading/review/annotation proposals and requested UI optimization across all devices. Track PDF-01–PDF-06 and UI-01–UI-24 in [PDF review and device-wide UI backlog](pdf-review-device-ui-backlog.md).
+
+Status: implementation authorized; v37.00 is implemented in the PDF/UI review branch with all local regression suites passing. See [implemented behavior and limits](pdf-review-ui.md). This wave preserves existing tools, routes and entered work; validation includes targeted tests and the complete regression suite.
+
+The accepted UI scope explicitly includes visual and interaction fixes for all dropdowns/selects, buttons, inputs/editors, checkboxes/radios/switches/sliders, menus/popovers, tabs/accordions, dialogs/toolbars, feedback components and scrollbars across tools, themes and device layouts. See UI-15–UI-24 for the component-level acceptance details.

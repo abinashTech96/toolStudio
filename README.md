@@ -4,7 +4,7 @@ Browser tools for calculation, data, development, files and professional documen
 
 **Live site:** https://abinashtech96.github.io/toolStudio/
 
-The source is organized into **11 categories, 68 workspaces and 81 application modules**. All **105 existing tool routes** remain available alongside **18 new routes** (123 total). The topbar, saved data keys and reviewed Connection permissions are retained.
+The source is organized into **11 categories, 69 workspaces and 82 application modules**. All **105 existing tool routes** remain available alongside **19 new routes** (124 total). The topbar, saved data keys and reviewed Connection permissions are retained.
 
 The root URL opens a searchable Home dashboard with category cards, favorites and recent tools. Search can open individual features such as SOQL or Loan / EMI. Use **Home** to return without clearing workspace inputs. Bookmarks using `#tool=<id>` still open the requested workspace; browser Back/Forward works between Home and tools. Both hosted and standalone offline builds include the dashboard.
 
@@ -99,3 +99,9 @@ See [the Career Studio guide](docs/career-studio.md), [accepted scope](docs/care
 Existing categories now include form-based guided tasks for API chains, Salesforce review, shared complete datasets, images/files, project planning, unit calculations/formula tests, repayment events, schema migrations, test execution, translations, research and portable project bundles. All 69 workspaces and 124 routes remain available. Existing editors are retained, and changes require reviewed apply/handoff actions.
 
 See [the guided workflow guide](docs/guided-workflows.md), [accepted scope](docs/improvement-backlog.md) and [regression evidence](docs/guided-workflows-validation.json). Run `npm run test:guided` for the new workflows or `npm run test:regression` for a fresh build and every existing/new suite. Install browser runtimes and Connection_Server Python requirements first. Large datasets/documents remain memory-only unless explicitly exported; device saving is opt-in.
+
+## PDF review and responsive controls (v37.00)
+
+PDF Workspace now includes a reader with page-linked comments, checklist decisions, source-checked sessions, version-review handoff and reviewed stamp/PDF export. Shared controls add native-select search, focused editor/result views, adjustable pane widths and device/theme styling across existing tools, Connection and Games. All 69 workspaces and 124 routes remain available.
+
+See [the PDF/UI guide](docs/pdf-review-ui.md), [validation evidence](docs/pdf-review-ui-validation.json) and [accepted requirements](docs/pdf-review-device-ui-backlog.md). Run `npm run test:pdf-ui` for focused checks or `npm run test:regression` for the complete suite.

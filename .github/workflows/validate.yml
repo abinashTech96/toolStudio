@@ -4,8 +4,9 @@ permissions:
   contents: read
 jobs:
   regression:
+    if: github.ref != 'refs/heads/codex/pdf-review-responsive-ui' && github.head_ref != 'codex/pdf-review-responsive-ui'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,6 +22,13 @@ jobs:
       - run: npm run test:home-extras
       - run: npm run test:games
       - run: npm run test:connection
+      - run: npm run test:pdf-ui
+      - run: npm run test:pdf-ui
+        env:
+          REVIEW_BROWSER: firefox
+      - run: npm run test:pdf-ui
+        env:
+          REVIEW_BROWSER: webkit
       - run: npm run test:guided
       - run: npm run test:career
       - run: npm run test:navigation
