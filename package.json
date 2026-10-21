@@ -1,6 +1,6 @@
 {
   "name": "toolstudio",
-  "version": "36.0.0",
+  "version": "37.0.0",
   "private": true,
   "type": "module",
   "description": "Category-based Calc Studio source and a GitHub Pages build",
@@ -23,7 +23,8 @@
     "test:connection": "node tests/connection-guide.unit.mjs && node tests/connection.browser.mjs",
     "test:career": "node tests/career.unit.mjs && node tests/career-simple.unit.mjs && node tests/career.browser.mjs && node tests/career-simple.browser.mjs",
     "test:guided": "node tests/guided.unit.mjs && node tests/guided.browser.mjs",
-    "test:regression": "node scripts/regression.mjs"
+    "test:regression": "node scripts/regression.mjs",
+    "test:pdf-ui": "node tests/pdf-review.unit.mjs && node tests/pdf-review.browser.mjs && node tests/workspace-ui.browser.mjs"
   },
   "engines": {
     "node": ">=22.13"

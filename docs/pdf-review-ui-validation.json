@@ -1,0 +1,391 @@
+{
+  "version": "37.0.0",
+  "base": "e718569cd97f1f5cb49637e1fecc2b3fe298b5ce",
+  "status": "Local full regression passed. GitHub CI results are attached to the review pull request.",
+  "localChecks": 1046,
+  "addedChecks": 59,
+  "suites": {
+    "advanced-browser.json": 43,
+    "career-browser.json": 37,
+    "career-unit.json": 58,
+    "connection-easy-browser.json": 15,
+    "connection-guide-unit.json": 8,
+    "documents31-test-results.json": 19,
+    "edges31-test-results.json": 18,
+    "engines31-test-results.json": 87,
+    "games-brain-browser.json": 23,
+    "games-brain-unit.json": 26,
+    "games-browser.json": 54,
+    "games-unit.json": 14,
+    "hardware-test-results.json": 20,
+    "home-extras-browser.json": 22,
+    "home-extras-unit.json": 12,
+    "home-release.json": 7,
+    "home.json": 28,
+    "media31-test-results.json": 27,
+    "navigation.json": 6,
+    "reliability-browser.json": 20,
+    "reliability-unit.json": 24,
+    "server-test-results.json": 13,
+    "smoke.json": 152,
+    "update-ui.json": 5,
+    "updates.json": 5,
+    "workflows31-test-results.json": 39,
+    "architecture-unit": 12,
+    "advanced-unit": 62,
+    "budgets": 7,
+    "career-simple-unit.json": 19,
+    "career-simple-browser.json": 18,
+    "guided-unit.json": 49,
+    "guided-browser.json": 38,
+    "pdf-review-browser-chromium.json": 20,
+    "workspace-ui-chromium.json": 13,
+    "pdf-review-unit": 26
+  },
+  "regression": {
+    "appVersion": "37.0.0",
+    "createdAt": "2026-10-21T13:07:38.876Z",
+    "environment": {
+      "node": "v24.19.0",
+      "browserMatrix": "default",
+      "connectionRealRTCSkipped": true
+    },
+    "suites": [
+      {
+        "name": "check",
+        "command": [
+          "npm",
+          "run",
+          "check"
+        ],
+        "exitCode": 0,
+        "durationMs": 14399,
+        "log": "test-results/regression-check.log"
+      },
+      {
+        "name": "smoke",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "exitCode": 0,
+        "durationMs": 12809,
+        "log": "test-results/regression-smoke.log"
+      },
+      {
+        "name": "home",
+        "command": [
+          "npm",
+          "run",
+          "test:home"
+        ],
+        "exitCode": 0,
+        "durationMs": 5878,
+        "log": "test-results/regression-home.log"
+      },
+      {
+        "name": "home-extras",
+        "command": [
+          "npm",
+          "run",
+          "test:home-extras"
+        ],
+        "exitCode": 0,
+        "durationMs": 14281,
+        "log": "test-results/regression-home-extras.log"
+      },
+      {
+        "name": "games",
+        "command": [
+          "npm",
+          "run",
+          "test:games"
+        ],
+        "exitCode": 0,
+        "durationMs": 25809,
+        "log": "test-results/regression-games.log"
+      },
+      {
+        "name": "connection",
+        "command": [
+          "npm",
+          "run",
+          "test:connection"
+        ],
+        "exitCode": 0,
+        "durationMs": 8082,
+        "log": "test-results/regression-connection.log"
+      },
+      {
+        "name": "guided",
+        "command": [
+          "npm",
+          "run",
+          "test:guided"
+        ],
+        "exitCode": 0,
+        "durationMs": 26976,
+        "log": "test-results/regression-guided.log"
+      },
+      {
+        "name": "pdf-ui",
+        "command": [
+          "npm",
+          "run",
+          "test:pdf-ui"
+        ],
+        "exitCode": 0,
+        "durationMs": 31788,
+        "log": "test-results/regression-pdf-ui.log"
+      },
+      {
+        "name": "career",
+        "command": [
+          "npm",
+          "run",
+          "test:career"
+        ],
+        "exitCode": 0,
+        "durationMs": 88030,
+        "log": "test-results/regression-career.log"
+      },
+      {
+        "name": "navigation",
+        "command": [
+          "npm",
+          "run",
+          "test:navigation"
+        ],
+        "exitCode": 0,
+        "durationMs": 8973,
+        "log": "test-results/regression-navigation.log"
+      },
+      {
+        "name": "advanced",
+        "command": [
+          "npm",
+          "run",
+          "test:advanced"
+        ],
+        "exitCode": 0,
+        "durationMs": 17355,
+        "log": "test-results/regression-advanced.log"
+      },
+      {
+        "name": "reliability",
+        "command": [
+          "npm",
+          "run",
+          "test:reliability"
+        ],
+        "exitCode": 0,
+        "durationMs": 11610,
+        "log": "test-results/regression-reliability.log"
+      },
+      {
+        "name": "updates",
+        "command": [
+          "npm",
+          "run",
+          "test:updates"
+        ],
+        "exitCode": 0,
+        "durationMs": 3864,
+        "log": "test-results/regression-updates.log"
+      },
+      {
+        "name": "budgets",
+        "command": [
+          "npm",
+          "run",
+          "test:budgets"
+        ],
+        "exitCode": 0,
+        "durationMs": 214,
+        "log": "test-results/regression-budgets.log"
+      },
+      {
+        "name": "compatibility",
+        "command": [
+          "npm",
+          "run",
+          "test:compatibility"
+        ],
+        "exitCode": 0,
+        "durationMs": 40213,
+        "log": "test-results/regression-compatibility.log"
+      },
+      {
+        "name": "connection-server",
+        "command": [
+          "python3",
+          "tests/server.py"
+        ],
+        "exitCode": 0,
+        "durationMs": 193,
+        "log": "test-results/regression-connection-server.log"
+      },
+      {
+        "name": "published",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "scripts/check.mjs",
+          "--published"
+        ],
+        "exitCode": 0,
+        "durationMs": 15228,
+        "log": "test-results/regression-published.log"
+      }
+    ],
+    "passed": true
+  },
+  "inventory": {
+    "categories": 11,
+    "workspaces": 69,
+    "sourceModules": 82,
+    "legacyRoutes": 105,
+    "totalRoutes": 124
+  },
+  "generatedFiles": 144,
+  "buildRevision": "a719902df3672c66",
+  "budgets": {
+    "initialHTMLBytes": 269228,
+    "initialHTMLLimit": 350000,
+    "runtimeBytes": 2663332,
+    "runtimeLimit": 4200000,
+    "styleBytes": 178870,
+    "styleLimit": 250000,
+    "passed": true
+  },
+  "uiAudit": {
+    "workspaceLayouts": 207,
+    "widths": [
+      320,
+      390,
+      768,
+      1024,
+      1440,
+      1920,
+      2560
+    ],
+    "themes": [
+      "cartoon",
+      "forest",
+      "sky",
+      "neon",
+      "pearl",
+      "graphite"
+    ],
+    "layoutSwitchesRetainEditorAndSelection": true,
+    "nativeOptionSetRetained": 180,
+    "accessibility": [
+      "PDF review: WCAG 2 A/AA and WCAG 2.1 AA scans",
+      "Native workspace: no serious/critical axe findings",
+      "Keyboard select search and focus restoration",
+      "TV mode retains editor typing; normal view exit"
+    ],
+    "screenshots": "GitHub Actions regression-results artifact contains PDF, phone and all-theme UI captures.",
+    "pdfTextWithoutAsyncStreamIteration": true
+  },
+  "performance": {
+    "baseline": "e718569cd97f1f5cb49637e1fecc2b3fe298b5ce",
+    "browser": "153.0.8010.0",
+    "note": "Three fresh local headless contexts each; timings are environment-specific, not physical-device claims.",
+    "runs": {
+      "before": [
+        {
+          "readyMs": 5942,
+          "maxLongTaskMs": 533,
+          "decodedJSBytes": 2274214,
+          "inputFrameMedianMs": 124.80000000004657,
+          "scrollFrameMedianMs": 68.39999999990687,
+          "heapBytes": 18200000,
+          "domNodes": 1266
+        },
+        {
+          "readyMs": 2326.7999999998137,
+          "maxLongTaskMs": 660,
+          "decodedJSBytes": 2274214,
+          "inputFrameMedianMs": 65.89999999990687,
+          "scrollFrameMedianMs": 64.30000000004657,
+          "heapBytes": 18200000,
+          "domNodes": 1266
+        },
+        {
+          "readyMs": 1599.1000000000931,
+          "maxLongTaskMs": 146,
+          "decodedJSBytes": 2290303,
+          "inputFrameMedianMs": 76.19999999995343,
+          "scrollFrameMedianMs": 59.699999999953434,
+          "heapBytes": 17100000,
+          "domNodes": 1266
+        }
+      ],
+      "after": [
+        {
+          "readyMs": 1699.6000000000931,
+          "maxLongTaskMs": 145,
+          "decodedJSBytes": 2302639,
+          "inputFrameMedianMs": 65.20000000018626,
+          "scrollFrameMedianMs": 61.10000000009313,
+          "heapBytes": 18200000,
+          "domNodes": 1275
+        },
+        {
+          "readyMs": 1228.4000000001397,
+          "maxLongTaskMs": 110,
+          "decodedJSBytes": 2302639,
+          "inputFrameMedianMs": 58,
+          "scrollFrameMedianMs": 65.0999999998603,
+          "heapBytes": 17100000,
+          "domNodes": 1275
+        },
+        {
+          "readyMs": 949,
+          "maxLongTaskMs": 93,
+          "decodedJSBytes": 2302639,
+          "inputFrameMedianMs": 54.39999999990687,
+          "scrollFrameMedianMs": 54.60000000009313,
+          "heapBytes": 19300000,
+          "domNodes": 1275
+        }
+      ]
+    },
+    "summary": {
+      "before": {
+        "medianReadyMs": 2326.7999999998137,
+        "medianMaxLongTaskMs": 533,
+        "decodedJSBytes": 2274214,
+        "medianInputFrameMs": 76.19999999995343,
+        "medianScrollFrameMs": 64.30000000004657,
+        "medianHeapBytes": 18200000,
+        "domNodes": 1266
+      },
+      "after": {
+        "medianReadyMs": 1228.4000000001397,
+        "medianMaxLongTaskMs": 110,
+        "decodedJSBytes": 2302639,
+        "medianInputFrameMs": 58,
+        "medianScrollFrameMs": 61.10000000009313,
+        "medianHeapBytes": 18200000,
+        "domNodes": 1275
+      }
+    },
+    "buildRevision": "a719902df3672c66"
+  },
+  "limitations": [
+    "Local real WebRTC pairing is skipped because the container cannot establish ICE; the CI workflow runs the existing real-pairing tests without that flag.",
+    "Local browser is Chromium; PDF text coverage also disables async stream iteration to exercise Safari-compatible readers. CI runs PDF/UI and reliability checks in Chromium, Firefox and WebKit.",
+    "Phone/tablet/TV/large-text coverage is browser emulation; physical mobile keyboards, stylus and TV remote testing remain manual.",
+    "Heap metrics are coarse Chromium estimates, not peak memory measurements or physical-device performance claims.",
+    "PDF annotations depend on reader support; stamps are not signatures or secure redaction."
+  ],
+  "recordedRegressionBuildRevision": "0878c26ee777b020",
+  "compatibilityFixes": [
+    "PDF text uses explicit stream readers without async stream iteration.",
+    "Offline file URLs use the bundled PDF.js loopback fallback to avoid WebKit module-worker stalls.",
+    "Browser URL navigation quotas cannot interrupt workspace switching.",
+    "Cancellation is exercised through public controls in one browser task."
+  ],
+  "ciCoverage": "Existing full regression and independent Chromium, Firefox and WebKit PDF/UI jobs; results and current logs are attached to PR #8."
+}

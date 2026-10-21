@@ -1,7 +1,9 @@
+import {installWorkspaceUI} from './workspace-ui.js';
 import {installCatalog} from './catalog.js';
 /** Workspace transitions expose a bounded lifecycle and retain original cancellation. */
 export function installLifecycle(context, registry, resources) {
   installCatalog(context, registry);
+  installWorkspaceUI();
   const modules = new Map(registry.modules.map(module => [module.id, module]));
   let controller = new AbortController(), current = context.u23Home(context.activeView), generation = 0;
   const timings = new Map(),longTasks=[],actions=[],inputs=[];const startup=performance.now();try{new PerformanceObserver(list=>{for(const e of list.getEntries()){longTasks.push(Math.round(e.duration));if(longTasks.length>100)longTasks.shift()}}).observe({type:'longtask',buffered:true})}catch{}window.addEventListener('toolstudio:action',event=>{actions.push(event.detail);if(actions.length>50)actions.shift()});document.addEventListener('input',()=>{const start=performance.now();requestAnimationFrame(()=>{inputs.push(performance.now()-start);if(inputs.length>100)inputs.shift()})});

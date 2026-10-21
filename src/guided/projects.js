@@ -31,10 +31,10 @@ function projects(api, root) {
   ui.action("Review project bundle for export", async (signal, task) => {
     const files = await readDocuments();
     if (!task.current()) return;
-    bundle = { format: "toolstudio-work-bundle", version: 1, title: title.value, appVersion: api.appVersion, state: api.guidedState(), datasets: includeData.checked ? bundleDatasets() : [], layouts: includeLayouts.checked ? api.guidedLayouts() : {}, files, references: refs.get().map((r) => r.name) };
+    bundle = { format: "toolstudio-work-bundle", version: 1, title: title.value, appVersion: api.appVersion, state: api.guidedState(), datasets: includeData.checked ? bundleDatasets() : [], layouts: includeLayouts.checked ? api.guidedLayouts() : {}, files, references: [...new Set([...refs.get().map((r) => r.name),...(api.guidedState().workspaces['pdf-review']?.sessions||[]).map(s=>s.document.name)])] };
     const report = reviewBundle(bundle, api.guidedState());
     exportRevision = ui.revision;
-    return { title: bundle.title, savedWorkflows: Object.keys(bundle.state.workspaces), datasets: bundle.datasets.map((d) => ({ name: d.name, rows: d.rows.length })), documents: files.map(({ content, ...f }) => f), layoutCount: Object.keys(bundle.layouts).length, missingReferences: report.missing, note: "Review document contents and saved inputs before sharing this project" };
+    return { title: bundle.title, savedWorkflows: Object.keys(bundle.state.workspaces), datasets: bundle.datasets.map((d) => ({ name: d.name, rows: d.rows.length })), documents: files.map(({ content, ...f }) => f), layoutCount: Object.keys(bundle.layouts).length, missingReferences: report.missing, pdfReviewSources: (bundle.state.workspaces['pdf-review']?.sessions||[]).map(s=>({review:s.title,source:s.document.name,sha256:s.document.sha256,attachedMatch:files.some(f=>f.sha256===s.document.sha256)})), note: "Review document contents and saved inputs before sharing this project" };
   });
   ui.action("Export reviewed project bundle", () => {
     if (!bundle || exportRevision !== ui.revision) throw Error("Review the current project bundle first");

@@ -150,7 +150,7 @@ export function installHome(c, registry, options={}) {
   function address(id) {
     const url=new URL(location.href);url.hash=new URLSearchParams({tool:id}).toString();
     // file:// restricts History API in some engines; fragment navigation still works.
-    try{history.pushState(null,'',url)}catch{if(location.hash!==url.hash)location.hash=url.hash}
+    try{history.pushState(null,'',url)}catch{try{if(location.hash!==url.hash)location.hash=url.hash}catch{/* Browser navigation quotas must not interrupt opening a workspace. */}}
   }
   function showHome(focus=false,write=true) {
     if(!visible) {
