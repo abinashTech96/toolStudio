@@ -122,6 +122,8 @@ All capabilities extend existing workspaces. No new main routes were introduced.
 
 ## Next accepted planning wave — PDF review and device-wide UI
 
-The user accepted the PDF reading/review/annotation proposals and requested UI optimization across all devices. Track PDF-01–PDF-06 and UI-01–UI-14 in [PDF review and device-wide UI backlog](pdf-review-device-ui-backlog.md).
+The user accepted the PDF reading/review/annotation proposals and requested UI optimization across all devices. Track PDF-01–PDF-06 and UI-01–UI-24 in [PDF review and device-wide UI backlog](pdf-review-device-ui-backlog.md).
 
 Status: planning only. This wave is separate from the implemented v36.00 items above. Preserve every existing tool, route and entered work; run targeted and full regression when runtime changes are implemented.
+
+The accepted UI scope explicitly includes visual and interaction fixes for all dropdowns/selects, buttons, inputs/editors, checkboxes/radios/switches/sliders, menus/popovers, tabs/accordions, dialogs/toolbars, feedback components and scrollbars across tools, themes and device layouts. See UI-15–UI-24 for the component-level acceptance details.

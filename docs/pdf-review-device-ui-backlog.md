@@ -47,12 +47,30 @@ Use one document canvas with a contextual toolbar. Show controls for the selecte
 - UI-13 — Apply the same behavior to hosted and standalone offline builds, including the new guided workflows and existing Connection/Games pages where shared device conventions apply.
 - UI-14 — Measure initial load, input responsiveness, scrolling and memory before/after changes; retain current lazy-loading and runtime/style budgets unless an explicit, measured adjustment is reviewed.
 
+## Controls: visual polish and interaction consistency
+
+The user additionally requested better look and feel for dropdowns, buttons and all other UI controls throughout the application. These component-level details refine UI-02, UI-03, UI-06, UI-11 and UI-12; they are part of the same accepted UI batch, not separate replacement tools.
+
+- UI-15 — Dropdowns and selects: consistent trigger height, padding, chevron, labels and selected values; searchable/grouped choices for long lists where useful; readable menus that fit the viewport and do not cover their own search/action controls. Preserve native/platform behavior where it works well and retain complete option sets, keyboard/remote navigation and selected values.
+- UI-16 — Buttons: consistent primary, secondary, utility and destructive styles; clear text/icon alignment, sizing, spacing and grouping; distinct hover, focus, pressed, disabled and loading states. Keep action order predictable, give icon-only actions accessible names and avoid equal visual emphasis for every action.
+- UI-17 — Inputs and editors: coherent styling for text, number, date/time, search, password, file-picker and textarea controls; align prefixes/suffixes/units and clear/copy actions; make labels, placeholders, help, validation and read-only states readable. Preserve editor resizing, formatting and selection behavior.
+- UI-18 — Selection controls: improve checkboxes, radio groups, switches, sliders and range controls with visible checked/selected states, appropriately sized hit areas, clear labels and keyboard support. Keep selection controls separate from nested interactive headings/buttons.
+- UI-19 — Menus and supporting controls: consistent popovers, tooltips, chips, badges, breadcrumbs, pagination and context menus; useful text labels, bounded positioning, reliable dismissal and focus restoration. Tooltips supplement visible instructions rather than hiding essential actions.
+- UI-20 — Tabs and expandable sections: clearer selected/open states, compact grouping, predictable spacing and consistent disclosure icons; preserve content, focus and scroll position when switching views. Keep advanced controls discoverable without opening every section by default.
+- UI-21 — Dialogs, sheets and toolbars: consistent surfaces, borders, corner treatment, spacing and action placement; adapt to available width/height, safe areas, orientation and virtual keyboards. Keep primary/cancel actions reachable and avoid overlapping sticky bars or duplicate toolbars.
+- UI-22 — Feedback components: unify success/warning/error messages, progress indicators, empty states, toasts and retry controls; keep text understandable and related to the affected action/input. Announce meaningful changes and avoid flashing or shifting the layout during ordinary edits.
+- UI-23 — Scrollbars and overflow: theme-aware scrollbar styling where supported, stable layout when scrollbars appear, obvious scrollable areas and comfortable touch/remote interaction. Retain usable native scrollbars and high-contrast behavior when custom styling is unavailable.
+- UI-24 — App-wide visual consistency: use shared tokens for typography, color, borders, subtle shadows, spacing, radii and icon sizing across Home, Options, Settings, existing tools, guided workflows, PDF review, Connection and Games. Scope shared CSS carefully; retain accessible native behavior and each tool's meaningful specialist controls. Avoid decorative animations and do not introduce new themes without a separate decision.
+
+The goal is a cleaner, more polished application with fewer competing controls. Keep all current actions, options, data, routes and workflow behavior available; changes to presentation must not silently change what a control does.
+
 ## Implementation order
 
 1. Inventory existing controls and record device-specific issues; establish shared UI patterns and regression baselines.
-2. Improve the shared shell, navigation, action placement, dialogs and editor/result layouts, preserving all routes and entered work.
-3. Build the PDF reading/review canvas using those patterns; add comments/checklists, version review, stamps and saved sessions.
-4. Roll the verified patterns through the remaining workspaces, with tool-specific adaptations for tables, code, images, audio and video.
+2. Establish and review shared component examples covering dropdowns, buttons, fields, selection controls, menus, feedback and dialogs in each device layout and existing theme.
+3. Improve the shared shell, navigation, action placement, dialogs and editor/result layouts using those verified patterns, preserving all routes and entered work.
+4. Build the PDF reading/review canvas using those patterns; add comments/checklists, version review, stamps and saved sessions.
+5. Roll the verified patterns through the remaining workspaces, with tool-specific adaptations for tables, code, images, audio and video.
 
 This is a proposed sequence for the accepted backlog, not a runtime change or deployment authorization.
 
@@ -61,6 +79,8 @@ This is a proposed sequence for the accepted backlog, not a runtime change or de
 - Cover representative widths: 320, 390, 768, 1024, 1440, 1920 and 2560 CSS pixels; include portrait/landscape, tablet split-screen, and TV device mode. Treat actual TV/phone hardware verification separately from browser emulation.
 - Check touch-only interaction, keyboard-only interaction, remote-arrow behavior, visible focus, 200%/400% zoom, large text, virtual keyboard and fullscreen exits where supported.
 - Include accessibility scans and manual interaction checks; verify overflow, focus restoration and primary-action reachability.
+- Review representative component states in each theme/device layout: default, hover where available, focus, selected/expanded, pressed, disabled, read-only, loading, validation error and success. Capture before/after screenshots for representative controls and high-use tools.
+- Verify full dropdown option sets, long labels, search/no-result states, selection persistence, escape/back dismissal, keyboard/remote operation, and that primary/cancel actions remain reachable with the virtual keyboard open.
 - Verify source-file identity, annotation coordinates after zoom/rotation, Unicode notes, changed/missing documents, canceled/stale exports, and actual saved-session/PDF exports appropriate to the supported features.
 - Preserve the existing workspace/route inventory and every original tool's behavior, data, backups and undo paths. Run focused tests plus the full regression suite against the final implementation.
 - Recheck Chromium, Firefox and WebKit coverage, hosted/offline behavior, themes, large inputs and agreed performance budgets. Report unavailable physical-device coverage explicitly.
