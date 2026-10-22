@@ -14,9 +14,9 @@ Session secret variables have password entry and explicit destination review. Th
 
 CSV preview accepts comma, semicolon, tab and pipe, header-free data, UTF-8/UTF-16/Windows-1252, and preserves multiline quoted fields. Limits remain explicit: 4 MB, 50,000 rows and 200 columns. Applying to the existing Workbench retains its smaller existing limit and Undo. Correction selection checks each before-value and preserves unchecked cells. Join preview estimates many-to-many expansion, unmatched rows and duplicate keys without executing the join.
 
-Request baselines show method, URL, header and body differences; changed secrets remain visible as changes with redacted values. Existing endpoint approval is still required to send. Mapping explanations use supplied Salesforce metadata. Request/log correlation matches supplied literal IDs and bounds preview size. Translation findings navigate to the existing target editor.
+Request baselines show method, URL, header and body differences; changed secrets remain visible as changes with redacted values. Existing endpoint approval is still required to send. Mapping explanations use supplied Salesforce metadata. Request/log correlation matches supplied literal IDs and bounds preview size and combined search work. Translation findings navigate to the existing target editor.
 
-BibTeX import previews nested values, string macros, concatenation, author lists and publication metadata before explicit replacement. Unsupported TeX commands remain visible for human correction; this is not a full TeX interpreter or publisher style validator.
+BibTeX import previews nested values, string macros, concatenation, author lists and publication metadata before explicit replacement. Expanded macro values are capped at 2 MB each and 4 MB total to prevent expansion bombs. Unsupported TeX commands remain visible for human correction; this is not a full TeX interpreter or publisher style validator.
 
 ## Career and files
 
