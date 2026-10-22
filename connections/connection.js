@@ -1,3 +1,5 @@
+import {connectionError} from './operations.js';
+import {installSessionTools} from './session-tools.js';
 import{installEasyConnection}from'./easy.js';
 import {installProtocol} from './protocol.js';
 import {packetEncode,packetDecode} from './packet.js';
@@ -15,7 +17,7 @@ function node(tag,text,cls){const n=document.createElement(tag);if(text!==undefi
 function notice(text,error=false){$('notice').textContent=text;$('notice').classList.toggle('error',error)}
 function log(message){state.logs.push({time:new Date().toISOString(),message:String(message).slice(0,240)});if(state.logs.length>100)state.logs.shift();renderLogs()}
 function renderLogs(){$('diagnostics').replaceChildren(...state.logs.slice(-30).reverse().map(x=>node('div',x.time.slice(11,19)+' · '+x.message,'item')))}
-function bind(name,fn){$(name).onclick=async()=>{try{await fn()}catch(e){notice(e.message||String(e),true);log(name+': '+(e.name||'Error'))}}}
+function bind(name,fn){$(name).onclick=async()=>{try{await fn()}catch(e){notice(connectionError(e),true);log(name+': '+(e.name||'Error'))}}}
 function button(text,fn){const b=node('button',text);b.onclick=async()=>{try{await fn()}catch(e){notice(e.message,true)}};return b}
 const reviews=[];let reviewing=null;
 function review(title,text,accept='Approve',contextID=''){return new Promise(resolve=>{if(reviews.length>12){resolve(false);return}reviews.push({title,text:String(text).slice(0,80000),accept,resolve,contextID});nextReview()})}
@@ -88,6 +90,7 @@ const{closeUSB}=installUsb(adapterAPI);
 installSignaling({state,$,wsURL,initPeer,bind,validateSignal,signalData,gathered,notice,review,copy});
 installProtocol({...adapterAPI,packetEncode,packetDecode,download,review,page});
 installEasyConnection({...adapterAPI,page,closeBLE});
+installSessionTools(adapterAPI);
 window.connectionStudio=Object.freeze({version:1,disconnect,status:()=>({peer:state.pc?.connectionState||'closed',approved:state.approved&&state.peerApproved,bridge:state.bridge,files:state.received.length,permissions:permissions()}),createOffer:offer,importSignal,shutdown:()=>{disconnect();closeWS();void closeBLE();void closeUSB();}});
 window.addEventListener('pagehide',()=>{state.disposed=true;state.port?.postMessage({type:'detach'});disconnect();closeWS();void closeBLE();void closeUSB();state.port?.postMessage({type:'revoke'});state.port?.close()});
 })();
