@@ -1,5 +1,12 @@
 name: Validate Tool Studio
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -21,6 +28,7 @@ jobs:
       - run: npm run test:home-extras
       - run: npm run test:games
       - run: npm run test:connection
+      - run: npm run test:v39
       - run: npm run test:workflows
       - run: node scripts/dependency-inventory.mjs --check
       - run: npm run test:guided
@@ -62,6 +70,7 @@ jobs:
       - run: npx playwright install --with-deps "${{ matrix.browser }}"
       - run: npm run build
       - run: npm run test:pdf-ui
+      - run: npm run test:v39
       - run: npm run test:workflows
       - uses: actions/upload-artifact@v4
         if: always()

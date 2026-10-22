@@ -6,369 +6,688 @@
       "id": 1,
       "title": "Credential masking",
       "status": "implemented",
-      "implementation": [],
+      "implementation": [
+        "src/advanced/algorithms.js"
+      ],
       "verification": [
         "tests/v39.unit.mjs",
-        "tests/workflows.unit.mjs"
+        "tests/v39.browser.mjs"
       ]
     },
     {
       "id": 2,
       "title": "ICU argument types",
       "status": "implemented",
-      "implementation": [],
+      "implementation": [
+        "src/advanced/icu.js"
+      ],
       "verification": [
         "tests/v39.unit.mjs",
-        "tests/workflows.unit.mjs"
+        "tests/v39.browser.mjs"
       ]
     },
     {
       "id": 3,
       "title": "Blocked planning tasks",
       "status": "implemented",
-      "implementation": [],
+      "implementation": [
+        "src/workflows/planning.js",
+        "src/workflows/task-status.js"
+      ],
       "verification": [
         "tests/v39.unit.mjs",
-        "tests/workflows.unit.mjs"
+        "tests/v39.browser.mjs"
       ]
     },
     {
       "id": 4,
       "title": "PostgreSQL UTF-8 identifiers",
       "status": "implemented",
-      "implementation": [],
+      "implementation": [
+        "src/advanced/sql-schema.js"
+      ],
       "verification": [
         "tests/v39.unit.mjs",
-        "tests/workflows.unit.mjs"
+        "tests/v39.browser.mjs"
       ]
     },
     {
       "id": 5,
       "title": "iCalendar line folding",
       "status": "implemented",
-      "implementation": [],
+      "implementation": [
+        "src/workflows/calendar.js"
+      ],
       "verification": [
         "tests/v39.unit.mjs",
-        "tests/workflows.unit.mjs"
+        "tests/v39.browser.mjs"
       ]
     },
     {
       "id": 6,
       "title": "Unified task navigation",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/tasks.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 7,
       "title": "Contextual action menus",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/core/workspace-ui.js",
+        "src/advanced/ui.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 8,
       "title": "Integrated searchable pickers",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/core/workspace-ui.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 9,
       "title": "Device pane profiles",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/core/workspace-ui.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 10,
       "title": "Error navigation",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/core/error-navigation.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 11,
       "title": "Durable project recovery",
-      "status": "in-progress",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/project-recovery.js",
+        "src/workflows/project-recovery-ui.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 12,
       "title": "Unified portable bundle",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/guided/projects.js",
+        "src/workflows/project.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 13,
       "title": "Restore differences",
-      "status": "in-progress",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/guided/projects.js",
+        "src/workflows/project-recovery-ui.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 14,
       "title": "Per-record tab conflicts",
-      "status": "in-progress",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/project-recovery.js",
+        "src/workflows/project-recovery-ui.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 15,
       "title": "Capacity indicators",
-      "status": "in-progress",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/project-recovery-ui.js",
+        "src/guided/dataset-store.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 16,
       "title": "Unique shared request IDs",
       "status": "implemented",
-      "implementation": [],
+      "implementation": [
+        "src/workflows/project.js",
+        "src/advanced/enhancements/developer.js"
+      ],
       "verification": [
         "tests/v39.unit.mjs",
-        "tests/workflows.unit.mjs"
+        "tests/v39.browser.mjs"
       ]
     },
     {
       "id": 17,
       "title": "Typed secret variables",
-      "status": "in-progress",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/project.js",
+        "src/workflows/index.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 18,
       "title": "Request approval differences",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/release39/developer.js",
+        "src/release39/reviews.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 19,
       "title": "Salesforce mapping explanations",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/guided/developer.js",
+        "src/release39/reviews.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 20,
       "title": "Request/log correlation",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/release39/developer.js",
+        "src/release39/reviews.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 21,
       "title": "CSV import preview",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/csv.js",
+        "src/release39/data.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 22,
       "title": "Selected data corrections",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/release39/data.js",
+        "src/release39/reviews.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 23,
       "title": "Join cardinality preview",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/release39/data.js",
+        "src/release39/reviews.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 24,
       "title": "Localization issue navigation",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/release39/data.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 25,
       "title": "BibTeX import",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/advanced/bibtex.js",
+        "src/release39/research.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 26,
       "title": "Font coverage preflight",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/career/documents.js",
+        "src/career/app.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/career.browser.mjs",
+        "tests/career-simple.browser.mjs"
+      ]
     },
     {
       "id": 27,
       "title": "Direct RTL PDF export",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/career/rtl.js",
+        "src/career/documents.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/career.browser.mjs",
+        "tests/career-simple.browser.mjs"
+      ]
     },
     {
       "id": 28,
       "title": "Multicolumn resume import",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/career/documents.js",
+        "src/career/app.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/career.browser.mjs",
+        "tests/career-simple.browser.mjs"
+      ]
     },
     {
       "id": 29,
       "title": "PDF and Word hyperlinks",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/career/links.js",
+        "src/career/documents.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/career.browser.mjs",
+        "tests/career-simple.browser.mjs"
+      ]
     },
     {
       "id": 30,
       "title": "Export consistency proof",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/career/app.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/career.browser.mjs",
+        "tests/career-simple.browser.mjs"
+      ]
     },
     {
       "id": 31,
       "title": "PDF page alignment",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/advanced/workspaces/files.js",
+        "src/workflows/media.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 32,
       "title": "Image layer dimensions",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/guided/files.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 33,
       "title": "OCR region reprocessing",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/guided/files.js",
+        "src/workflows/media.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 34,
       "title": "Batch partial retry",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/guided/files.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/guided.browser.mjs",
+        "tests/workflows.browser.mjs",
+        "tests/workspace-ui.browser.mjs"
+      ]
     },
     {
       "id": 35,
       "title": "Media cancellation cleanup",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/image-batch.js",
+        "src/career/app.js",
+        "src/advanced/workspaces/files.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 36,
       "title": "Connection timeouts",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/connections/operations.js",
+        "src/connections/bluetooth.js",
+        "src/connections/usb.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/connection.browser.mjs",
+        "tests/compatibility/hardware.cjs"
+      ]
     },
     {
       "id": 37,
       "title": "Device parameter profiles",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/connections/session-tools.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/connection.browser.mjs",
+        "tests/compatibility/hardware.cjs"
+      ]
     },
     {
       "id": 38,
       "title": "Capability-driven actions",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/connections/bluetooth.js",
+        "src/connections/usb.js",
+        "src/connections/easy.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/connection.browser.mjs",
+        "tests/compatibility/hardware.cjs"
+      ]
     },
     {
       "id": 39,
       "title": "Connection session trace",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/connections/session-tools.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/connection.browser.mjs",
+        "tests/compatibility/hardware.cjs"
+      ]
     },
     {
       "id": 40,
       "title": "Actionable connection errors",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/connections/operations.js",
+        "src/connections/connection.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs",
+        "tests/connection.browser.mjs",
+        "tests/compatibility/hardware.cjs"
+      ]
     },
     {
       "id": 41,
       "title": "Pinned calculation scenarios",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/numerics.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 42,
       "title": "Structured calculation records",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/numerics.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 43,
       "title": "Finance rounding policies",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/rounding.js",
+        "src/guided/model.js",
+        "src/guided/planning.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 44,
       "title": "Explicit Kanban column mapping",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/planning.js",
+        "src/guided/planning.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 45,
       "title": "Working-day calendars",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/calendar.js",
+        "src/guided/planning.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 46,
       "title": "Deduplicated CI",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        ".github/workflows/validate.yml"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 47,
       "title": "Category browser fixtures",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "tests/v39.browser.mjs"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 48,
       "title": "Historical recovery migrations",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "tests/fixtures/recovery",
+        "scripts/generate-recovery-fixtures.mjs"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 49,
       "title": "Resource leak budgets",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "tests/v39.browser.mjs"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     },
     {
       "id": 50,
       "title": "Legacy logic isolation",
-      "status": "planned",
-      "implementation": [],
-      "verification": []
+      "status": "implemented",
+      "implementation": [
+        "src/workflows/image-batch.js",
+        "src/workflows/csv.js",
+        "src/workflows/rounding.js"
+      ],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/v39.browser.mjs"
+      ]
     }
-  ]
+  ],
+  "validation": "Full regression in progress; source implementation is not release approval."
 }

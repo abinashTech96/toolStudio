@@ -1,3 +1,4 @@
+import {ocrWords,mergeOCRRegion} from '../workflows/media.js';
 import { guided, node, editor, field, download, projectControls, changed, readText, table } from "./ui.js";
 import { clone, documentInspection } from "./model.js";
 async function digest(bytes) {
@@ -42,6 +43,7 @@ function layers(api, root) {
     reviewRevision = -1;
     base = api.c.ciClone(src);
     baseRevision = api.c.ci.revision;
+    rows.set(rows.get().map(r=>r.type==="image"&&r.locked?{...r,width:base.width,height:base.height}:r));
     return { width: base.width, height: base.height };
   });
   ui.action("Arrange selected layers", () => {
@@ -51,6 +53,7 @@ function layers(api, root) {
   });
   ui.action("Review layered image", () => {
     if (!base) throw Error("Capture current image first");
+    if(canvas)canvas.width=canvas.height=0;
     canvas = api.c.ciCanvas(base.width, base.height);
     const ctx = canvas.getContext("2d");
     for (const r of rows.get()) {
@@ -61,7 +64,7 @@ function layers(api, root) {
       ctx.globalAlpha = Math.max(0, Math.min(1, r.opacity));
       ctx.fillStyle = r.color;
       ctx.translate(r.x, r.y);
-      if (r.type === "image") ctx.drawImage(base, 0, 0);
+      if (r.type === "image") ctx.drawImage(base, 0, 0, r.width, r.height);
       else if (r.type === "text") {
         ctx.font = Math.min(1e3, r.height || 24) + "px sans-serif";
         ctx.fillText(r.text, 0, 0);
@@ -130,6 +133,16 @@ function ocr(api, root) {
     }));
     return { regions: c.ci25.ocr.length, interactiveRegions: Math.min(500, c.ci25.ocr.length), note: "Select a word to review its source bounding box and use the existing correction control" };
   });
+  const regionX=ui.field('OCR region X','0','number'),regionY=ui.field('OCR region Y','0','number'),regionW=ui.field('OCR region width','100','number'),regionH=ui.field('OCR region height','100','number');let reviewed=null;
+  ui.action('Reprocess selected OCR region',async(signal,task)=>{
+    const c=api.c;c.ciNeedIdle();const source=c.ciNeed(),revision=c.ci.revision,original=structuredClone(c.ci25.ocr),text=c.$('ciOCRText').value;
+    if(c.ci25.ocrRevision!==revision||text!==c.ci25.ocrText)throw Error('Extract the current image first; apply word corrections before reprocessing');
+    const area={x:Number(regionX.value),y:Number(regionY.value),w:Number(regionW.value),h:Number(regionH.value)};if(!Object.values(area).every(Number.isInteger)||area.x<0||area.y<0||area.w<1||area.h<1||area.x+area.w>source.width||area.y+area.h>source.height||area.w*area.h>6e6)throw Error('Choose an integer region inside the image, up to six megapixels');
+    const canvas=c.ciCanvas(area.w,area.h);canvas.getContext('2d').drawImage(source,area.x,area.y,area.w,area.h,0,0,area.w,area.h);const cancel=()=>{const worker=c.editionWorkers.get('ci-ocr');if(worker){c.stopEditionWorker('ci-ocr');worker.failure?.()}};signal.addEventListener('abort',cancel,{once:true});c.ci.busy=true;c.ciButtons();
+    try{const data=await c.ciOCRRecognize(canvas,revision);if(!task.current()||revision!==c.ci.revision||JSON.stringify(original)!==JSON.stringify(c.ci25.ocr)||text!==c.$('ciOCRText').value)throw Error('Image or OCR text changed; reprocess again');const parsed=ocrWords(data,{...area,width:area.w,height:area.h});reviewed={...mergeOCRRegion(original,parsed.words,area),original,text,revision,uiRevision:ui.revision};return{region:area,replacedWords:reviewed.replaced,preservedWords:reviewed.preserved,recognized:parsed.words,preview:reviewed.text,note:'Outside words and their corrections are retained. Overlapping words are replaced only after Apply; review reconstructed spacing.'}}finally{signal.removeEventListener('abort',cancel);canvas.width=canvas.height=0;c.ci.busy=false;c.ciButtons()}
+  });
+  ui.action('Apply reviewed OCR region',()=>{const c=api.c;if(!reviewed||reviewed.revision!==c.ci.revision||reviewed.uiRevision!==ui.revision||JSON.stringify(reviewed.original)!==JSON.stringify(c.ci25.ocr)||reviewed.text!==c.$('ciOCRText').value)throw Error('OCR inputs changed; reprocess and review again');if(!confirm('Replace reviewed overlapping words and reconstruct OCR spacing? Outside word corrections are retained.'))return{$cancelled:true};c.ci25.ocr=reviewed.words;c.ci25.ocrText=reviewed.text;c.$('ciOCRText').value=reviewed.text;changed(c.$('ciOCRText'));c.ci25OCRList();c.ci25OCRSelect(0);reviewed=null;return{applied:true,undo:'OCR text input Undo remains available'}});
+  ui.onRelease(()=>{reviewed=null;words.replaceChildren()});
   return ui;
 }
 function batches(api, root) {
@@ -139,19 +152,21 @@ function batches(api, root) {
   input.accept = "image/png,image/jpeg,image/webp";
   const list = node("div", void 0, { class: "a34-wide" });
   ui.body.append(list);
-  let records = [];
+  let records = [],generation=0,active=false;
   const run = async (record, task) => {
-    record.state = "running";
+    if(record.state==="running")throw Error("This file is already processing");
+    record.state = "running";render();
     try {
       if (record.file.size > 2e7 || records.length > 30 || records.reduce((n, r) => n + r.file.size, 0) > 6e7) throw Error("Batch limits: 30 files, 20 MB per file, 60 MB total");
-      const settings = api.c.ci25BatchSettings(), signature = JSON.stringify(settings), current = () => task.current() && signature === JSON.stringify(api.c.ci25BatchSettings()), result = await api.c.ci25BatchProcess(record.file, settings, current);
+      const settings = api.c.ci25BatchSettings(), signature = JSON.stringify(settings), current = () => task.current() && records.includes(record) && signature === JSON.stringify(api.c.ci25BatchSettings()), result = await api.c.ci25BatchProcess(record.file, settings, current);
       if (!current()) throw Error("Batch inputs changed; run again");
-      record.blob = result.blob || result;
+      const blob=result.blob||result;if(records.reduce((n,r)=>n+(r===record?0:r.blob?.size||0),0)+blob.size>64*1048576)throw Error("Combined output exceeds 64 MiB");
+      record.blob = blob;
       record.state = "ready";
       record.error = "";
       record.settings = clone(settings);
     } catch (e) {
-      record.state = "failed";
+      record.state = e.name==="AbortError"||!task.current()?"cancelled":"failed";
       record.error = e.message;
     }
     render();
@@ -162,11 +177,9 @@ function batches(api, root) {
       row.append(node("strong", r.file.name), node("p", r.state + (r.error ? " \xB7 " + r.error : "")));
       const retry = node("button", "Retry " + r.file.name, { type: "button" });
       retry.onclick = async () => {
-        retry.disabled = true;
-        await run(r, { current: () => records.includes(r) });
-        retry.disabled = false;
+        if(active)return;active=true;const ticket=generation;retry.disabled=true;try{await run(r,{current:()=>generation===ticket&&records.includes(r)})}finally{active=false;render()}
       };
-      row.append(retry);
+      retry.disabled=active||r.state==="running";row.append(retry);
       if (r.state === "ready") {
         const save = node("button", "Download " + r.file.name, { type: "button" });
         save.onclick = () => download(r.file.name.replace(/\.[^.]+$/, "") + "-processed." + (r.blob.type === "image/png" ? "png" : r.blob.type === "image/webp" ? "webp" : "jpg"), r.blob, r.blob.type);
@@ -176,19 +189,22 @@ function batches(api, root) {
     }));
   }
   input.onchange = () => {
+    generation++;
     records = [...input.files].map((file) => ({ file, state: "pending", error: "", blob: null }));
     render();
   };
-  ui.action("Process all batch files", async (signal, task) => {
-    if (!records.length || records.length > 30 || records.reduce((n, r) => n + r.file.size, 0) > 6e7) throw Error("Choose 1\u201330 images totaling at most 60 MB");
-    for (const r of records) {
-      if (!task.current()) throw Error("Batch cancelled or inputs changed");
-      await run(r, task);
-    }
-    return records.map((r) => ({ file: r.file.name, state: r.state, error: r.error, bytes: r.blob?.size || 0 }));
-  });
+  const process=async(onlyFailed,signal,task)=>{
+    if(active)throw Error('A batch is already processing');
+    if (!records.length || records.length > 30 || records.reduce((n,r)=>n+r.file.size,0)>6e7)throw Error('Choose 1–30 images totaling at most 60 MB');
+    const pending=records.filter(r=>!onlyFailed||['failed','cancelled'].includes(r.state)),ticket=generation;active=true;render();
+    try{for(const r of pending){if(signal.aborted||!task.current()||generation!==ticket)throw new DOMException('Batch cancelled or inputs changed','AbortError');await run(r,{current:()=>!signal.aborted&&task.current()&&generation===ticket})}}finally{active=false;render()}
+    return records.map(r=>({file:r.file.name,state:r.state,error:r.error,bytes:r.blob?.size||0}));
+  };
+  ui.action('Process all batch files',(signal,task)=>process(false,signal,task));
+  ui.action('Retry failed batch files only',(signal,task)=>process(true,signal,task));
+  const stop=node('button','Stop current batch',{type:'button'});stop.onclick=()=>{generation++;ui.status.textContent='Cancellation requested; successful outputs retained'};ui.body.append(stop);
   ui.onRelease(() => {
-    records = [];
+    generation++;records = [];
     input.value = "";
     render();
   });

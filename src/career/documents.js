@@ -1,5 +1,5 @@
 import {hasRTL,visualRuns,shapedWidth,drawShapedLine} from './rtl.js';
-import {textLinks} from './links.js';
+import {textLinks,linkRectangles} from './links.js';
 import {readPDFText} from '../advanced/assets.js';
 import {layoutSettings, blockLayout} from "./layout.js";
 import { zipSync, unzipSync, strToU8, strFromU8 } from "fflate";
@@ -193,7 +193,7 @@ function suggestImport(text) {
 function createPDFExporter(api) {
   let engine, fontkit;
   const fontBytes = {};
-  return async (doc, s) => {
+  async function loadFont(s) {
 
     engine ||= await api.pdfEditor();
     if (!fontkit) {
@@ -206,21 +206,27 @@ function createPDFExporter(api) {
     }
     const fontName = s.font === "Serif" && s.direction!=="rtl" ? "careerSerif" : "careerFont";
     fontBytes[fontName] ||= await api.asset(fontName);
+    return api.careerFontOverride||fontBytes[fontName];
+  }
+  const exporter=async (doc,s)=>{
+    const selectedBytes=await loadFont(s);
     const pdf = await engine.PDFDocument.create();
     pdf.registerFontkit(fontkit);
-    const selectedBytes=api.careerFontOverride||fontBytes[fontName],raw=fontkit.create(selectedBytes),font = await pdf.embedFont(selectedBytes, { subset: true }), supported = new Set(font.getCharacterSet()), blocks = documentBlocks(doc, s);
-    for (const b of blocks) for (const c of b.text) if (c !== "\n" && c !== "\r" && !supported.has(c.codePointAt(0))) throw Error("Direct PDF font does not cover \u201C" + c + "\u201D. Use Print / Save as PDF or Word/HTML for this script.");
+    const raw=fontkit.create(selectedBytes),font = await pdf.embedFont(selectedBytes, { subset: true }), supported = new Set(font.getCharacterSet()), blocks = documentBlocks(doc, s);
+    for (const b of blocks) for (const c of b.text) if (!/[\n\r\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(c) && !supported.has(c.codePointAt(0))) throw Error("Direct PDF font does not cover \u201C" + c + "\u201D. Use Print / Save as PDF or Word/HTML for this script.");
     const measure=(t,n)=>s.direction==='rtl'||hasRTL(t)?shapedWidth(raw,t,n,s.direction):font.widthOfTextAtSize(t,n);const layout = layoutBlocks(blocks, s, measure);
     if (!layout.pages.length) throw Error("Add resume content before exporting");
     for (const rows of layout.pages) {
       const page = pdf.addPage([layout.width, layout.height]);
-      for(const r of rows)for(const run of r.runs||[{text:r.text,x:r.x}]){if(s.direction==='rtl'||hasRTL(run.text))drawShapedLine(engine,pdf,page,font,raw,run.text,{x:run.x,y:r.y,size:r.size,direction:s.direction});else page.drawText(run.text,{x:run.x,y:r.y,size:r.size,font});for(const link of textLinks(run.text).filter(v=>v.url)){const prefix=run.text.slice(0,run.text.indexOf(link.text)),left=s.direction==='rtl'||hasRTL(run.text)?run.x:run.x+measure(prefix,r.size),width=s.direction==='rtl'||hasRTL(run.text)?measure(run.text,r.size):measure(link.text,r.size),annotation=pdf.context.obj({Type:'Annot',Subtype:'Link',Rect:[left,r.y-r.size*.2,left+width,r.y+r.size],Border:[0,0,0],A:{Type:'Action',S:'URI',URI:engine.PDFString.of(link.url)}});page.node.addAnnot(pdf.context.register(annotation))}}
+      for(const r of rows)for(const run of r.runs||[{text:r.text,x:r.x}]){if(s.direction==='rtl'||hasRTL(run.text))drawShapedLine(engine,pdf,page,font,raw,run.text,{x:run.x,y:r.y,size:r.size,direction:s.direction});else page.drawText(run.text,{x:run.x,y:r.y,size:r.size,font});for(const link of linkRectangles(run.text,text=>measure(text,r.size),s.direction)){const left=run.x+link.left,width=link.width,annotation=pdf.context.obj({Type:'Annot',Subtype:'Link',Rect:[left,r.y-r.size*.2,left+width,r.y+r.size],Border:[0,0,0],A:{Type:'Action',S:'URI',URI:engine.PDFString.of(link.url)}});page.node.addAnnot(pdf.context.register(annotation))}}
 
     }
     pdf.setTitle((s.hiddenFields.includes("name") ? "Anonymous" : doc.name || "Professional") + " \u2014 Resume");
     pdf.setCreator("Tool Studio Career Studio");
     return { bytes: await pdf.save(), pages: layout.pages.length };
   };
+  exporter.preflight=async(doc,s,override)=>{const bundled=await loadFont(s),bytes=override||bundled;if(bytes.byteLength>8e6)throw Error("Font must be at most 8 MB");const raw=fontkit.create(bytes),text=documentBlocks(doc,s).map(b=>b.text).join("\n"),characters=[...new Set([...text].filter(c=>!/[\s\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(c)))],missing=characters.filter(c=>!raw.hasGlyphForCodePoint(c.codePointAt(0)));return {font:raw.familyName||"Custom font",characters:characters.length,missing:missing.map(c=>({character:c,codePoint:"U+"+c.codePointAt(0).toString(16).toUpperCase()})),covered:!missing.length,direction:s.direction,shaping:hasRTL(text)?"Bidirectional runs and contextual glyph shaping":"Font layout",note:"Coverage checks glyph availability; preview the actual pages to inspect appearance."}};
+  return exporter;
 }
 function bundle(files) {
   return zipSync(Object.fromEntries(Object.entries(files).map(([k, v]) => [k, typeof v === "string" ? strToU8(v) : v])), { level: 6 });

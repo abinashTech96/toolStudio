@@ -42,7 +42,7 @@ function projects(api, root) {
     const projectRevision=project.projectRevision();for(const[id,check]of reusableChecks)if(check.checked){const file=project.getFile(id);if(file.size>6e6||files.reduce((n,f)=>n+f.size,0)+file.size>6e6)throw Error('Portable documents total at most 6 MB; choose fewer reusable files');const bytes=new Uint8Array(await file.arrayBuffer());files.push({name:file.name,type:file.type,size:file.size,sha256:id,content:encode(bytes),reusable:true})}
     if(projectRevision!==project.projectRevision())throw Error('Shared project changed during export review');
     if (!task.current()) return;
-    const nextBundle = { format: "toolstudio-work-bundle", version: 1, title: title.value, appVersion: api.appVersion, state: api.guidedState(), sharedRecords: project.listRecords().filter(r=>sharedChecks.get(r.id)?.checked).map(r=>({...r,value:JSON.parse(maskSecrets(JSON.stringify(r.value)))})), datasets: includeData.checked ? bundleDatasets([...datasetChecks].filter(([,c])=>c.checked).map(([id])=>id)) : [], layouts: includeLayouts.checked ? api.guidedLayouts() : {}, files, references: [...new Set([...refs.get().map((r) => r.name),...(api.guidedState().workspaces['pdf-review']?.sessions||[]).map(s=>s.document.name)])] };
+    const nextBundle = { format: "toolstudio-work-bundle", version: 1, title: title.value, appVersion: api.appVersion, state: api.guidedState(), sharedRecords: project.listRecords().filter(r=>sharedChecks.get(r.id)?.checked).map(r=>({...r,value:project.redactProjectValue(r.value)})), datasets: includeData.checked ? bundleDatasets([...datasetChecks].filter(([,c])=>c.checked).map(([id])=>id)) : [], layouts: includeLayouts.checked ? api.guidedLayouts() : {}, files, references: [...new Set([...refs.get().map((r) => r.name),...(api.guidedState().workspaces['pdf-review']?.sessions||[]).map(s=>s.document.name)])] };
     const report = reviewBundle(nextBundle, api.guidedState());
     bundle=nextBundle;
     exportRevision = ui.revision;exportProjectRevision=project.projectRevision();
@@ -117,6 +117,7 @@ function projects(api, root) {
     preflightDatasets(selected.filter(c=>c.kind==='dataset').map(c=>candidate.datasets[Number(c.id)]));
     const projectRevision=project.projectRevision(),incomingRecords=selected.filter(c=>c.kind==='record').map(c=>candidate.sharedRecords.find(r=>r.id===c.id)),records=[...project.listRecords(),...incomingRecords.map(r=>({...r,id:'record-'+crypto.randomUUID(),name:(r.name+' (restored)').slice(0,120),revision:projectRevision+1}))],files=new Map(project.projectSnapshot().files.map(f=>[f.id,f]));for(const c of selected.filter(c=>c.kind==='reusable')){const f=verifiedFiles[Number(c.id)];files.set(f.sha256,{id:f.sha256,file:new File([f.bytes],f.name,{type:f.type})})}
     const prepared=await project.prepareProject({records,files:[...files.values()]});if(!task.current()||projectRevision!==project.projectRevision())throw Error('Project changed during restore review');
+    preflightDatasets(selected.filter(c=>c.kind==='dataset').map(c=>candidate.datasets[Number(c.id)]));
     api.saveGuidedBundle(validateGuidedState(state), layouts);
     if(incomingRecords.length||selected.some(c=>c.kind==='reusable'))project.commitPreparedProject(prepared,{expected:projectRevision});
     for (const c of selected) if (c.kind === "dataset") {
