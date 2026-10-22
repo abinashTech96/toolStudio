@@ -1,4 +1,4 @@
-# Final reviewed helper changes.
+# Final reviewed helper changes and optional-policy migration validation.
 name: Prepare v39 generated files
 on:
   push:

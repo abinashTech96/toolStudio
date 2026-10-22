@@ -1,0 +1,84 @@
+{
+  "version": "39.0.0",
+  "base": "cd64e5adcb6bf729efe3cd058e210912d7ada84c",
+  "branch": "codex/v39-existing-system",
+  "preserved": {
+    "workspaces": 69,
+    "routes": 124,
+    "legacyRoutes": 105,
+    "categories": 11
+  },
+  "local": {
+    "fullRegression": {
+      "command": "npm run test:regression",
+      "suites": 20,
+      "passed": true,
+      "suiteNames": [
+        "build",
+        "check",
+        "smoke",
+        "home",
+        "home-extras",
+        "games",
+        "connection",
+        "guided",
+        "workflows",
+        "v39",
+        "pdf-ui",
+        "career",
+        "navigation",
+        "advanced",
+        "reliability",
+        "updates",
+        "budgets",
+        "compatibility",
+        "connection-server",
+        "published"
+      ],
+      "note": "The complete run passed. Final helper and optional-policy validation additions also pass focused tests and are included in GitHub validation."
+    },
+    "focused": {
+      "v39UnitChecks": 31,
+      "v39BrowserChecks": 20,
+      "guidedUnitChecks": 49,
+      "simulatedHardwareCompatibilityChecks": 20
+    },
+    "resourceCycles": [
+      {
+        "urls": 2,
+        "workers": 0
+      },
+      {
+        "urls": 2,
+        "workers": 0
+      },
+      {
+        "urls": 2,
+        "workers": 0
+      },
+      {
+        "urls": 2,
+        "workers": 0
+      },
+      {
+        "urls": 2,
+        "workers": 0
+      }
+    ],
+    "limits": {
+      "physicalHardwareTested": false,
+      "realWebRTCPairingSkippedLocally": true,
+      "reason": "The local test runtime has no usable ICE interfaces. GitHub regression runs the real two-browser pairing tests."
+    }
+  },
+  "github": {
+    "pullRequest": "https://github.com/abinashTech96/toolStudio/pull/10",
+    "workflow": ".github/workflows/validate.yml",
+    "browserMatrix": [
+      "chromium",
+      "firefox",
+      "webkit"
+    ],
+    "evidence": "Use the checks attached to the final PR head; generated release files are built on the review branch."
+  }
+}

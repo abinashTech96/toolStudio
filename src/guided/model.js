@@ -418,6 +418,11 @@ function validateWorkflow(id, value) {
   if (id === "salesforce-builder" && typeof value.metadata !== "string") throw Error("Describe metadata must be text");
   if (id === "data-steps" && typeof value.name !== "string") throw Error("Dataset name must be text");
   for (const key of id === "repayment-events" ? ["principal", "rate", "payment", "start", "months"] : id === "project-planning" ? ["name", "week", "capacity"] : []) if (typeof value[key] !== "string") throw Error(id + " " + key + " must be text");
+  if(id==='repayment-events'){
+    if(value.precision!==undefined&&!['0','1','2','3','4'].includes(value.precision))throw Error('Saved repayment precision must be 0–4');
+    if(value.rounding!==undefined&&!['nearest','half-even','down','up'].includes(value.rounding))throw Error('Invalid saved repayment rounding policy');
+  }
+  if(id==='project-planning')for(const key of ['columns','weekends','holidays','dailyHours'])if(value[key]!==undefined&&typeof value[key]!=='string')throw Error('Saved planning '+key+' must be text');
   return value;
 }
 function validateGuidedState(value) {

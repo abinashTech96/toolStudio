@@ -689,5 +689,5 @@
       ]
     }
   ],
-  "validation": "Full regression in progress; source implementation is not release approval."
+  "validation": "Local regression: 20/20 suites passed. See docs/v39-validation.json and the checks on PR #10 for final-head browser evidence."
 }
