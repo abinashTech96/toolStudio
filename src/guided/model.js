@@ -452,7 +452,7 @@ function reviewBundle(bundle, current) {
   }
   if (!Array.isArray(bundle.references || []) || (bundle.references || []).length > 100 || (bundle.references || []).some((name) => typeof name !== "string" || name.length > 500)) throw Error("Invalid document references");
   for (const f of bundle.files || []) if (typeof f.name !== "string" || !f.name.trim() || f.name.length>500 || typeof f.type !== "string" || !Number.isInteger(f.size) || f.size < 0 || f.size > 6e6 || typeof f.content !== "string" || f.content.length > 14e6 || !/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(f.content) || !/^[a-f0-9]{64}$/.test(f.sha256)) throw Error("Invalid bundled document");
-  if (JSON.stringify(bundle).length > 12e6) throw Error("Project bundle limit: 12 MB");
+  if (JSON.stringify(bundle).length > 32e6) throw Error("Project bundle limit: 32 MB");
   return { state, workspaces: Object.keys(state.workspaces).map((id) => ({ id, conflict: own(current.workspaces, id), action: own(current.workspaces, id) ? "Review replacement" : "New" })), missing: (bundle.references || []).filter((name) => !(bundle.files || []).some((f) => f.name === name)) };
 }
 export {

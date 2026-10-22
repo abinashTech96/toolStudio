@@ -1,3 +1,5 @@
+import {hasRTL,visualRuns,shapedWidth,drawShapedLine} from './rtl.js';
+import {textLinks} from './links.js';
 import {readPDFText} from '../advanced/assets.js';
 import {layoutSettings, blockLayout} from "./layout.js";
 import { zipSync, unzipSync, strToU8, strFromU8 } from "fflate";
@@ -95,7 +97,7 @@ function layoutBlocks(blocks, s, measure) {
       const measured=measure(row.text,size),base=margins.left+indent;
       let x=base+(l.align==='center'?(max-measured)/2:l.align==='right'?max-measured:0),runs;
       if(l.align==='justify'&&!row.last&&row.text.includes(' ')) {
-        const words=row.text.split(' '),total=words.reduce((n,w)=>n+measure(w,size),0),space=(max-total)/(words.length-1);let at=base;
+        const words=s.direction==='rtl'?visualRuns(row.text,'rtl').flatMap(run=>run.level%2?run.text.split(' ').reverse():run.text.split(' ')).filter(Boolean):row.text.split(' '),total=words.reduce((n,w)=>n+measure(w,size),0),space=(max-total)/(words.length-1);let at=base;
         runs=words.map(word=>{const run={text:word,x:at};at+=measure(word,size)+space;return run;});
       }
       pages.at(-1).push({...b,text:row.text,x,y,size,...(runs?{runs}:{})});
@@ -104,15 +106,12 @@ function layoutBlocks(blocks, s, measure) {
   return {width,height,margin:margins.left,margins,pages:pages.filter(p=>p.length)};
 }
 const xml = (s) => escape(String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, "")).replace(/&#39;/g, "&apos;");
-function docxBytes(doc, s) {
-  const ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", rel = "http://schemas.openxmlformats.org/package/2006/relationships", blocks = documentBlocks(doc, s), body = blocks.map((b) => {
-    if (b.kind === "break") return '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
-    const l=blockLayout(b,s), align=l.align==="justify"?"both":l.align, indent=b.kind==="bullet"?`<w:ind w:${s.direction==='rtl'?'right':'left'}="${Math.round(l.bulletIndent*20)}"/>`:"";
-    const heading = ["name", "heading", "subheading"].includes(b.kind), size = Math.round(s.size * 2 * ({ name: 2, headline: 1.15, heading: 1.13, date: 0.92, contact: 0.92 }[b.kind] || 1));
-    return '<w:p><w:pPr><w:jc w:val="'+align+'"/>'+indent + (heading ? "<w:keepNext/><w:keepLines/>" : "") + (s.direction === "rtl" ? "<w:bidi/>" : "") + '<w:spacing w:after="' + Math.round(l.paragraphGap * 20) + '" w:line="' + Math.round(s.spacing * 240) + '" w:lineRule="auto"/>' + (b.kind === "heading" ? '<w:outlineLvl w:val="0"/>' : "") + "</w:pPr><w:r><w:rPr>" + (heading ? "<w:b/>" : "") + '<w:rFonts w:ascii="' + (s.font === "Serif" ? "Georgia" : "Arial") + '" w:hAnsi="' + (s.font === "Serif" ? "Georgia" : "Arial") + '"/><w:sz w:val="' + size + '"/><w:szCs w:val="' + size + '"/><w:lang w:val="' + xml(s.language) + '"/>' + (s.direction === "rtl" ? "<w:rtl/>" : "") + '</w:rPr><w:t xml:space="preserve">' + xml((b.kind === "bullet" ? "\u2022 " : "") + b.text) + "</w:t></w:r></w:p>";
-  }).join(""), margin = Math.round(s.margin * 1440 / 25.4), width = s.page === "A4" ? 11906 : 12240, height = s.page === "A4" ? 16838 : 15840;
-  const margins=Object.fromEntries(Object.entries(layoutSettings(s).margins).map(([k,v])=>[k,Math.round(v*1440/25.4)]));
-  return zipSync({ "[Content_Types].xml": strToU8('<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'), "_rels/.rels": strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="' + rel + '"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'), "word/document.xml": strToU8('<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="' + ns + '"><w:body>' + body + '<w:sectPr><w:pgSz w:w="' + width + '" w:h="' + height + '"/><w:pgMar w:top="' + margins.top + '" w:right="' + margins.right + '" w:bottom="' + margins.bottom + '" w:left="' + margins.left + '"/></w:sectPr></w:body></w:document>') }, { level: 6 });
+function docxBytes(doc,s){
+ const ns='http://schemas.openxmlformats.org/wordprocessingml/2006/main',rel='http://schemas.openxmlformats.org/package/2006/relationships',relationships=[];
+ const body=documentBlocks(doc,s).map(b=>{if(b.kind==='break')return'<w:p><w:r><w:br w:type="page"/></w:r></w:p>';const l=blockLayout(b,s),align=l.align==='justify'?'both':l.align,heading=['name','heading','subheading'].includes(b.kind),size=Math.round(s.size*2*({name:2,headline:1.15,heading:1.13,date:.92,contact:.92}[b.kind]||1));const properties=(heading?'<w:b/>':'')+'<w:rFonts w:ascii="'+(s.font==='Serif'?'Georgia':'Arial')+'" w:hAnsi="'+(s.font==='Serif'?'Georgia':'Arial')+'"/><w:sz w:val="'+size+'"/><w:szCs w:val="'+size+'"/><w:lang w:val="'+xml(s.language)+'"/>'+(s.direction==='rtl'?'<w:rtl/>':'');
+ const runs=textLinks((b.kind==='bullet'?'• ':'')+b.text).map(segment=>{const run='<w:r><w:rPr>'+properties+(segment.url?'<w:u w:val="single"/>':'')+'</w:rPr><w:t xml:space="preserve">'+xml(segment.text)+'</w:t></w:r>';if(!segment.url)return run;const id='link'+(relationships.length+1);relationships.push({id,url:segment.url});return'<w:hyperlink r:id="'+id+'">'+run+'</w:hyperlink>'}).join('');return'<w:p><w:pPr><w:jc w:val="'+align+'"/>'+(b.kind==='bullet'?'<w:ind w:'+ (s.direction==='rtl'?'right':'left')+'="'+Math.round(l.bulletIndent*20)+'"/>':'')+(heading?'<w:keepNext/><w:keepLines/>':'')+(s.direction==='rtl'?'<w:bidi/>':'')+'<w:spacing w:after="'+Math.round(l.paragraphGap*20)+'" w:line="'+Math.round(s.spacing*240)+'" w:lineRule="auto"/>'+(b.kind==='heading'?'<w:outlineLvl w:val="0"/>':'')+'</w:pPr>'+runs+'</w:p>'}).join('');
+ const margins=Object.fromEntries(Object.entries(layoutSettings(s).margins).map(([k,v])=>[k,Math.round(v*1440/25.4)])),width=s.page==='A4'?11906:12240,height=s.page==='A4'?16838:15840;
+ return zipSync({'[Content_Types].xml':strToU8('<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'),'_rels/.rels':strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="'+rel+'"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'),'word/_rels/document.xml.rels':strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="'+rel+'">'+relationships.map(r=>'<Relationship Id="'+r.id+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="'+xml(r.url)+'" TargetMode="External"/>').join('')+'</Relationships>'),'word/document.xml':strToU8('<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="'+ns+'" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>'+body+'<w:sectPr><w:pgSz w:w="'+width+'" w:h="'+height+'"/><w:pgMar w:top="'+margins.top+'" w:right="'+margins.right+'" w:bottom="'+margins.bottom+'" w:left="'+margins.left+'"/></w:sectPr></w:body></w:document>')},{level:6});
 }
 function extractDocx(bytes) {
   let size = 0;
@@ -131,19 +130,21 @@ function extractDocx(bytes) {
     return [...dom.getElementsByTagNameNS("*", "p")].map((p) => [...p.getElementsByTagNameNS("*", "t")].map((t) => t.textContent).join("")).join("\n");
   }).join("\n");
 }
-async function extractResume(file, api) {
+async function extractResume(file, api, {signal,readingOrder='source'}={}) {
   if (!file || file.size > 1e7) throw Error("Choose a resume up to 10 MB");
+  if(signal?.aborted)throw new DOMException('Cancelled','AbortError');
   const bytes = new Uint8Array(await file.arrayBuffer()), ext = file.name.split(".").at(-1).toLowerCase();
   if (ext === "docx") return extractDocx(bytes);
   if (ext === "pdf") {
     const engine = await api.pdf(), task = engine.getDocument({ data: bytes, isEvalSupported: false });
-    let pdf;
+    const abort=()=>void task.destroy();signal?.addEventListener('abort',abort,{once:true});let pdf;
     try {
-      pdf = await task.promise;
+      if(signal?.aborted)throw new DOMException('Cancelled','AbortError');pdf = await task.promise;
       if (pdf.numPages > 50) throw Error("Import at most 50 PDF pages");
       let text = "";
       for (let i = 1; i <= pdf.numPages; i++) {
-        const p = await pdf.getPage(i), content = await readPDFText(p);
+        if(signal?.aborted)throw new DOMException('Cancelled','AbortError');const p = await pdf.getPage(i), content = await readPDFText(p);
+        if(readingOrder!=='source'){const middle=p.getViewport({scale:1}).width/2,compare=(a,b)=>Math.abs(a.transform[5]-b.transform[5])>3?b.transform[5]-a.transform[5]:a.transform[4]-b.transform[4];content.items=readingOrder==='columns'?[...content.items.filter(v=>v.transform[4]<middle).sort(compare),...content.items.filter(v=>v.transform[4]>=middle).sort(compare)]:content.items.slice().sort(compare)}
         let previousY = null;
         for (const item of content.items) {
           const y = item.transform?.[5];
@@ -157,7 +158,7 @@ async function extractResume(file, api) {
       if (!text.trim()) throw Error("No selectable text found. Use Camera & Image Studio OCR for a scanned document, then paste and review its text.");
       return text;
     } finally {
-      await task.destroy();
+      signal?.removeEventListener('abort',abort);await task.destroy();
     }
   }
   if (["txt", "md"].includes(ext)) return new TextDecoder().decode(bytes);
@@ -193,7 +194,7 @@ function createPDFExporter(api) {
   let engine, fontkit;
   const fontBytes = {};
   return async (doc, s) => {
-    if (s.direction === "rtl") throw Error("Use Print / Save as PDF for RTL layout, or export Word/HTML. Direct PDF uses left-to-right text.");
+
     engine ||= await api.pdfEditor();
     if (!fontkit) {
       const bytes = await api.asset("careerFontkit"), url = URL.createObjectURL(new Blob([bytes], { type: "text/javascript" }));
@@ -203,17 +204,18 @@ function createPDFExporter(api) {
         URL.revokeObjectURL(url);
       }
     }
-    const fontName = s.font === "Serif" ? "careerSerif" : "careerFont";
+    const fontName = s.font === "Serif" && s.direction!=="rtl" ? "careerSerif" : "careerFont";
     fontBytes[fontName] ||= await api.asset(fontName);
     const pdf = await engine.PDFDocument.create();
     pdf.registerFontkit(fontkit);
-    const font = await pdf.embedFont(fontBytes[fontName], { subset: true }), supported = new Set(font.getCharacterSet()), blocks = documentBlocks(doc, s);
+    const selectedBytes=api.careerFontOverride||fontBytes[fontName],raw=fontkit.create(selectedBytes),font = await pdf.embedFont(selectedBytes, { subset: true }), supported = new Set(font.getCharacterSet()), blocks = documentBlocks(doc, s);
     for (const b of blocks) for (const c of b.text) if (c !== "\n" && c !== "\r" && !supported.has(c.codePointAt(0))) throw Error("Direct PDF font does not cover \u201C" + c + "\u201D. Use Print / Save as PDF or Word/HTML for this script.");
-    const layout = layoutBlocks(blocks, s, (t, n) => font.widthOfTextAtSize(t, n));
+    const measure=(t,n)=>s.direction==='rtl'||hasRTL(t)?shapedWidth(raw,t,n,s.direction):font.widthOfTextAtSize(t,n);const layout = layoutBlocks(blocks, s, measure);
     if (!layout.pages.length) throw Error("Add resume content before exporting");
     for (const rows of layout.pages) {
       const page = pdf.addPage([layout.width, layout.height]);
-      for (const r of rows) for (const run of r.runs || [{text:r.text,x:r.x}]) page.drawText(run.text, { x:run.x, y:r.y, size:r.size, font });
+      for(const r of rows)for(const run of r.runs||[{text:r.text,x:r.x}]){if(s.direction==='rtl'||hasRTL(run.text))drawShapedLine(engine,pdf,page,font,raw,run.text,{x:run.x,y:r.y,size:r.size,direction:s.direction});else page.drawText(run.text,{x:run.x,y:r.y,size:r.size,font});for(const link of textLinks(run.text).filter(v=>v.url)){const prefix=run.text.slice(0,run.text.indexOf(link.text)),left=s.direction==='rtl'||hasRTL(run.text)?run.x:run.x+measure(prefix,r.size),width=s.direction==='rtl'||hasRTL(run.text)?measure(run.text,r.size):measure(link.text,r.size),annotation=pdf.context.obj({Type:'Annot',Subtype:'Link',Rect:[left,r.y-r.size*.2,left+width,r.y+r.size],Border:[0,0,0],A:{Type:'Action',S:'URI',URI:engine.PDFString.of(link.url)}});page.node.addAnnot(pdf.context.register(annotation))}}
+
     }
     pdf.setTitle((s.hiddenFields.includes("name") ? "Anonymous" : doc.name || "Professional") + " \u2014 Resume");
     pdf.setCreator("Tool Studio Career Studio");

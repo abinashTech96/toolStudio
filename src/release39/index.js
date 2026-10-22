@@ -1,0 +1,2 @@
+const mounted=new WeakSet();
+export async function installImprovements(api,root,id){if(!root||mounted.has(root))return;const groups=[];if(['integrationstudio','logs'].includes(id))groups.push(import('./developer.js').then(m=>m.installDeveloper(api,root,id)));if(['dataworkbench','comparisonstudio','querystudio','localizationstudio'].includes(id))groups.push(import('./data.js').then(m=>m.installData(api,root,id)));if(id==='citationmanager')groups.push(import('./research.js').then(m=>m.installResearch(api,root,id)));await Promise.all(groups);mounted.add(root)}
