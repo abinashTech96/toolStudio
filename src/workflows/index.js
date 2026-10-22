@@ -1,6 +1,7 @@
 import {node,download} from '../advanced/ui.js';
 import {maskSecrets} from '../advanced/algorithms.js';
 import * as project from './project.js';
+import {installProjectRecovery} from './project-recovery-ui.js';
 const labels={requests:['Request collection','Requests JSON'],environment:['Environment variables'],contract:['OpenAPI specification'],metadata:['Object metadata','Describe metadata JSON','Describe metadata'],sources:['Source library','Sources','References'],translations:['Base locale','Source locale JSON']};
 export function installProjectHub(api,registry){
  const c=api.c,panel=node('details',undefined,{class:'a34-extension studio-project-centre','data-project-centre':''}),summary=node('summary','Project centre · save, share & recover'),body=node('div',undefined,{class:'a34'}),status=node('p','Working records and reusable files stay in this tab until you export them.',{role:'status'});panel.append(summary,body,status);document.querySelector('.main-card').prepend(panel);
@@ -25,5 +26,5 @@ export function installProjectHub(api,registry){
  const recovery=node('details');recovery.append(node('summary','Other work, backups & recovery'));body.append(recovery);for(const[label,id]of[['Guided work, datasets, documents & layouts','projectworkspaces'],['Resume and career project','careerstudio'],['PDF reviews and marked copies','pdfworkspace'],['Original backup and reset controls','settings']])button(label,()=>{c.openTab(id);panel.open=false},recovery);button('Review workspace storage / recovery status',()=>{const storage=document.querySelector('.a35-storage');storage.open=true;storage.scrollIntoView({block:'start'})},recovery);
  const observe=new MutationObserver(entries=>{for(const entry of entries)for(const n of entry.addedNodes)if(n.nodeType===1)bind(n)});observe.observe(document.querySelector('.main-card'),{childList:true,subtree:true});bind(document.querySelector('.main-card'));
  window.addEventListener('toolstudio:guided-reset',e=>{if(['all','cache'].includes(e.detail?.scope)){project.clearProject();refresh();refreshFiles();preview.textContent='Project memory cleared.'}});
- api.sharedProject=project;return{refresh,bind};
+ installProjectRecovery(body,status);project.subscribeProject(refresh);api.sharedProject=project;return{refresh,bind};
 }

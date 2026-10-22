@@ -1,0 +1,374 @@
+{
+  "base": "cd64e5a",
+  "version": "39.0.0",
+  "items": [
+    {
+      "id": 1,
+      "title": "Credential masking",
+      "status": "implemented",
+      "implementation": [],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/workflows.unit.mjs"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "ICU argument types",
+      "status": "implemented",
+      "implementation": [],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/workflows.unit.mjs"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Blocked planning tasks",
+      "status": "implemented",
+      "implementation": [],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/workflows.unit.mjs"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "PostgreSQL UTF-8 identifiers",
+      "status": "implemented",
+      "implementation": [],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/workflows.unit.mjs"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "iCalendar line folding",
+      "status": "implemented",
+      "implementation": [],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/workflows.unit.mjs"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Unified task navigation",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 7,
+      "title": "Contextual action menus",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 8,
+      "title": "Integrated searchable pickers",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 9,
+      "title": "Device pane profiles",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 10,
+      "title": "Error navigation",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 11,
+      "title": "Durable project recovery",
+      "status": "in-progress",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 12,
+      "title": "Unified portable bundle",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 13,
+      "title": "Restore differences",
+      "status": "in-progress",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 14,
+      "title": "Per-record tab conflicts",
+      "status": "in-progress",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 15,
+      "title": "Capacity indicators",
+      "status": "in-progress",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 16,
+      "title": "Unique shared request IDs",
+      "status": "implemented",
+      "implementation": [],
+      "verification": [
+        "tests/v39.unit.mjs",
+        "tests/workflows.unit.mjs"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Typed secret variables",
+      "status": "in-progress",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 18,
+      "title": "Request approval differences",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 19,
+      "title": "Salesforce mapping explanations",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 20,
+      "title": "Request/log correlation",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 21,
+      "title": "CSV import preview",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 22,
+      "title": "Selected data corrections",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 23,
+      "title": "Join cardinality preview",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 24,
+      "title": "Localization issue navigation",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 25,
+      "title": "BibTeX import",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 26,
+      "title": "Font coverage preflight",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 27,
+      "title": "Direct RTL PDF export",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 28,
+      "title": "Multicolumn resume import",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 29,
+      "title": "PDF and Word hyperlinks",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 30,
+      "title": "Export consistency proof",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 31,
+      "title": "PDF page alignment",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 32,
+      "title": "Image layer dimensions",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 33,
+      "title": "OCR region reprocessing",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 34,
+      "title": "Batch partial retry",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 35,
+      "title": "Media cancellation cleanup",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 36,
+      "title": "Connection timeouts",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 37,
+      "title": "Device parameter profiles",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 38,
+      "title": "Capability-driven actions",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 39,
+      "title": "Connection session trace",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 40,
+      "title": "Actionable connection errors",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 41,
+      "title": "Pinned calculation scenarios",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 42,
+      "title": "Structured calculation records",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 43,
+      "title": "Finance rounding policies",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 44,
+      "title": "Explicit Kanban column mapping",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 45,
+      "title": "Working-day calendars",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 46,
+      "title": "Deduplicated CI",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 47,
+      "title": "Category browser fixtures",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 48,
+      "title": "Historical recovery migrations",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 49,
+      "title": "Resource leak budgets",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    },
+    {
+      "id": 50,
+      "title": "Legacy logic isolation",
+      "status": "planned",
+      "implementation": [],
+      "verification": []
+    }
+  ]
+}
