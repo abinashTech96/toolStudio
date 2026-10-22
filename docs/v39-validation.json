@@ -38,7 +38,7 @@
       "note": "The complete run passed. Final helper and optional-policy validation additions also pass focused tests and are included in GitHub validation."
     },
     "focused": {
-      "v39UnitChecks": 31,
+      "v39UnitChecks": 32,
       "v39BrowserChecks": 20,
       "guidedUnitChecks": 49,
       "simulatedHardwareCompatibilityChecks": 20

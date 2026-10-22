@@ -20,7 +20,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --prefer-offline --no-audit --no-fund
-      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run check
       - run: npm test
@@ -37,7 +37,7 @@ jobs:
       - run: npm run test:advanced
       - run: npm run test:reliability
         env:
-          BROWSER_MATRIX: chromium,firefox,webkit
+          BROWSER_MATRIX: chromium
       - run: npm run test:updates
       - run: npm run test:budgets
       - run: npm run test:compatibility
@@ -70,6 +70,9 @@ jobs:
       - run: npx playwright install --with-deps "${{ matrix.browser }}"
       - run: npm run build
       - run: npm run test:pdf-ui
+      - run: npm run test:reliability
+        env:
+          BROWSER_MATRIX: ${{ matrix.browser }}
       - run: npm run test:v39
       - run: npm run test:workflows
       - uses: actions/upload-artifact@v4
