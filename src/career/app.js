@@ -8,7 +8,7 @@ const questionPack = [["Behavioural", "Describe a difficult project and your con
 function mount(api, root) {
   let p = emptyProject(), area = "overview", tab = "resume", active = "master", application = "", editId = "", history = [], future = [], lastEdit = "", lastEditAt = 0, previewTimer, autosaveTimer, disposed = false, sequence = 0, practice = null, timer = null, sourceCompare = "master", applicationView = "Kanban", questionIndex = 0;
   const pdfExport = createPDFExporter(api), urls = /* @__PURE__ */ new Set();
-  let refreshChecklist=null;
+  let refreshChecklist=null,importController=null,previewController=null,fontRevision=0;
   let savedSignature = JSON.stringify(p), lastRaw = null, blocked = false, enabled = false, readOnlyDraft = null;
   try {
     enabled = localStorage.getItem(enabledKey) === "1";
@@ -626,6 +626,9 @@ function mount(api, root) {
   function importResume() {
     modal('Review resume import',(c,a,d)=>{
       const file=field(c,'Resume file','','file');file.accept='.pdf,.docx,.txt';
+      const order=select(c,'PDF reading order','source',[['source','Source order'],['rows','Across rows'],['columns','Left column, then right column']]);
+      note(c,'Columns use the page midpoint. Compare the complete extracted text before mapping headings or fields.');
+      d.addEventListener('close',()=>{importController?.abort();importController=null},{once:true});
       const columns=node('div',undefined,{class:'career-import-columns'}),source=card(columns,'Source text'),mapping=card(columns,'Reviewed fields');c.append(columns);
       const raw=textArea(source,'Original / pasted resume text','');raw.removeAttribute('maxlength');raw.rows=12;
       note(source,'The original text is retained in the imported variant. Mapping does not change your current project.');
@@ -639,9 +642,10 @@ function mount(api, root) {
         if(parts)note(findings,parts.length+' parts retain the complete source text. Add role, institution and date fields after importing; no dates are inferred.');
       };
       button(tools,'Extract selected file',async()=>{
-        const ticket=++sequence,text=await extractResume(file.files[0],api);if(ticket!==sequence||!d.isConnected)return;
+        importController?.abort();importController=new AbortController();const controller=importController,ticket=++sequence,text=await extractResume(file.files[0],api,{signal:controller.signal,readingOrder:order.value});if(controller.signal.aborted||ticket!==sequence||!d.open)return;
         raw.value=text;invalidate();say('Text extracted. Review mapping, or split long sections into reviewable parts.');
       });
+      button(tools,'Cancel extraction',()=>{importController?.abort();importController=null;++sequence;say('Extraction cancelled; existing text is retained.');});
       button(tools,'Open scanned-document OCR',()=>{api.c.openTab('camerastudio');d.close();});
       button(tools,'Review field mapping',()=>{
         if(!raw.value.trim())throw Error('Paste or extract resume text first');
@@ -935,12 +939,19 @@ function mount(api, root) {
     const view = node("div", void 0, { class: "career-export-preview" });
     c.append(view);
     let built = null;
-    const signature = () => JSON.stringify(current());
+    const signature = () => JSON.stringify([current(),fontRevision]);
+    const fonts=details(c,"PDF font coverage & custom font"),fontFile=field(fonts,"Custom PDF font (TTF / OTF)","","file"),coverage=node("pre");fontFile.accept=".ttf,.otf";fonts.append(coverage);
+    button(fonts,"Check font coverage",async()=>{const proof=signature(),data=await pdfExport.preflight(a.doc,a.settings);if(proof!==signature())throw Error("Document changed; check again");coverage.textContent=JSON.stringify(data,null,2)});
+    button(fonts,"Use selected font for this session",async()=>{const file=fontFile.files[0];if(!file||file.size>8e6)throw Error("Choose a TTF / OTF font up to 8 MB");const bytes=new Uint8Array(await file.arrayBuffer()),proof=signature(),data=await pdfExport.preflight(a.doc,a.settings,bytes);if(proof!==signature()||file!==fontFile.files[0])throw Error("Font or document changed; review again");coverage.textContent=JSON.stringify(data,null,2);if(!data.covered)throw Error("Selected font lacks listed characters; current font retained");api.careerFontOverride=bytes;++fontRevision;built=null;view.replaceChildren();say("Session PDF font updated. Preview the actual PDF pages before sharing.")});
+    button(fonts,"Use bundled PDF font",()=>{delete api.careerFontOverride;++fontRevision;built=null;view.replaceChildren();coverage.textContent="Bundled font restored"});
+    const proofBox=details(c,"Export consistency proof"),proofReport=node("pre");proofBox.append(proofReport);
+    button(proofBox,"Compare current export content",()=>{const blocks=documentBlocks(a.doc,a.settings),text=resumeText(a.doc,a.settings),html=documentHTML(a.doc,a.settings);proofReport.textContent=JSON.stringify({document:a.label,blocks:blocks.filter(b=>b.kind!=="break").length,characters:text.length,htmlIncludesAllBlocks:blocks.every(b=>b.kind==="break"||html.includes(escape((b.kind==="bullet"?"• ":"")+b.text))||html.includes(escape(b.text))),wordSource:"Same document blocks; links and paragraphs encoded separately",pdfPreview:built?.proof===signature()?"Current preview bytes will be downloaded":"Generate an actual PDF preview to verify pagination",privacy:{hiddenFields:a.settings.hiddenFields,hiddenSections:a.settings.hidden},note:"Content evidence, not a claim of identical pagination across Word, HTML and PDF."},null,2)});
     const actions = row(c);
     button(actions, "Preview actual PDF pages", async () => {
-      const proof = signature(), ticket = ++sequence, result = await pdfExport(a.doc, a.settings);
-      if (disposed || ticket !== sequence || proof !== signature() || !view.isConnected) return;
+      previewController?.abort();previewController=new AbortController();const controller=previewController,proof = signature(), ticket = ++sequence, result = await pdfExport(a.doc, a.settings);
+      if (controller.signal.aborted || disposed || ticket !== sequence || proof !== signature() || !view.isConnected) return;
       const engine = await api.pdf(), task = engine.getDocument({ data: result.bytes.slice(), isEvalSupported: false });
+      const abort=()=>void task.destroy();controller.signal.addEventListener("abort",abort,{once:true});
       let pdf;
       try {
         pdf = await task.promise;
@@ -948,15 +959,16 @@ function mount(api, root) {
         for (let i = 1; i <= Math.min(pdf.numPages, 6); i++) {
           const page = await pdf.getPage(i), viewport = page.getViewport({ scale: 0.9 }), canvas = node("canvas", void 0, { "aria-label": "PDF page " + i, role: "img", width: Math.ceil(viewport.width), height: Math.ceil(viewport.height) });
           await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
-          if (!view.isConnected) return;
+          if (controller.signal.aborted||proof!==signature()||!view.isConnected) {canvas.width=canvas.height=0;return;}
           view.append(canvas);
         }
         built = { proof, bytes: result.bytes };
         say("Actual PDF pages rendered. The PDF download uses these bytes.");
       } finally {
-        await task.destroy();
+        controller.signal.removeEventListener("abort",abort);await task.destroy();
       }
     });
+    button(actions,"Cancel PDF preview",()=>{previewController?.abort();++sequence;say("PDF preview cancelled")});
     button(actions, "Download PDF", async () => {
       const proof = signature(), result = built?.proof === proof ? built : await pdfExport(a.doc, a.settings);
       if (proof !== signature()) throw Error("Resume changed during export; try again");
@@ -976,7 +988,7 @@ function mount(api, root) {
         if (!popup.closed) popup.print();
       }, 700);
     });
-    note(c, "Direct PDF embeds DejaVu Sans and supports its covered left-to-right characters. Use browser Print / Save as PDF or Word/HTML for RTL and other scripts. Word and browser printing can paginate differently; review their print preview.");
+    note(c, "Direct PDF embeds the selected font and shapes covered Arabic and Hebrew text with bidirectional ordering. Check font coverage and preview mixed scripts before sharing. Custom fonts apply to PDF in this session. Word and browser printing can paginate differently; review their print preview.");
     const bundleBox = card(body, "Application document bundle", "Uses the submitted resume snapshot when available, keeping the application\u2019s exact copy. Drafts remain editable in Documents.");
     const app = select(bundleBox, "Bundle application", application, p.applications.map((a2) => [a2.id, a2.company + " \xB7 " + a2.role]));
     const content = node("pre");
@@ -1594,6 +1606,7 @@ function mount(api, root) {
   return { dispose() {
     saveLocal();
     disposed = true;
+    importController?.abort();previewController?.abort();delete api.careerFontOverride;
     clearTimeout(previewTimer);
     clearTimeout(autosaveTimer);
     clearInterval(timer);

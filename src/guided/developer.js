@@ -1,3 +1,4 @@
+import {mappingExplanations} from '../release39/reviews.js';
 import { guided, node, editor, field, download, projectControls, responseSelector, changed, readText, table } from "./ui.js";
 import { parse, inspectChain, leaves, jsonPointer, compositePlan, mappingReview, failurePlayground, compareRuns, permissionDiff, graphDependencies, maskSecrets } from "./model.js";
 import { reviewFlow, readPermissions } from "./xml.js";
@@ -117,6 +118,7 @@ function salesforce(api, root) {
     if (!target) throw Error("Select a supplied target object");
     return mappingReview(mappings.get(), source.get(), target.fields);
   });
+  ui.action('Explain mapped Salesforce fields',()=>mappingExplanations(get(),[],mappings.get().map(m=>({...m,object:object.value}))));
   const requests = editor(ui, "Composite requests", [{ referenceId: "account", method: "GET", url: "/services/data/v62.0/sobjects/Account/001Example", body: "" }], [field("referenceId", "Reference ID"), field("method", "Method", "text", ["GET", "POST", "PATCH", "DELETE", "HEAD"]), field("url", "Relative URL"), field("body", "Body JSON", "textarea")], { max: 25, validate: (r, i, rows) => compositePlan(rows)[i].issues });
   let candidate = null, revision = -1;
   ui.action("Review Composite connections", () => {

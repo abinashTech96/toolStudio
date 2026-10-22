@@ -1,3 +1,4 @@
+import {roundAmount} from '../workflows/rounding.js';
 import {messageArguments} from '../advanced/icu.js';
 // Offline workflow models. These never send requests or mutate a workspace.
 import { validateReviews } from '../pdf-review/model.js';
@@ -294,7 +295,7 @@ function formulaTests(rows, cases) {
     return { ...c, actual: r?.value ?? null, passed: !!r && Math.abs(r.value - expected) <= tolerance, issue: r ? "" : "Unknown calculation" };
   });
 }
-function repayment({ principal, annualRate, payment, startDate, months = 360 }, events = []) {
+function repayment({ principal, annualRate, payment, startDate, months = 360, precision = 2, rounding = "nearest" }, events = []) {
   principal = Number(principal);
   annualRate = Number(annualRate);
   payment = Number(payment);
@@ -302,7 +303,7 @@ function repayment({ principal, annualRate, payment, startDate, months = 360 }, 
   if (!Number.isFinite(principal) || principal <= 0 || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 100 || !Number.isFinite(payment) || payment <= 0 || !Number.isInteger(months) || months < 1 || months > 600 || !/^\d{4}-\d{2}-\d{2}$/.test(startDate) || !Number.isFinite(Date.parse(startDate)) || (/* @__PURE__ */ new Date(startDate + "T00:00:00Z")).toISOString().slice(0, 10) !== startDate) throw Error("Enter positive principal/payment, annual rate 0\u2013100, valid start date, and 1\u2013600 months");
   bounded(events, 600);
   for (const e of events) if (!Number.isInteger(Number(e.month)) || Number(e.month) < 1 || Number(e.month) > months || !["rate", "extra", "fee"].includes(e.type) || !Number.isFinite(Number(e.amount)) || Number(e.amount) < 0 || e.type === "rate" && Number(e.amount) > 100) throw Error("Invalid repayment event");
-  const cents = (n) => Math.round((n + Number.EPSILON) * 100) / 100, base = /* @__PURE__ */ new Date(startDate + "T00:00:00Z"), schedule = [];
+  const cents = (n) => roundAmount(n,Number(precision),rounding), base = /* @__PURE__ */ new Date(startDate + "T00:00:00Z"), schedule = [];
   let balance = cents(principal), rate = annualRate;
   for (let month = 1; month <= months && balance > 0; month++) {
     const current = events.filter((e) => Number(e.month) === month), rateEvents = current.filter((e) => e.type === "rate");
@@ -314,15 +315,15 @@ function repayment({ principal, annualRate, payment, startDate, months = 360 }, 
     date.setUTCDate(Math.min(base.getUTCDate(), last));
     schedule.push({ month, date: date.toISOString().slice(0, 10), opening, annualRate: rate, interest, fee, extra: cents(extra), payment: paid, balance });
   }
-  return { assumptions: "Monthly interest = opening balance \xD7 annual rate / 12. Rate changes precede interest; fees and extra payments occur on the due date. Each amount rounds to two decimal places. No daily accrual or lender-specific rules.", schedule, remainingBalance: balance, totalInterest: cents(schedule.reduce((n, r) => n + r.interest, 0)) };
+  return { assumptions: "Monthly interest = opening balance \xD7 annual rate / 12. Rate changes precede interest; fees and extra payments occur on the due date. Each amount rounds to "+(Number(precision)===2?"two":precision)+" decimal places using "+rounding+" rounding. No daily accrual or lender-specific rules.", precision:Number(precision), rounding, schedule, remainingBalance: balance, totalInterest: cents(schedule.reduce((n, r) => n + r.interest, 0)) };
 }
-function reconcile(schedule, statements) {
+function reconcile(schedule, statements,{precision=2,rounding="nearest"}={}) {
   return statements.map((s) => {
     const expected = schedule.find((r) => r.date === s.date);
     if (!expected) return { ...s, issue: "No projected payment on this date; review posting date/accrual assumptions" };
     const delta = Number(s.payment) - expected.payment;
     if (!Number.isFinite(delta)) throw Error("Statement payments must be finite numbers");
-    return { date: s.date, projected: expected.payment, actual: Number(s.payment), difference: Math.round(delta * 100) / 100, projectedFee: expected.fee, issue: Math.abs(delta) < 5e-3 ? "Matches rounded payment" : "Review entered fees, posting date and rounding; daily lender accrual is not modeled" };
+    return { date: s.date, projected: expected.payment, actual: Number(s.payment), difference: roundAmount(delta,precision,rounding), projectedFee: expected.fee, issue: Math.abs(delta) < .5*10**(-precision) ? "Matches rounded payment" : "Review entered fees, posting date and rounding; daily lender accrual is not modeled" };
   });
 }
 function schemaReview(before, after, dependencies = [], renames = []) {
@@ -417,6 +418,11 @@ function validateWorkflow(id, value) {
   if (id === "salesforce-builder" && typeof value.metadata !== "string") throw Error("Describe metadata must be text");
   if (id === "data-steps" && typeof value.name !== "string") throw Error("Dataset name must be text");
   for (const key of id === "repayment-events" ? ["principal", "rate", "payment", "start", "months"] : id === "project-planning" ? ["name", "week", "capacity"] : []) if (typeof value[key] !== "string") throw Error(id + " " + key + " must be text");
+  if(id==='repayment-events'){
+    if(value.precision!==undefined&&!['0','1','2','3','4'].includes(value.precision))throw Error('Saved repayment precision must be 0–4');
+    if(value.rounding!==undefined&&!['nearest','half-even','down','up'].includes(value.rounding))throw Error('Invalid saved repayment rounding policy');
+  }
+  if(id==='project-planning')for(const key of ['columns','weekends','holidays','dailyHours'])if(value[key]!==undefined&&typeof value[key]!=='string')throw Error('Saved planning '+key+' must be text');
   return value;
 }
 function validateGuidedState(value) {
@@ -452,7 +458,7 @@ function reviewBundle(bundle, current) {
   }
   if (!Array.isArray(bundle.references || []) || (bundle.references || []).length > 100 || (bundle.references || []).some((name) => typeof name !== "string" || name.length > 500)) throw Error("Invalid document references");
   for (const f of bundle.files || []) if (typeof f.name !== "string" || !f.name.trim() || f.name.length>500 || typeof f.type !== "string" || !Number.isInteger(f.size) || f.size < 0 || f.size > 6e6 || typeof f.content !== "string" || f.content.length > 14e6 || !/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(f.content) || !/^[a-f0-9]{64}$/.test(f.sha256)) throw Error("Invalid bundled document");
-  if (JSON.stringify(bundle).length > 12e6) throw Error("Project bundle limit: 12 MB");
+  if (JSON.stringify(bundle).length > 32e6) throw Error("Project bundle limit: 32 MB");
   return { state, workspaces: Object.keys(state.workspaces).map((id) => ({ id, conflict: own(current.workspaces, id), action: own(current.workspaces, id) ? "Review replacement" : "New" })), missing: (bundle.references || []).filter((name) => !(bundle.files || []).some((f) => f.name === name)) };
 }
 export {

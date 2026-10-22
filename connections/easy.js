@@ -67,7 +67,6 @@ export function installEasyConnection(api){
   text($('live-websocket'),'Server status: '+$('wsState').textContent);
   connectionState.hidden=!(state.pc||state.ble||state.usb||state.ws);text(connectionState,'Device pairing: '+(paired?'Connected · '+state.peer:state.pc?'Connecting / awaiting verification':'Not paired')+' · Bluetooth: '+(ble?'Connected':'Not connected')+' · USB: '+(usb?'Connected':'Not connected')+' · WebSocket: '+$('wsState').textContent);
   [...steps.children].forEach((li,i)=>li.classList.toggle('done',i===0?!!state.pc:i===1?state.dc?.readyState==='open':paired));
-  for(const[id,enabled]of[['bleRead',ble&&state.characteristic?.properties.read],['bleWrite',ble&&(state.characteristic?.properties.write||state.characteristic?.properties.writeWithoutResponse)],['bleNotify',ble&&(state.characteristic?.properties.notify||state.characteristic?.properties.indicate)],['bleStopNotify',ble&&(state.characteristic?.properties.notify||state.characteristic?.properties.indicate)],['usbRead',usb],['usbWrite',usb]])$(id).disabled=!enabled;
   if($('pairLink').value)pairExtras.open=true;
  }
  const observer=new MutationObserver(renderSupport);for(const id of['peerState','bleLog','usbLog','wsState','roomStatus','notice'])observer.observe($(id),{childList:true,characterData:true,subtree:true});renderSupport();

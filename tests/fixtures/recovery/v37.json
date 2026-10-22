@@ -1,0 +1,73 @@
+{
+  "provenance": {
+    "version": "37.0.0",
+    "commit": "5ac85f88fd6d83e1270fcba09f41cf4c74ea3e04",
+    "generator": "Historical emptyProject() with synthetic contact fields"
+  },
+  "career": {
+    "format": "toolstudio-career",
+    "version": 2,
+    "profile": {
+      "name": "Historical 37.0.0",
+      "headline": "",
+      "email": "fixture@example.com",
+      "phone": "",
+      "location": "",
+      "links": "",
+      "summary": "Synthetic recovery fixture; entered facts must remain unchanged.",
+      "skills": "",
+      "experience": [],
+      "education": [],
+      "projects": [],
+      "credentials": [],
+      "awards": "",
+      "publications": "",
+      "volunteering": "",
+      "leadership": "",
+      "custom": ""
+    },
+    "settings": {
+      "template": "Minimal",
+      "page": "A4",
+      "size": 11,
+      "spacing": 1.35,
+      "margin": 18,
+      "language": "en",
+      "direction": "ltr",
+      "font": "Sans",
+      "targetPages": 2,
+      "order": [
+        "summary",
+        "experience",
+        "education",
+        "skills",
+        "projects",
+        "credentials",
+        "awards",
+        "publications",
+        "volunteering",
+        "leadership",
+        "custom"
+      ],
+      "hidden": [],
+      "hiddenFields": [],
+      "breaks": []
+    },
+    "resumes": [],
+    "applications": [],
+    "evidence": [],
+    "questions": [],
+    "attempts": [],
+    "growth": [],
+    "documents": [],
+    "offers": [],
+    "portfolio": {
+      "title": "My project portfolio",
+      "name": "",
+      "projects": []
+    },
+    "reviews": [],
+    "checkpoints": [],
+    "legacy": null
+  }
+}

@@ -1,3 +1,4 @@
+import {parseDelimited} from '../workflows/csv.js';
 import { guided, node, editor, field, download, projectControls, changed, readText, table } from "./ui.js";
 import { parse, clone, bounded, columns, transformRows, apiRehearsal, acceptanceReport } from "./model.js";
 import {bundleDatasets,clearDatasets,datasetEntries,getDataset,putDataset,deleteDataset,datasetUsage} from './dataset-store.js';
@@ -39,42 +40,7 @@ function datasetPicker(api, ui, { label = "Shared dataset", load = () => {
   refresh();
   return { select, refresh };
 }
-function parseCSV(text) {
-  if (text.length > 4e6) throw Error("CSV limit: 4 MB");
-  const records = [];
-  let row = [], cell = "", quoted = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (c === '"') {
-      if (quoted && text[i + 1] === '"') {
-        cell += '"';
-        i++;
-      } else if (cell === "" || quoted) quoted = !quoted;
-      else throw Error("Unexpected quote in CSV");
-    } else if (c === "," && !quoted) {
-      row.push(cell);
-      cell = "";
-    } else if ((c === "\n" || c === "\r") && !quoted) {
-      if (c === "\r" && text[i + 1] === "\n") i++;
-      row.push(cell);
-      if (row.some((v) => v !== "")) records.push(row);
-      row = [];
-      cell = "";
-    } else cell += c;
-    if (records.length > 50001) throw Error("CSV limit: 50,000 rows");
-  }
-  if (quoted) throw Error("Unclosed CSV quote");
-  if (cell !== "" || row.length) {
-    row.push(cell);
-    records.push(row);
-  }
-  const headers = records.shift();
-  if (!headers?.length || headers.some((h) => !h) || new Set(headers).size !== headers.length || headers.length > 200) throw Error("CSV needs unique nonempty column names (max 200)");
-  return records.map((r, i) => {
-    if (r.length !== headers.length) throw Error("CSV row " + (i + 2) + " has a different column count");
-    return Object.fromEntries(headers.map((h, j) => [h, r[j]]));
-  });
-}
+function parseCSV(text){return parseDelimited(text)}
 function dataWorkflow(api, root) {
   const ui = guided(api, root, "Shared datasets & transformation steps", "Load a complete dataset, build transformation steps and review counts before applying. Only the result preview is limited; operations use every loaded row.");
   const name = ui.field("Dataset name", "Working dataset"), file = ui.field("Upload CSV or JSON dataset", "", "file"), count = node("p", "No dataset loaded.", { class: "a34-wide", role: "status" });
