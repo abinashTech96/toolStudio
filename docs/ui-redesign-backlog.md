@@ -2,7 +2,7 @@
 
 Recorded: 2026-10-28 (Asia/Calcutta)
 
-Status: implementation authorized and implemented on the review branch for v41. Automated validation is in progress. The final accepted homepage design and existing-workspace constraint below supersede earlier homepage composition proposals.
+Status: implementation authorized and implemented on the review branch for v41. Automated validation results are tracked in [PR #12](https://github.com/abinashTech96/toolStudio/pull/12) and its CI artifacts. The final accepted homepage design and existing-workspace constraint below supersede earlier homepage composition proposals.
 
 ## Agreed scope
 
