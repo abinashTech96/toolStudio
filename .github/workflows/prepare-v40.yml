@@ -1,4 +1,4 @@
-# Includes final live-input validation regression.
+# Includes final live-input and recorder-flush regressions.
 name: Prepare v40 generated files
 on:
   push:
