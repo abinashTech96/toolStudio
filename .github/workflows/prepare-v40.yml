@@ -1,3 +1,4 @@
+# Includes final live-input validation regression.
 name: Prepare v40 generated files
 on:
   push:

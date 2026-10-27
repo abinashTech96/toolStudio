@@ -2,7 +2,7 @@
   "version": "40.0.0",
   "base": "eeab701a4cd033aaefc8d0a863c52b30e06fe819",
   "pullRequest": "https://github.com/abinashTech96/toolStudio/pull/11",
-  "phase": "verification-in-progress",
+  "phase": "software-implemented-manual-qualification-pending",
   "preserved": {
     "workspaces": 69,
     "routes": 124,
