@@ -44,7 +44,9 @@ The standalone guide contains entry and export instructions for each tool. New m
 
 ## Verification
 
-The first complete local run passed 20/22 suites; Home and Career failed only because their assertions retained the old route/card counts. Those assertions were corrected without removing checks. The release candidate is rerun with the full suite and the CI Chromium/Firefox/WebKit matrix; see the final PR checks and test artifacts for the authoritative result.
+Run `npm run test:regression` for the complete 22-suite validation, including source/build checks, the existing tools, the new tools, route coverage, Connection server tests, offline/update checks and published output. The CI regression job runs real browser Connection pairing; the local sandbox run explicitly sets `CONNECTION_SKIP_REAL_RTC=1` because it has no usable ICE interfaces. The CI Chromium/Firefox/WebKit jobs also exercise PDF/UI, reliability, v40, v39 and workflow behavior. Final PR checks and uploaded test artifacts provide the result for the exact branch head.
+
+The v40 tests include independent numerical fixtures, actual STL/OBJ/GLB and GIF parsing/encoding, real MediaRecorder output from an explicitly supplied synthetic canvas stream, recording pause/cancel/restart and late-picker cleanup, quota-failure recovery, OCR review and byte-level PDF/Word text extraction. Synthetic capture does not validate the operating-system permission picker. Capability skips are reported separately from passes.
 
 Route coverage lists all 139 routes, distinguishes declared behavioral cases from navigation-only evidence and fails when a route is missing from the mapping. This does not claim exhaustive behavioral verification of every route.
 
