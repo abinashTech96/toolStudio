@@ -1,0 +1,10 @@
+{
+  "id": "patternstudio",
+  "kind": "native",
+  "routes": [
+    "patternstudio"
+  ],
+  "category": "media",
+  "order": 139,
+  "description": "Pattern & Texture Generator \u00b7 local interactive workspace"
+}

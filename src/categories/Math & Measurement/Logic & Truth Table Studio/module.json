@@ -1,0 +1,11 @@
+{
+  "id": "logicstudio",
+  "kind": "native",
+  "routes": [
+    "logicstudio"
+  ],
+  "category": "math",
+  "order": 133,
+  "description": "Logic & Truth Table Studio · local interactive workspace"
+}
+

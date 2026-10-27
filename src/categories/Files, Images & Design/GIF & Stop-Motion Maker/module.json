@@ -1,0 +1,10 @@
+{
+  "id": "gifmaker",
+  "kind": "native",
+  "routes": [
+    "gifmaker"
+  ],
+  "category": "media",
+  "order": 135,
+  "description": "GIF & Stop-Motion Maker \u00b7 local interactive workspace"
+}

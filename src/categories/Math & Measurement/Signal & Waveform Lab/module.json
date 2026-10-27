@@ -1,0 +1,11 @@
+{
+  "id": "signallab",
+  "kind": "native",
+  "routes": [
+    "signallab"
+  ],
+  "category": "math",
+  "order": 137,
+  "description": "Signal & Waveform Lab · local interactive workspace"
+}
+

@@ -1,0 +1,10 @@
+{
+  "id": "filerecovery",
+  "kind": "native",
+  "routes": [
+    "filerecovery"
+  ],
+  "category": "media",
+  "order": 138,
+  "description": "File Recovery Inspector \u00b7 local interactive workspace"
+}

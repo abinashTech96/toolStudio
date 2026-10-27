@@ -1,0 +1,11 @@
+{
+  "id": "teleprompter",
+  "kind": "native",
+  "routes": [
+    "teleprompter"
+  ],
+  "category": "productivity",
+  "order": 136,
+  "description": "Teleprompter · local interactive workspace"
+}
+

@@ -1,0 +1,11 @@
+{
+  "id": "readaloud",
+  "kind": "native",
+  "routes": [
+    "readaloud"
+  ],
+  "category": "text",
+  "order": 144,
+  "description": "Read-Aloud Workspace · local interactive workspace"
+}
+

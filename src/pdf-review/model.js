@@ -41,7 +41,7 @@ export function remapSession(session, reference, mappings) {
   for(const item of annotations) {
     const map=mappings.find(m=>m.id===item.id);
     if(!map||!integer(map.page,1,reference.pages)||map.reviewed!==true) throw Error('Approve a valid target page for every annotation');
-    item.page=map.page;item.source=reference.sha256;item.needsReview=true;
+    item.originalAnchor ||= {page:item.page,source:item.source,rect:item.rect.slice()};item.previousAnchor={page:item.page,source:item.source,rect:item.rect.slice()};item.page=map.page;item.source=reference.sha256;item.needsReview=true;
   }
   next.document=structuredClone(reference);next.pages=Array(reference.pages).fill('not-reviewed');next.changes=[];delete next.comparison;
   return validateSession(next);

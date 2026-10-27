@@ -309,6 +309,12 @@
       "license": "MIT"
     },
     {
+      "package": "gifenc",
+      "version": "1.0.3",
+      "integrity": "sha512-xdr6AdrfGBcfzncONUOlXMBuc5wJDtOueE3c5rdG0oNgtINLD+f2iFZltrBRZYzACRbKr+mSVU/x98zv2u3jmw==",
+      "license": "MIT"
+    },
+    {
       "package": "pako",
       "version": "1.0.11",
       "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==",
@@ -348,6 +354,12 @@
       "package": "sql.js",
       "version": "1.15.0",
       "integrity": "sha512-54VT5h9/VGlLaQan5pX/Zx8k6Vbykwl5hRUtl4h4+VYnaZCTraUs4P1i2WLz21O6oPVp6Gvg+d1OyPo01ZG5ig==",
+      "license": "MIT"
+    },
+    {
+      "package": "three",
+      "version": "0.180.0",
+      "integrity": "sha512-o+qycAMZrh+TsE01GqWUxUIKR1AL0S8pq7zDkYOQw8GqfX8b8VoCKYUoHbhiX5j+7hr8XsuHDVU6+gkQJQKg9w==",
       "license": "MIT"
     },
     {

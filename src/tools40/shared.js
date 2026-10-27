@@ -1,0 +1,12 @@
+import {workspace,node,download,readFile,parseJSON,table} from '../advanced/ui.js';
+export {workspace,node,download,readFile,parseJSON,table};
+export const json=value=>JSON.stringify(value,null,2);
+export function number(ui,label,value,min,max,step='any'){const e=ui.field(label,value,'number');e.min=min;e.max=max;e.step=step;return e}
+export function check(ui,label,checked=false){const e=ui.field(label,'','checkbox');e.checked=checked;return e}
+export function files(ui,label,accept,multiple=false){const e=ui.field(label,'','file');e.accept=accept;e.multiple=multiple;return e}
+export function image(file){return createImageBitmap(file)}
+export const tick=()=>new Promise(r=>setTimeout(r,0));
+export function plot(parent,series,{width=900,height=300,x='x',y='y',label='Plot'}={}){const canvas=node('canvas',undefined,{width,height,role:'img','aria-label':label});canvas.style.cssText='width:100%;max-width:900px;background:white;border:1px solid #778;border-radius:8px';const ctx=canvas.getContext('2d'),values=series.flat(),xs=values.map(p=>p[x]),ys=values.map(p=>p[y]),xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(0,...ys),ymax=Math.max(0,...ys),px=v=>40+(v-xmin)/(xmax-xmin||1)*(width-60),py=v=>height-30-(v-ymin)/(ymax-ymin||1)*(height-50);ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);ctx.strokeStyle='#adb6be';ctx.beginPath();ctx.moveTo(40,py(0));ctx.lineTo(width-20,py(0));ctx.stroke();series.forEach((points,i)=>{ctx.strokeStyle=['#164c90','#9f3b55','#1b7254'][i%3];ctx.beginPath();points.forEach((p,j)=>j?ctx.lineTo(px(p[x]),py(p[y])):ctx.moveTo(px(p[x]),py(p[y])));ctx.stroke()});ctx.fillStyle='#263541';ctx.font='12px sans-serif';ctx.fillText(`${xmin.toPrecision(4)} → ${xmax.toPrecision(4)} ${x}`,40,height-8);ctx.fillText(`${ymin.toPrecision(4)} … ${ymax.toPrecision(4)} ${y}`,45,15);parent.append(canvas);return canvas}
+export function svgElement(tag,attrs={}){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,String(v));return e}
+export function useProject(api,ui,fields,kind){api.project(ui,fields,kind)}
+export function releaseOnLeave(root,fn){root.addEventListener('studio:release',fn);root.addEventListener('studio:clear-preview',fn);window.addEventListener('pagehide',fn);const observer=new MutationObserver(()=>{if(root.hidden)fn()});observer.observe(root,{attributes:true,attributeFilter:['hidden']});return()=>{observer.disconnect();window.removeEventListener('pagehide',fn)}}
