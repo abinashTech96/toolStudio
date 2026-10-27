@@ -28,7 +28,7 @@
     "inventory": "node scripts/dependency-inventory.mjs",
     "test:pdf-ui": "node tests/pdf-review.unit.mjs && node tests/pdf-review.browser.mjs && node tests/workspace-ui.browser.mjs",
     "test:v39": "node tests/v39.unit.mjs && node tests/v39.browser.mjs",
-    "test:v40": "node tests/v40.unit.mjs && node tests/v40.browser.mjs",
+    "test:v40": "node tests/v40.unit.mjs && node tests/v40-backlog.unit.mjs && node tests/v40.browser.mjs && node tests/v40-backlog.browser.mjs",
     "test:coverage": "node scripts/route-coverage.mjs"
   },
   "engines": {
@@ -47,6 +47,7 @@
     "pdf-lib": "1.17.1",
     "pdfjs-dist": "6.4.299",
     "playwright": "1.58.2",
+    "regenerator-runtime": "0.14.1",
     "sql.js": "1.15.0",
     "three": "0.180.0",
     "yaml": "2.9.1"

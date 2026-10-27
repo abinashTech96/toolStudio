@@ -345,6 +345,12 @@
       "license": "Apache-2.0"
     },
     {
+      "package": "regenerator-runtime",
+      "version": "0.14.1",
+      "integrity": "sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==",
+      "license": "MIT"
+    },
+    {
       "package": "require-from-string",
       "version": "2.0.2",
       "integrity": "sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==",

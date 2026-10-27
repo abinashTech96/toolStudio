@@ -17,3 +17,5 @@ Status: pending. Automated browser and simulated hardware results are separate e
 For each completed row record date, OS/browser/device or assistive-technology version, exact actions, observed result and a reproducible defect if it fails. Do not mark this matrix passed from browser emulation or mocked adapters.
 
 PDF structure now provides basic headings and paragraph tags. Link annotation structure and reader behavior must be checked in the exported artifact before making an accessibility compliance claim.
+
+The row-level lineage review accepts explicit parent-row references for joins. It does not infer a reliable join key or certify a manually supplied provenance claim. Retain original datasets and review references before sharing the report.

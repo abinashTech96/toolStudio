@@ -59,7 +59,7 @@ try {
   check(await page.locator('#studioHome').isVisible(),'Unknown workspace links fall back to Home');
   await page.locator('.home-clear').click();await page.locator('#homeOptional').check();
   await page.getByRole('button',{name:'All tools',exact:true}).click();
-  check(await page.locator('.home-tool-card').count()===66,'All 66 main workspaces remain discoverable; three earlier Career editors are consolidated under Studio');
+  check(await page.locator('.home-tool-card').count()===81,'All 81 main workspaces remain discoverable; three earlier Career editors are consolidated under Studio');
   // A fresh page gives the default compact layout at each screen width.
   await page.goto(base);await page.waitForFunction(()=>window.__toolStudioReady);
   for(const width of [390,768,1440]) {

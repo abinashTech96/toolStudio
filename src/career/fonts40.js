@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime.js';
 import {visualRuns,shapedWidth} from './rtl.js';
 export function fontRuns(text,fonts,direction='ltr'){const runs=[],segmenter=new Intl.Segmenter(undefined,{granularity:'grapheme'});for(const bidi of visualRuns(text,direction)){let parts=[];for(const {segment}of segmenter.segment(bidi.text)){const visible=[...segment].filter(c=>!/[\s\u200c\u200d\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(c)),font=fonts.find(f=>visible.every(c=>f.raw.hasGlyphForCodePoint(c.codePointAt(0))))||fonts[0];if(parts.at(-1)?.font===font)parts.at(-1).text+=segment;else parts.push({text:segment,font,direction:bidi.level%2?'rtl':'ltr'})}if(bidi.level%2)parts.reverse();runs.push(...parts)}return runs}
 export function fontRunWidth(text,fonts,size,direction){return fontRuns(text,fonts,direction).reduce((n,r)=>n+shapedWidth(r.font.raw,r.text,size,r.direction),0)}
