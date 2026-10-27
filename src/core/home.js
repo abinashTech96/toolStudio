@@ -120,7 +120,7 @@ export function installHome(c,registry,options={}) {
     }
     visible=true;home.hidden=false;document.body.dataset.home='true';updateClock();render();
     if(write&&new URLSearchParams(location.hash.slice(1)).get('tool')!=='home')address('home');
-    if(focus)title.focus({preventScroll:true});
+    if(focus){title.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'})}
   }
   const previousOpen=c.openTab;
   c.openTab=function(id) {

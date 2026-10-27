@@ -38,3 +38,6 @@ html[data-device-layout=tv] .studio-home{font-size:20px}html[data-device-layout=
 .home-feature-row .home-star{position:static;transform:none;flex-shrink:0}.home-feature-row>.home-chip{padding-inline-end:12px}
 
 .home-favorite-item{position:relative}.home-favorite-item>small{position:absolute;inset-inline-start:12px;top:3px;font-size:9px;pointer-events:none}.home-favorite-item>.home-chip{padding-top:17px;padding-bottom:6px}
+/* Pearl/Graphite position all buttons relatively; stars remain overlays. */
+html[data-theme] .studio-home .home-star{position:absolute}
+html[data-theme] .studio-home .home-feature-row>.home-star{position:static;transform:none}
