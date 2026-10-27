@@ -127,3 +127,7 @@ The user accepted the PDF reading/review/annotation proposals and requested UI o
 Status: implementation authorized; v37.00 is implemented in the PDF/UI review branch with all local regression suites passing. See [implemented behavior and limits](pdf-review-ui.md). This wave preserves existing tools, routes and entered work; validation includes targeted tests and the complete regression suite.
 
 The accepted UI scope explicitly includes visual and interaction fixes for all dropdowns/selects, buttons, inputs/editors, checkboxes/radios/switches/sliders, menus/popovers, tabs/accordions, dialogs/toolbars, feedback components and scrollbars across tools, themes and device layouts. See UI-15–UI-24 for the component-level acceptance details.
+
+## Homepage and application UI redesign · planned
+
+Recorded: 2026-10-28. The user accepted the app-wide UI redesign for the backlog and requested a further discussion of the complete homepage revamp before development proceeds. Track UIR-01–UIR-18 in [Homepage and application UI redesign backlog](ui-redesign-backlog.md). Implementation is pending; preserve existing tools, routes and saved work and run regression as the redesign is rolled out.
