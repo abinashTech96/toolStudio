@@ -1,6 +1,6 @@
 {
   "version": 35,
-  "appVersion": "39.0.0",
+  "appVersion": "40.0.0",
   "categories": [
     {
       "id": "math",
@@ -15,7 +15,9 @@
         "matrices",
         "statistics",
         "conversionworkspace",
-        "simulationstudio"
+        "simulationstudio",
+        "logicstudio",
+        "signallab"
       ]
     },
     {
@@ -35,7 +37,8 @@
       "workspaces": [
         "texttoolkit",
         "markdown",
-        "localizationstudio"
+        "localizationstudio",
+        "readaloud"
       ]
     },
     {
@@ -47,7 +50,8 @@
         "dataworkbench",
         "comparisonstudio",
         "querystudio",
-        "qualitystudio"
+        "qualitystudio",
+        "geostudio"
       ]
     },
     {
@@ -85,7 +89,13 @@
         "audioeditor",
         "videoframes",
         "documentcompare",
-        "vectorstudio"
+        "vectorstudio",
+        "screenrecorder",
+        "gifmaker",
+        "filerecovery",
+        "patternstudio",
+        "fontexplorer",
+        "printlayout"
       ]
     },
     {
@@ -100,7 +110,9 @@
         "flowchart",
         "presentationtimer",
         "flashcards",
-        "typing"
+        "typing",
+        "teleprompter",
+        "worklog"
       ]
     },
     {
@@ -131,7 +143,8 @@
       "workspaces": [
         "testcasestudio",
         "fixturebuilder",
-        "coveragematrix"
+        "coveragematrix",
+        "answersheets"
       ]
     },
     {
@@ -141,7 +154,9 @@
       "workspaces": [
         "schemadesigner",
         "dependencyexplorer",
-        "capacityplanner"
+        "capacityplanner",
+        "modelinspector",
+        "circuitplayground"
       ]
     }
   ],
@@ -267,6 +282,17 @@
       "resources": [],
       "order": 0,
       "label": "JSON Studio"
+    },
+    {
+      "id": "geostudio",
+      "kind": "native",
+      "routes": [
+        "geostudio"
+      ],
+      "category": "json",
+      "order": 132,
+      "description": "Map & GeoJSON Studio · local interactive workspace",
+      "label": "Map & GeoJSON Studio"
     },
     {
       "id": "querystudio",
@@ -504,6 +530,39 @@
       "label": "Document Comparison Studio"
     },
     {
+      "id": "filerecovery",
+      "kind": "native",
+      "routes": [
+        "filerecovery"
+      ],
+      "category": "media",
+      "order": 138,
+      "description": "File Recovery Inspector · local interactive workspace",
+      "label": "File Recovery Inspector"
+    },
+    {
+      "id": "fontexplorer",
+      "kind": "native",
+      "routes": [
+        "fontexplorer"
+      ],
+      "category": "media",
+      "order": 141,
+      "description": "Font & Typography Explorer · local interactive workspace",
+      "label": "Font & Typography Explorer"
+    },
+    {
+      "id": "gifmaker",
+      "kind": "native",
+      "routes": [
+        "gifmaker"
+      ],
+      "category": "media",
+      "order": 135,
+      "description": "GIF & Stop-Motion Maker · local interactive workspace",
+      "label": "GIF & Stop-Motion Maker"
+    },
+    {
       "id": "pdfworkspace",
       "category": "media",
       "routes": [
@@ -515,6 +574,28 @@
       "resources": [],
       "order": 1,
       "label": "PDF Workspace"
+    },
+    {
+      "id": "patternstudio",
+      "kind": "native",
+      "routes": [
+        "patternstudio"
+      ],
+      "category": "media",
+      "order": 139,
+      "description": "Pattern & Texture Generator · local interactive workspace",
+      "label": "Pattern & Texture Generator"
+    },
+    {
+      "id": "printlayout",
+      "kind": "native",
+      "routes": [
+        "printlayout"
+      ],
+      "category": "media",
+      "order": 143,
+      "description": "Print Layout Studio · local interactive workspace",
+      "label": "Print Layout Studio"
     },
     {
       "id": "qr",
@@ -538,6 +619,17 @@
       "order": 105,
       "description": "SVG & Vector Studio advanced workspace",
       "label": "SVG & Vector Studio"
+    },
+    {
+      "id": "screenrecorder",
+      "kind": "native",
+      "routes": [
+        "screenrecorder"
+      ],
+      "category": "media",
+      "order": 134,
+      "description": "Screen Recording Studio · local interactive workspace",
+      "label": "Screen Recording Studio"
     },
     {
       "id": "videoframes",
@@ -702,6 +794,17 @@
       "label": "Functions & Graphs"
     },
     {
+      "id": "logicstudio",
+      "kind": "native",
+      "routes": [
+        "logicstudio"
+      ],
+      "category": "math",
+      "order": 133,
+      "description": "Logic & Truth Table Studio · local interactive workspace",
+      "label": "Logic & Truth Table Studio"
+    },
+    {
       "id": "matrices",
       "category": "math",
       "routes": [
@@ -711,6 +814,17 @@
       "resources": [],
       "order": 5,
       "label": "Matrices & Vectors"
+    },
+    {
+      "id": "signallab",
+      "kind": "native",
+      "routes": [
+        "signallab"
+      ],
+      "category": "math",
+      "order": 137,
+      "description": "Signal & Waveform Lab · local interactive workspace",
+      "label": "Signal & Waveform Lab"
     },
     {
       "id": "simulationstudio",
@@ -862,6 +976,28 @@
       "label": "Presentation Timer"
     },
     {
+      "id": "teleprompter",
+      "kind": "native",
+      "routes": [
+        "teleprompter"
+      ],
+      "category": "productivity",
+      "order": 136,
+      "description": "Teleprompter · local interactive workspace",
+      "label": "Teleprompter"
+    },
+    {
+      "id": "worklog",
+      "kind": "native",
+      "routes": [
+        "worklog"
+      ],
+      "category": "productivity",
+      "order": 140,
+      "description": "Timesheet & Worklog Studio · local interactive workspace",
+      "label": "Timesheet & Worklog Studio"
+    },
+    {
       "id": "typing",
       "category": "productivity",
       "routes": [
@@ -873,6 +1009,17 @@
       "label": "Typing practice"
     },
     {
+      "id": "modelinspector",
+      "kind": "native",
+      "routes": [
+        "modelinspector"
+      ],
+      "category": "systems",
+      "order": 130,
+      "description": "Model Inspector · local interactive workspace",
+      "label": "3D Model Inspector"
+    },
+    {
       "id": "capacityplanner",
       "kind": "native",
       "routes": [
@@ -882,6 +1029,17 @@
       "order": 117,
       "description": "Capacity Planner advanced workspace",
       "label": "Capacity Planner"
+    },
+    {
+      "id": "circuitplayground",
+      "kind": "native",
+      "routes": [
+        "circuitplayground"
+      ],
+      "category": "systems",
+      "order": 131,
+      "description": "Circuit Playground · local interactive workspace",
+      "label": "Circuit Playground"
     },
     {
       "id": "dependencyexplorer",
@@ -904,6 +1062,17 @@
       "order": 115,
       "description": "Schema Designer advanced workspace",
       "label": "Schema Designer"
+    },
+    {
+      "id": "answersheets",
+      "kind": "native",
+      "routes": [
+        "answersheets"
+      ],
+      "category": "testing",
+      "order": 142,
+      "description": "Answer Sheet Checker · local interactive workspace",
+      "label": "Answer Sheet Checker"
     },
     {
       "id": "coveragematrix",
@@ -961,6 +1130,17 @@
       "label": "Markdown preview"
     },
     {
+      "id": "readaloud",
+      "kind": "native",
+      "routes": [
+        "readaloud"
+      ],
+      "category": "text",
+      "order": 144,
+      "description": "Read-Aloud Workspace · local interactive workspace",
+      "label": "Read-Aloud Workspace"
+    },
+    {
       "id": "texttoolkit",
       "category": "text",
       "routes": [
@@ -975,7 +1155,7 @@
       "label": "Text Toolkit"
     }
   ],
-  "sourceModules": 82,
+  "sourceModules": 97,
   "legacyRoutes": 105,
-  "totalRoutes": 124
+  "totalRoutes": 139
 }

@@ -1,14 +1,14 @@
 {
   "version": 35,
-  "appVersion": "39.0.0",
+  "appVersion": "40.0.0",
   "categories": 11,
-  "workspaces": 69,
-  "sourceModules": 82,
+  "workspaces": 84,
+  "sourceModules": 97,
   "legacyRoutes": 105,
-  "totalRoutes": 124,
+  "totalRoutes": 139,
   "initialHTMLBytes": 268184,
-  "runtimeChunkBytes": 2423922,
-  "offlineBytes": 23912557,
+  "runtimeChunkBytes": 2424127,
+  "offlineBytes": 26324116,
   "ocrAssetsVerified": 3,
-  "revision": "9604399051d512b6"
+  "revision": "034ca2ace6005c7d"
 }
