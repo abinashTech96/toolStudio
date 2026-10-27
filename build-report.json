@@ -7,8 +7,8 @@
   "legacyRoutes": 105,
   "totalRoutes": 139,
   "initialHTMLBytes": 268184,
-  "runtimeChunkBytes": 2424127,
-  "offlineBytes": 26325765,
+  "runtimeChunkBytes": 2424561,
+  "offlineBytes": 26326575,
   "ocrAssetsVerified": 3,
-  "revision": "20a53fb02a42fe48"
+  "revision": "8cf9761aa3208229"
 }
