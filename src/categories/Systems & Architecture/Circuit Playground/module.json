@@ -1,0 +1,11 @@
+{
+  "id": "circuitplayground",
+  "kind": "native",
+  "routes": [
+    "circuitplayground"
+  ],
+  "category": "systems",
+  "order": 131,
+  "description": "Circuit Playground · local interactive workspace"
+}
+

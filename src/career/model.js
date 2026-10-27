@@ -97,6 +97,7 @@ function validateProject(raw) {
   safeTree(raw);
   const p = clone(raw);
   if (p.workspace !== undefined && (!plain(p.workspace) || !["both","edit","preview"].includes(p.workspace.view) || !Number.isFinite(p.workspace.split) || p.workspace.split < 30 || p.workspace.split > 70)) throw Error("Invalid editor layout");
+  if(p.fontAsset!==undefined){if(!plain(p.fontAsset)||typeof p.fontAsset.name!=="string"||p.fontAsset.name.length>150||!/^([a-f0-9]{64})$/.test(p.fontAsset.sha256)||!Array.isArray(p.fontAsset.chunks)||p.fontAsset.chunks.length>60||p.fontAsset.chunks.some(c=>typeof c!=="string"||c.length>200000)||p.fontAsset.chunks.join("").length>11e6)throw Error("Invalid portable font");}
   checkProfile(p.profile);
   checkSettings(p.settings);
   for (const k of ["resumes", "applications", "evidence", "questions", "attempts", "growth", "documents", "offers", "reviews", "checkpoints"]) records(list(p, k, k === "checkpoints" ? 12 : 200), k);
@@ -105,6 +106,7 @@ function validateProject(raw) {
     if (r.importSource !== undefined) {if (!plain(r.importSource)) throw Error("Invalid import source");text(r.importSource,"text",250000);text(r.importSource,"at",100);}
     text(r, "label", 150);
     checkProfile(r.doc);
+    if(r.baseDoc!==undefined)checkProfile(r.baseDoc);
     checkSettings(r.settings);
     text(r, "targetRole", 150);
   }
@@ -186,7 +188,7 @@ function newVariant(p, id, label) {
   if (!label.trim()) throw Error("Enter a variant name");
   if (p.resumes.length >= 30) throw Error("At most 30 resume variants");
   const a = activeDocument(p, id);
-  const r = { id: uid(), label: label.trim(), targetRole: a.doc.headline, doc: clone(a.doc), settings: clone(a.settings) };
+  const r = { id: uid(), label: label.trim(), targetRole: a.doc.headline, doc: clone(a.doc), settings: clone(a.settings), baseDoc: clone(p.profile) };
   p.resumes.push(r);
   return r;
 }

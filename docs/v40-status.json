@@ -1,0 +1,570 @@
+{
+  "version": "40.0.0",
+  "base": "eeab701a4cd033aaefc8d0a863c52b30e06fe819",
+  "pullRequest": "https://github.com/abinashTech96/toolStudio/pull/11",
+  "phase": "software-implemented-manual-qualification-pending",
+  "preserved": {
+    "workspaces": 69,
+    "routes": 124,
+    "originalRoutes": 105
+  },
+  "catalog": {
+    "workspaces": 84,
+    "routes": 139,
+    "categories": 11
+  },
+  "newTools": [
+    {
+      "id": "geostudio",
+      "name": "Map & GeoJSON Studio",
+      "source": "src/categories/Data & Tables/Map & GeoJSON Studio/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "filerecovery",
+      "name": "File Recovery Inspector",
+      "source": "src/categories/Files, Images & Design/File Recovery Inspector/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "fontexplorer",
+      "name": "Font & Typography Explorer",
+      "source": "src/categories/Files, Images & Design/Font & Typography Explorer/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "gifmaker",
+      "name": "GIF & Stop-Motion Maker",
+      "source": "src/categories/Files, Images & Design/GIF & Stop-Motion Maker/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "patternstudio",
+      "name": "Pattern & Texture Generator",
+      "source": "src/categories/Files, Images & Design/Pattern & Texture Generator/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "printlayout",
+      "name": "Print Layout Studio",
+      "source": "src/categories/Files, Images & Design/Print Layout Studio/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "screenrecorder",
+      "name": "Screen Recording Studio",
+      "source": "src/categories/Files, Images & Design/Screen Recording Studio/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "logicstudio",
+      "name": "Logic & Truth Table Studio",
+      "source": "src/categories/Math & Measurement/Logic & Truth Table Studio/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "signallab",
+      "name": "Signal & Waveform Lab",
+      "source": "src/categories/Math & Measurement/Signal & Waveform Lab/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "teleprompter",
+      "name": "Teleprompter",
+      "source": "src/categories/Productivity & Planning/Teleprompter/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "worklog",
+      "name": "Timesheet & Worklog Studio",
+      "source": "src/categories/Productivity & Planning/Timesheet & Worklog Studio/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "modelinspector",
+      "name": "3D Model Inspector",
+      "source": "src/categories/Systems & Architecture/3D Model Inspector/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "circuitplayground",
+      "name": "Circuit Playground",
+      "source": "src/categories/Systems & Architecture/Circuit Playground/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "answersheets",
+      "name": "Answer Sheet Checker",
+      "source": "src/categories/Testing & Quality/Answer Sheet Checker/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    },
+    {
+      "id": "readaloud",
+      "name": "Read-Aloud Workspace",
+      "source": "src/categories/Text & Writing/Read-Aloud Workspace/logic.js",
+      "status": "implemented",
+      "verification": "automated-browser-and-unit-fixtures"
+    }
+  ],
+  "backlog": [
+    {
+      "id": "TS-040-01",
+      "title": "Upgrade existing browser sessions safely",
+      "status": "implemented",
+      "source": [
+        "src/core/service-worker.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-02",
+      "title": "Recover cleanly when local storage fails",
+      "status": "implemented",
+      "source": [
+        "src/workflows/project-recovery-ui.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-03",
+      "title": "Verify scenario results belong to current inputs",
+      "status": "implemented",
+      "source": [
+        "src/workflows/numerics.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-04",
+      "title": "Qualify real Bluetooth and USB devices",
+      "status": "blocked-physical-device",
+      "source": [
+        "docs/v40-manual-validation.md"
+      ],
+      "automatedEvidence": [],
+      "manualVerification": "pending"
+    },
+    {
+      "id": "TS-040-05",
+      "title": "Add independent numerical reference cases",
+      "status": "implemented",
+      "source": [
+        "tests/v40-backlog.unit.mjs"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-06",
+      "title": "Report behavioral coverage for every route",
+      "status": "implemented",
+      "source": [
+        "scripts/route-coverage.mjs"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-07",
+      "title": "Finish consistent action styling in legacy tools",
+      "status": "implemented",
+      "source": [
+        "src/core/workspace-ui.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-08",
+      "title": "Handle the on-screen keyboard and safe areas",
+      "status": "implemented",
+      "source": [
+        "src/core/workspace-ui.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "pending"
+    },
+    {
+      "id": "TS-040-09",
+      "title": "Show meaningful stages for long operations",
+      "status": "implemented",
+      "source": [
+        "src/advanced/ui.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-10",
+      "title": "Validate complete screen-reader journeys",
+      "status": "manual-verification-pending",
+      "source": [
+        "docs/v40-manual-validation.md"
+      ],
+      "automatedEvidence": [],
+      "manualVerification": "pending"
+    },
+    {
+      "id": "TS-040-11",
+      "title": "Test remote-only navigation through complete tasks",
+      "status": "implemented",
+      "source": [
+        "src/core/workspace-ui.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "pending"
+    },
+    {
+      "id": "TS-040-12",
+      "title": "Reset one workspace/device layout independently",
+      "status": "implemented",
+      "source": [
+        "src/core/workspace-ui.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-13",
+      "title": "Merge master updates within resume sections",
+      "status": "implemented",
+      "source": [
+        "src/release40/algorithms.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-14",
+      "title": "Support mixed-script font fallback",
+      "status": "implemented",
+      "source": [
+        "src/career/fonts40.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-15",
+      "title": "Verify text extracted from actual exported files",
+      "status": "implemented",
+      "source": [
+        "src/career/documents.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-16",
+      "title": "Improve exported document semantics",
+      "status": "implemented",
+      "source": [
+        "src/career/semantics40.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "pending"
+    },
+    {
+      "id": "TS-040-17",
+      "title": "Improve page-break decisions for resume entries",
+      "status": "implemented",
+      "source": [
+        "src/career/documents.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-18",
+      "title": "Make custom-font projects reproducible",
+      "status": "implemented",
+      "source": [
+        "src/career/fonts40.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-19",
+      "title": "Preflight a request collection before sending",
+      "status": "implemented",
+      "source": [
+        "src/release40/index.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-20",
+      "title": "Explain the impact of metadata changes",
+      "status": "implemented",
+      "source": [
+        "src/release40/algorithms.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-21",
+      "title": "Trace cleaned output back to source rows",
+      "status": "implemented",
+      "source": [
+        "src/workflows/lineage.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-22",
+      "title": "Offer spreadsheet-safe CSV export",
+      "status": "implemented",
+      "source": [
+        "src/release40/index.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-23",
+      "title": "Compare logs with explicit clock offsets",
+      "status": "implemented",
+      "source": [
+        "src/release40/algorithms.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-24",
+      "title": "Process larger tabular previews responsively",
+      "status": "implemented",
+      "source": [
+        "src/workflows/csv-worker.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-25",
+      "title": "Provide a guided device simulator",
+      "status": "implemented",
+      "source": [
+        "src/connections/session-tools.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-26",
+      "title": "Check saved profiles against connected capabilities",
+      "status": "implemented",
+      "source": [
+        "src/connections/session-tools.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-27",
+      "title": "Review regional OCR across a page batch",
+      "status": "implemented",
+      "source": [
+        "src/release40/media.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-28",
+      "title": "Prove redactions are removed from exported pixels",
+      "status": "implemented",
+      "source": [
+        "src/release40/media.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-29",
+      "title": "Review annotation placement after version changes",
+      "status": "implemented",
+      "source": [
+        "src/pdf-review/model.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    },
+    {
+      "id": "TS-040-30",
+      "title": "Validate the bytes produced by media exports",
+      "status": "implemented",
+      "source": [
+        "src/release40/media.js"
+      ],
+      "automatedEvidence": [
+        "tests/v40.unit.mjs",
+        "tests/v40-backlog.unit.mjs",
+        "tests/v40.browser.mjs",
+        "tests/v40-backlog.browser.mjs"
+      ],
+      "manualVerification": "not-required-for-automated-scope"
+    }
+  ],
+  "manualMatrix": "docs/v40-manual-validation.md",
+  "notes": [
+    "Manual qualifications are not marked passed from browser emulation.",
+    "Test reports and CI on the final PR head are the verification evidence."
+  ]
+}

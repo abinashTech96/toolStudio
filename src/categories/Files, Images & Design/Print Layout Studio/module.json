@@ -1,0 +1,10 @@
+{
+  "id": "printlayout",
+  "kind": "native",
+  "routes": [
+    "printlayout"
+  ],
+  "category": "media",
+  "order": 143,
+  "description": "Print Layout Studio \u00b7 local interactive workspace"
+}

@@ -1,3 +1,5 @@
+import {pdfStructure,wordStyles,wordNumbering} from './semantics40.js';
+import {fontRuns,fontRunWidth} from './fonts40.js';
 import {hasRTL,visualRuns,shapedWidth,drawShapedLine} from './rtl.js';
 import {textLinks,linkRectangles} from './links.js';
 import {readPDFText} from '../advanced/assets.js';
@@ -85,14 +87,17 @@ function layoutBlocks(blocks, s, measure) {
     }
     return result.length?result:[{text:'',last:true}];
   }
-  for(const b of blocks) {
+  for(let blockIndex=0;blockIndex<blocks.length;blockIndex++) {
+    const b=blocks[blockIndex];
     if(b.kind==='break'){next();continue;}
     const l=blockLayout(b,s),size=s.size*({name:2,headline:1.15,heading:1.13,date:.92,contact:.92}[b.kind]||1),leading=size*s.spacing;
     const gap=b.kind==='heading'?s.size*.8:l.paragraphGap,indent=b.kind==='bullet'?l.bulletIndent:0,max=available-indent;
     const rows=wrap((b.kind==='bullet'?'• ':'')+b.text,size,max);
     if(y-gap-leading*(['heading','subheading'].includes(b.kind)?Math.min(rows.length+2,4):1)<margins.bottom)next();
+    if(b.kind==='subheading'){let group=gap+rows.length*leading;for(let j=blockIndex+1;j<blocks.length&&!['subheading','heading','break'].includes(blocks[j].kind);j++){const nextBlock=blocks[j],nextLayout=blockLayout(nextBlock,s),nextSize=s.size*({date:.92,contact:.92}[nextBlock.kind]||1),nextMax=available-(nextBlock.kind==='bullet'?nextLayout.bulletIndent:0);group+=nextLayout.paragraphGap+wrap((nextBlock.kind==='bullet'?'• ':'')+nextBlock.text,nextSize,nextMax).length*nextSize*s.spacing}if(group<=height-margins.top-margins.bottom&&y-group<margins.bottom)next();}
+    if(rows.length>1&&y-gap-2*leading<margins.bottom)next();
     y-=gap;
-    for(const row of rows) {
+    for(let rowIndex=0;rowIndex<rows.length;rowIndex++) {const row=rows[rowIndex];if(rows.length-rowIndex===2&&y-2*leading<margins.bottom)next();
       if(y-leading<margins.bottom)next();y-=leading;
       const measured=measure(row.text,size),base=margins.left+indent;
       let x=base+(l.align==='center'?(max-measured)/2:l.align==='right'?max-measured:0),runs;
@@ -109,9 +114,9 @@ const xml = (s) => escape(String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u
 function docxBytes(doc,s){
  const ns='http://schemas.openxmlformats.org/wordprocessingml/2006/main',rel='http://schemas.openxmlformats.org/package/2006/relationships',relationships=[];
  const body=documentBlocks(doc,s).map(b=>{if(b.kind==='break')return'<w:p><w:r><w:br w:type="page"/></w:r></w:p>';const l=blockLayout(b,s),align=l.align==='justify'?'both':l.align,heading=['name','heading','subheading'].includes(b.kind),size=Math.round(s.size*2*({name:2,headline:1.15,heading:1.13,date:.92,contact:.92}[b.kind]||1));const properties=(heading?'<w:b/>':'')+'<w:rFonts w:ascii="'+(s.font==='Serif'?'Georgia':'Arial')+'" w:hAnsi="'+(s.font==='Serif'?'Georgia':'Arial')+'"/><w:sz w:val="'+size+'"/><w:szCs w:val="'+size+'"/><w:lang w:val="'+xml(s.language)+'"/>'+(s.direction==='rtl'?'<w:rtl/>':'');
- const runs=textLinks((b.kind==='bullet'?'• ':'')+b.text).map(segment=>{const run='<w:r><w:rPr>'+properties+(segment.url?'<w:u w:val="single"/>':'')+'</w:rPr><w:t xml:space="preserve">'+xml(segment.text)+'</w:t></w:r>';if(!segment.url)return run;const id='link'+(relationships.length+1);relationships.push({id,url:segment.url});return'<w:hyperlink r:id="'+id+'">'+run+'</w:hyperlink>'}).join('');return'<w:p><w:pPr><w:jc w:val="'+align+'"/>'+(b.kind==='bullet'?'<w:ind w:'+ (s.direction==='rtl'?'right':'left')+'="'+Math.round(l.bulletIndent*20)+'"/>':'')+(heading?'<w:keepNext/><w:keepLines/>':'')+(s.direction==='rtl'?'<w:bidi/>':'')+'<w:spacing w:after="'+Math.round(l.paragraphGap*20)+'" w:line="'+Math.round(s.spacing*240)+'" w:lineRule="auto"/>'+(b.kind==='heading'?'<w:outlineLvl w:val="0"/>':'')+'</w:pPr>'+runs+'</w:p>'}).join('');
+ const runs=textLinks(b.text).map(segment=>{const run='<w:r><w:rPr>'+properties+(segment.url?'<w:u w:val="single"/>':'')+'</w:rPr><w:t xml:space="preserve">'+xml(segment.text)+'</w:t></w:r>';if(!segment.url)return run;const id='link'+(relationships.length+1);relationships.push({id,url:segment.url});return'<w:hyperlink r:id="'+id+'">'+run+'</w:hyperlink>'}).join('');return'<w:p><w:pPr><w:pStyle w:val="'+({name:'Title',heading:'Heading1',subheading:'Heading2',bullet:'ListParagraph'}[b.kind]||'Normal')+'"/>'+(b.kind==='bullet'?'<w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr>':'')+'<w:widowControl/><w:jc w:val="'+align+'"/>'+(b.kind==='bullet'?'<w:ind w:'+ (s.direction==='rtl'?'right':'left')+'="'+Math.round(l.bulletIndent*20)+'"/>':'')+(heading?'<w:keepNext/><w:keepLines/>':'')+(s.direction==='rtl'?'<w:bidi/>':'')+'<w:spacing w:after="'+Math.round(l.paragraphGap*20)+'" w:line="'+Math.round(s.spacing*240)+'" w:lineRule="auto"/>'+(b.kind==='heading'?'<w:outlineLvl w:val="0"/>':'')+'</w:pPr>'+runs+'</w:p>'}).join('');
  const margins=Object.fromEntries(Object.entries(layoutSettings(s).margins).map(([k,v])=>[k,Math.round(v*1440/25.4)])),width=s.page==='A4'?11906:12240,height=s.page==='A4'?16838:15840;
- return zipSync({'[Content_Types].xml':strToU8('<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'),'_rels/.rels':strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="'+rel+'"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'),'word/_rels/document.xml.rels':strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="'+rel+'">'+relationships.map(r=>'<Relationship Id="'+r.id+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="'+xml(r.url)+'" TargetMode="External"/>').join('')+'</Relationships>'),'word/document.xml':strToU8('<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="'+ns+'" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>'+body+'<w:sectPr><w:pgSz w:w="'+width+'" w:h="'+height+'"/><w:pgMar w:top="'+margins.top+'" w:right="'+margins.right+'" w:bottom="'+margins.bottom+'" w:left="'+margins.left+'"/></w:sectPr></w:body></w:document>')},{level:6});
+ return zipSync({'word/styles.xml':strToU8(wordStyles),'word/numbering.xml':strToU8(wordNumbering),'[Content_Types].xml':strToU8('<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/></Types>'),'_rels/.rels':strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="'+rel+'"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'),'word/_rels/document.xml.rels':strToU8('<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="'+rel+'">'+'<Relationship Id="styles40" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="numbering40" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>'+relationships.map(r=>'<Relationship Id="'+r.id+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="'+xml(r.url)+'" TargetMode="External"/>').join('')+'</Relationships>'),'word/document.xml':strToU8('<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:w="'+ns+'" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>'+body+'<w:sectPr><w:pgSz w:w="'+width+'" w:h="'+height+'"/><w:pgMar w:top="'+margins.top+'" w:right="'+margins.right+'" w:bottom="'+margins.bottom+'" w:left="'+margins.left+'"/></w:sectPr></w:body></w:document>')},{level:6});
 }
 function extractDocx(bytes) {
   let size = 0;
@@ -206,26 +211,28 @@ function createPDFExporter(api) {
     }
     const fontName = s.font === "Serif" && s.direction!=="rtl" ? "careerSerif" : "careerFont";
     fontBytes[fontName] ||= await api.asset(fontName);
-    return api.careerFontOverride||fontBytes[fontName];
+    return (await api.careerFontProvider?.())||api.careerFontOverride||fontBytes[fontName];
   }
   const exporter=async (doc,s)=>{
     const selectedBytes=await loadFont(s);
     const pdf = await engine.PDFDocument.create();
     pdf.registerFontkit(fontkit);
-    const raw=fontkit.create(selectedBytes),font = await pdf.embedFont(selectedBytes, { subset: true }), supported = new Set(font.getCharacterSet()), blocks = documentBlocks(doc, s);
+    const fonts=[];for(const bytes of [selectedBytes,await api.asset('careerHindi'),await api.asset('careerOdia')])fonts.push({raw:fontkit.create(bytes),font:await pdf.embedFont(bytes,{subset:true})});const raw=fonts[0].raw,font=fonts[0].font,supported=new Set(fonts.flatMap(f=>f.font.getCharacterSet())),blocks=documentBlocks(doc,s);pdf.catalog.set(engine.PDFName.of('Lang'),engine.PDFString.of(s.language));
     for (const b of blocks) for (const c of b.text) if (!/[\n\r\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(c) && !supported.has(c.codePointAt(0))) throw Error("Direct PDF font does not cover \u201C" + c + "\u201D. Use Print / Save as PDF or Word/HTML for this script.");
-    const measure=(t,n)=>s.direction==='rtl'||hasRTL(t)?shapedWidth(raw,t,n,s.direction):font.widthOfTextAtSize(t,n);const layout = layoutBlocks(blocks, s, measure);
+    const measure=(t,n)=>fontRunWidth(t,fonts,n,s.direction);const layout = layoutBlocks(blocks, s, measure);
     if (!layout.pages.length) throw Error("Add resume content before exporting");
+    const structure=pdfStructure(pdf,engine,s.language);
     for (const rows of layout.pages) {
-      const page = pdf.addPage([layout.width, layout.height]);
-      for(const r of rows)for(const run of r.runs||[{text:r.text,x:r.x}]){if(s.direction==='rtl'||hasRTL(run.text))drawShapedLine(engine,pdf,page,font,raw,run.text,{x:run.x,y:r.y,size:r.size,direction:s.direction});else page.drawText(run.text,{x:run.x,y:r.y,size:r.size,font});for(const link of linkRectangles(run.text,text=>measure(text,r.size),s.direction)){const left=run.x+link.left,width=link.width,annotation=pdf.context.obj({Type:'Annot',Subtype:'Link',Rect:[left,r.y-r.size*.2,left+width,r.y+r.size],Border:[0,0,0],A:{Type:'Action',S:'URI',URI:engine.PDFString.of(link.url)}});page.node.addAnnot(pdf.context.register(annotation))}}
+      const page = pdf.addPage([layout.width, layout.height]),tags=structure.page(page);
+      for(const r of rows){tags.begin(r.kind);for(const run of r.runs||[{text:r.text,x:r.x}]){let cursor=run.x;for(const segment of fontRuns(run.text,fonts,s.direction)){cursor+=drawShapedLine(engine,pdf,page,segment.font.font,segment.font.raw,segment.text,{x:cursor,y:r.y,size:r.size,direction:segment.direction})}for(const link of linkRectangles(run.text,text=>measure(text,r.size),s.direction)){const left=run.x+link.left,width=link.width,annotation=pdf.context.obj({Type:'Annot',Subtype:'Link',Rect:[left,r.y-r.size*.2,left+width,r.y+r.size],Border:[0,0,0],A:{Type:'Action',S:'URI',URI:engine.PDFString.of(link.url)}});page.node.addAnnot(pdf.context.register(annotation))}}tags.end()}
 
     }
+    structure.finish();
     pdf.setTitle((s.hiddenFields.includes("name") ? "Anonymous" : doc.name || "Professional") + " \u2014 Resume");
     pdf.setCreator("Tool Studio Career Studio");
     return { bytes: await pdf.save(), pages: layout.pages.length };
   };
-  exporter.preflight=async(doc,s,override)=>{const bundled=await loadFont(s),bytes=override||bundled;if(bytes.byteLength>8e6)throw Error("Font must be at most 8 MB");const raw=fontkit.create(bytes),text=documentBlocks(doc,s).map(b=>b.text).join("\n"),characters=[...new Set([...text].filter(c=>!/[\s\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(c)))],missing=characters.filter(c=>!raw.hasGlyphForCodePoint(c.codePointAt(0)));return {font:raw.familyName||"Custom font",characters:characters.length,missing:missing.map(c=>({character:c,codePoint:"U+"+c.codePointAt(0).toString(16).toUpperCase()})),covered:!missing.length,direction:s.direction,shaping:hasRTL(text)?"Bidirectional runs and contextual glyph shaping":"Font layout",note:"Coverage checks glyph availability; preview the actual pages to inspect appearance."}};
+  exporter.preflight=async(doc,s,override)=>{const bundled=await loadFont(s),bytes=override||bundled;if(bytes.byteLength>8e6)throw Error("Font must be at most 8 MB");const raw=fontkit.create(bytes),fallbacks=[fontkit.create(await api.asset('careerHindi')),fontkit.create(await api.asset('careerOdia'))],text=documentBlocks(doc,s).map(b=>b.text).join("\n"),characters=[...new Set([...text].filter(c=>!/[\s\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/.test(c)))],missing=characters.filter(c=>![raw,...fallbacks].some(f=>f.hasGlyphForCodePoint(c.codePointAt(0))));return {font:raw.familyName||"Custom font",characters:characters.length,missing:missing.map(c=>({character:c,codePoint:"U+"+c.codePointAt(0).toString(16).toUpperCase()})),covered:!missing.length,direction:s.direction,shaping:hasRTL(text)?"Bidirectional runs and contextual glyph shaping":"Font layout",note:"Coverage checks glyph availability; preview the actual pages to inspect appearance."}};
   return exporter;
 }
 function bundle(files) {

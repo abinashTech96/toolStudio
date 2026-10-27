@@ -1,0 +1,11 @@
+{
+  "id": "worklog",
+  "kind": "native",
+  "routes": [
+    "worklog"
+  ],
+  "category": "productivity",
+  "order": 140,
+  "description": "Timesheet & Worklog Studio · local interactive workspace"
+}
+

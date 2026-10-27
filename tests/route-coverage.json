@@ -1,0 +1,994 @@
+[
+  {
+    "route": "careerstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "careerpreparation",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "careerinterview",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "careerskills",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "portfoliobuilder",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "careerdocuments",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "careerresume",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "careermatcher",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "careerachievements",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "careertemplates",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jsondiff",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "textdiff",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "xml",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "excel",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "reconciliation",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "comparisonstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "qualitystudio",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jsoncsv",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "csvjson",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "sampledata",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "dataworkbench",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "jsonformatter",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "explorer",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "schema",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jsonmask",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jsonmapping",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jsonpath",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jsonstudio",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "geostudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "querystudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "contractstudio",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "migrationstudio",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "cron",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "hash",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "fileinspect",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "hashworkspace",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "apirequest",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "composite",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "apiresponse",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "integrationtests",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "integrationstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "apiclient",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jwt",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jwtverify",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "jwtworkspace",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "keyboard",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "logs",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "subnets",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "passwords",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "programmer",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "regex",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "salesforce",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "soql",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "uuid",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "workflows",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "audioeditor",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "camerastudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "images",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "annotation",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "contactsheet",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "imagestudio",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "colors",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "imagecolors",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "documentcompare",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "filerecovery",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "fontexplorer",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "gifmaker",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "pdf",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "pdfform",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "pdfworkspace",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "patternstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "printlayout",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "qr",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "barcodes",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "vectorstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "screenrecorder",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "videoframes",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "archives",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "expenses",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "finance",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "tools",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "interestrate",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "financeworkspace",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "paymentids",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "citationmanager",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "evidenceboard",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "researchnotebook",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "notebook",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "calculator",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "numberwords",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "converter",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "measurements",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "presets",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "conversionworkspace",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "equations",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "fractions",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "graph",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "calculus",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "logicstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "matrices",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "signallab",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "simulationstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "statistics",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "settings",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "formulas",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "projectworkspaces",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "shortcuts",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "dates",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "timestamp",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "businessdays",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "calendar",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "datetoolkit",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "decision",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "flashcards",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "flowchart",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "formdesigner",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "responsedashboard",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "formsworkspace",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "kanban",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "presentationtimer",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "teleprompter",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "worklog",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "typing",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "capacityplanner",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "circuitplayground",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "dependencyexplorer",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "modelinspector",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "schemadesigner",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "answersheets",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "coveragematrix",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "fixturebuilder",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "testcasestudio",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "localizationstudio",
+    "level": "behavioral",
+    "tests": [
+      "tests/v39.browser.mjs",
+      "tests/smoke.mjs"
+    ]
+  },
+  {
+    "route": "markdown",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "readaloud",
+    "level": "behavioral",
+    "tests": [
+      "tests/v40.browser.mjs"
+    ]
+  },
+  {
+    "route": "characters",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "encoding",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "textutils",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  },
+  {
+    "route": "texttoolkit",
+    "level": "navigation",
+    "tests": [
+      "tests/navigation.browser.mjs"
+    ]
+  }
+]

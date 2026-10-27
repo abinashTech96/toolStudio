@@ -1,3 +1,5 @@
+import {mergeReview,applyMerge} from '../release40/algorithms.js';
+import {portableFont,restorePortableFont} from './fonts40.js';
 import {layoutSettings, blockLayout, alignments, validateLayout} from "./layout.js";
 import {splitImportText, assembleImport, importFindings, applicationChecklist} from "./workflows.js";
 import { node, download } from "../advanced/ui.js";
@@ -7,6 +9,7 @@ const draftKey = "toolstudio-career-project-v2", enabledKey = "toolstudio-career
 const questionPack = [["Behavioural", "Describe a difficult project and your contribution.", "What changed because of your actions?"], ["Behavioural", "Tell me about a disagreement with a stakeholder.", "What would you do differently?"], ["Leadership", "How did you help a teammate improve?", "How did you know your support helped?"], ["Delivery", "Describe how you prioritized competing deadlines.", "What trade-offs did you make?"], ["Technical", "Explain an architecture decision and its alternatives.", "How did you validate the decision?"], ["Salesforce", "Describe an Apex bulk-processing design you implemented.", "How did you test limits and failure cases?"], ["Salesforce", "Explain an integration failure you diagnosed.", "How did you handle retries and duplicate processing?"], ["Salesforce", "Describe a Lightning Web Component you delivered.", "How did you handle state and accessibility?"], ["Salesforce", "How would you review permissions for an Agentforce workflow?", "Which actions require explicit authorization?"], ["Leadership", "Describe a code review that changed the solution.", "How did you communicate the trade-off?"]];
 function mount(api, root) {
   let p = emptyProject(), area = "overview", tab = "resume", active = "master", application = "", editId = "", history = [], future = [], lastEdit = "", lastEditAt = 0, previewTimer, autosaveTimer, disposed = false, sequence = 0, practice = null, timer = null, sourceCompare = "master", applicationView = "Kanban", questionIndex = 0;
+  api.careerFontProvider=async()=>p.fontAsset?restorePortableFont(p.fontAsset):api.careerFontOverride;
   const pdfExport = createPDFExporter(api), urls = /* @__PURE__ */ new Set();
   let refreshChecklist=null,importController=null,previewController=null,fontRevision=0;
   let savedSignature = JSON.stringify(p), lastRaw = null, blocked = false, enabled = false, readOnlyDraft = null;
@@ -205,7 +208,8 @@ function mount(api, root) {
     modal("Review " + label, (content, actions, d) => {
       note(content, "This replaces the Career Studio project. Your original career tools keep their data. Undo restores this Studio session.");
       content.append(node("pre", JSON.stringify({ name: next.profile.name, resumes: next.resumes.length, applications: next.applications.length, evidence: next.evidence.length, questions: next.questions.length, skills: next.growth.length, retainedOriginal: !!next.legacy }, null, 2)));
-      button(actions, "Use reviewed project", () => {
+      button(actions, "Use reviewed project", async () => {
+        if(next.fontAsset){const bytes=await restorePortableFont(next.fontAsset);await pdfExport.preflight(next.profile,next.settings,bytes);}
         if (JSON.stringify(p) !== baseline) throw Error("Current project changed; review again");
         pushHistory(baseline, "import");
         p = clone(next);
@@ -730,6 +734,18 @@ function mount(api, root) {
         reviewResumeChange('Apply source '+diff.section,next,current().settings,()=>applySection(current().doc,src.doc,diff.section));
       });
     }
+    if(active!=="master"){
+      const merge=card(body,"Merge individual master updates","Independent fields are suggested; conflicting fields keep this variant until you choose otherwise.");
+      if(!current().baseDoc)button(merge,"Record current master as merge baseline",()=>{changed(()=>{current().baseDoc=clone(p.profile)});render();say("Baseline recorded. Future master changes can be reviewed; variant content was kept.")});
+      else button(merge,"Review field-level master merge",()=>{
+        const before=clone(current().doc),master=clone(p.profile),rows=mergeReview(current().baseDoc,before,master),proof=JSON.stringify(p),variant=active;
+        modal("Review individual master updates",(c,a,d)=>{
+          for(const r of rows){const group=card(c,r.path+(r.conflict?" · conflict":" · independent update"));group.append(node('pre',JSON.stringify({base:r.base,variant:r.before,master:r.incoming},null,2)));select(group,'Merge choice '+r.path,r.choice,[['local','Keep variant'],['incoming','Use master']],v=>r.choice=v)}
+          if(!rows.length)note(c,'No incoming master changes.');
+          button(a,'Apply reviewed field merge',()=>{if(active!==variant||JSON.stringify(p)!==proof)throw Error('Project changed; review again');const next=applyMerge(before,rows);changed(()=>{current().doc=next;current().baseDoc=master});d.close();render();say('Reviewed field updates applied. Undo is available.');});
+        });
+      });
+    }
     const library = card(body, "Select achievements for this resume", "Insert a reviewed bullet into an experience entry, or append it to Additional information.");
     for (const e of p.evidence) {
       const r = card(library, e.title || "Achievement");
@@ -942,8 +958,10 @@ function mount(api, root) {
     const signature = () => JSON.stringify([current(),fontRevision]);
     const fonts=details(c,"PDF font coverage & custom font"),fontFile=field(fonts,"Custom PDF font (TTF / OTF)","","file"),coverage=node("pre");fontFile.accept=".ttf,.otf";fonts.append(coverage);
     button(fonts,"Check font coverage",async()=>{const proof=signature(),data=await pdfExport.preflight(a.doc,a.settings);if(proof!==signature())throw Error("Document changed; check again");coverage.textContent=JSON.stringify(data,null,2)});
-    button(fonts,"Use selected font for this session",async()=>{const file=fontFile.files[0];if(!file||file.size>8e6)throw Error("Choose a TTF / OTF font up to 8 MB");const bytes=new Uint8Array(await file.arrayBuffer()),proof=signature(),data=await pdfExport.preflight(a.doc,a.settings,bytes);if(proof!==signature()||file!==fontFile.files[0])throw Error("Font or document changed; review again");coverage.textContent=JSON.stringify(data,null,2);if(!data.covered)throw Error("Selected font lacks listed characters; current font retained");api.careerFontOverride=bytes;++fontRevision;built=null;view.replaceChildren();say("Session PDF font updated. Preview the actual PDF pages before sharing.")});
-    button(fonts,"Use bundled PDF font",()=>{delete api.careerFontOverride;++fontRevision;built=null;view.replaceChildren();coverage.textContent="Bundled font restored"});
+    button(fonts,"Use selected font for this session",async()=>{const file=fontFile.files[0];if(!file||file.size>8e6)throw Error("Choose a TTF / OTF font up to 8 MB");const bytes=new Uint8Array(await file.arrayBuffer()),proof=signature(),data=await pdfExport.preflight(a.doc,a.settings,bytes);if(proof!==signature()||file!==fontFile.files[0])throw Error("Font or document changed; review again");coverage.textContent=JSON.stringify(data,null,2);if(!data.covered)throw Error("Selected font lacks listed characters; current font retained");if(p.fontAsset)changed(()=>{delete p.fontAsset});api.careerFontOverride=bytes;api.careerFontName=file.name;++fontRevision;built=null;view.replaceChildren();say("Session PDF font updated. Preview the actual PDF pages before sharing.")});
+    button(fonts,"Use bundled PDF font",()=>{delete api.careerFontOverride;changed(()=>{delete p.fontAsset});++fontRevision;built=null;view.replaceChildren();coverage.textContent="Bundled font restored"});
+    button(fonts,"Include session font in portable project",async()=>{if(!api.careerFontOverride)throw Error("Select a custom session font first");const asset=await portableFont(api.careerFontOverride,api.careerFontName||"Custom font");changed(()=>{p.fontAsset=asset});say("Custom font explicitly included in project exports. Export the project to keep it.")});
+    button(fonts,"Remove portable font attachment",()=>{changed(()=>{delete p.fontAsset});++fontRevision;say("Portable font attachment removed; current session font remains available")});
     const proofBox=details(c,"Export consistency proof"),proofReport=node("pre");proofBox.append(proofReport);
     button(proofBox,"Compare current export content",()=>{const blocks=documentBlocks(a.doc,a.settings),text=resumeText(a.doc,a.settings),html=documentHTML(a.doc,a.settings);proofReport.textContent=JSON.stringify({document:a.label,blocks:blocks.filter(b=>b.kind!=="break").length,characters:text.length,htmlIncludesAllBlocks:blocks.every(b=>b.kind==="break"||html.includes(escape((b.kind==="bullet"?"• ":"")+b.text))||html.includes(escape(b.text))),wordSource:"Same document blocks; links and paragraphs encoded separately",pdfPreview:built?.proof===signature()?"Current preview bytes will be downloaded":"Generate an actual PDF preview to verify pagination",privacy:{hiddenFields:a.settings.hiddenFields,hiddenSections:a.settings.hidden},note:"Content evidence, not a claim of identical pagination across Word, HTML and PDF."},null,2)});
     const actions = row(c);
@@ -1606,7 +1624,7 @@ function mount(api, root) {
   return { dispose() {
     saveLocal();
     disposed = true;
-    importController?.abort();previewController?.abort();delete api.careerFontOverride;
+    importController?.abort();previewController?.abort();delete api.careerFontOverride;delete api.careerFontProvider;
     clearTimeout(previewTimer);
     clearTimeout(autosaveTimer);
     clearInterval(timer);

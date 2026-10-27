@@ -1,0 +1,10 @@
+{
+  "id": "geostudio",
+  "kind": "native",
+  "routes": [
+    "geostudio"
+  ],
+  "category": "json",
+  "order": 132,
+  "description": "Map & GeoJSON Studio \u00b7 local interactive workspace"
+}

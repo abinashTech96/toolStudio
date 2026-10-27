@@ -1,0 +1,10 @@
+{
+  "id": "screenrecorder",
+  "kind": "native",
+  "routes": [
+    "screenrecorder"
+  ],
+  "category": "media",
+  "order": 134,
+  "description": "Screen Recording Studio \u00b7 local interactive workspace"
+}

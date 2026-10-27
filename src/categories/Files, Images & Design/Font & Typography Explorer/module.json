@@ -1,0 +1,10 @@
+{
+  "id": "fontexplorer",
+  "kind": "native",
+  "routes": [
+    "fontexplorer"
+  ],
+  "category": "media",
+  "order": 141,
+  "description": "Font & Typography Explorer \u00b7 local interactive workspace"
+}

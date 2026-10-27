@@ -1,0 +1,11 @@
+{
+  "id": "answersheets",
+  "kind": "native",
+  "routes": [
+    "answersheets"
+  ],
+  "category": "testing",
+  "order": 142,
+  "description": "Answer Sheet Checker · local interactive workspace"
+}
+

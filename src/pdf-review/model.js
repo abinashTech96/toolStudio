@@ -18,6 +18,7 @@ export function validateSession(value) {
     text(item.id,100,'annotation ID'); if(ids.has(item.id)) throw Error('Duplicate annotation ID'); ids.add(item.id);
     if (!integer(item.page,1,value.document.pages) || !Array.isArray(item.rect) || item.rect.length!==4 || item.rect.some(x=>!Number.isFinite(x)||Math.abs(x)>200000) || item.rect[2]<=item.rect[0] || item.rect[3]<=item.rect[1]) throw Error('Invalid annotation coordinates');
     if (!/^[a-f0-9]{64}$/.test(item.source) || typeof item.needsReview!=='boolean') throw Error('Invalid annotation source');
+    for(const anchor of [item.originalAnchor,item.previousAnchor].filter(v=>v!==undefined))if(!anchor||!integer(anchor.page,1,10000)||!/^[a-f0-9]{64}$/.test(anchor.source)||!Array.isArray(anchor.rect)||anchor.rect.length!==4||anchor.rect.some(n=>!Number.isFinite(n)||Math.abs(n)>200000)||anchor.rect[2]<=anchor.rect[0]||anchor.rect[3]<=anchor.rect[1])throw Error('Invalid original annotation anchor');
     text(item.text,4000,'annotation text');
   }
   for (const c of value.comments) { text(c.quote,4000,'selected text'); if(typeof c.resolved!=='boolean') throw Error('Invalid comment status'); }
@@ -41,7 +42,7 @@ export function remapSession(session, reference, mappings) {
   for(const item of annotations) {
     const map=mappings.find(m=>m.id===item.id);
     if(!map||!integer(map.page,1,reference.pages)||map.reviewed!==true) throw Error('Approve a valid target page for every annotation');
-    item.page=map.page;item.source=reference.sha256;item.needsReview=true;
+    item.originalAnchor ||= {page:item.page,source:item.source,rect:item.rect.slice()};item.previousAnchor={page:item.page,source:item.source,rect:item.rect.slice()};item.page=map.page;item.source=reference.sha256;item.needsReview=true;
   }
   next.document=structuredClone(reference);next.pages=Array(reference.pages).fill('not-reviewed');next.changes=[];delete next.comparison;
   return validateSession(next);

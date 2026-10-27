@@ -1,0 +1,11 @@
+{
+  "id": "modelinspector",
+  "kind": "native",
+  "routes": [
+    "modelinspector"
+  ],
+  "category": "systems",
+  "order": 130,
+  "description": "Model Inspector · local interactive workspace"
+}
+
