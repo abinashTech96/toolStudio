@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {greetingFor,featurePinKey,discoveryResults} from '../src/core/home-discovery.js';
+import {validateHomePreferences} from '../src/core/home-state.js';
+const routes=new Set(['jsonformatter']),checks=[];
+const test=(label,run)=>{run();checks.push(label);console.log('PASS',label)};
+for(const[hour,expected]of[[0,'Good night'],[4,'Good night'],[5,'Good morning'],[11,'Good morning'],[12,'Good afternoon'],[16,'Good afternoon'],[17,'Good evening'],[21,'Good evening'],[22,'Good night'],[23,'Good night']])test('Local greeting at hour '+hour,()=>assert.equal(greetingFor(new Date(2026,9,28,hour)),expected));
+test('Old Home preferences remain valid without migration or added fields',()=>assert.deepEqual(validateHomePreferences({version:1,lastTool:'jsonformatter',categories:['json']},routes),{version:1,lastTool:'jsonformatter',categories:['json']}));
+test('Metadata for all three favorite types validates with existing backups',()=>{const p={version:1,lastTool:'',categories:[],pinnedCategories:['json'],pinnedFeatures:['tool:jsonformatter','detail:jsonformatter:options'],view:'list',showRecent:false};assert.deepEqual(validateHomePreferences(p,routes),p)});
+for(const patch of[{pinnedFeatures:['x','x']},{pinnedCategories:['__proto__']},{pinnedFeatures:['<script>']},{pinnedFeatures:['\u0000']},{pinnedFeatures:Array.from({length:81},(_,i)=>'tool:'+i)},{view:'broken'},{showRecent:'true'},{editorText:'private'}])test('Reject invalid preference '+JSON.stringify(patch).slice(0,65),()=>assert.throws(()=>validateHomePreferences({version:1,lastTool:'',categories:[],...patch},routes)));
+const normalize=s=>s.toLowerCase(),feature={key:'tool:jsonformatter',label:'Format JSON',id:'jsonformatter'};
+test('Disclosure pins survive index counter changes',()=>{const a={key:'detail:a:12',id:'jsonformatter',label:'Options',detail:{id:'format-options'}};assert.equal(featurePinKey(a,normalize),featurePinKey({...a,key:'detail:a:99'},normalize))});
+test('Disclosure pins use normalized text if no element ID exists',()=>assert.equal(featurePinKey({id:'jsonformatter',label:'Format Options',detail:{}},normalize),'detail:jsonformatter:format options'));
+test('Action pins preserve exact feature identity',()=>assert.equal(featurePinKey(feature,normalize),'tool:jsonformatter'));
+test('Search preserves category/tool/feature distinctions and actions',()=>{const results=discoveryResults([{id:'json',label:'JSON tools'}],[{id:'jsonstudio',label:'JSON Studio',description:'Format data'}],[feature],'json',normalize,()=>10);assert.equal(results.categories.length,1);assert.equal(results.tools.length,1);assert.equal(results.features[0],feature)});
+test('Declared aliases retain consolidated workspace discovery',()=>{const result=discoveryResults([],[{id:'careerstudio',label:'Career Studio',searchTerms:['work experience']}],[],'work experience',normalize,()=>-1);assert.equal(result.tools[0].id,'careerstudio')});
+test('Generic disclosures do not inherit every parent-tool search alias',()=>{const result=discoveryResults([],[{id:'careerstudio',label:'Career Studio',searchTerms:['work experience']}],[{id:'careerstudio',label:'Project recovery',detail:{id:'recover'}}],'work experience',normalize,()=>10);assert.equal(result.tools.length,1);assert.equal(result.features.length,0)});
+test('Empty queries do not populate a default tool grid',()=>assert.deepEqual(discoveryResults([],[],[],'  ',normalize,()=>0),{categories:[],tools:[],features:[]}));
+console.log(JSON.stringify({checks:checks.length,passed:true}));

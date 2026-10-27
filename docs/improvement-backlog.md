@@ -130,4 +130,4 @@ The accepted UI scope explicitly includes visual and interaction fixes for all d
 
 ## Homepage and application UI redesign · planned
 
-Recorded: 2026-10-28. The user accepted the app-wide UI redesign for the backlog and requested a further discussion of the complete homepage revamp before development proceeds. Track UIR-01–UIR-18 in [Homepage and application UI redesign backlog](ui-redesign-backlog.md). Implementation is pending; preserve existing tools, routes and saved work and run regression as the redesign is rolled out.
+Recorded: 2026-10-28. The user accepted the app-wide UI redesign for the backlog and requested a further discussion of the complete homepage revamp before development proceeds. Track UIR-01–UIR-18 in [Homepage and application UI redesign backlog](ui-redesign-backlog.md). The final category-first homepage and existing-theme refresh are implemented on the v41 review branch; validation is in progress. See [v41 implementation](ui-redesign-v41.md). Existing tools, routes and saved work remain protected by regression.

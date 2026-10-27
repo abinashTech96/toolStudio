@@ -2,7 +2,7 @@
 
 Recorded: 2026-10-28 (Asia/Calcutta)
 
-Status: accepted for the implementation backlog. Runtime implementation has not started. The user requested a further discussion of the complete homepage revamp before development proceeds. Homepage layout details emerging from that discussion remain proposals until accepted.
+Status: implementation authorized and implemented on the review branch for v41. Automated validation is in progress. The final accepted homepage design and existing-workspace constraint below supersede earlier homepage composition proposals.
 
 ## Agreed scope
 
@@ -37,6 +37,8 @@ Status: accepted for the implementation backlog. Runtime implementation has not 
 
 No runtime files or generated deployment assets are changed by this backlog entry.
 
-## Homepage discussion still open
+## Final accepted direction · 2026-10-28
 
-The next discussion should settle the homepage composition, category presentation, personalization controls and balance of search, browsing and recent work. New suggestions from that discussion should be marked proposed until accepted. Existing Connection and Games entry points must remain discoverable.
+Homepage order is local-time greeting, search, favorite tools/categories/features, then category tiles. Clicking a tile expands the tools below its row. Search results are grouped into categories, tools and features. Clearing search restores the previous selection. The product is branded ToolStudio; legacy routes and storage identifiers are preserved.
+
+The final instruction is to improve animation, appearance and existing themes within current workspace structures. Exactly the six current themes remain; no additional themes are introduced. Existing pane controls, guides, advanced settings and fullscreen controls are reused. See [v41 implementation](ui-redesign-v41.md) for behavior and validation scope.

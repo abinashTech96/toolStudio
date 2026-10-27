@@ -83,11 +83,11 @@ html[data-motion=off] :is(.main-card,.studio-header,.display,.brand-icon)::befor
 @media(prefers-reduced-motion:reduce){html body::before,html body::after,html .main-card::before,html .main-card::after,html .studio-header::before,html .display::after,html .brand-icon::after{animation:none!important;transition:none!important}.u20-ripple{display:none!important}}
 @supports not (mask-composite:exclude){@supports not (-webkit-mask-composite:xor){html:is([data-theme=pearl],[data-theme=graphite]) .main-card::after{background:none;border-color:var(--accent);animation:none}}}
 @keyframes u20-aurora{0%{transform:translate3d(-6%,-4%,0) rotate(-4deg) scale(1)}50%{transform:translate3d(3%,4%,0) rotate(3deg) scale(1.1)}100%{transform:translate3d(8%,-2%,0) rotate(7deg) scale(1.05)}}
-@keyframes u20-sweep{from{background-position:0% 50%;opacity:.7}to{background-position:100% 50%;opacity:1}}
-@keyframes u20-border{from{background-position:0% 50%}to{background-position:100% 50%}}
+@keyframes u20-sweep{from{transform:translate3d(-2%,0,0);opacity:.5}to{transform:translate3d(2%,0,0);opacity:.85}}
+@keyframes u20-border{from{opacity:.35}to{opacity:.7}}
 @keyframes u20-orbit{from{transform:rotate(-8deg);opacity:.3}to{transform:rotate(18deg);opacity:.75}}
-@keyframes u20-beacon{0%,100%{box-shadow:0 0 0 0 var(--u20-glow);opacity:.65}50%{box-shadow:0 0 0 5px var(--u20-glow);opacity:1}}
-@keyframes u20-preview{from{background-position:0% 0%}to{background-position:100% 100%}}
+@keyframes u20-beacon{0%,100%{transform:scale(.9);opacity:.65}50%{transform:scale(1.15);opacity:1}}
+@keyframes u20-preview{from{opacity:.85}to{opacity:1}}
 @keyframes u20-ripple{from{transform:translate(-50%,-50%) scale(1);opacity:.65}to{transform:translate(-50%,-50%) scale(9);opacity:0}}
 @keyframes u20-enter{from{opacity:.8;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 
