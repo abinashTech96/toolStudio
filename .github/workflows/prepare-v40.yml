@@ -1,0 +1,36 @@
+# Regenerate after preserving native WebKit editor selections.
+name: Prepare v40 generated files
+on:
+  push:
+    branches: [codex/v40-tools-and-backlog]
+    paths: [.github/workflows/prepare-v40.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: prepare-v40
+  cancel-in-progress: true
+jobs:
+  generated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - run: npm run publish:root
+      - run: npm run check
+      - run: npm run test:budgets
+      - run: node scripts/check.mjs --published
+      - name: Save generated files on review branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'Generate v40 hosted and offline review files'
+            git push origin HEAD:codex/v40-tools-and-backlog
+          fi
