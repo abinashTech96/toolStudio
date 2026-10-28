@@ -56,7 +56,7 @@ jobs:
   pdf-ui:
     name: PDF and UI (${{ matrix.browser }})
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -74,6 +74,7 @@ jobs:
       - run: npm run build
       - run: npm run test:home-redesign
       - run: npm run test:games-extra
+      - run: npm run test:arcade
       - run: npm run test:pdf-ui
       - run: npm run test:reliability
         env:

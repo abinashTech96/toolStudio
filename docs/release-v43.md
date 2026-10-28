@@ -1,0 +1,13 @@
+# v43 · A compact Games arcade
+
+Games has a dedicated searchable library and a separate play view. All navigation, including search, lives in a collapsible left dock. The phone dock becomes an overlay with keyboard focus containment and Escape/backdrop dismissal. Favorites, recent games, resume, browser Back and direct game hash links are supported. Difficulty/opponent controls, six existing appearances and opt-in saving are in Settings; instructions are under How to play. No themes are added.
+
+Four requested games bring the collection to fifteen: Rock–Paper–Scissors, Hangman, Word Scramble and Ludo. Quick/word rounds are untimed. RPS has random and prior-round pattern learning; the word games have bundled vocabulary, clues and counted hints. Ludo supports two/four local players, computer opponents or pass-and-play, safe squares, captures, bonus turns, exact home and three-six forfeits. Its explicit no-blockade rule variant is documented in the Guide. Dice are random; no online multiplayer or network AI is implied.
+
+Existing logic refinements include resumable Connect Four computer turns, legal completed-match validation, faster-win Tic-tac-toe search, equal-depth iterative Reversi search, Sudoku hidden singles/note cleanup/edge navigation, Minesweeper chords, shortest supported Lights Out press sets, and safe handling of invalid or ended Snake input. Returning to the library cancels workers and computer timers and pauses Snake. Opening settings/search pauses Snake too.
+
+Games data remains opt-in under its existing dedicated v2 key. Earlier profiles migrate in memory without losing scores or boards. New records reject malformed word tiles, illegal Ludo states, impossible completed board matches and invalid library preferences. Ludo bests are separate for two/four players and assisted/unassisted play. Unrelated tool data and the main application theme are untouched by Games preferences.
+
+The same source and worker engines are embedded in the standalone offline Games file. Existing game tests exercise the new public library/dock navigation, preserving their behavioral assertions. New rule/save and browser suites cover Ludo play-throughs, words, scoring, preferences, focus, all-game layouts, six-theme accessibility, pending-turn recovery and offline use. CI runs the new suite in Chromium, Firefox and WebKit alongside the complete existing tool regression. Exact final CI outcomes are recorded on the pull request.
+
+All 84 tool workspaces, 139 routes, category registries and six main theme styles are retained. Physical device, screen-reader and high-refresh frame-rate qualification remains manual; bounded opponents are not claimed unbeatable.
