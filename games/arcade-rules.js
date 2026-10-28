@@ -5,7 +5,8 @@ export function rpsScores(history){return history.reduce((a,r)=>{a[rpsResult(r.h
 export function rpsOutcome(s){const scores=rpsScores(s.history);return scores.X>=3?'X':scores.O>=3?'O':s.history.length>=100?'draw':null}
 export function rpsComputer(history,level='medium',random=Math.random){
  if(level!=='hard'||history.length<3||random()<.3)return hands[Math.floor(random()*3)];
- const count=hands.map(h=>history.slice(-8).filter(r=>r.human===h).length),highest=Math.max(...count),likely=hands.filter((_,i)=>count[i]===highest);
+ const recent=history.slice(-8),last=recent.at(-1)?.human,following=recent.slice(0,-1).flatMap((r,i)=>r.human===last?[recent[i+1].human]:[]);
+ const count=hands.map(h=>recent.filter(r=>r.human===h).length+following.filter(v=>v===h).length),highest=Math.max(...count),likely=hands.filter((_,i)=>count[i]===highest);
  return hands[(hands.indexOf(likely[Math.floor(random()*likely.length)])+1)%3];
 }
 export const createRPS=()=>({history:[]});

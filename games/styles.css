@@ -77,6 +77,20 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 
 #gameSearch::placeholder{color:var(--muted);opacity:1}
 
+/* Play setup stays with the game, independent of dock width or visibility. */
+.play-heading-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+#settingsToggle{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;font-size:13px;padding:8px 12px;border-color:var(--accent);white-space:nowrap}
+#settingsToggle[aria-expanded=true]{background:var(--accent);color:var(--game-on)}
+.play-setup{margin:12px 0 3px;font-size:13px;font-weight:750;overflow-wrap:anywhere}
+.mode-description{font-size:12px;color:var(--muted);line-height:1.65;margin:4px 0;max-width:78ch}
+.play-card>.settings-panel{margin:14px 0;padding:14px;background:var(--bg)}
+#gameOptions{align-items:end}#gameOptions label{flex-direction:column;align-items:stretch;gap:5px;min-width:130px;flex:1}
+#gameOptions select{width:100%;max-width:100%;min-width:0}
+.local-round{padding:12px;margin-top:14px;border:1px solid var(--line);background:var(--bg);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}
+.local-round h2{font-size:18px;margin:0;width:100%}.local-round p{width:100%;margin:0;line-height:1.6}.local-round button{font-size:13px;min-height:44px;padding:8px 12px}.local-round strong{flex:1}
+#board.local-waiting{display:none}
+@media(max-width:650px){.game-heading{flex-direction:row;align-items:start}.game-heading>div:first-child{min-width:0;flex:1}.game-heading h1{font-size:23px;overflow-wrap:anywhere}.play-heading-actions{flex-direction:column;align-items:flex-end;gap:6px}.play-category{display:none}#settingsToggle{padding:8px;font-size:12px}.library-heading{gap:8px}.library-heading h1{font-size:24px}#librarySettingsSlot #settingsToggle{font-size:0;gap:0;padding:8px 12px}#librarySettingsSlot #settingsToggle>span:first-child{font-size:18px}#gameOptions label{min-width:100%;max-width:100%}.play-setup{font-size:12px}}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
