@@ -90,6 +90,15 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 .local-round h2{font-size:18px;margin:0;width:100%}.local-round p{width:100%;margin:0;line-height:1.6}.local-round button{font-size:13px;min-height:44px;padding:8px 12px}.local-round strong{flex:1}
 #board.local-waiting{display:none}
 @media(max-width:650px){.game-heading{flex-direction:row;align-items:start}.game-heading>div:first-child{min-width:0;flex:1}.game-heading h1{font-size:23px;overflow-wrap:anywhere}.play-heading-actions{flex-direction:column;align-items:flex-end;gap:6px}.play-category{display:none}#settingsToggle{padding:8px;font-size:12px}.library-heading{gap:8px}.library-heading h1{font-size:24px}#librarySettingsSlot #settingsToggle{font-size:0;gap:0;padding:8px 12px}#librarySettingsSlot #settingsToggle>span:first-child{font-size:18px}#gameOptions label{min-width:100%;max-width:100%}.play-setup{font-size:12px}}
+/* Native selects and the large Mines grid must not set the page's intrinsic
+   width in WebKit. Keep the board's horizontal scrolling inside its viewport. */
+#playView,.play-card,.settings-panel,#boardViewport{min-width:0;max-width:100%}
+.play-card,.play-card>.settings-panel,#boardViewport{width:100%}
+.play-card{max-width:min(100%,820px)}
+#boardViewport{contain:inline-size}
+#gameOptions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))}
+#gameOptions label,#gameOptions select{min-width:0;max-width:100%}
+@media(max-width:650px){#gameOptions{grid-template-columns:minmax(0,1fr)}#gameOptions label{min-width:0;width:100%}}
 
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
