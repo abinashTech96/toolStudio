@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {connectionGuides, connectionCapabilities} from '../src/connections/guides.js';
+import {channelOpenOnce} from '../src/connections/operations.js';
 import {pairingView} from '../src/connections/pairing.js';
 import {validateProfiles, profileCompatibility} from '../src/connections/session-tools.js';
 const passed=[], test=(name, run)=>{run();passed.push(name);console.log('PASS',name)};
@@ -21,4 +22,7 @@ test('In-flight pairing explains preparation and server pairing explains join',(
 test('Disconnect returns to an unpaired state without stale success',()=>{const v=pairingView({pc:null,approved:false,peerApproved:false});assert.equal(v.completed,0);assert.equal(v.step,0);assert(!v.connected)});
 test('USB profiles reject removed transports and payloads',()=>{assert.equal(validateProfiles([{name:'USB',transport:'usb',parameters:{usbVendor:'1'}}]).length,1);assert.throws(()=>validateProfiles([{name:'Legacy',transport:'bluetooth',parameters:{}}]));assert.throws(()=>validateProfiles([{name:'Unsafe',transport:'usb',parameters:{usbPayload:'private'}}]))});
 test('USB profile compatibility checks identifiers, alternate and endpoint direction',()=>{const alternate={alternateSetting:0,endpoints:[{endpointNumber:1,direction:'in',type:'bulk'},{endpointNumber:2,direction:'out',type:'bulk'}]},device={opened:true,vendorId:1,productId:2,configuration:{configurationValue:1,interfaces:[{interfaceNumber:0,alternates:[alternate]}]}},profile={transport:'usb',parameters:{usbVendor:'1',usbProduct:'2',usbConfig:'1',usbInterface:'0',usbAlternate:'0',usbIn:'1',usbOut:'2'}};assert(profileCompatibility(profile,{usb:device}).compatible);assert(!profileCompatibility({...profile,parameters:{...profile.parameters,usbOut:'3'}},{usb:device}).compatible)});
+test('Already-open channels start one handshake even when the event happened earlier',()=>{let calls=0;const start=channelOpenOnce({readyState:'open'},()=>true,()=>calls++);start();start();assert.equal(calls,1)});
+test('Connecting channels wait for open and ignore duplicate open events',()=>{let calls=0;const dc={readyState:'connecting'},start=channelOpenOnce(dc,()=>true,()=>calls++);start();assert.equal(calls,0);dc.readyState='open';start();start();assert.equal(calls,1)});
+test('Stale and closed channels never send a handshake',()=>{let calls=0;channelOpenOnce({readyState:'open'},()=>false,()=>calls++)();channelOpenOnce({readyState:'closed'},()=>true,()=>calls++)();assert.equal(calls,0)});
 fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/connection-guide-unit.json',JSON.stringify({checks:passed.length,passed},null,2));
