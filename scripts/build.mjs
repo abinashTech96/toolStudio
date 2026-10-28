@@ -69,7 +69,7 @@ for(const file of files(path.join(root,'src/connections')))write('connections/'+
 write('connections/styles.css',read('src/connections/styles.css')+'\n'+workspaceCSS);
 const connectionShell=read('src/connections/index.html').replace('<link rel="stylesheet" href="./styles.css">','<style>'+read('src/connections/styles.css')+'\n'+workspaceCSS+'</style>');
 write('connections/packet.js',advanced.packet);
-const connectionParts=['operations','session-tools','protocol','websocket','bluetooth','usb','signaling','guides','doctor','easy','connection'].map(name=>read('src/connections/'+name+'.js').replace(/^import[^\n]*\n/gm,'').replace(/^export\s+/gm,''));
+const connectionParts=['operations','session-tools','protocol','websocket','usb','signaling','guides','doctor','pairing','easy','connection'].map(name=>read('src/connections/'+name+'.js').replace(/^import[^\n]*\n/gm,'').replace(/^export\s+/gm,''));
 const qrInline='const inlineQREngines={'+['qrencode','qrdecode'].map(key=>JSON.stringify(key)+':('+read('public/'+plan.resources.vendors[key]).replace(/^\/\/[^\n]*\n/,'').replace(/^export default /,'').replace(/;\s*$/,'')+')').join(',')+'};\nconst inlineQRCache={};async function loadQR(kind){return inlineQRCache[kind]||(inlineQRCache[kind]=inlineQREngines[kind]())}\n';
 write('offline/Calc_Studio_Connection.html',connectionShell.replace('<script type="module" src="./connection.js"></script>',()=>'<script>\n'+(advanced.packetInline+'\nconst {packetEncode,packetDecode}=PacketEngine;\n'+qrInline+connectionParts.join('\n')).replace(/<\/script/gi,'<\\/script')+'\n</script>'));
 // Games are a separate page; only a small Options link is bundled into the main app.

@@ -131,3 +131,15 @@ The accepted UI scope explicitly includes visual and interaction fixes for all d
 ## Homepage and application UI redesign · planned
 
 Recorded: 2026-10-28. The user accepted the app-wide UI redesign for the backlog and requested a further discussion of the complete homepage revamp before development proceeds. Track UIR-01–UIR-18 in [Homepage and application UI redesign backlog](ui-redesign-backlog.md). The final category-first homepage and existing-theme refresh are implemented on the v41 review branch; validation results are tracked in [PR #12](https://github.com/abinashTech96/toolStudio/pull/12). See [v41 implementation](ui-redesign-v41.md). Existing tools, routes and saved work remain protected by regression.
+
+## Connection simplification — v45
+
+Authorized 2026-10-29. Implemented in `codex/connections-guided-v45`; regression evidence accompanies the pull request.
+
+- [x] Prioritize phone/computer Wi-Fi/network sharing.
+- [x] Guide first/second device through create, exchange, verify and share.
+- [x] Show direct message, photo and file shortcuts after both approvals.
+- [x] Move USB/WebSocket into Advanced connections with accurate requirements.
+- [x] Remove Bluetooth functionality, guides and unused runtime adapter.
+- [x] Preserve USB profiles and existing sharing safeguards.
+- [ ] Phone-to-phone USB sharing: assess feasibility separately; not implemented by this release.

@@ -1,86 +1,51 @@
-# Connection — guided setup (v35.03)
+# Connection — guided sharing (v45)
 
-Open Tool Studio → Options → Connection. The start screen asks what you want to connect:
+Open ToolStudio → Options → Connection. Choose **Connect another phone or computer** for messages, photos and files. This is the main task. **Advanced connections** reveals WebSocket and USB hardware. The Advanced navigation retains these panels plus Remote, Connection health and Protocol Studio. Messages is now a primary tab.
 
-| Choice | Purpose | Requirements |
+Bluetooth was removed as requested. Ordinary browser tabs did not provide phone-to-phone Bluetooth sharing. This removal is a product decision; BLE hardware does not inherently require a third-party app.
+
+## Copy & paste: two phones, no pairing server
+
+1. Open Connection on both devices, using a supported browser on HTTPS. For the simplest setup, use the same Wi-Fi or a permitted hotspot. The devices need a working network path.
+2. Choose **First device · start here** on one and **Second device · join** on the other. **Copy & paste · no pairing server** is the default.
+3. On the first device choose **Create connection details**. When ready, choose **Copy connection details** and send the text directly to the second device using a trusted channel.
+4. On the second device paste it into **Pairing details from the other device**, then choose **Use pasted details**. Copy the generated answer and send it back to the first device.
+5. On the first device paste the answer into **Pairing details from the other device**, then choose **Use pasted details**.
+6. Compare verification codes. Approve on both screens only if the codes match and identify the intended device.
+7. Both approvals unlock **Send message**, **Send photo** and **Send file**. These shortcuts open the composer or file input; they do not send automatically. Messages also has a primary navigation tab.
+
+The current step explains who must act next. The first device’s paste field appears after it has an offer. The second device sees its answer and copy controls after importing an offer. Pairing JSON files remain an alternative to pasting. Invalid/incomplete JSON gives an actionable message. Overlapping pairing actions are blocked; starting a fresh offer over a current session requires review.
+
+**Device name, permissions & session** contains your editable device name, verification code, permissions and Disconnect & revoke. Disconnect clears session messages/downloads and revokes peer/main-tab permissions. Keep both pages open: refreshing requires a fresh pairing.
+
+Pairing text includes network addresses; exchange it directly with the intended recipient. Manual exchange replaces a signaling server, not network connectivity. Network isolation, firewalls or different networks may require separately configured STUN/TURN. No public ICE relay is bundled.
+
+## Optional code and QR pairing
+
+Select **Pairing code · server required** in Pairing method. Use the same reachable signaling server on both devices. GitHub Pages does not supply one. First device creates the 24-character code; the other enters it and chooses Join. Codes expire after five minutes. A pairing link/QR loads the server and Join setup but never joins automatically. Both users still verify and approve.
+
+See [the helper’s TLS, origin and LAN setup](../Connection_Server/README.md). `127.0.0.1` on a phone means that phone, not your computer. HTTPS pages require WSS.
+
+## Advanced connections
+
+| Panel | Purpose | Requirements |
 | --- | --- | --- |
-| Phone or computer | Review and share text, files, photos, supported text results and remote actions between two browsers | A working network path, supported WebRTC/secure cryptography and either a pairing server or manual offer/answer exchange |
-| Bluetooth device | Read/write a documented BLE GATT characteristic | A browser exposing Web Bluetooth, secure context, a compatible advertising BLE peripheral and its service/characteristic |
-| USB hardware | Operate a documented browser-accessible USB interface | WebUSB support, a suitable data cable and documented IDs/interface/endpoints |
-| WebSocket server | Send/receive text or bytes with a server endpoint | A reachable endpoint accepting the browser origin and supported authentication |
+| WebSocket | Send/receive text or bytes with a server | A reachable WS/WSS endpoint accepting this browser’s origin and authentication; HTTPS requires WSS |
+| USB hardware | Read/write a documented bulk/interrupt interface | WebUSB, compatible hardware, data cable and documented vendor/product/interface/endpoints; phone-to-phone cable sharing is not implemented |
+| Protocol Studio | Build/decode packets and explicitly review one replay | An established USB or WebSocket transport; payload capture remains opt-in |
+| Connection health | Peer latency/routing and redacted session trace | An approved peer for latency; no hardware permission is requested by viewing checks |
+| Remote | Supported tool controls and text result display | Peer permission and separate main-tab bridge approval |
 
-API availability is checked without connecting or opening a permission prompt. It does not establish that the Bluetooth radio is on, a USB device is compatible, or the network is reachable.
+USB retains validated endpoints, explicit writes, release on disconnect and operation deadlines. Device profiles live on the USB page. Saved USB profiles remain available when old storage also contains Bluetooth profiles; loading does not rewrite saved storage. A later explicit save/delete writes the retained profiles.
 
-## Read first, then connect
+WebSocket shows **Open** only after its connection opens. Enter a payload, select text/hex encoding, then choose **Send once**. Sent and Received entries appear below the buttons. A server does not necessarily echo; check its protocol. No public endpoint is built in or contacted automatically, and no automatic reconnect or resend occurs.
 
-Each method has a Read guide action. How to connect in the header opens the selected method’s guide. Guides contain:
+## Sharing permissions and limits
 
-1. What the method does and what it needs.
-2. Five numbered setup steps using the visible button names.
-3. What successful connection looks like.
-4. Troubleshooting with specific next actions.
-5. Go to setup, which reveals and focuses the relevant controls without connecting.
-
-Additional guides cover manual pairing and post-pairing workflows. More tools retains Session messages, WebSocket, Bluetooth, USB, Connection health and Protocol Studio. Four primary tabs are Connect, Send & receive, Remote and Guides.
-
-### Phone/computer over Wi-Fi or network
-
-Join the network in the operating system. Being on the same Wi-Fi is not sufficient to pair browsers.
-
-For pairing codes, both screens must use the same running pairing server. Create the 24-character code on A, join on B, compare verification codes and approve on both screens. A QR/pairing link loads the setup but never joins automatically. Codes expire after five minutes.
-
-GitHub Pages does not run the signaling helper. Use the address supplied by the host or run the helper described below. Different or restrictive networks may need separately configured STUN/TURN; no public relay is bundled.
-
-Without a server, use Advanced / manual pairing: A creates an offer, B imports it and creates an answer, A imports B’s answer, then both users verify and approve. Exchange pairing data only through a trusted channel.
-
-### Bluetooth
-
-Battery level and Device manufacturer presets fill standard BLE names for read examples. They are not universal device profiles. Custom exposes the documented service/characteristic fields. Changing a profile disconnects the existing BLE connection so its operations cannot be confused with a new profile.
-
-Choose device & connect requests the browser permission picker. Read is enabled only after a readable characteristic connects. Notifications and payload writes remain under Advanced controls and depend on actual characteristic properties.
-
-This is not ordinary browser-to-browser phone/laptop Bluetooth pairing, Bluetooth audio or a generic Bluetooth Classic driver.
-
-### USB
-
-Vendor/Product identifiers appear first. Device interface settings contains configuration, interface, alternate, endpoints and read length; confirm these from hardware documentation before connecting. Defaults are examples.
-
-Read/write actions require an open device. The existing endpoint validation, explicit writes, cancellation and ten-second read timeout remain. A compatible browser does not make every USB device/interface accessible.
-
-### WebSocket
-
-Enter the endpoint supplied by its owner; an HTTPS page requires wss://. Connect does not send the payload. Send once is explicit. Subprotocols are under Optional subprotocol settings. The browser API cannot add arbitrary authentication headers, and a server need not echo messages.
-
-## Use a connected tool
-
-The post-pairing guide explains text/JSON review into supported destinations, photo review into Camera & Image Studio, verified file downloads, supported text-result display and supported remote controls. These capabilities require their existing peer permissions and separate main-tab bridge review.
-
-Other file types are downloaded for manual import. BLE/USB/WebSocket consoles do not automatically control every Tool Studio tool.
-
-## Optional helper on a computer
-
-Install Node 22.13+ and Python 3.11+, obtain the repository, and run from its root:
-
-    npm ci
-    npm run build
-    python3 -m venv .venv
-
-Windows:
-
-    .venv\Scripts\python.exe -m pip install -r Connection_Server/requirements.txt
-    .venv\Scripts\python.exe Connection_Server/server.py
-
-macOS / Linux:
-
-    .venv/bin/python -m pip install -r Connection_Server/requirements.txt
-    .venv/bin/python Connection_Server/server.py
-
-Open http://127.0.0.1:8765/ on the hosting computer, then Options → Connection. The helper fills its own pairing-server address.
-
-127.0.0.1 on a phone refers to the phone, not the computer. A second physical device needs a reachable hostname/address with trusted HTTPS/WSS for full support. Follow [the helper’s TLS, origin and LAN setup](../Connection_Server/README.md). An independently hosted GitHub Pages Connection page also needs its origin allowed by the helper. This requires configuration by the host; the browser page does not create a hosted service.
+Recipient review, file cancellation and SHA-256 checks remain. Maximum 32 MiB per file, one incoming and outgoing file at a time, and 64 MiB received-file memory. Text offers are limited to 64 KiB and messages to 4,000 characters. Disconnect clears held downloads/messages. Main-tool import, remote control and result sharing retain separate approval. Other tools and their routes are unchanged.
 
 ## Offline and validation
 
-The offline Connection companion embeds the same chooser, guides and adapters. Keep it beside the main offline HTML for the Options launcher. Reading guides needs no network; actual connections still need their relevant transport.
+The standalone Connection companion embeds the same guided sharing, retained transports and five guides. Keep it beside the main offline HTML for the Options launcher. Reading guides works offline; real sharing still needs a network path.
 
-The regression suite retains simulated BLE/USB checks and adds guided UI, browser support, hosted clipboard, QR setup, responsive/accessibility, offline and real two-browser pairing/review checks. Physical hardware certification is not claimed. A local environment without usable ICE interfaces may explicitly skip real network tests; GitHub CI runs those tests without that skip.
+Tests cover roles, offer/answer copy, both approvals, real peer messages, reviewed PNG/text transfer, integrity/downloads, disconnect, server-link setup, live loopback WebSocket echo, simulated USB validation/deadlines/profiles, migration, responsive layouts, accessibility and standalone output. CI runs the Connection tests in Chromium, Firefox and WebKit as well as whole-project regression. Physical USB certification is not claimed.

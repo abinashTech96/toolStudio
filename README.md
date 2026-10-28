@@ -53,7 +53,7 @@ Commit the source changes **and** generated root changes. GitHub Pages can conti
 | `src/advanced/` | Lazy native workspaces, existing-tool enhancements, worker jobs and validated local state |
 | `src/core/` | Startup, navigation, settings, processing, device controls, resource loading and lifecycle |
 | `src/shared/` | Shared engines, reusable components and application styles |
-| `src/connections/` | Separate Connection page, signaling, WebSocket, Bluetooth and USB adapters |
+| `src/connections/` | Separate Connection page, guided peer sharing, signaling, WebSocket and USB adapters |
 | `public/assets/` | Local OCR models and third-party engines |
 | `public/guide.html` | Existing user guide |
 | `Connection_Server/` | Optional Python static/signaling helper |
@@ -69,7 +69,7 @@ The scoped service worker caches the application shell and resources already use
 
 ## Connections
 
-Options → Connection opens a separate tab. GitHub Pages serves static files and **does not host a WebSocket/signaling server**. Manual WebRTC pairing remains available; room-code pairing needs your configured HTTPS/WSS endpoint. See [Connection server setup](Connection_Server/README.md). Bluetooth and USB require a compatible browser and device. Automated adapter tests do not certify physical hardware or every TV browser.
+Options → Connection opens a separate tab. GitHub Pages serves static files and **does not host a WebSocket/signaling server**. Manual WebRTC pairing remains available; room-code pairing needs your configured HTTPS/WSS endpoint. See [Connection server setup](Connection_Server/README.md). USB requires a compatible browser and documented hardware interface. Automated adapter tests do not certify physical hardware or every TV browser.
 
 See [edition 35 performance, accuracy and recovery](docs/performance35.md) for the latest existing-tool improvements and explicit limits.
 
@@ -85,7 +85,7 @@ Run npm run test:games, npm run test:home-extras and npm run test:updates along 
 
 ## Guided Connection setup
 
-Options → Connection now starts with a method chooser and readable setup guides for phone/computer pairing, BLE, USB and WebSocket. Manual pairing and advanced tools remain available. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.
+Options → Connection starts with phone/computer sharing and guided First device / Second device pairing. Copy & paste needs no signaling server; code pairing requires a configured server. After both approvals, Send message, Send photo and Send file open the existing sharing controls. WebSocket, USB and diagnostic tools remain under Advanced. Bluetooth was removed in v45. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.
 
 ## Career Studio (v35.05)
 
@@ -117,6 +117,6 @@ Task navigation retains the existing tools and routes. Planning reviews changes 
 
 Localization uses the pinned FormatJS ICU parser for nested plural/select syntax and escaped literals; translation reviews retain up to 20 explicit runs. Citation drafts preserve volume, issue, page ranges, DOI and Unicode authors; RIS roundtrips include multiline fields. Citation outputs remain publisher-review drafts rather than complete CSL style certification.
 
-Games use bounded worker analysis for Sudoku generation/hints, Connect Four and the heavier coaches. Sudoku solutions and repeated analysis are cached with fixed limits. The separate Connection page includes browser/API and user-triggered pairing-server checks. Physical Bluetooth/USB hardware still needs device-specific testing.
+Games use bounded worker analysis for Sudoku generation/hints, Connect Four and the heavier coaches. Sudoku solutions and repeated analysis are cached with fixed limits. The separate Connection page includes browser/API and user-triggered pairing-server checks. Physical USB hardware still needs device-specific testing.
 
 Run `npm run test:workflows` for rejected-operation and sharing coverage, `npm run test:regression` for all suites, and `npm run inventory` after a dependency change. `docs/dependency-inventory.json` records exact npm pins/integrities, vendor hashes and the Python server pin. Vendor hashes identify the preserved bundles; npm audit does not cover those bundles or Python.

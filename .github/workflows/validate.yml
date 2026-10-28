@@ -76,6 +76,7 @@ jobs:
       - run: npm run test:games-extra
       - run: npm run test:arcade
       - run: npm run test:play-setup
+      - run: npm run test:connection
       - run: npm run test:pdf-ui
       - run: npm run test:reliability
         env:
