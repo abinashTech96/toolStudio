@@ -20,6 +20,7 @@ export function installHome(c,registry,options={}) {
   const save=change=>{try{c.$advanced.api.saveHomePreferences({...prefs(),...change});return true}catch(e){c.toast(e.message);return false}};
   let category='',expanded=false,visible=false,clockTimer,resizeFrame,categorySignature='';
   let limits={categories:24,tools:24,features:24};
+  let featureDrawer=null,featureSequence=0;
   const home=node('section',undefined,'studio-home');home.id='studioHome';home.hidden=true;home.setAttribute('aria-labelledby','homeTitle');
   const hero=node('div',undefined,'home-hero'),intro=node('div');intro.append(node('p','WELCOME TO TOOLSTUDIO','home-eyebrow'));
   const title=node('h1',greetingFor());title.id='homeTitle';title.tabIndex=-1;
@@ -55,7 +56,8 @@ export function installHome(c,registry,options={}) {
   function availableModules(){return registry.modules.filter(mod=>!isEarlierWorkspace(registry,mod)&&(optional.checked||!c.u23IsExtra(mod.id)))}
   function availableFeatures(includeOptional=optional.checked){const list=c.n28GetIndex().filter(e=>!e.root&&(!modules.has(e.id)||e.key!=='tool:'+e.id)&&(includeOptional||!c.u23IsExtra(e.id)));list.unshift(c.n28Entry('home:emi','tools','Loan / EMI','calculate emi calculator loan repayment',{loan:true}));return list}
   function launch(entry){if(entry.feature)c.n28FeatureOpen(entry.feature);else c.openTab(entry.id)}
-  function animateContent(){if(!visible||c.u19Motion()!=='full'||matchMedia('(prefers-reduced-motion:reduce)').matches)return;grid.getAnimations?.().forEach(a=>a.cancel());grid.animate?.([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:180,easing:'cubic-bezier(.2,.8,.2,1)'})}
+  function animateReveal(element){element.getAnimations?.().forEach(a=>a.cancel());if(!visible||c.u19Motion()!=='full'||matchMedia('(prefers-reduced-motion:reduce)').matches)return;element.animate?.([{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:150,easing:'cubic-bezier(.2,.8,.2,1)'})}
+  function animateContent(){animateReveal(grid)}
   function pinControl(kind,id,label){
     const current=()=>kind==='tool'?c.favorites:prefs()[kind==='category'?'pinnedCategories':'pinnedFeatures']||[];
     const star=button('',()=>{const next=current().includes(id)?current().filter(key=>key!==id):[...current(),id];let saved;if(kind==='tool'){saved=c.csPersist('calc-studio-favorites',next);if(saved){c.favorites=next;c.renderFavorites()}}else saved=save({[kind==='category'?'pinnedCategories':'pinnedFeatures']:next});if(saved){update();renderFavorites();extras.render()}},'home-star');
@@ -63,9 +65,22 @@ export function installHome(c,registry,options={}) {
   }
   function toolCard(entry){
     const card=node('article',undefined,'home-tool-card');card.dataset.tool=entry.id;card.dataset.kind=entry.feature?'feature':'tool';
-    const open=button('',()=>launch(entry),'home-tool-open');open.append(node('small',categoryLabel(entry.category)),node('strong',entry.label),node('span',entry.description||c.studioDescription(entry.id)||'Open this workspace.'));
+    const open=button('',()=>launch(entry),'home-tool-open');
+    if(!category||search.value.trim())open.append(node('small',categoryLabel(entry.category)));
+    open.append(node('strong',entry.label));
+    const description=entry.description||c.studioDescription(entry.id)||'';
+    const generic=description.replace(/\.$/,'')===entry.label+' advanced workspace'||description.replace(/\.$/,'')===entry.label+' · local interactive workspace';
+    if(description&&!generic){open.append(node('span',description));open.title=description;}
     card.append(open,pinControl(entry.feature?'feature':'tool',entry.feature?featurePinKey(entry.feature,c.n28Normalize):entry.id,entry.label));
-    if(!entry.feature){const mod=modules.get(entry.id),features=availableFeatures().filter(e=>mod?.routes.includes(e.id));if(features.length){const detail=node('details',undefined,'home-tool-features');detail.append(node('summary',features.length+' features'));detail.addEventListener('toggle',()=>{if(detail.open&&detail.childElementCount===1)for(const feature of features)detail.append(featureRow(feature))});card.append(detail)}}return card;
+    if(!entry.feature){const mod=modules.get(entry.id),features=availableFeatures().filter(e=>mod?.routes.includes(e.id));if(features.length){
+      const detail=node('details',undefined,'home-tool-features'),summary=node('summary',features.length+' features'),drawer=node('section',undefined,'home-feature-drawer'),list=node('div',undefined,'home-feature-list');
+      drawer.id='homeFeatures-'+(++featureSequence);
+      const heading=node('div',undefined,'home-feature-heading'),headingTitle=node('h3',entry.label+' features');headingTitle.id=drawer.id+'-title';drawer.setAttribute('aria-labelledby',headingTitle.id);
+      heading.append(headingTitle,button('Close features',()=>{detail.open=false;summary.focus({preventScroll:true})}));list.tabIndex=0;list.setAttribute('role','group');list.setAttribute('aria-label',entry.label+' features');drawer.append(heading,list);detail.append(summary);
+      summary.addEventListener('keydown',event=>{if(event.key==='ArrowDown'&&detail.open){event.preventDefault();event.stopPropagation();list.querySelector('button')?.focus()}});
+      drawer.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();detail.open=false;summary.focus({preventScroll:true})}});
+      detail.addEventListener('toggle',()=>{if(detail.open&&detail.isConnected){if(featureDrawer?.detail!==detail)closeFeatureDrawer();if(!list.childElementCount)for(const feature of features)list.append(featureRow(feature));featureDrawer={detail,drawer,list,card};placeFeatureDrawer();summary.setAttribute('aria-controls',drawer.id);animateReveal(list)}else{summary.removeAttribute('aria-controls');list.getAnimations?.().forEach(a=>a.cancel());drawer.remove();if(featureDrawer?.detail===detail)featureDrawer=null}});card.append(detail)
+    }}return card;
   }
   function featureRow(feature){const row=node('div',undefined,'home-feature-row');row.append(button(feature.label,()=>c.n28FeatureOpen(feature)),pinControl('feature',featurePinKey(feature,c.n28Normalize),feature.label));return row}
   function renderFavorites(){
@@ -82,24 +97,31 @@ export function installHome(c,registry,options={}) {
   function selectCategory(id){search.value='';expanded=false;category=category===id?'':id;render();categoryGrid.querySelector('.home-category[data-category="'+CSS.escape(id)+'"]')?.focus({preventScroll:true});animateContent()}
   function renderCategories(){
     const list=extras.categories(),signature=list.map(cat=>cat.id).join('|')+':'+optional.checked+':'+(prefs().pinnedCategories||[]).join('|');
-    if(signature!==categorySignature){categorySignature=signature;categoryGrid.replaceChildren();for(const cat of list){const item=node('div',undefined,'home-category-tile');item.dataset.categoryTile=cat.id;const card=button('',()=>selectCategory(cat.id),'home-category');card.id='homeCategory-'+cat.id;card.dataset.category=cat.id;card.setAttribute('aria-controls','homeResults');const available=availableModules().filter(mod=>mod.category===cat.id).length;const icon=node('span',symbols[cat.id]||'◇','home-category-icon');icon.setAttribute('aria-hidden','true');card.append(icon,node('strong',cat.label),node('small',available+' tools'),node('p',summaries[cat.id]||'Explore this category.'));item.append(card,pinControl('category',cat.id,cat.label));categoryGrid.append(item)}}
+    if(signature!==categorySignature){categorySignature=signature;categoryGrid.replaceChildren();for(const cat of list){const item=node('div',undefined,'home-category-tile');item.dataset.categoryTile=cat.id;const card=button('',()=>selectCategory(cat.id),'home-category');card.id='homeCategory-'+cat.id;card.title=summaries[cat.id]||'Explore this category.';card.dataset.category=cat.id;card.setAttribute('aria-controls','homeResults');const available=availableModules().filter(mod=>mod.category===cat.id).length;const icon=node('span',symbols[cat.id]||'◇','home-category-icon');icon.setAttribute('aria-hidden','true');card.append(icon,node('strong',cat.label),node('small',available+' tool'+(available===1?'':'s')),node('p',summaries[cat.id]||'Explore this category.'));item.append(card,pinControl('category',cat.id,cat.label));categoryGrid.append(item)}}
     for(const card of categoryGrid.querySelectorAll('.home-category')){const selected=category===card.dataset.category&&!search.value.trim();card.setAttribute('aria-pressed',String(selected));card.setAttribute('aria-expanded',String(selected))}
   }
   function placeResults(){
     if(search.value.trim()){searchBox.after(results);return}if(!category){browse.after(results);return}
     const tiles=[...categoryGrid.querySelectorAll('.home-category-tile')],index=tiles.findIndex(tile=>tile.dataset.categoryTile===category);if(index<0)return;
     const columns=getComputedStyle(categoryGrid).gridTemplateColumns.split(' ').length,rowEnd=Math.min(tiles.length-1,Math.floor(index/columns)*columns+columns-1);
-    if(tiles[rowEnd].nextElementSibling!==results)tiles[rowEnd].after(results);
+    if(tiles[rowEnd].nextElementSibling!==results){const focus=results.contains(document.activeElement)?document.activeElement:null;tiles[rowEnd].after(results);focus?.focus({preventScroll:true})}
   }
-  function applyView(){grid.dataset.view=prefs().view||'grid';for(const control of views.children)control.setAttribute('aria-pressed',String(control.dataset.view===grid.dataset.view))}
+  function closeFeatureDrawer(){if(!featureDrawer)return;const previous=featureDrawer;featureDrawer=null;previous.list.getAnimations?.().forEach(a=>a.cancel());previous.detail.querySelector('summary').removeAttribute('aria-controls');previous.drawer.remove();previous.detail.open=false}
+  function placeFeatureDrawer(){
+    if(!featureDrawer)return;const{card,drawer,list}=featureDrawer,host=card.parentElement;if(!host||!card.isConnected){closeFeatureDrawer();return}
+    const cards=[...host.children].filter(child=>child.classList.contains('home-tool-card')),index=cards.indexOf(card),columns=getComputedStyle(host).gridTemplateColumns.split(' ').length;
+    if(index<0)return;const last=cards[Math.min(cards.length-1,Math.floor(index/columns)*columns+columns-1)];
+    if(last.nextElementSibling!==drawer){const focus=drawer.contains(document.activeElement)?document.activeElement:null,top=list.scrollTop;last.after(drawer);list.scrollTop=top;focus?.focus({preventScroll:true})}
+  }
+  function applyView(){grid.dataset.view=prefs().view||'grid';for(const control of views.children)control.setAttribute('aria-pressed',String(control.dataset.view===grid.dataset.view));placeFeatureDrawer()}
   function renderSearch(){
     const found=discoveryResults(extras.categories(),availableModules(),availableFeatures(),search.value,c.n28Normalize,c.n28Rank),total=found.categories.length+found.tools.length+found.features.length;
     count.textContent=total+' results · '+found.categories.length+' categories · '+found.tools.length+' tools · '+found.features.length+' features';grid.replaceChildren();grid.classList.add('home-grouped-results');
-    for(const[kind,label]of[['categories','Categories'],['tools','Tools'],['features','Features']]){const entries=found[kind];if(!entries.length)continue;const section=node('section',undefined,'home-search-group');section.dataset.group=kind;section.append(node('h3',label+' ('+entries.length+')'));const list=node('div',undefined,'home-group-items');for(const entry of entries.slice(0,limits[kind])){if(kind==='categories'){const card=node('article',undefined,'home-tool-card');card.append(button(entry.label,()=>selectCategory(entry.id),'home-result-category'),pinControl('category',entry.id,entry.label));list.append(card)}else if(kind==='tools')list.append(toolCard(entry));else{const mod=owners.get(entry.id);list.append(toolCard({id:entry.id,label:entry.label,category:mod?.category,description:(mod?.label||'Workspace')+' → '+entry.label,feature:entry}))}}section.append(list);if(entries.length>limits[kind])section.append(button('Show more '+label.toLowerCase(),()=>{const previous=limits[kind];limits[kind]+=24;renderSearch();grid.querySelector('[data-group="'+kind+'"] .home-group-items')?.children[previous]?.querySelector('button')?.focus({preventScroll:true})},'home-more'));grid.append(section)}
+    for(const[kind,label]of[['categories','Categories'],['tools','Tools'],['features','Features']]){const entries=found[kind];if(!entries.length)continue;const section=node('section',undefined,'home-search-group');section.dataset.group=kind;section.append(node('h3',label+' ('+entries.length+')'));const list=node('div',undefined,'home-group-items');for(const entry of entries.slice(0,limits[kind])){if(kind==='categories'){const card=node('article',undefined,'home-tool-card');card.append(button(entry.label,()=>selectCategory(entry.id),'home-result-category'),pinControl('category',entry.id,entry.label));list.append(card)}else if(kind==='tools')list.append(toolCard(entry));else{const mod=owners.get(entry.id);list.append(toolCard({id:entry.id,label:entry.label,category:mod?.category,description:mod?.label||'Workspace',feature:entry}))}}section.append(list);if(entries.length>limits[kind])section.append(button('Show more '+label.toLowerCase(),()=>{const previous=limits[kind];limits[kind]+=24;renderSearch();grid.querySelector('[data-group="'+kind+'"] .home-group-items')?.children[previous]?.querySelector('button')?.focus({preventScroll:true})},'home-more'));grid.append(section)}
     if(!total){const empty=node('div',undefined,'home-empty');empty.append(node('h3','No tools found'),node('p','Try a shorter search or include optional tools.'),button('Reset filters',()=>{optional.checked=false;clearSearch()}));grid.append(empty)}
   }
   function render(){
-    renderFavorites();renderPersonal();renderCategories();const searching=!!search.value.trim();const optionalHost=searching?resultActions:browseActions;if(optionalLabel.parentElement!==optionalHost)optionalHost.prepend(optionalLabel);browse.hidden=searching;results.hidden=!searching&&!category&&!expanded;closeCategory.hidden=searching;resultTitle.textContent=searching?'Search results':category?categoryLabel(category):'All tools';
+    closeFeatureDrawer();renderFavorites();renderPersonal();renderCategories();const searching=!!search.value.trim();const optionalHost=searching?resultActions:browseActions;if(optionalLabel.parentElement!==optionalHost)optionalHost.prepend(optionalLabel);browse.hidden=searching;results.hidden=!searching&&!category&&!expanded;closeCategory.hidden=searching;resultTitle.textContent=searching?'Search results':category?categoryLabel(category):'All tools';
     if(searching)renderSearch();else{grid.classList.remove('home-grouped-results');const entries=availableModules().filter(mod=>!category||mod.category===category);grid.replaceChildren(...(!results.hidden?entries.map(toolCard):[]));count.textContent=entries.length+' workspaces';if(!results.hidden&&!entries.length)grid.append(node('p','Enable optional tools to explore this category.','home-count'))}
     placeResults();applyView();homeButton.setAttribute('aria-current',visible?'page':'false');extras.render();
   }
@@ -126,7 +148,7 @@ export function installHome(c,registry,options={}) {
   c.openTab=function(id) {
     if(id==='home'){showHome(true);return 'home'}
     if(!Object.hasOwn(c.views,id))return;
-    visible=false;clearTimeout(clockTimer);home.hidden=true;delete document.body.dataset.home;homeButton.setAttribute('aria-current','false');
+    if(visible)home.getAnimations?.({subtree:true}).forEach(a=>a.cancel());closeFeatureDrawer();visible=false;clearTimeout(clockTimer);home.hidden=true;delete document.body.dataset.home;homeButton.setAttribute('aria-current','false');
     const result=previousOpen(id);extras.remember(c.activeView);
     const linked=new URLSearchParams(location.hash.slice(1)).get('tool');
     // Suite bookmarks can resolve to a remembered feature. Preserve their address
@@ -144,7 +166,8 @@ export function installHome(c,registry,options={}) {
   optional.onchange=()=>{render();animateContent()};
   window.addEventListener('popstate',readAddress);window.addEventListener('hashchange',readAddress);
   document.addEventListener('visibilitychange',updateClock);window.addEventListener('pageshow',updateClock);window.addEventListener('focus',updateClock);
-  if(globalThis.ResizeObserver){let width=0;new ResizeObserver(entries=>{const next=entries[0].contentRect.width;if(Math.abs(next-width)<1)return;width=next;cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(placeResults)}).observe(categoryGrid)}
+  if(globalThis.ResizeObserver){let width=0;new ResizeObserver(entries=>{const next=entries[0].contentRect.width;if(Math.abs(next-width)<1)return;width=next;cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{placeResults();placeFeatureDrawer()})}).observe(categoryGrid)}
+  window.addEventListener('resize',()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{placeResults();placeFeatureDrawer()})});
   window.calcStudio=Object.freeze({...window.calcStudio,home:()=>showHome(true),homeVisible:()=>visible});
   readAddress();
 }
