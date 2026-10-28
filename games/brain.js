@@ -1,5 +1,5 @@
 import{bestMove,outcome,slide2048,stepSnake,vectors}from'./engines.js';
-export const gameIds=['2048','snake','memory','ttt','sudoku','mines','connect4'];
+export const gameIds=['2048','snake','memory','ttt','sudoku','mines','connect4','reversi','sliding','lights','code'];
 export function shuffle(values,random=Math.random){const a=values.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 export function memoryDeck(pairs=8,random=Math.random){return shuffle(Array.from({length:pairs*2},(_,i)=>i%pairs),random)}
 export function memoryHint(state){const known=Object.entries(state.seen).filter(([i])=>!state.matched.includes(Number(i)));for(const[i,v]of known){const pair=known.find(([j,w])=>j!==i&&w===v);if(pair)return{cells:[Number(i),Number(pair[0])],text:'You have seen a matching pair. Try the highlighted cards.'}}return{cells:[],text:'No remembered pair yet. Reveal an unseen card and remember its position.'}}

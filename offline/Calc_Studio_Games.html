@@ -6,6 +6,37 @@
 
 #boardViewport{max-width:100%;overflow:auto;overscroll-behavior:contain}#board.mines{min-width:calc(var(--mine-size)*40px);touch-action:pan-x pan-y}#board.sudoku{min-width:324px}#board.connect4{min-width:384px}
 
+/* Compact game navigation; keep targets large enough for touch. */
+#gamePicker{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 6px}
+#gamePicker button{flex:0 1 auto;min-height:44px;padding:8px 13px;border-radius:10px;font-size:14px}
+#gamePicker small{display:none}
+.picker-hint{margin:0 0 16px;font-size:12px;color:var(--muted)}
+#board.reversi,#board.sliding,#board.lights{display:grid;gap:4px;padding:6px;background:var(--line)}
+#board.reversi{grid-template-columns:repeat(8,minmax(40px,1fr));grid-template-rows:repeat(8,minmax(40px,1fr));min-width:360px}
+#board.reversi button{min-width:0;min-height:40px;padding:0;border-radius:50%;font-size:20px;font-weight:800;background:var(--paper)}
+#board.reversi .X{background:#f0cc88;color:#203e35}
+#board.reversi .O{background:#315f48;color:#fff}
+#board.reversi .legal{border:2px dashed var(--accent);opacity:1}
+#board.sliding,#board.lights{grid-template-columns:repeat(var(--puzzle-size),minmax(0,1fr));grid-template-rows:repeat(var(--puzzle-size),minmax(0,1fr))}
+#board.sliding button,#board.lights button{min-height:40px;min-width:0;padding:0;border-radius:8px;font-size:clamp(19px,5vw,30px);font-weight:750}
+#board.sliding .empty-square{background:transparent;border:0}
+#board.lights .light-on{background:#f0cc88;color:#203e35;border-color:#8b6731}
+#board.lights .light-off{background:var(--paper);color:var(--muted)}
+#board.code{aspect-ratio:auto;max-width:460px;width:100%;margin:16px auto}
+.code-history{list-style:decimal;padding:0 0 0 22px;margin:12px 0}
+.code-history li{padding:7px 8px;border-bottom:1px solid var(--line);display:list-item}
+.code-history strong{font-size:20px;letter-spacing:.15em;margin-right:12px}
+.code-history span{display:inline-block;font-size:13px;color:var(--muted)}
+.code-draft{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:16px 0 12px}
+.code-draft label{font-size:12px;color:var(--muted)}
+.code-draft select{display:block;width:100%;min-width:0;padding:8px;font-size:20px;color:var(--ink)}
+.check-code{width:100%;font-weight:750;background:var(--accent);color:#fff}
+.code-answer{text-align:center;font-weight:750}
+#gamePicker button,#board.lights button,#board.sliding button{transition:border-color 140ms ease,box-shadow 140ms ease}
+@media(max-width:560px){#gamePicker{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;padding:4px 4px 8px;scroll-padding:8px}#gamePicker button{flex:0 0 auto;white-space:nowrap}.picker-hint{font-size:11px}.intro h1{font-size:30px}}
+@media(prefers-color-scheme:dark){#board.reversi .legal{border-color:#b2cdb6}}
+@media(prefers-reduced-motion:reduce){#gamePicker button,#board.lights button,#board.sliding button{transition:none}}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
@@ -115,10 +146,152 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
 @media(max-width:600px){.a35-update>button{width:100%;min-height:48px}}
 </style></head>
 <body><header><a class="brand" href="../index.html" id="studioLink">∑ <span>tool studio</span></a><span class="section-label">Games</span><a href="../guide.html" id="guideLink">Studio guide</a></header>
-<main><section class="intro"><p class="eyebrow">A LITTLE PLAY TIME</p><h1>Take a small break.</h1><p>Seven games, thoughtful opponents and a helpful coach. Play at your own pace.</p></section>
-<nav aria-label="Choose a game" id="gamePicker"><button data-game="2048" aria-pressed="true">2048 <small>Slide & merge</small></button><button data-game="snake" aria-pressed="false">Snake <small>Find your rhythm</small></button><button data-game="memory" aria-pressed="false">Memory Match <small>Find eight pairs</small></button><button data-game="ttt" aria-pressed="false">Tic-tac-toe <small>Solo or together</small></button><button data-game="sudoku" aria-pressed="false">Sudoku <small>Notes & logical hints</small></button><button data-game="mines" aria-pressed="false">Minesweeper <small>Reason from clues</small></button><button data-game="connect4" aria-pressed="false">Connect Four <small>Think ahead</small></button></nav>
+<main><section class="intro"><p class="eyebrow">A LITTLE PLAY TIME</p><h1>Take a small break.</h1><p>Eleven games, thoughtful opponents and a helpful coach. Play at your own pace.</p></section>
+<nav aria-label="Choose a game" id="gamePicker"><button data-game="2048" aria-pressed="true">2048 <small>Slide & merge</small></button><button data-game="snake" aria-pressed="false">Snake <small>Find your rhythm</small></button><button data-game="memory" aria-pressed="false">Memory Match <small>Find matching pairs</small></button><button data-game="ttt" aria-pressed="false">Tic-tac-toe <small>Solo or together</small></button><button data-game="sudoku" aria-pressed="false">Sudoku <small>Notes & logical hints</small></button><button data-game="mines" aria-pressed="false">Minesweeper <small>Reason from clues</small></button><button data-game="connect4" aria-pressed="false">Connect Four <small>Think ahead</small></button><button data-game="reversi" aria-pressed="false">Reversi <small>Flip the balance</small></button><button data-game="sliding" aria-pressed="false">Sliding Puzzle <small>Find your way home</small></button><button data-game="lights" aria-pressed="false">Lights Out <small>Chain reactions</small></button><button data-game="code" aria-pressed="false">Codebreaker <small>Follow the clues</small></button></nav><p class="picker-hint">Choose a game above. On small screens, swipe the game list to see more.</p>
 <section class="play-card" aria-labelledby="gameTitle"><div class="game-heading"><div><p class="eyebrow" id="gameTag"></p><h2 id="gameTitle">2048</h2></div><div class="heading-actions"><button id="fullscreen">Fullscreen</button><button id="exitFullscreen" hidden>Exit fullscreen</button><button id="restart">New game</button></div></div><p id="instructions"></p><div id="gameOptions"></div><p id="gameStatus" role="status" aria-live="polite"></p><div id="boardViewport"><div id="board" role="group" tabindex="0" aria-label="Game board"></div></div><div id="gameControls"></div><div class="coach"><button id="hint">Coach hint</button><button id="applyHint" hidden>Place hint</button><p id="hintText" role="status"></p></div><p id="record" class="hint"></p><p id="scoreboard" class="hint"></p><p class="hint" id="keyboardHint"></p></section>
-<section class="save-panel" aria-label="Game progress"><label><input type="checkbox" id="remember"> Remember game progress and personal bests on this device</label><button id="clearSaves">Clear saved games</button><p id="saveStatus" role="status">Progress is kept only while this page remains open.</p></section><p class="footnote">No sign-in. No ads. Coaching runs locally. Hints are counted so assisted bests stay separate.</p></main><script>globalThis.__toolStudioGameWorker="(()=>{function k(t,n){if(![\"left\",\"right\",\"up\",\"down\"].includes(n))throw Error(\"Invalid direction\");let e=t.slice(),r=0;for(let o=0;o<4;o++){let i=Array.from({length:4},(l,f)=>n===\"left\"?o*4+f:n===\"right\"?o*4+3-f:n===\"up\"?f*4+o:(3-f)*4+o),s=i.map(l=>t[l]).filter(Boolean),c=[];for(let l=0;l<s.length;l++)if(s[l]===s[l+1]){let f=s[l]*2;c.push(f),r+=f,l++}else c.push(s[l]);i.forEach((l,f)=>e[l]=c[f]||0)}return{board:e,score:r,changed:e.some((o,i)=>o!==t[i])}}var g={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};function E(t,n=16,e=Math.random){let r=Array.from({length:n*n},(o,i)=>[i%n,Math.floor(i/n)]).filter(o=>!t.some(i=>i[0]===o[0]&&i[1]===o[1]));return r.length?r[Math.floor(e()*r.length)]:null}function X(t,n,e=16,r=Math.random){let o=g[t.direction],i=g[n]||o,s=i[0]===-o[0]&&i[1]===-o[1]?t.direction:n,c=g[s]||o,l=[t.body[0][0]+c[0],t.body[0][1]+c[1]],f=!!t.food&&l[0]===t.food[0]&&l[1]===t.food[1],a=f?t.body:t.body.slice(0,-1);if(l.some(h=>h<0||h>=e)||a.some(h=>h[0]===l[0]&&h[1]===l[1]))return{...t,over:!0};let d=[l,...t.body];f||d.pop();let u=f?E(d,e,r):t.food;return{body:d,food:u,direction:s,score:t.score+(f?1:0),over:!u,won:!u}}function w(t,n=Math.random){let e=t.slice();for(let r=e.length-1;r>0;r--){let o=Math.floor(n()*(r+1));[e[r],e[o]]=[e[o],e[r]]}return e}function N(t){let n=t.filter(o=>!o).length*240,e=Math.max(...t),r=t.map(o=>o?Math.log2(o):0);[0,3,12,15].some(o=>t[o]===e)&&(n+=Math.log2(e||1)*90);for(let o=0;o<4;o++)for(let i of[r.slice(o*4,o*4+4),[0,1,2,3].map(s=>r[s*4+o])]){let s=0,c=0;for(let l=0;l<3;l++)s+=Math.max(0,i[l]-i[l+1]),c+=Math.max(0,i[l+1]-i[l]);n-=Math.min(s,c)*25}return n}function A(t){let n=null,e=-1/0;for(let r of[\"left\",\"up\",\"right\",\"down\"]){let o=k(t,r);if(!o.changed)continue;let i=o.board.flatMap((l,f)=>l?[]:[f]),s=0;for(let l of i)for(let[f,a]of[[2,.9],[4,.1]]){let d=o.board.slice();d[l]=f;let u=-1e6;for(let h of[\"left\",\"up\",\"right\",\"down\"]){let m=k(d,h);m.changed&&(u=Math.max(u,N(m.board)+m.score))}s+=a*u/i.length}let c=(i.length?s:N(o.board))+o.score;c>e&&(e=c,n=r)}return{direction:n,text:n?\"Try \"+n+\". This two-move estimate favors empty space, ordered rows and a large corner tile. Random spawns can change the result.\":\"No legal moves remain.\"}}function P(t,n){let e=new Set,r=[t[0]],o=new Set(t.slice(1).map(i=>i.join(\",\")));for(let i=0;i<r.length;i++){let[s,c]=r[i],l=s+\",\"+c;if(!(e.has(l)||o.has(l)||s<0||c<0||s>=n||c>=n)){e.add(l);for(let[f,a]of Object.values(g))r.push([s+f,c+a])}}return e.size}function T(t,n=16){let e=null,r=-1/0;for(let o of Object.keys(g)){let i=g[t.direction],s=g[o];if(s[0]===-i[0]&&s[1]===-i[1])continue;let c=X(t,o,n,()=>0);if(c.over&&!c.won)continue;let l=P(c.body,n),f=t.food?Math.abs(c.body[0][0]-t.food[0])+Math.abs(c.body[0][1]-t.food[1]):0,a=l*20-f+(c.score>t.score?10:0);a>r&&(r=a,e=o)}return{direction:e,text:e?\"Try \"+e+\". It avoids an immediate collision and favors open escape space near food. This is a local safety check, not a guaranteed route.\":\"No safe next step was found.\"}}function j(t,n){if(t[n])return[];let e=Math.floor(n/9),r=n%9,o=new Set;for(let i=0;i<81;i++)(Math.floor(i/9)===e||i%9===r||Math.floor(i/27)===Math.floor(e/3)&&Math.floor(i%9/3)===Math.floor(r/3))&&o.add(t[i]);return[1,2,3,4,5,6,7,8,9].filter(i=>!o.has(i))}function C(t){let n=new Set;for(let e=0;e<81;e++)if(t[e])for(let r=e+1;r<81;r++)t[e]===t[r]&&(Math.floor(e/9)===Math.floor(r/9)||e%9===r%9||Math.floor(e/27)===Math.floor(r/27)&&Math.floor(e%9/3)===Math.floor(r%9/3))&&(n.add(e),n.add(r));return[...n]}var x=new Map;function q(t,n=1){let e=n+\":\"+t.join(\",\");if(x.has(e))return structuredClone(x.get(e));let r=R(t,n);return r.exhausted||(x.set(e,structuredClone(r)),x.size>64&&x.delete(x.keys().next().value)),r}function R(t,n=1){if(t.length!==81||C(t).length)return{count:0,solution:null};let e=t.slice(),r=0,o=null,i=0,s=!1;function c(){if(++i>25e4){s=!0;return}let l=-1,f;for(let a=0;a<81;a++)if(!e[a]){let d=j(e,a);if(!d.length)return;if((!f||d.length<f.length)&&(l=a,f=d,d.length===1))break}if(l<0){r++,o??=e.slice();return}for(let a of f)if(e[l]=a,c(),r>=n)break;e[l]=0}return c(),{count:s?n:r,solution:o,exhausted:s}}function H(t=\"medium\",n=Math.random){let e=()=>w([0,1,2],n),r=e().flatMap(f=>e().map(a=>f*3+a)),o=e().flatMap(f=>e().map(a=>f*3+a)),i=w([1,2,3,4,5,6,7,8,9],n),s=r.flatMap(f=>o.map(a=>i[(f*3+Math.floor(f/3)+a)%9])),c=s.slice(),l={easy:44,medium:36,hard:30}[t]||36;for(let f of w(Array.from({length:81},(a,d)=>d),n)){if(c.filter(Boolean).length<=l)break;let a=c[f];c[f]=0,q(c,2).count!==1&&(c[f]=a)}return{givens:c,board:c.slice(),notes:Array(81).fill(0),selected:c.findIndex(f=>!f),noteMode:!1,hints:0,completed:!1}}function _(t){let n=C(t.board);if(n.length)return{cell:n[0],value:0,text:\"Resolve the highlighted row, column or box conflict first.\"};let e=q(t.givens).solution;if(!e)return{cell:-1,text:\"This puzzle has no valid solution.\"};let r=t.board.findIndex((i,s)=>i&&i!==e[s]);if(r>=0)return{cell:r,value:0,text:\"Lookahead found an incorrect entry. Clear the highlighted cell before continuing.\"};for(let i=0;i<81;i++)if(!t.board[i]){let s=j(t.board,i);if(s.length===1)return{cell:i,value:s[0],text:\"Only \"+s[0]+\" fits row \"+(Math.floor(i/9)+1)+\", column \"+(i%9+1)+\".\"}}let o=t.board.findIndex(i=>!i);return o<0?{cell:-1,text:\"Puzzle complete.\"}:{cell:o,value:e[o],text:\"Solver lookahead suggests \"+e[o]+\" at row \"+(Math.floor(o/9)+1)+\", column \"+(o%9+1)+\". Use Place hint to apply it.\"}}function O(t){for(let n=0;n<42;n++)if(t[n])for(let[e,r]of[[1,0],[0,1],[1,1],[-1,1]]){let o=n%7,i=Math.floor(n/7);if(!(o+e*3<0||o+e*3>=7||i+r*3>=6)&&[1,2,3].every(s=>t[(i+r*s)*7+o+e*s]===t[n]))return t[n]}return t.every(Boolean)?\"draw\":null}function y(t,n,e){if(!Number.isInteger(n)||n<0||n>6||O(t))return null;for(let r=5;r>=0;r--)if(!t[r*7+n]){let o=t.slice();return o[r*7+n]=e,o}return null}function U(t){let n=0;for(let e=0;e<6;e++)n+=t[e*7+3]===\"O\"?5:t[e*7+3]===\"X\"?-5:0;for(let e=0;e<42;e++)for(let[r,o]of[[1,0],[0,1],[1,1],[-1,1]]){let i=e%7,s=Math.floor(e/7);if(i+r*3<0||i+r*3>=7||s+o*3>=6)continue;let c=[0,1,2,3].map(a=>t[(s+o*a)*7+i+r*a]),l=c.filter(a=>a===\"O\").length,f=c.filter(a=>a===\"X\").length;f||(n+=[0,1,8,70,1e4][l]),l||(n-=[0,1,10,90,1e4][f])}return n}function B(t,n=\"medium\",e=Math.random,r=\"O\"){let o=r===\"O\"?t:t.map(u=>u===\"O\"?\"X\":u===\"X\"?\"O\":\"\"),i=[3,2,4,1,5,0,6],s=i.filter(u=>y(o,u,\"O\"));if(!s.length)return-1;for(let u of[\"O\",\"X\"])for(let h of s)if(O(y(o,h,u))===u)return h;if(n===\"easy\")return s[Math.floor(e()*s.length)];let c=0,l=n===\"hard\"?5:3;function f(u,h,m,M,v){let b=O(u);if(b)return b===\"O\"?1e5+h:b===\"X\"?-1e5-h:0;if(!h||++c>35e3)return U(u);let p=m===\"O\"?-1/0:1/0;for(let z of i){let I=y(u,z,m);if(!I)continue;let S=f(I,h-1,m===\"O\"?\"X\":\"O\",M,v);if(m===\"O\"?(p=Math.max(p,S),M=Math.max(M,p)):(p=Math.min(p,S),v=Math.min(v,p)),v<=M)break}return p}let a=s[0],d=-1/0;for(let u of s){let h=f(y(o,u,\"O\"),l-1,\"X\",-1/0,1/0);h>d&&(d=h,a=u)}return a}self.onmessage=({data:t})=>{let{id:n,operation:e,payload:r}=t;try{let o;if(e===\"connect\")o=B(r.board,r.level,Math.random,r.player);else if(e===\"sudokuHint\")o=_(r);else if(e===\"createSudoku\")o=H(r);else if(e===\"2048\")o=A(r);else if(e===\"snake\")o=T(r);else throw Error(\"Unknown analysis operation\");self.postMessage({id:n,result:o})}catch(o){self.postMessage({id:n,error:o.message})}};})();\n";(() => {
+<section class="save-panel" aria-label="Game progress"><label><input type="checkbox" id="remember"> Remember game progress and personal bests on this device</label><button id="clearSaves">Clear saved games</button><p id="saveStatus" role="status">Progress is kept only while this page remains open.</p></section><p class="footnote">No sign-in. No ads. Coaching runs locally. Hints are counted so assisted bests stay separate.</p></main><script>globalThis.__toolStudioGameWorker="(()=>{var w=t=>t===\"X\"?\"O\":\"X\",J=[-1,0,1].flatMap(t=>[-1,0,1].filter(n=>n||t).map(n=>[n,t]));function j(t,n,e){if(!Number.isInteger(n)||n<0||n>=64||t[n])return[];let o=[],r=n%8,i=Math.floor(n/8);for(let[s,c]of J){let a=[],l=r+s,f=i+c;for(;l>=0&&l<8&&f>=0&&f<8&&t[f*8+l]===w(e);)a.push(f*8+l),l+=s,f+=c;a.length&&l>=0&&l<8&&f>=0&&f<8&&t[f*8+l]===e&&o.push(...a)}return o}function M(t,n){return t.flatMap((e,o)=>!e&&j(t,o,n).length?[o]:[])}function C(t){if(M(t,\"X\").length||M(t,\"O\").length)return null;let n=t.filter(e=>e===\"X\").length-t.filter(e=>e===\"O\").length;return n===0?\"draw\":n>0?\"X\":\"O\"}function H(t,n){let e=j(t.board,n,t.turn);if(!e.length)return null;let o=t.board.slice();o[n]=t.turn;for(let i of e)o[i]=t.turn;let r=w(t.turn);return{board:o,turn:M(o,r).length?r:t.turn}}function Q(t,n){let e=w(n),o=C(t);if(o)return o===\"draw\"?0:o===n?1e5:-1e5;let r=5*(M(t,n).length-M(t,e).length);for(let i=0;i<64;i++)if(t[i]){let s=i%8,c=Math.floor(i/8),a=(s===0||s===7)&&(c===0||c===7)?100:s===0||s===7||c===0||c===7?8:1;for(let l of[0,7,56,63])!t[l]&&Math.abs(s-l%8)<=1&&Math.abs(c-Math.floor(l/8))<=1&&(a=-25);r+=t[i]===n?a:-a}return r}function E(t,n=\"O\",e=\"medium\",o=Math.random){let r=M(t,n);if(!r.length)return-1;if(e===\"easy\")return r[Math.floor(o()*r.length)];let i=0;function s(l,f,h,u){if(!f||++i>16e3||C(l.board))return Q(l.board,n);let d=M(l.board,l.turn);if(!d.length)return s({...l,turn:w(l.turn)},f-1,h,u);let g=l.turn===n,m=g?-1/0:1/0;for(let y of d){let v=s(H(l,y),f-1,h,u);if(m=g?Math.max(m,v):Math.min(m,v),g?h=Math.max(h,m):u=Math.min(u,m),u<=h)break}return m}let c=-1/0,a=r[0];for(let l of r){let f=s(H({board:t,turn:n},l),e===\"hard\"?3:1,-1/0,1/0);f>c&&(c=f,a=l)}return a}var Z=t=>t.every((n,e)=>n===(e+1)%t.length);function I(t,n){let e=t.indexOf(0),o=e%n,r=Math.floor(e/n);return[r?e-n:-1,o?e-1:-1,r<n-1?e+n:-1,o<n-1?e+1:-1].filter(i=>i>=0)}function $(t,n,e){if(!I(t,n).includes(e))return null;let o=t.slice(),r=o.indexOf(0);return[o[r],o[e]]=[o[e],o[r]],o}function O(t,n){return t.reduce((e,o,r)=>e+(o?Math.abs(r%n-(o-1)%n)+Math.abs(Math.floor(r/n)-Math.floor((o-1)/n)):0),0)}function q({board:t,size:n}){if(Z(t))return{cells:[],text:\"The puzzle is already complete.\"};let e=[],o=new Map([[t.join(\",\"),0]]);function r(l){e.push(l);let f=e.length-1;for(;f;){let h=f-1>>1;if(e[h].f<=l.f)break;e[f]=e[h],f=h}e[f]=l}function i(){let l=e[0],f=e.pop();if(e.length){let h=0;for(;h*2+1<e.length;){let u=h*2+1;if(u+1<e.length&&e[u+1].f<e[u].f&&u++,e[u].f>=f.f)break;e[h]=e[u],h=u}e[h]=f}return l}let s=null,c=!1;r({board:t,g:0,h:O(t,n),f:O(t,n),first:-1});for(let l=0;e.length&&l<4e3;l++){let f=i();if(f.first>=0&&(!s||f.h<s.h||f.h===s.h&&f.g<s.g)&&(s=f),!f.h){s=f,c=!0;break}if(!(f.g>=70))for(let h of I(f.board,n)){let u=$(f.board,n,h),d=u.join(\",\"),g=f.g+1;if((o.get(d)??1/0)<=g)continue;o.set(d,g);let m=O(u,n);r({board:u,g,h:m,f:g+m,first:f.first<0?h:f.first})}}let a=s?.first??I(t,n)[0];return{cells:[a],text:\"Slide tile \"+t[a]+(c?\". Bounded search found a path to the goal.\":\". Bounded search favors progress toward the goal; this move is not guaranteed optimal.\")}}function B(t,n){let e=0,o=0,r=[],i=[];for(let s=0;s<4;s++)t[s]===n[s]?e++:(r.push(t[s]),i.push(n[s]));for(let s of r){let c=i.indexOf(s);c>=0&&(o++,i.splice(c,1))}return{exact:e,misplaced:o}}function z(t,n){let e=[];for(let o=0;o<t**4;o++){let r=o,i=Array.from({length:4},()=>{let s=r%t+1;return r=Math.floor(r/t),s});n.every(s=>{let c=B(i,s.guess);return c.exact===s.exact&&c.misplaced===s.misplaced})&&e.push(i)}return e}function L({colors:t,history:n}){let e=z(t,n);if(!e.length)return{cells:[],text:\"No code matches this feedback.\"};let o=e[0],r=1/0,i=new Set(n.map(c=>c.guess.join(\"\"))),s=e.filter(c=>!i.has(c.join(\"\")));for(let c=0;c<Math.min(80,s.length);c++){let a=s[Math.floor(c*s.length/Math.min(80,s.length))],l=new Map;for(let h of e){let u=B(h,a),d=u.exact+\":\"+u.misplaced;l.set(d,(l.get(d)||0)+1)}let f=[...l.values()].reduce((h,u)=>h+u*u,0);f<r&&(r=f,o=a)}return{cells:[],text:e.length+(e.length===1?\" code remains\":\" codes remain\")+\" consistent with your feedback. Try \"+o.join(\" \")+\". The coach compares possible feedback groups without reading the hidden code.\"}}function A(t,n){if(![\"left\",\"right\",\"up\",\"down\"].includes(n))throw Error(\"Invalid direction\");let e=t.slice(),o=0;for(let r=0;r<4;r++){let i=Array.from({length:4},(a,l)=>n===\"left\"?r*4+l:n===\"right\"?r*4+3-l:n===\"up\"?l*4+r:(3-l)*4+r),s=i.map(a=>t[a]).filter(Boolean),c=[];for(let a=0;a<s.length;a++)if(s[a]===s[a+1]){let l=s[a]*2;c.push(l),o+=l,a++}else c.push(s[a]);i.forEach((a,l)=>e[a]=c[l]||0)}return{board:e,score:o,changed:e.some((r,i)=>r!==t[i])}}var p={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};function ee(t,n=16,e=Math.random){let o=Array.from({length:n*n},(r,i)=>[i%n,Math.floor(i/n)]).filter(r=>!t.some(i=>i[0]===r[0]&&i[1]===r[1]));return o.length?o[Math.floor(e()*o.length)]:null}function _(t,n,e=16,o=Math.random){let r=p[t.direction],i=p[n]||r,s=i[0]===-r[0]&&i[1]===-r[1]?t.direction:n,c=p[s]||r,a=[t.body[0][0]+c[0],t.body[0][1]+c[1]],l=!!t.food&&a[0]===t.food[0]&&a[1]===t.food[1],f=l?t.body:t.body.slice(0,-1);if(a.some(d=>d<0||d>=e)||f.some(d=>d[0]===a[0]&&d[1]===a[1]))return{...t,over:!0};let h=[a,...t.body];l||h.pop();let u=l?ee(h,e,o):t.food;return{body:h,food:u,direction:s,score:t.score+(l?1:0),over:!u,won:!u}}function S(t,n=Math.random){let e=t.slice();for(let o=e.length-1;o>0;o--){let r=Math.floor(n()*(o+1));[e[o],e[r]]=[e[r],e[o]]}return e}function R(t){let n=t.filter(r=>!r).length*240,e=Math.max(...t),o=t.map(r=>r?Math.log2(r):0);[0,3,12,15].some(r=>t[r]===e)&&(n+=Math.log2(e||1)*90);for(let r=0;r<4;r++)for(let i of[o.slice(r*4,r*4+4),[0,1,2,3].map(s=>o[s*4+r])]){let s=0,c=0;for(let a=0;a<3;a++)s+=Math.max(0,i[a]-i[a+1]),c+=Math.max(0,i[a+1]-i[a]);n-=Math.min(s,c)*25}return n}function P(t){let n=null,e=-1/0;for(let o of[\"left\",\"up\",\"right\",\"down\"]){let r=A(t,o);if(!r.changed)continue;let i=r.board.flatMap((a,l)=>a?[]:[l]),s=0;for(let a of i)for(let[l,f]of[[2,.9],[4,.1]]){let h=r.board.slice();h[a]=l;let u=-1e6;for(let d of[\"left\",\"up\",\"right\",\"down\"]){let g=A(h,d);g.changed&&(u=Math.max(u,R(g.board)+g.score))}s+=f*u/i.length}let c=(i.length?s:R(r.board))+r.score;c>e&&(e=c,n=o)}return{direction:n,text:n?\"Try \"+n+\". This two-move estimate favors empty space, ordered rows and a large corner tile. Random spawns can change the result.\":\"No legal moves remain.\"}}function te(t,n){let e=new Set,o=[t[0]],r=new Set(t.slice(1).map(i=>i.join(\",\")));for(let i=0;i<o.length;i++){let[s,c]=o[i],a=s+\",\"+c;if(!(e.has(a)||r.has(a)||s<0||c<0||s>=n||c>=n)){e.add(a);for(let[l,f]of Object.values(p))o.push([s+l,c+f])}}return e.size}function F(t,n=16){let e=null,o=-1/0;for(let r of Object.keys(p)){let i=p[t.direction],s=p[r];if(s[0]===-i[0]&&s[1]===-i[1])continue;let c=_(t,r,n,()=>0);if(c.over&&!c.won)continue;let a=te(c.body,n),l=t.food?Math.abs(c.body[0][0]-t.food[0])+Math.abs(c.body[0][1]-t.food[1]):0,f=a*20-l+(c.score>t.score?10:0);f>o&&(o=f,e=r)}return{direction:e,text:e?\"Try \"+e+\". It avoids an immediate collision and favors open escape space near food. This is a local safety check, not a guaranteed route.\":\"No safe next step was found.\"}}function D(t,n){if(t[n])return[];let e=Math.floor(n/9),o=n%9,r=new Set;for(let i=0;i<81;i++)(Math.floor(i/9)===e||i%9===o||Math.floor(i/27)===Math.floor(e/3)&&Math.floor(i%9/3)===Math.floor(o/3))&&r.add(t[i]);return[1,2,3,4,5,6,7,8,9].filter(i=>!r.has(i))}function U(t){let n=new Set;for(let e=0;e<81;e++)if(t[e])for(let o=e+1;o<81;o++)t[e]===t[o]&&(Math.floor(e/9)===Math.floor(o/9)||e%9===o%9||Math.floor(e/27)===Math.floor(o/27)&&Math.floor(e%9/3)===Math.floor(o%9/3))&&(n.add(e),n.add(o));return[...n]}var b=new Map;function V(t,n=1){let e=n+\":\"+t.join(\",\");if(b.has(e))return structuredClone(b.get(e));let o=ne(t,n);return o.exhausted||(b.set(e,structuredClone(o)),b.size>64&&b.delete(b.keys().next().value)),o}function ne(t,n=1){if(t.length!==81||U(t).length)return{count:0,solution:null};let e=t.slice(),o=0,r=null,i=0,s=!1;function c(){if(++i>25e4){s=!0;return}let a=-1,l;for(let f=0;f<81;f++)if(!e[f]){let h=D(e,f);if(!h.length)return;if((!l||h.length<l.length)&&(a=f,l=h,h.length===1))break}if(a<0){o++,r??=e.slice();return}for(let f of l)if(e[a]=f,c(),o>=n)break;e[a]=0}return c(),{count:s?n:o,solution:r,exhausted:s}}function W(t=\"medium\",n=Math.random){let e=()=>S([0,1,2],n),o=e().flatMap(l=>e().map(f=>l*3+f)),r=e().flatMap(l=>e().map(f=>l*3+f)),i=S([1,2,3,4,5,6,7,8,9],n),s=o.flatMap(l=>r.map(f=>i[(l*3+Math.floor(l/3)+f)%9])),c=s.slice(),a={easy:44,medium:36,hard:30}[t]||36;for(let l of S(Array.from({length:81},(f,h)=>h),n)){if(c.filter(Boolean).length<=a)break;let f=c[l];c[l]=0,V(c,2).count!==1&&(c[l]=f)}return{givens:c,board:c.slice(),notes:Array(81).fill(0),selected:c.findIndex(l=>!l),noteMode:!1,hints:0,completed:!1}}function K(t){let n=U(t.board);if(n.length)return{cell:n[0],value:0,text:\"Resolve the highlighted row, column or box conflict first.\"};let e=V(t.givens).solution;if(!e)return{cell:-1,text:\"This puzzle has no valid solution.\"};let o=t.board.findIndex((i,s)=>i&&i!==e[s]);if(o>=0)return{cell:o,value:0,text:\"Lookahead found an incorrect entry. Clear the highlighted cell before continuing.\"};for(let i=0;i<81;i++)if(!t.board[i]){let s=D(t.board,i);if(s.length===1)return{cell:i,value:s[0],text:\"Only \"+s[0]+\" fits row \"+(Math.floor(i/9)+1)+\", column \"+(i%9+1)+\".\"}}let r=t.board.findIndex(i=>!i);return r<0?{cell:-1,text:\"Puzzle complete.\"}:{cell:r,value:e[r],text:\"Solver lookahead suggests \"+e[r]+\" at row \"+(Math.floor(r/9)+1)+\", column \"+(r%9+1)+\". Use Place hint to apply it.\"}}function T(t){for(let n=0;n<42;n++)if(t[n])for(let[e,o]of[[1,0],[0,1],[1,1],[-1,1]]){let r=n%7,i=Math.floor(n/7);if(!(r+e*3<0||r+e*3>=7||i+o*3>=6)&&[1,2,3].every(s=>t[(i+o*s)*7+r+e*s]===t[n]))return t[n]}return t.every(Boolean)?\"draw\":null}function k(t,n,e){if(!Number.isInteger(n)||n<0||n>6||T(t))return null;for(let o=5;o>=0;o--)if(!t[o*7+n]){let r=t.slice();return r[o*7+n]=e,r}return null}function oe(t){let n=0;for(let e=0;e<6;e++)n+=t[e*7+3]===\"O\"?5:t[e*7+3]===\"X\"?-5:0;for(let e=0;e<42;e++)for(let[o,r]of[[1,0],[0,1],[1,1],[-1,1]]){let i=e%7,s=Math.floor(e/7);if(i+o*3<0||i+o*3>=7||s+r*3>=6)continue;let c=[0,1,2,3].map(f=>t[(s+r*f)*7+i+o*f]),a=c.filter(f=>f===\"O\").length,l=c.filter(f=>f===\"X\").length;l||(n+=[0,1,8,70,1e4][a]),a||(n-=[0,1,10,90,1e4][l])}return n}function Y(t,n=\"medium\",e=Math.random,o=\"O\"){let r=o===\"O\"?t:t.map(u=>u===\"O\"?\"X\":u===\"X\"?\"O\":\"\"),i=[3,2,4,1,5,0,6],s=i.filter(u=>k(r,u,\"O\"));if(!s.length)return-1;for(let u of[\"O\",\"X\"])for(let d of s)if(T(k(r,d,u))===u)return d;if(n===\"easy\")return s[Math.floor(e()*s.length)];let c=0,a=n===\"hard\"?5:3;function l(u,d,g,m,y){let v=T(u);if(v)return v===\"O\"?1e5+d:v===\"X\"?-1e5-d:0;if(!d||++c>35e3)return oe(u);let x=g===\"O\"?-1/0:1/0;for(let G of i){let X=k(u,G,g);if(!X)continue;let N=l(X,d-1,g===\"O\"?\"X\":\"O\",m,y);if(g===\"O\"?(x=Math.max(x,N),m=Math.max(m,x)):(x=Math.min(x,N),y=Math.min(y,x)),y<=m)break}return x}let f=s[0],h=-1/0;for(let u of s){let d=l(k(r,u,\"O\"),a-1,\"X\",-1/0,1/0);d>h&&(h=d,f=u)}return f}self.onmessage=({data:t})=>{let{id:n,operation:e,payload:o}=t;try{let r;if(e===\"reversi\")r=E(o.board,o.player,o.level);else if(e===\"sliding\")r=q(o);else if(e===\"code\")r=L(o);else if(e===\"connect\")r=Y(o.board,o.level,Math.random,o.player);else if(e===\"sudokuHint\")r=K(o);else if(e===\"createSudoku\")r=W(o);else if(e===\"2048\")r=P(o);else if(e===\"snake\")r=F(o);else throw Error(\"Unknown analysis operation\");self.postMessage({id:n,result:r})}catch(r){self.postMessage({id:n,error:r.message})}};})();\n";(() => {
+  // src/games/extras.js
+  var opposite = (p) => p === "X" ? "O" : "X";
+  var rays = [-1, 0, 1].flatMap((y) => [-1, 0, 1].filter((x) => x || y).map((x) => [x, y]));
+  var extraInfo = {
+    reversi: ["Reversi", "TURN THE TABLES", "Bracket opposing discs to flip them. X starts. A player with no legal move passes automatically; most discs wins when neither player can move."],
+    sliding: ["Sliding Puzzle", "MAKE ROOM TO THINK", "Slide a tile next to the empty square. Arrange the numbers in order, with the empty square last. Every generated board is solvable."],
+    lights: ["Lights Out", "A LITTLE CHAIN REACTION", "Press a square to toggle it and its horizontal and vertical neighbors. Switch every light off. The coach solves the current pattern."],
+    code: ["Codebreaker", "FOLLOW THE EVIDENCE", "Find the four-digit code in ten guesses. Digits can repeat. Exact means right digit and position; Misplaced means right digit in another position. Feedback does not identify individual digits."]
+  };
+  function createReversi() {
+    const board3 = Array(64).fill("");
+    board3[27] = board3[36] = "O";
+    board3[28] = board3[35] = "X";
+    return { board: board3, turn: "X" };
+  }
+  function reversiFlips(board3, cell, player) {
+    if (!Number.isInteger(cell) || cell < 0 || cell >= 64 || board3[cell]) return [];
+    const flips = [], x = cell % 8, y = Math.floor(cell / 8);
+    for (const [dx, dy] of rays) {
+      const line = [];
+      let c = x + dx, r = y + dy;
+      while (c >= 0 && c < 8 && r >= 0 && r < 8 && board3[r * 8 + c] === opposite(player)) {
+        line.push(r * 8 + c);
+        c += dx;
+        r += dy;
+      }
+      if (line.length && c >= 0 && c < 8 && r >= 0 && r < 8 && board3[r * 8 + c] === player) flips.push(...line);
+    }
+    return flips;
+  }
+  function reversiMoves(board3, player) {
+    return board3.flatMap((v, i) => !v && reversiFlips(board3, i, player).length ? [i] : []);
+  }
+  function reversiOutcome(board3) {
+    if (reversiMoves(board3, "X").length || reversiMoves(board3, "O").length) return null;
+    const delta = board3.filter((v) => v === "X").length - board3.filter((v) => v === "O").length;
+    return delta === 0 ? "draw" : delta > 0 ? "X" : "O";
+  }
+  function playReversi(state2, cell) {
+    const flips = reversiFlips(state2.board, cell, state2.turn);
+    if (!flips.length) return null;
+    const board3 = state2.board.slice();
+    board3[cell] = state2.turn;
+    for (const i of flips) board3[i] = state2.turn;
+    const other = opposite(state2.turn);
+    return { board: board3, turn: reversiMoves(board3, other).length ? other : state2.turn };
+  }
+  var slidingGoal = (size) => Array.from({ length: size * size }, (_, i) => (i + 1) % (size * size));
+  var slidingSolved = (board3) => board3.every((v, i) => v === (i + 1) % board3.length);
+  function slidingNeighbors(board3, size) {
+    const blank = board3.indexOf(0), x = blank % size, y = Math.floor(blank / size);
+    return [y ? blank - size : -1, x ? blank - 1 : -1, y < size - 1 ? blank + size : -1, x < size - 1 ? blank + 1 : -1].filter((i) => i >= 0);
+  }
+  function slidePuzzle(board3, size, cell) {
+    if (!slidingNeighbors(board3, size).includes(cell)) return null;
+    const next2 = board3.slice(), blank = next2.indexOf(0);
+    [next2[blank], next2[cell]] = [next2[cell], next2[blank]];
+    return next2;
+  }
+  function slidingSolvable(board3, size) {
+    let inversions = 0;
+    for (let i = 0; i < board3.length; i++) for (let j = i + 1; j < board3.length; j++) if (board3[i] && board3[j] && board3[i] > board3[j]) inversions++;
+    return size % 2 ? inversions % 2 === 0 : (inversions + size - Math.floor(board3.indexOf(0) / size)) % 2 === 1;
+  }
+  function createSliding(level = "medium", random = Math.random) {
+    const size = level === "hard" ? 4 : 3;
+    let board3 = slidingGoal(size), previous = -1;
+    for (let n = 0; n < { easy: 16, medium: 50, hard: 100 }[level]; n++) {
+      const cells = slidingNeighbors(board3, size).filter((i) => i !== previous), blank = board3.indexOf(0);
+      board3 = slidePuzzle(board3, size, cells[Math.floor(random() * cells.length)]);
+      previous = blank;
+    }
+    if (slidingSolved(board3)) board3 = slidePuzzle(board3, size, slidingNeighbors(board3, size)[0]);
+    return { size, board: board3, undo: null };
+  }
+  function toggleLights(board3, size, cell) {
+    const next2 = board3.slice(), x = cell % size, y = Math.floor(cell / size);
+    for (const [dx, dy] of [[0, 0], [0, -1], [-1, 0], [0, 1], [1, 0]]) {
+      const c = x + dx, r = y + dy;
+      if (c >= 0 && c < size && r >= 0 && r < size) next2[r * size + c] ^= 1;
+    }
+    return next2;
+  }
+  function lightSolution(board3, size) {
+    const n = board3.length;
+    const columns = Array.from({ length: n }, (_, i) => toggleLights(Array(n).fill(0), size, i));
+    const rows = board3.map((v, r) => [...columns.map((c) => c[r]), v]), pivots = [];
+    let row = 0;
+    for (let col = 0; col < n && row < n; col++) {
+      const pivot = rows.findIndex((r, i) => i >= row && r[col]);
+      if (pivot < 0) continue;
+      [rows[row], rows[pivot]] = [rows[pivot], rows[row]];
+      for (let i = 0; i < n; i++) if (i !== row && rows[i][col]) for (let j = col; j <= n; j++) rows[i][j] ^= rows[row][j];
+      pivots.push(col);
+      row++;
+    }
+    if (rows.some((r) => !r.slice(0, n).some(Boolean) && r[n])) return null;
+    return pivots.filter((_, i) => rows[i][n]);
+  }
+  function createLights(level = "medium", random = Math.random) {
+    const size = level === "easy" ? 4 : 5;
+    let board3 = Array(size * size).fill(0);
+    const cells = Array.from({ length: board3.length }, (_, i) => i);
+    for (let n = 0; n < { easy: 5, medium: 10, hard: 18 }[level]; n++) {
+      const i = Math.floor(random() * cells.length), cell = cells.splice(i, 1)[0];
+      board3 = toggleLights(board3, size, cell);
+    }
+    if (!board3.some(Boolean)) board3 = toggleLights(board3, size, 0);
+    return { size, board: board3 };
+  }
+  function lightsHint({ board: board3, size }) {
+    const solution = lightSolution(board3, size);
+    return { cells: solution?.length ? [solution[0]] : [], text: solution === null ? "No solution exists for this pattern." : !solution.length ? "All lights are already off." : "Press the highlighted square. Linear algebra found a solution using " + solution.length + " remaining presses; this is not necessarily the shortest solution." };
+  }
+  function codeFeedback(secret, guess) {
+    let exact = 0, misplaced = 0;
+    const left = [], right = [];
+    for (let i = 0; i < 4; i++) if (secret[i] === guess[i]) exact++;
+    else {
+      left.push(secret[i]);
+      right.push(guess[i]);
+    }
+    for (const digit of left) {
+      const i = right.indexOf(digit);
+      if (i >= 0) {
+        misplaced++;
+        right.splice(i, 1);
+      }
+    }
+    return { exact, misplaced };
+  }
+  var codeWon = (s) => s.history.some((r) => r.exact === 4);
+  var codeOver = (s) => codeWon(s) || s.history.length >= 10;
+  function createCode(level = "medium", random = Math.random) {
+    const colors = { easy: 4, medium: 5, hard: 6 }[level];
+    return { colors, secret: Array.from({ length: 4 }, () => 1 + Math.floor(random() * colors)), draft: [1, 1, 1, 1], history: [] };
+  }
+  function submitCode(state2) {
+    if (codeOver(state2)) return null;
+    return { ...state2, history: [...state2.history, { guess: state2.draft.slice(), ...codeFeedback(state2.secret, state2.draft) }] };
+  }
+
   // src/games/analysis.js
   var import_meta = {};
   var worker = null;
@@ -140,7 +313,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   function analyse(operation, payload) {
     if (operation === "sudokuHint") payload = { board: payload.board, givens: payload.givens };
     if (operation === "snake") payload = { body: payload.body, direction: payload.direction, food: payload.food, score: payload.score, over: payload.over, won: payload.won };
-    const key = JSON.stringify([operation, payload]), cacheable = operation !== "createSudoku" && !(operation === "connect" && payload.level === "easy");
+    const key = JSON.stringify([operation, payload]), cacheable = operation !== "createSudoku" && !(["connect", "reversi"].includes(operation) && payload.level === "easy");
     if (cacheable && cache.has(key)) return Promise.resolve(structuredClone(cache.get(key)));
     if (!worker) {
       if (typeof Worker === "undefined") return Promise.reject(Error("Game analysis needs Web Workers. Your current board stays playable."));
@@ -249,7 +422,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   }
 
   // src/games/brain.js
-  var gameIds = ["2048", "snake", "memory", "ttt", "sudoku", "mines", "connect4"];
+  var gameIds = ["2048", "snake", "memory", "ttt", "sudoku", "mines", "connect4", "reversi", "sliding", "lights", "code"];
   function shuffle(values, random = Math.random) {
     const a = values.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -425,7 +598,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   var point = (p, size) => Array.isArray(p) && p.length === 2 && p.every((n) => integer(n, size - 1));
   var tile = (n) => integer(n, 2 ** 30) && (n === 0 || Number.isInteger(Math.log2(n)) && n >= 2);
   function defaults() {
-    return { version: 2, enabled: false, active: "2048", settings: {}, saves: {}, best: {}, matches: { ttt: { X: 0, O: 0, draw: 0 }, connect4: { X: 0, O: 0, draw: 0 } } };
+    return { version: 2, enabled: false, active: "2048", settings: {}, saves: {}, best: {}, matches: { ttt: { X: 0, O: 0, draw: 0 }, connect4: { X: 0, O: 0, draw: 0 }, reversi: { X: 0, O: 0, draw: 0 } } };
   }
   function validateGame(id, s) {
     if (!object(s) || !integer(s.moves) || !integer(s.hints) || typeof s.credited !== "boolean") throw Error("Invalid game metadata");
@@ -452,7 +625,17 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       const n = s.size * s.size;
       valid = [[9, 10], [12, 24], [16, 40]].some(([size, mines]) => s.size === size && s.mines === mines) && ids(s.revealed, n) && ids(s.flags, n) && s.flags.length <= s.mines && s.flags.every((i) => !s.revealed.includes(i)) && typeof s.over === "boolean" && typeof s.won === "boolean" && (s.bombs === null ? s.revealed.length === 0 : ids(s.bombs, n) && s.bombs.length === s.mines && s.revealed.every((i) => !s.bombs.includes(i))) && (!s.won || s.over && s.revealed.length === n - s.mines);
     }
-    const allowed = { 2048: ["board", "score", "undo"], snake: ["body", "food", "direction", "score", "over", "won"], memory: ["deck", "open", "matched", "seen"], ttt: ["board"], sudoku: ["givens", "board", "notes", "selected", "noteMode", "completed"], mines: ["size", "mines", "bombs", "revealed", "flags", "over", "won"], connect4: ["board"] }[id];
+    if (id === "reversi") valid = board(s.board, 64, (v) => ["", "X", "O"].includes(v)) && ["X", "O"].includes(s.turn) && s.moves <= 60 && s.board.filter(Boolean).length === s.moves + 4 && [27, 28, 35, 36].every((i) => s.board[i]) && (!!reversiOutcome(s.board) || reversiMoves(s.board, s.turn).length > 0);
+    if (id === "sliding") {
+      const n = s.size * s.size;
+      valid = [3, 4].includes(s.size) && board(s.board, n, (v) => integer(v, n - 1)) && new Set(s.board).size === n && slidingSolvable(s.board, s.size) && (s.undo === null || board(s.undo, n, (v) => integer(v, n - 1)) && new Set(s.undo).size === n && slidePuzzle(s.undo, s.size, s.board.indexOf(0))?.every((v, i) => v === s.board[i]));
+    }
+    if (id === "lights") valid = [4, 5].includes(s.size) && board(s.board, s.size * s.size, (v) => v === 0 || v === 1) && lightSolution(s.board, s.size) !== null;
+    if (id === "code") {
+      const digits = (a) => board(a, 4, (v) => integer(v, s.colors) && v >= 1);
+      valid = [4, 5, 6].includes(s.colors) && digits(s.secret) && digits(s.draft) && Array.isArray(s.history) && s.history.length <= 10 && s.moves === s.history.length && s.history.every((r, i) => object(r) && Object.keys(r).length === 3 && digits(r.guess) && integer(r.exact, 4) && integer(r.misplaced, 4) && r.exact === codeFeedback(s.secret, r.guess).exact && r.misplaced === codeFeedback(s.secret, r.guess).misplaced && (i === s.history.length - 1 || r.exact !== 4));
+    }
+    const allowed = { 2048: ["board", "score", "undo"], snake: ["body", "food", "direction", "score", "over", "won"], memory: ["deck", "open", "matched", "seen"], ttt: ["board"], sudoku: ["givens", "board", "notes", "selected", "noteMode", "completed"], mines: ["size", "mines", "bombs", "revealed", "flags", "over", "won"], connect4: ["board"], reversi: ["board", "turn"], sliding: ["size", "board", "undo"], lights: ["size", "board"], code: ["colors", "secret", "draft", "history"] }[id];
     if (!allowed || Object.keys(s).some((k) => !["moves", "hints", "credited", ...allowed].includes(k))) valid = false;
     if (id === "sudoku" && valid) valid = s.completed === (s.board.every(Boolean) && sudokuConflicts(s.board).length === 0);
     if (id === "snake" && valid) valid = s.food !== null || s.won;
@@ -470,10 +653,13 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         if (!end && id === "connect4" && b.filter((x) => x === "X").length !== b.filter((x) => x === "O").length) throw Error("Incomplete computer turn");
       }
     }
-    for (const [k, n] of Object.entries(v.best)) if (!/^(2048|snake|memory|ttt|sudoku|mines|connect4):(easy|medium|hard):(solo|two):(assisted|solo)$/.test(k) || !integer(n)) throw Error("Invalid Games best");
+    for (const [k, n] of Object.entries(v.best)) if (!/^(2048|snake|memory|ttt|sudoku|mines|connect4|reversi|sliding|lights|code):(easy|medium|hard):(solo|two):(assisted|solo)$/.test(k) || !integer(n)) throw Error("Invalid Games best");
     for (const id of ["ttt", "connect4"]) if (!object(v.matches[id]) || Object.keys(v.matches[id]).length !== 3 || !["X", "O", "draw"].every((k) => integer(v.matches[id][k]))) throw Error("Invalid match scoreboard");
-    if (Object.keys(v.matches).some((k) => !["ttt", "connect4"].includes(k))) throw Error("Invalid match scoreboard");
-    return structuredClone(v);
+    if (v.matches.reversi !== void 0 && (!object(v.matches.reversi) || Object.keys(v.matches.reversi).length !== 3 || !["X", "O", "draw"].every((k) => integer(v.matches.reversi[k])))) throw Error("Invalid Reversi scoreboard");
+    if (Object.keys(v.matches).some((k) => !["ttt", "connect4", "reversi"].includes(k))) throw Error("Invalid match scoreboard");
+    const result = structuredClone(v);
+    result.matches.reversi ??= { X: 0, O: 0, draw: 0 };
+    return result;
   }
   function loadProfile(storage) {
     try {
@@ -543,6 +729,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     if (game === "connect4") return connectWinner(state.board);
     if (game === "memory") return state.matched.length === state.deck.length;
     if (game === "sudoku") return state.completed;
+    if (game === "reversi") return reversiOutcome(state.board);
+    if (game === "sliding") return slidingSolved(state.board);
+    if (game === "lights") return !state.board.some(Boolean);
+    if (game === "code") return codeOver(state);
     return state.over;
   }
   function setStatus(text) {
@@ -592,6 +782,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   }
   function newState(id) {
     const level = settings(id).level;
+    if (id === "reversi") return meta(createReversi());
+    if (id === "sliding") return meta(createSliding(level));
+    if (id === "lights") return meta(createLights(level));
+    if (id === "code") return meta(createCode(level));
     if (id === "2048") return meta({ board: spawnTile(spawnTile(Array(16).fill(0))), score: 0, undo: null });
     if (id === "snake") {
       const body = [[7, 7], [6, 7], [5, 7]];
@@ -655,16 +849,17 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     $("hintText").textContent = "";
     $("applyHint").hidden = true;
     for (const b of picker.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.game === game));
-    const info = { 2048: ["2048", "ONE MORE MERGE", "Combine equal tiles. Coach estimates two moves ahead; Undo takes back one move."], snake: ["Snake", "KEEP GROWING", "Collect food without hitting a wall or yourself. Coach favors open escape space."], memory: ["Memory Match", "LOOK. REMEMBER. MATCH.", "Find every pair. Coach only recalls cards you have already revealed."], ttt: ["Tic-tac-toe", "THREE IN A ROW", "Complete a row, column or diagonal. Try the computer or a second player."], sudoku: ["Sudoku", "REASON IT THROUGH", "Fill each row, column and 3 \xD7 3 box with 1\u20139. Use notes or ask for a logical hint."], mines: ["Minesweeper", "READ THE CLUES", "Reveal every safe square. Your first click and its neighbors are protected. Flag suspected mines. Scroll the board on small screens."], connect4: ["Connect Four", "THINK A FEW MOVES AHEAD", "Drop discs into columns. Make four in a row horizontally, vertically or diagonally."] }[id];
+    revealGameChoice();
+    const info = { ...extraInfo, 2048: ["2048", "ONE MORE MERGE", "Combine equal tiles. Coach estimates two moves ahead; Undo takes back one move."], snake: ["Snake", "KEEP GROWING", "Collect food without hitting a wall or yourself. Coach favors open escape space."], memory: ["Memory Match", "LOOK. REMEMBER. MATCH.", "Find every pair. Coach only recalls cards you have already revealed."], ttt: ["Tic-tac-toe", "THREE IN A ROW", "Complete a row, column or diagonal. Try the computer or a second player."], sudoku: ["Sudoku", "REASON IT THROUGH", "Fill each row, column and 3 \xD7 3 box with 1\u20139. Use notes or ask for a logical hint."], mines: ["Minesweeper", "READ THE CLUES", "Reveal every safe square. Your first click and its neighbors are protected. Flag suspected mines. Scroll the board on small screens."], connect4: ["Connect Four", "THINK A FEW MOVES AHEAD", "Drop discs into columns. Make four in a row horizontally, vertically or diagonally."] }[id];
     $("gameTitle").textContent = info[0];
     $("gameTag").textContent = info[1];
     $("instructions").textContent = info[2];
     board2.setAttribute("aria-label", info[0] + " game board");
-    $("keyboardHint").textContent = game === "snake" ? "Arrows or WASD \xB7 Space pauses \xB7 leaving this tab pauses play." : game === "2048" ? "Focus the board, then use arrow keys, swipe or the direction buttons." : game === "sudoku" ? "Arrow keys select a cell \xB7 1\u20139 enter a digit \xB7 Delete clears \xB7 N toggles notes." : "Tab and Enter select squares and actions. All games support touch controls.";
-    if (game !== "2048") selectSetting(game === "memory" ? "Board size" : game === "snake" ? "Speed" : "Difficulty", game === "memory" ? [["easy", "6 pairs"], ["medium", "8 pairs"], ["hard", "12 pairs"]] : game === "snake" ? [["easy", "Relaxed"], ["medium", "Normal"], ["hard", "Fast"]] : [["easy", "Easy"], ["medium", "Medium"], ["hard", game === "ttt" ? "Unbeatable" : "Hard"]], settings().level, (v) => {
+    $("keyboardHint").textContent = game === "snake" ? "Arrows or WASD \xB7 Space pauses \xB7 leaving this tab pauses play." : game === "2048" ? "Focus the board, then use arrow keys, swipe or the direction buttons." : game === "sliding" ? "Arrow keys move a numbered tile toward the arrow \xB7 touch or click an adjacent tile." : game === "sudoku" ? "Arrow keys select a cell \xB7 1\u20139 enter a digit \xB7 Delete clears \xB7 N toggles notes." : "Tab and Enter select squares and actions. All games support touch controls.";
+    if (game !== "2048") selectSetting(game === "sliding" ? "Puzzle size" : game === "lights" ? "Pattern" : game === "code" ? "Code digits" : game === "memory" ? "Board size" : game === "snake" ? "Speed" : "Difficulty", game === "sliding" ? [["easy", "3 \xD7 3 \xB7 gentle"], ["medium", "3 \xD7 3 \xB7 mixed"], ["hard", "4 \xD7 4 \xB7 mixed"]] : game === "lights" ? [["easy", "4 \xD7 4"], ["medium", "5 \xD7 5 \xB7 gentle"], ["hard", "5 \xD7 5 \xB7 mixed"]] : game === "code" ? [["easy", "1\u20134"], ["medium", "1\u20135"], ["hard", "1\u20136"]] : game === "memory" ? [["easy", "6 pairs"], ["medium", "8 pairs"], ["hard", "12 pairs"]] : game === "snake" ? [["easy", "Relaxed"], ["medium", "Normal"], ["hard", "Fast"]] : [["easy", "Easy"], ["medium", "Medium"], ["hard", game === "ttt" ? "Unbeatable" : "Hard"]], settings().level, (v) => {
       profile.settings[game] = { ...settings(), level: v };
     });
-    if (["ttt", "connect4"].includes(game)) selectSetting("Opponent", [["solo", "Computer"], ["two", "Two players"]], settings().mode, (v) => {
+    if (["ttt", "connect4", "reversi"].includes(game)) selectSetting("Opponent", [["solo", "Computer"], ["two", "Two players"]], settings().mode, (v) => {
       profile.settings[game] = { ...settings(), mode: v };
     });
     if (game === "2048") {
@@ -705,8 +900,23 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       b.setAttribute("aria-pressed", "false");
       $("gameControls").append(b);
     }
+    if (game === "sliding") {
+      const b = button("Undo", () => {
+        if (!state.undo || thinking) return;
+        state.board = state.undo;
+        state.undo = null;
+        state.moves = Math.max(0, state.moves - 1);
+        state.credited = false;
+        clearHint();
+        render();
+        board2.focus();
+      });
+      b.id = "slidingUndo";
+      $("gameControls").append(b);
+    }
     render();
     saveSoon();
+    if (game === "reversi") void computerReversi();
   }
   function clearHint() {
     $("hintText").textContent = "";
@@ -718,8 +928,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     if (ended() && !state.credited) {
       state.credited = true;
       const setting2 = settings(), key2 = game + ":" + setting2.level + ":" + setting2.mode + ":" + (state.hints ? "assisted" : "solo");
-      const win = game === "mines" ? state.won : game === "snake" ? true : game === "sudoku" ? state.completed : true;
-      if (game === "ttt" || game === "connect4") {
+      const win = game === "mines" ? state.won : game === "snake" ? true : game === "sudoku" ? state.completed : game === "code" ? codeWon(state) : true;
+      if (["ttt", "connect4", "reversi"].includes(game)) {
         const winner = ended();
         profile.matches[game][winner]++;
       } else if (win) {
@@ -730,10 +940,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
     const setting = settings(), key = game + ":" + setting.level + ":" + setting.mode + ":" + (state.hints ? "assisted" : "solo"), best = profile.best[key];
     $("record").textContent = (best === void 0 ? "No completed personal best yet." : "Personal best: " + best + (["2048", "snake"].includes(game) ? " points" : " moves")) + (state.hints ? " \xB7 Assisted (" + state.hints + " hints)." : " \xB7 No hints used.");
-    $("scoreboard").textContent = ["ttt", "connect4"].includes(game) ? "Match scoreboard \xB7 X " + profile.matches[game].X + " \xB7 O " + profile.matches[game].O + " \xB7 Draws " + profile.matches[game].draw : "";
+    $("scoreboard").textContent = ["ttt", "connect4", "reversi"].includes(game) ? "Match scoreboard \xB7 X " + profile.matches[game].X + " \xB7 O " + profile.matches[game].O + " \xB7 Draws " + profile.matches[game].draw : "";
   }
   function render() {
-    board2.className = { 2048: "tiles", snake: "snake", memory: "memory", ttt: "ttt", sudoku: "sudoku", mines: "mines", connect4: "connect4" }[game];
+    board2.className = { 2048: "tiles", snake: "snake", memory: "memory", ttt: "ttt", sudoku: "sudoku", mines: "mines", connect4: "connect4", reversi: "reversi", sliding: "sliding", lights: "lights", code: "code" }[game];
     board2.replaceChildren();
     if (game === "2048") {
       for (const v of state.board) {
@@ -820,6 +1030,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       }
       setStatus(end === "draw" ? "A draw." : end ? end + " wins!" : turn + " to play" + (settings().mode === "solo" ? " \xB7 You are X." : ""));
     }
+    renderExtras();
     if (analysisFailure) setStatus(analysisFailure);
     $("hint").disabled = !!ended() || thinking;
     record();
@@ -982,6 +1193,13 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       }
       if (game === "sudoku") info = await analyse("sudokuHint", state);
       if (game === "mines") info = mineHint(state);
+      if (game === "reversi") {
+        const cell = await analyse("reversi", { board: state.board, player: state.turn, level: "hard" });
+        info = { cells: cell < 0 ? [] : [cell], text: "Try the highlighted square. Bounded four-ply search weighs corners, mobility and vulnerable edges; it is not unbeatable." };
+      }
+      if (game === "sliding") info = await analyse("sliding", { board: state.board, size: state.size });
+      if (game === "lights") info = lightsHint(state);
+      if (game === "code") info = await analyse("code", { colors: state.colors, history: state.history });
       if (epoch !== analysisEpoch || JSON.stringify({ ...state, hints: state.hints - 1 }) !== snapshot) return;
       hintInfo = info;
       $("hintText").textContent = info.text;
@@ -1018,6 +1236,13 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
   };
   board2.onkeydown = (e) => {
+    if (!state || thinking) return;
+    if (game === "sliding" && ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      e.preventDefault();
+      const blank = state.board.indexOf(0), delta = { ArrowUp: state.size, ArrowDown: -state.size, ArrowLeft: 1, ArrowRight: -1 }[e.key];
+      playSliding(blank + delta);
+      return;
+    }
     if (game === "sudoku") {
       if (e.key >= "1" && e.key <= "9") {
         e.preventDefault();
@@ -1152,5 +1377,160 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     $("guideLink").hidden = true;
   }
   start(game, profile.enabled);
+  function focusPlayable() {
+    board2.querySelector("button:not(:disabled)")?.focus();
+  }
+  function revealGameChoice() {
+    const choice = picker.querySelector("[aria-pressed=true]");
+    if (!choice || picker.scrollWidth <= picker.clientWidth) return;
+    const a = choice.getBoundingClientRect(), b = picker.getBoundingClientRect();
+    if (a.left < b.left + 4) picker.scrollLeft += a.left - b.left - 4;
+    else if (a.right > b.right - 4) picker.scrollLeft += a.right - b.right + 4;
+  }
+  window.addEventListener("resize", () => requestAnimationFrame(revealGameChoice));
+  function renderExtras() {
+    if (game === "reversi") {
+      const legal = reversiMoves(state.board, state.turn), end = ended();
+      state.board.forEach((v, i) => {
+        const allowed = legal.includes(i), b = button(
+          v || (allowed ? "\xB7" : ""),
+          () => takeReversi(i),
+          "Row " + (Math.floor(i / 8) + 1) + ", column " + (i % 8 + 1) + ", " + (v || (allowed ? "legal move, flips " + reversiFlips(state.board, i, state.turn).length + " discs" : "empty"))
+        );
+        b.className = "reversi-cell " + (v || "") + (allowed ? " legal" : "");
+        b.disabled = !!end || !allowed || thinking || settings().mode === "solo" && state.turn === "O";
+        board2.append(b);
+      });
+      const counts = "X " + state.board.filter((v) => v === "X").length + " \xB7 O " + state.board.filter((v) => v === "O").length;
+      setStatus(counts + " \xB7 " + (end === "draw" ? "A draw." : end ? end + " wins!" : state.turn + " to play" + (settings().mode === "solo" ? " \xB7 You are X." : "")));
+      if (!end && settings().mode === "solo" && state.turn === "O" && !thinking) {
+        const retry = button("Continue computer turn", () => {
+          analysisFailure = "";
+          void computerReversi();
+        });
+        board2.append(retry);
+      }
+    }
+    if (game === "sliding") {
+      board2.style.setProperty("--puzzle-size", state.size);
+      const legal = slidingNeighbors(state.board, state.size);
+      state.board.forEach((v, i) => {
+        const b = button(v ? String(v) : "", () => playSliding(i), v ? "Slide tile " + v : "Empty square");
+        b.disabled = !legal.includes(i) || !!ended();
+        b.className = v ? "puzzle-tile" : "empty-square";
+        board2.append(b);
+      });
+      $("slidingUndo").disabled = !state.undo || thinking;
+      setStatus(ended() ? "Puzzle complete in " + state.moves + (state.moves === 1 ? " move!" : " moves!") : state.moves + " moves \xB7 Arrange 1\u2013" + (state.board.length - 1) + " in order.");
+    }
+    if (game === "lights") {
+      board2.style.setProperty("--puzzle-size", state.size);
+      state.board.forEach((v, i) => {
+        const b = button(v ? "\u25CF" : "\u25CB", () => playLights(i), "Row " + (Math.floor(i / state.size) + 1) + ", column " + (i % state.size + 1) + ", " + (v ? "on" : "off"));
+        b.className = v ? "light-on" : "light-off";
+        b.setAttribute("aria-pressed", String(!!v));
+        b.disabled = !!ended();
+        board2.append(b);
+      });
+      setStatus(ended() ? "All lights off in " + state.moves + (state.moves === 1 ? " move!" : " moves!") : state.board.filter(Boolean).length + " lights on \xB7 " + state.moves + " moves");
+    }
+    if (game === "code") {
+      const history = node("ol", void 0, "code-history");
+      history.setAttribute("aria-label", "Guess history");
+      for (const r of state.history) {
+        const row = node("li");
+        row.append(node("strong", r.guess.join(" ")), node("span", r.exact + " exact \xB7 " + r.misplaced + " misplaced"));
+        history.append(row);
+      }
+      if (state.history.length) board2.append(history);
+      if (!ended()) {
+        const draft = node("div", void 0, "code-draft");
+        state.draft.forEach((v, i) => {
+          const label = node("label", "Digit " + (i + 1)), select = node("select");
+          for (let digit = 1; digit <= state.colors; digit++) {
+            const option = node("option", String(digit));
+            option.value = digit;
+            select.append(option);
+          }
+          select.setAttribute("aria-label", "Digit " + (i + 1));
+          select.value = v;
+          select.onchange = () => {
+            state.draft[i] = Number(select.value);
+            clearHint();
+            saveSoon();
+          };
+          label.append(select);
+          draft.append(label);
+        });
+        const submit = button("Check guess", () => {
+          if (thinking) return;
+          state = { ...state, ...submitCode(state), moves: state.moves + 1 };
+          clearHint();
+          render();
+          board2.querySelector(".check-code")?.focus();
+          if (ended()) board2.focus();
+        });
+        submit.className = "check-code";
+        board2.append(draft, submit);
+      } else board2.append(node("p", "The code was " + state.secret.join(" ") + ".", "code-answer"));
+      setStatus(codeWon(state) ? "Code cracked in " + state.moves + (state.moves === 1 ? " guess!" : " guesses!") : ended() ? "No guesses left. Try a new code." : 10 - state.history.length + " guesses left \xB7 Digits 1\u2013" + state.colors + "; repeats allowed.");
+    }
+  }
+  function takeReversi(cell) {
+    if (thinking || ended() || settings().mode === "solo" && state.turn === "O") return;
+    const next2 = playReversi(state, cell);
+    if (!next2) return;
+    clearHint();
+    state = { ...state, ...next2, moves: state.moves + 1 };
+    render();
+    if (settings().mode === "solo") void computerReversi();
+    else focusPlayable();
+  }
+  async function computerReversi() {
+    if (game !== "reversi" || thinking || ended() || settings().mode !== "solo" || state.turn !== "O") return;
+    const epoch = analysisEpoch;
+    thinking = true;
+    render();
+    try {
+      while (epoch === analysisEpoch && game === "reversi" && !ended() && state.turn === "O") {
+        setStatus("Computer is thinking\u2026");
+        const cell = await analyse("reversi", { board: state.board, player: "O", level: settings().level });
+        if (epoch !== analysisEpoch) return;
+        const next2 = playReversi(state, cell);
+        if (!next2) throw Error("No legal computer move was returned.");
+        state = { ...state, ...next2, moves: state.moves + 1 };
+        render();
+      }
+    } catch (e) {
+      if (epoch === analysisEpoch && e.name !== "AbortError") analysisFailure = e.message + " Retry the computer turn or choose Two players.";
+    } finally {
+      if (epoch === analysisEpoch) {
+        thinking = false;
+        render();
+        focusPlayable();
+      }
+    }
+  }
+  function playSliding(cell) {
+    if (thinking || ended()) return;
+    const next2 = slidePuzzle(state.board, state.size, cell);
+    if (!next2) return;
+    const blank = state.board.indexOf(0);
+    state.undo = state.board;
+    state.board = next2;
+    state.moves++;
+    clearHint();
+    render();
+    board2.children[blank]?.focus();
+  }
+  function playLights(cell) {
+    if (thinking || ended()) return;
+    state.board = toggleLights(state.board, state.size, cell);
+    state.moves++;
+    clearHint();
+    render();
+    if (ended()) board2.focus();
+    else board2.children[cell]?.focus();
+  }
 })();
 </script></body></html>

@@ -1,3 +1,4 @@
+import {extraInfo,createReversi,reversiMoves,reversiFlips,reversiOutcome,playReversi,createSliding,slidingSolved,slidingNeighbors,slidePuzzle,createLights,toggleLights,lightsHint,createCode,codeOver,codeWon,submitCode} from './extras.js';
 import {analyse,cancelAnalysis} from './analysis.js';
 import{outcome,slide2048,spawnTile,canMove2048,foodFor,stepSnake,vectors}from'./engines.js';
 import{gameIds,memoryDeck,memoryHint,tttMove,hint2048,snakeHint,createSudoku,sudokuConflicts,sudokuHint,createMines,revealMine,mineNeighbors,mineHint,connectWinner,dropDisc,connectMove}from'./brain.js';
@@ -11,7 +12,7 @@ function node(tag,text,cls){const n=document.createElement(tag);if(text!==undefi
 function button(text,run,label){const b=node('button',text);b.type='button';b.onclick=run;if(label)b.setAttribute('aria-label',label);return b}
 function settings(id=game){return profile.settings[id]||{level:id==='ttt'?'hard':id==='mines'?'easy':'medium',mode:'solo'}}
 function meta(s){return{...s,moves:0,hints:0,credited:false}}
-function ended(){if(!state)return true;if(game==='2048')return!canMove2048(state.board);if(game==='ttt')return outcome(state.board);if(game==='connect4')return connectWinner(state.board);if(game==='memory')return state.matched.length===state.deck.length;if(game==='sudoku')return state.completed;return state.over}
+function ended(){if(!state)return true;if(game==='2048')return!canMove2048(state.board);if(game==='ttt')return outcome(state.board);if(game==='connect4')return connectWinner(state.board);if(game==='memory')return state.matched.length===state.deck.length;if(game==='sudoku')return state.completed;if(game==='reversi')return reversiOutcome(state.board);if(game==='sliding')return slidingSolved(state.board);if(game==='lights')return !state.board.some(Boolean);if(game==='code')return codeOver(state);return state.over}
 function setStatus(text){if(status.textContent!==text)status.textContent=text}
 function saveNow(){clearTimeout(persistTimer);persistTimer=null;if(!state||!profile.enabled||saveError)return;sessions[game]=structuredClone(state);profile.saves=structuredClone(sessions);profile.active=game;try{writeProfile(localStorage,profile);$('saveStatus').textContent='Progress and bests saved on this device. Snake resumes paused.'}catch{saveError='Could not save Games progress. Your current game is still playable; storage may be unavailable or full.';$('saveStatus').textContent=saveError}}
 function saveSoon(){if(profile.enabled&&!persistTimer)persistTimer=setTimeout(saveNow,600)}
@@ -20,6 +21,10 @@ function stop(){analysisEpoch++;thinking=false;analysisFailure='';cancelAnalysis
 function directions(action){const pad=node('div',undefined,'dpad');for(const[d,s]of[['up','↑'],['left','←'],['down','↓'],['right','→']])pad.append(button(s,()=>action(d),'Move '+d));return pad}
 function wantRestart(){if(state?.moves&&!ended())return confirm('Start a new game? Current progress for this game will be replaced.');return true}
 function newState(id){const level=settings(id).level;
+ if(id==='reversi')return meta(createReversi());
+ if(id==='sliding')return meta(createSliding(level));
+ if(id==='lights')return meta(createLights(level));
+ if(id==='code')return meta(createCode(level));
  if(id==='2048')return meta({board:spawnTile(spawnTile(Array(16).fill(0))),score:0,undo:null});
  if(id==='snake'){const body=[[7,7],[6,7],[5,7]];return meta({body,food:foodFor(body),direction:'right',score:0,over:false,won:false})}
  if(id==='memory')return meta({deck:memoryDeck({easy:6,medium:8,hard:12}[level]),open:[],matched:[],seen:{}});
@@ -30,27 +35,30 @@ function selectSetting(label,values,value,change){const wrap=node('label',label+
 async function start(id,resume=true){if(state){if(game==='memory')state.open=[];sessions[game]=structuredClone(state)}stop();game=id;state=null;hintInfo=null;flagMode=false;$('gameControls').replaceChildren();$('gameOptions').replaceChildren();const epoch=analysisEpoch;board.replaceChildren();setStatus('Preparing board…');try{const next=resume&&sessions[id]?structuredClone(sessions[id]):id==='sudoku'?meta(await analyse('createSudoku',settings(id).level)):newState(id);if(epoch!==analysisEpoch)return;state=next}catch(e){if(e.name!=='AbortError')setStatus(e.message);return}if(game==='memory')state.open=[];if(game==='sudoku'&&(state.selected<0||state.selected>80))state.selected=0;
  board.replaceChildren();$('gameControls').replaceChildren();$('gameOptions').replaceChildren();$('hintText').textContent='';$('applyHint').hidden=true;
  for(const b of picker.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.game===game));
- const info={2048:['2048','ONE MORE MERGE','Combine equal tiles. Coach estimates two moves ahead; Undo takes back one move.'],snake:['Snake','KEEP GROWING','Collect food without hitting a wall or yourself. Coach favors open escape space.'],memory:['Memory Match','LOOK. REMEMBER. MATCH.','Find every pair. Coach only recalls cards you have already revealed.'],ttt:['Tic-tac-toe','THREE IN A ROW','Complete a row, column or diagonal. Try the computer or a second player.'],sudoku:['Sudoku','REASON IT THROUGH','Fill each row, column and 3 × 3 box with 1–9. Use notes or ask for a logical hint.'],mines:['Minesweeper','READ THE CLUES','Reveal every safe square. Your first click and its neighbors are protected. Flag suspected mines. Scroll the board on small screens.'],connect4:['Connect Four','THINK A FEW MOVES AHEAD','Drop discs into columns. Make four in a row horizontally, vertically or diagonally.']}[id];
+ revealGameChoice();
+ const info={...extraInfo,2048:['2048','ONE MORE MERGE','Combine equal tiles. Coach estimates two moves ahead; Undo takes back one move.'],snake:['Snake','KEEP GROWING','Collect food without hitting a wall or yourself. Coach favors open escape space.'],memory:['Memory Match','LOOK. REMEMBER. MATCH.','Find every pair. Coach only recalls cards you have already revealed.'],ttt:['Tic-tac-toe','THREE IN A ROW','Complete a row, column or diagonal. Try the computer or a second player.'],sudoku:['Sudoku','REASON IT THROUGH','Fill each row, column and 3 × 3 box with 1–9. Use notes or ask for a logical hint.'],mines:['Minesweeper','READ THE CLUES','Reveal every safe square. Your first click and its neighbors are protected. Flag suspected mines. Scroll the board on small screens.'],connect4:['Connect Four','THINK A FEW MOVES AHEAD','Drop discs into columns. Make four in a row horizontally, vertically or diagonally.']}[id];
  $('gameTitle').textContent=info[0];$('gameTag').textContent=info[1];$('instructions').textContent=info[2];board.setAttribute('aria-label',info[0]+' game board');
- $('keyboardHint').textContent=game==='snake'?'Arrows or WASD · Space pauses · leaving this tab pauses play.':game==='2048'?'Focus the board, then use arrow keys, swipe or the direction buttons.':game==='sudoku'?'Arrow keys select a cell · 1–9 enter a digit · Delete clears · N toggles notes.':'Tab and Enter select squares and actions. All games support touch controls.';
- if(game!=='2048')selectSetting(game==='memory'?'Board size':game==='snake'?'Speed':'Difficulty',game==='memory'?[['easy','6 pairs'],['medium','8 pairs'],['hard','12 pairs']]:game==='snake'?[['easy','Relaxed'],['medium','Normal'],['hard','Fast']]:[['easy','Easy'],['medium','Medium'],['hard',game==='ttt'?'Unbeatable':'Hard']],settings().level,v=>{profile.settings[game]={...settings(),level:v}});
- if(['ttt','connect4'].includes(game))selectSetting('Opponent',[['solo','Computer'],['two','Two players']],settings().mode,v=>{profile.settings[game]={...settings(),mode:v}});
+ $('keyboardHint').textContent=game==='snake'?'Arrows or WASD · Space pauses · leaving this tab pauses play.':game==='2048'?'Focus the board, then use arrow keys, swipe or the direction buttons.':game==='sliding'?'Arrow keys move a numbered tile toward the arrow · touch or click an adjacent tile.':game==='sudoku'?'Arrow keys select a cell · 1–9 enter a digit · Delete clears · N toggles notes.':'Tab and Enter select squares and actions. All games support touch controls.';
+ if(game!=='2048')selectSetting(game==='sliding'?'Puzzle size':game==='lights'?'Pattern':game==='code'?'Code digits':game==='memory'?'Board size':game==='snake'?'Speed':'Difficulty',game==='sliding'?[['easy','3 × 3 · gentle'],['medium','3 × 3 · mixed'],['hard','4 × 4 · mixed']]:game==='lights'?[['easy','4 × 4'],['medium','5 × 5 · gentle'],['hard','5 × 5 · mixed']]:game==='code'?[['easy','1–4'],['medium','1–5'],['hard','1–6']]:game==='memory'?[['easy','6 pairs'],['medium','8 pairs'],['hard','12 pairs']]:game==='snake'?[['easy','Relaxed'],['medium','Normal'],['hard','Fast']]:[['easy','Easy'],['medium','Medium'],['hard',game==='ttt'?'Unbeatable':'Hard']],settings().level,v=>{profile.settings[game]={...settings(),level:v}});
+ if(['ttt','connect4','reversi'].includes(game))selectSetting('Opponent',[['solo','Computer'],['two','Two players']],settings().mode,v=>{profile.settings[game]={...settings(),mode:v}});
  if(game==='2048'){const undo=button('Undo',()=>{if(!state.undo)return;const prev=state.undo;state={...state,...prev,undo:null,credited:false,moves:Math.max(0,state.moves-1)};clearHint();render()});undo.id='undo';$('gameControls').append(undo,directions(move2048))}
  if(game==='snake'){const b=button('Start / Resume',toggleSnake);b.id='pause';$('gameControls').append(b,directions(steer))}
  if(game==='sudoku'){const notes=button('Notes: off',()=>{state.noteMode=!state.noteMode;render()});notes.id='notes';$('gameControls').append(notes);const keypad=node('div',undefined,'keypad');for(let n=1;n<=9;n++)keypad.append(button(String(n),()=>enterSudoku(n),'Enter '+n));keypad.append(button('Clear',()=>enterSudoku(0)));$('gameControls').append(keypad)}
  if(game==='mines'){const b=button('Action: Reveal',()=>{flagMode=!flagMode;b.textContent='Action: '+(flagMode?'Flag':'Reveal');b.setAttribute('aria-pressed',String(flagMode))});b.id='flagMode';b.setAttribute('aria-pressed','false');$('gameControls').append(b)}
- render();saveSoon();
+ if(game==='sliding'){const b=button('Undo',()=>{if(!state.undo||thinking)return;state.board=state.undo;state.undo=null;state.moves=Math.max(0,state.moves-1);state.credited=false;clearHint();render();board.focus()});b.id='slidingUndo';$('gameControls').append(b)}
+ render();saveSoon();if(game==='reversi')void computerReversi();
 }
+
 function clearHint(){$('hintText').textContent='';$('applyHint').hidden=true;hintInfo=null;board.querySelectorAll('.suggested').forEach(e=>e.classList.remove('suggested'))}
-function record(){if(ended()&&!state.credited){state.credited=true;const setting=settings(),key=game+':'+setting.level+':'+setting.mode+':'+(state.hints?'assisted':'solo');const win=game==='mines'?state.won:game==='snake'?true:game==='sudoku'?state.completed:true;
- if(game==='ttt'||game==='connect4'){const winner=ended();profile.matches[game][winner]++}
+function record(){if(ended()&&!state.credited){state.credited=true;const setting=settings(),key=game+':'+setting.level+':'+setting.mode+':'+(state.hints?'assisted':'solo');const win=game==='mines'?state.won:game==='snake'?true:game==='sudoku'?state.completed:game==='code'?codeWon(state):true;
+ if(['ttt','connect4','reversi'].includes(game)){const winner=ended();profile.matches[game][winner]++}
  else if(win){const n=['2048','snake'].includes(game)?state.score:state.moves;if(['2048','snake'].includes(game))profile.best[key]=Math.max(profile.best[key]||0,n);else profile.best[key]=Math.min(profile.best[key]??Infinity,n)}
  }
  const setting=settings(),key=game+':'+setting.level+':'+setting.mode+':'+(state.hints?'assisted':'solo'),best=profile.best[key];
  $('record').textContent=(best===undefined?'No completed personal best yet.':'Personal best: '+best+(['2048','snake'].includes(game)?' points':' moves'))+(state.hints?' · Assisted ('+state.hints+' hints).':' · No hints used.');
- $('scoreboard').textContent=['ttt','connect4'].includes(game)?'Match scoreboard · X '+profile.matches[game].X+' · O '+profile.matches[game].O+' · Draws '+profile.matches[game].draw:'';
+ $('scoreboard').textContent=['ttt','connect4','reversi'].includes(game)?'Match scoreboard · X '+profile.matches[game].X+' · O '+profile.matches[game].O+' · Draws '+profile.matches[game].draw:'';
 }
-function render(){board.className={2048:'tiles',snake:'snake',memory:'memory',ttt:'ttt',sudoku:'sudoku',mines:'mines',connect4:'connect4'}[game];board.replaceChildren();
+function render(){board.className={2048:'tiles',snake:'snake',memory:'memory',ttt:'ttt',sudoku:'sudoku',mines:'mines',connect4:'connect4',reversi:'reversi',sliding:'sliding',lights:'lights',code:'code'}[game];board.replaceChildren();
  if(game==='2048'){for(const v of state.board){const n=node('div',v||'',v>=128?'tile high':'tile');n.dataset.value=v;n.setAttribute('role','img');n.setAttribute('aria-label',v?String(v):'Empty');board.append(n)}$('undo').disabled=!state.undo;setStatus('Score '+state.score+(ended()?' · No moves left.':state.board.some(n=>n>=2048)?' · 2048 reached! Keep going.':' · Merge equal tiles.'))}
  if(game==='snake'){const cells=Array.from({length:256},()=>node('span'));state.body.forEach((p,i)=>cells[p[1]*16+p[0]].className=i?'body':'head');if(state.food)cells[state.food[1]*16+state.food[0]].className='food';board.append(...cells);setStatus('Score '+state.score+(state.over?state.won?' · Board complete!':' · Game over.':running?' · Playing.':' · Paused.'));$('pause').textContent=running?'Pause':state.over?'Game over':'Start / Resume';$('pause').disabled=state.over}
  if(game==='ttt'){const end=outcome(state.board),turn=state.board.filter(Boolean).length%2?'O':'X';state.board.forEach((v,i)=>{const b=button(v||'·',()=>playTTT(i),'Row '+(Math.floor(i/3)+1)+', column '+(i%3+1)+(v?', '+v:', empty'));b.disabled=!!v||!!end;board.append(b)});setStatus(end==='draw'?'A draw. Play again?':end?end+' wins!':turn+' to play'+(settings().mode==='solo'?' · You are X.':''))}
@@ -58,6 +66,7 @@ function render(){board.className={2048:'tiles',snake:'snake',memory:'memory',tt
  if(game==='sudoku'){const conflicts=new Set(sudokuConflicts(state.board));state.board.forEach((v,i)=>{const text=v||Array.from({length:9},(_,n)=>state.notes[i]&(1<<n)?n+1:'').join(''),b=button(String(text||'·'),()=>{state.selected=i;render();board.children[i].focus()},'Row '+(Math.floor(i/9)+1)+', column '+(i%9+1)+', '+(v||'empty')+(state.givens[i]?', given':''));b.className=(state.givens[i]?'given ':'')+(i===state.selected?'selected ':'')+(conflicts.has(i)?'conflict ':'')+(!v&&state.notes[i]?'pencil':'');b.tabIndex=i===state.selected?0:-1;board.append(b)});$('notes').textContent='Notes: '+(state.noteMode?'on':'off');$('notes').setAttribute('aria-pressed',String(state.noteMode));setStatus(state.completed?'Puzzle complete!':conflicts.size?conflicts.size+' cells have conflicts.':state.board.filter(Boolean).length+' / 81 filled · '+state.hints+' hints')}
  if(game==='mines'){board.style.setProperty('--mine-size',state.size);for(let i=0;i<state.size**2;i++){const shown=state.revealed.includes(i),flag=state.flags.includes(i),bomb=state.over&&state.bombs?.includes(i),count=shown?mineNeighbors(i,state.size).filter(j=>state.bombs.includes(j)).length:0;const b=button(flag?'⚑':bomb?'✹':shown?count||'·':'',()=>playMine(i),'Row '+(Math.floor(i/state.size)+1)+', column '+(i%state.size+1)+', '+(!shown?'covered':count+' adjacent mines')+(flag?', flagged':''));b.className=shown?'revealed':bomb?'bomb':'';b.oncontextmenu=e=>{e.preventDefault();playMine(i,true)};board.append(b)}setStatus(state.over?state.won?'All safe squares found!':'Mine hit. Game over.':state.flags.length+' / '+state.mines+' flags · '+state.moves+' moves')}
  if(game==='connect4'){const end=connectWinner(state.board),turn=state.board.filter(Boolean).length%2?'O':'X';for(let c=0;c<7;c++){const b=button('↓',()=>playConnect(c),'Drop in column '+(c+1));b.disabled=!!state.board[c]||!!end||thinking||settings().mode==='solo'&&turn==='O';board.append(b)}for(let i=0;i<42;i++){const n=node('span',state.board[i]||'·','disc '+(state.board[i]||''));n.setAttribute('role','img');n.setAttribute('aria-label','Row '+(Math.floor(i/7)+1)+', column '+(i%7+1)+', '+(state.board[i]||'empty'));board.append(n)}setStatus(end==='draw'?'A draw.':end?end+' wins!':turn+' to play'+(settings().mode==='solo'?' · You are X.':''))}
+ renderExtras();
  if(analysisFailure)setStatus(analysisFailure);$('hint').disabled=!!ended()||thinking;record();saveSoon();
 }
 function move2048(dir){if(game!=='2048')return;const next=slide2048(state.board,dir);if(next.changed){state.undo={board:state.board.slice(),score:state.score};state.board=spawnTile(next.board);state.score+=next.score;state.moves++;clearHint();render()}}
@@ -78,6 +87,10 @@ $('hint').onclick=async()=>{if(ended()||thinking)return;const epoch=analysisEpoc
  if(game==='connect4'){const player=state.board.filter(Boolean).length%2?'O':'X',col=await analyse('connect',{board:state.board,level:'hard',player});info={cells:[col],text:'Try column '+(col+1)+'. The coach checks immediate wins and threats, then searches up to five plies with a bounded heuristic.'}}
  if(game==='sudoku')info=await analyse('sudokuHint',state);
  if(game==='mines')info=mineHint(state);
+ if(game==='reversi'){const cell=await analyse('reversi',{board:state.board,player:state.turn,level:'hard'});info={cells:cell<0?[]:[cell],text:'Try the highlighted square. Bounded four-ply search weighs corners, mobility and vulnerable edges; it is not unbeatable.'}}
+ if(game==='sliding')info=await analyse('sliding',{board:state.board,size:state.size});
+ if(game==='lights')info=lightsHint(state);
+ if(game==='code')info=await analyse('code',{colors:state.colors,history:state.history});
  if(epoch!==analysisEpoch||JSON.stringify({...state,hints:state.hints-1})!==snapshot)return;hintInfo=info;$('hintText').textContent=info.text;$('applyHint').hidden=game!=='sudoku'||!info.value;
  for(const i of info.cells||[info.cell,info.source].filter(i=>i>=0))board.children[i]?.classList.add('suggested');
  record();saveSoon();}catch(e){if(epoch===analysisEpoch&&e.name!=='AbortError')$('hintText').textContent=e.message}finally{if(epoch===analysisEpoch){thinking=false;$('hint').disabled=!!ended()}}
@@ -85,7 +98,7 @@ $('hint').onclick=async()=>{if(ended()||thinking)return;const epoch=analysisEpoc
 $('applyHint').onclick=()=>{if(game!=='sudoku'||!hintInfo?.value)return;state.selected=hintInfo.cell;state.noteMode=false;enterSudoku(hintInfo.value)};
 $('restart').onclick=()=>{if(!wantRestart())return;delete sessions[game];start(game,false);board.focus()};
 picker.onclick=e=>{const b=e.target.closest('[data-game]');if(b){start(b.dataset.game);board.focus()}};
-board.onkeydown=e=>{if(game==='sudoku'){if(e.key>='1'&&e.key<='9'){e.preventDefault();enterSudoku(Number(e.key))}else if(['Backspace','Delete','0'].includes(e.key)){e.preventDefault();enterSudoku(0)}else if(e.key.toLowerCase()==='n'){state.noteMode=!state.noteMode;render()}else if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const delta={ArrowUp:-9,ArrowDown:9,ArrowLeft:-1,ArrowRight:1}[e.key];state.selected=(state.selected+delta+81)%81;render();board.children[state.selected].focus()}return}
+board.onkeydown=e=>{if(!state||thinking)return;if(game==='sliding'&&['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const blank=state.board.indexOf(0),delta={ArrowUp:state.size,ArrowDown:-state.size,ArrowLeft:1,ArrowRight:-1}[e.key];playSliding(blank+delta);return}if(game==='sudoku'){if(e.key>='1'&&e.key<='9'){e.preventDefault();enterSudoku(Number(e.key))}else if(['Backspace','Delete','0'].includes(e.key)){e.preventDefault();enterSudoku(0)}else if(e.key.toLowerCase()==='n'){state.noteMode=!state.noteMode;render()}else if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const delta={ArrowUp:-9,ArrowDown:9,ArrowLeft:-1,ArrowRight:1}[e.key];state.selected=(state.selected+delta+81)%81;render();board.children[state.selected].focus()}return}
  const dirs={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(dirs[e.key]&&['snake','2048'].includes(game)){e.preventDefault();if(game==='snake')steer(dirs[e.key]);else move2048(dirs[e.key])}if(game==='snake'&&e.code==='Space'){e.preventDefault();toggleSnake()}};
 board.onpointerdown=e=>{origin=[e.clientX,e.clientY]};board.onpointerup=e=>{if(!origin)return;const dx=e.clientX-origin[0],dy=e.clientY-origin[1];origin=null;if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;const dir=Math.abs(dx)>Math.abs(dy)?dx>0?'right':'left':dy>0?'down':'up';if(game==='2048')move2048(dir);if(game==='snake')steer(dir)};board.onpointercancel=()=>origin=null;
 function leave(){if(!state)return;if(game==='snake')pauseSnake();if(game==='memory'&&state.open.length){state.open=[];clearTimeout(memoryTimer);render()}saveNow()}
@@ -100,3 +113,82 @@ $('exitFullscreen').onclick=async()=>{try{if(document.fullscreenElement)await do
 document.addEventListener('fullscreenchange',syncFullscreen);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&fallbackFullscreen){fallbackFullscreen=false;syncFullscreen()}});
 if(location.protocol==='file:'){$('studioLink').href='./Calc_Studio_Offline.html';$('guideLink').hidden=true}
 start(game,profile.enabled);
+
+function focusPlayable() { board.querySelector('button:not(:disabled)')?.focus(); }
+function revealGameChoice() {
+ const choice=picker.querySelector('[aria-pressed=true]');if(!choice||picker.scrollWidth<=picker.clientWidth)return;
+ const a=choice.getBoundingClientRect(),b=picker.getBoundingClientRect();
+ if(a.left<b.left+4)picker.scrollLeft+=a.left-b.left-4;
+ else if(a.right>b.right-4)picker.scrollLeft+=a.right-b.right+4;
+}
+window.addEventListener('resize',()=>requestAnimationFrame(revealGameChoice));
+function renderExtras() {
+ if(game==='reversi') {
+  const legal=reversiMoves(state.board,state.turn),end=ended();
+  state.board.forEach((v,i)=>{
+   const allowed=legal.includes(i),b=button(v|| (allowed?'·':''),()=>takeReversi(i),
+    'Row '+(Math.floor(i/8)+1)+', column '+(i%8+1)+', '+(v|| (allowed?'legal move, flips '+reversiFlips(state.board,i,state.turn).length+' discs':'empty')));
+   b.className='reversi-cell '+(v||'')+(allowed?' legal':'');
+   b.disabled=!!end||!allowed||thinking||settings().mode==='solo'&&state.turn==='O';board.append(b);
+  });
+  const counts='X '+state.board.filter(v=>v==='X').length+' · O '+state.board.filter(v=>v==='O').length;
+  setStatus(counts+' · '+(end==='draw'?'A draw.':end?end+' wins!':state.turn+' to play'+(settings().mode==='solo'?' · You are X.':'')));
+  if(!end&&settings().mode==='solo'&&state.turn==='O'&&!thinking) {
+   const retry=button('Continue computer turn',()=>{analysisFailure='';void computerReversi()});board.append(retry);
+  }
+ }
+ if(game==='sliding') {
+  board.style.setProperty('--puzzle-size',state.size);const legal=slidingNeighbors(state.board,state.size);
+  state.board.forEach((v,i)=>{const b=button(v?String(v):'',()=>playSliding(i),v?'Slide tile '+v:'Empty square');b.disabled=!legal.includes(i)||!!ended();b.className=v?'puzzle-tile':'empty-square';board.append(b)});
+  $('slidingUndo').disabled=!state.undo||thinking;
+  setStatus(ended()?'Puzzle complete in '+state.moves+(state.moves===1?' move!':' moves!'):state.moves+' moves · Arrange 1–'+(state.board.length-1)+' in order.');
+ }
+ if(game==='lights') {
+  board.style.setProperty('--puzzle-size',state.size);
+  state.board.forEach((v,i)=>{const b=button(v?'●':'○',()=>playLights(i),'Row '+(Math.floor(i/state.size)+1)+', column '+(i%state.size+1)+', '+(v?'on':'off'));b.className=v?'light-on':'light-off';b.setAttribute('aria-pressed',String(!!v));b.disabled=!!ended();board.append(b)});
+  setStatus(ended()?'All lights off in '+state.moves+(state.moves===1?' move!':' moves!'):state.board.filter(Boolean).length+' lights on · '+state.moves+' moves');
+ }
+ if(game==='code') {
+  const history=node('ol',undefined,'code-history');history.setAttribute('aria-label','Guess history');
+  for(const r of state.history){const row=node('li');row.append(node('strong',r.guess.join(' ')),node('span',r.exact+' exact · '+r.misplaced+' misplaced'));history.append(row)}
+  if(state.history.length)board.append(history);
+  if(!ended()) {
+   const draft=node('div',undefined,'code-draft');
+   state.draft.forEach((v,i)=>{const label=node('label','Digit '+(i+1)),select=node('select');
+    for(let digit=1;digit<=state.colors;digit++){const option=node('option',String(digit));option.value=digit;select.append(option)}
+    select.setAttribute('aria-label','Digit '+(i+1));select.value=v;select.onchange=()=>{state.draft[i]=Number(select.value);clearHint();saveSoon()};label.append(select);draft.append(label);
+   });
+   const submit=button('Check guess',()=>{if(thinking)return;state={...state,...submitCode(state),moves:state.moves+1};clearHint();render();board.querySelector('.check-code')?.focus();if(ended())board.focus()});submit.className='check-code';
+   board.append(draft,submit);
+  } else board.append(node('p','The code was '+state.secret.join(' ')+'.','code-answer'));
+  setStatus(codeWon(state)?'Code cracked in '+state.moves+(state.moves===1?' guess!':' guesses!'):ended()?'No guesses left. Try a new code.':(10-state.history.length)+' guesses left · Digits 1–'+state.colors+'; repeats allowed.');
+ }
+}
+function takeReversi(cell) {
+ if(thinking||ended()||settings().mode==='solo'&&state.turn==='O')return;
+ const next=playReversi(state,cell);if(!next)return;
+ clearHint();state={...state,...next,moves:state.moves+1};render();
+ if(settings().mode==='solo')void computerReversi();else focusPlayable();
+}
+async function computerReversi() {
+ if(game!=='reversi'||thinking||ended()||settings().mode!=='solo'||state.turn!=='O')return;
+ const epoch=analysisEpoch;thinking=true;render();
+ try {
+  while(epoch===analysisEpoch&&game==='reversi'&&!ended()&&state.turn==='O') {
+   setStatus('Computer is thinking…');
+   const cell=await analyse('reversi',{board:state.board,player:'O',level:settings().level});
+   if(epoch!==analysisEpoch)return;
+   const next=playReversi(state,cell);if(!next)throw Error('No legal computer move was returned.');
+   state={...state,...next,moves:state.moves+1};render();
+  }
+ } catch(e) {if(epoch===analysisEpoch&&e.name!=='AbortError')analysisFailure=e.message+' Retry the computer turn or choose Two players.';}
+ finally {if(epoch===analysisEpoch){thinking=false;render();focusPlayable();}}
+}
+function playSliding(cell) {
+ if(thinking||ended())return;const next=slidePuzzle(state.board,state.size,cell);if(!next)return;
+ const blank=state.board.indexOf(0);state.undo=state.board;state.board=next;state.moves++;clearHint();render();board.children[blank]?.focus();
+}
+function playLights(cell) {
+ if(thinking||ended())return;state.board=toggleLights(state.board,state.size,cell);state.moves++;clearHint();render();
+ if(ended())board.focus();else board.children[cell]?.focus();
+}

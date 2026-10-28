@@ -73,6 +73,7 @@ jobs:
       - run: npx playwright install --with-deps "${{ matrix.browser }}"
       - run: npm run build
       - run: npm run test:home-redesign
+      - run: npm run test:games-extra
       - run: npm run test:pdf-ui
       - run: npm run test:reliability
         env:
