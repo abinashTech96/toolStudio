@@ -1,6 +1,6 @@
 {
   "name": "toolstudio",
-  "version": "41.0.0",
+  "version": "41.1.0",
   "private": true,
   "type": "module",
   "description": "ToolStudio: modular tools for everyday work",
@@ -30,7 +30,7 @@
     "test:v39": "node tests/v39.unit.mjs && node tests/v39.browser.mjs",
     "test:v40": "node tests/v40.unit.mjs && node tests/v40-backlog.unit.mjs && node tests/v40.browser.mjs && node tests/v40-backlog.browser.mjs",
     "test:coverage": "node scripts/route-coverage.mjs",
-    "test:home-redesign": "node tests/home-redesign.unit.mjs && node tests/home-redesign.browser.mjs"
+    "test:home-redesign": "node tests/home-redesign.unit.mjs && node tests/home-redesign.browser.mjs && node tests/home-compact.browser.mjs"
   },
   "engines": {
     "node": ">=22.13"

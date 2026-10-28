@@ -1,6 +1,6 @@
 {
   "version": 35,
-  "appVersion": "41.0.0",
+  "appVersion": "41.1.0",
   "categories": 11,
   "workspaces": 84,
   "sourceModules": 97,
@@ -8,7 +8,7 @@
   "totalRoutes": 139,
   "initialHTMLBytes": 268189,
   "runtimeChunkBytes": 2424561,
-  "offlineBytes": 26347979,
+  "offlineBytes": 26355025,
   "ocrAssetsVerified": 3,
-  "revision": "c8283b26edf993e2"
+  "revision": "d6aed9058b7720c6"
 }
