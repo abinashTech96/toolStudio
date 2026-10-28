@@ -1,6 +1,6 @@
 {
   "name": "toolstudio",
-  "version": "43.0.0",
+  "version": "44.0.0",
   "private": true,
   "type": "module",
   "description": "ToolStudio: modular tools for everyday work",
@@ -18,7 +18,7 @@
     "test:updates": "node tests/update.browser.mjs && node tests/update-ui.browser.mjs",
     "benchmark": "node tests/benchmark.mjs",
     "test:navigation": "node tests/architecture.unit.mjs && node tests/navigation.browser.mjs",
-    "test:games": "node tests/games.unit.mjs && node tests/games-brain.unit.mjs && node tests/games.browser.mjs && node tests/games-brain.browser.mjs && npm run test:games-extra && npm run test:arcade",
+    "test:games": "node tests/games.unit.mjs && node tests/games-brain.unit.mjs && node tests/games.browser.mjs && node tests/games-brain.browser.mjs && npm run test:games-extra && npm run test:arcade && npm run test:play-setup",
     "test:home-extras": "node tests/home-extras.unit.mjs && node tests/home-extras.browser.mjs && node tests/home-release.browser.mjs",
     "test:connection": "node tests/connection-guide.unit.mjs && node tests/connection.browser.mjs",
     "test:career": "node tests/career.unit.mjs && node tests/career-simple.unit.mjs && node tests/career.browser.mjs && node tests/career-simple.browser.mjs",
@@ -32,7 +32,8 @@
     "test:coverage": "node scripts/route-coverage.mjs",
     "test:home-redesign": "node tests/home-redesign.unit.mjs && node tests/home-redesign.browser.mjs && node tests/home-compact.browser.mjs",
     "test:games-extra": "node tests/games-extra.unit.mjs && node tests/games-extra.browser.mjs",
-    "test:arcade": "node tests/arcade43.unit.mjs && node tests/arcade43.browser.mjs"
+    "test:arcade": "node tests/arcade43.unit.mjs && node tests/arcade43.browser.mjs",
+    "test:play-setup": "node tests/play44.unit.mjs && node tests/play44.browser.mjs"
   },
   "engines": {
     "node": ">=22.13"

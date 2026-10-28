@@ -7,6 +7,6 @@ export async function gameLibrary(page){
 export async function gameSettings(page){if(await page.locator('#settingsPanel').isHidden())await page.locator('#settingsToggle').click()}
 export async function chooseGame(page,id,{settings=true}={}){
  await gameLibrary(page);await page.locator('[data-game="'+id+'"]').click();
- await page.waitForFunction(id=>document.querySelector('[data-game="'+id+'"]').getAttribute('aria-pressed')==='true'&&document.querySelector('#board').children.length>0,id);
+ await page.waitForFunction(id=>document.querySelector('[data-game="'+id+'"]').getAttribute('aria-pressed')==='true'&&(document.querySelector('#board').children.length>0||!document.querySelector('#localRound').hidden),id);
  if(settings)await gameSettings(page);
 }
