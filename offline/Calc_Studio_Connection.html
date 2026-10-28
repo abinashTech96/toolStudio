@@ -13,6 +13,8 @@ header>div:first-child{display:flex;gap:8px 12px;align-items:center;flex-wrap:wr
 @media(max-width:760px){.advanced-methods{grid-template-columns:1fr}.connection-primary{padding:16px}.connection-primary>button{width:100%;margin-right:0}.pairing-roles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pairing-roles button{font-size:13px;padding:10px 8px}.connection-progress{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.connection-progress li{font-size:12px}.connected-actions .row>button{flex:1 1 100px}.pairing-next{padding:12px}.pairing-next h3{font-size:16px}.pairing-next p{font-size:13px}#manualPairing{padding:14px}#pairingLocal{padding:12px}.pairing-exchange button{font-size:13px}.pairing-exchange .row>button{flex:1 1 120px}#pairingMethod{font-size:13px}}
 @media(prefers-reduced-motion:no-preference){.connected-actions{animation:connection-reveal .18s ease-out}@keyframes connection-reveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}}
 
+#devices.pairing-visible>p{display:none}#pairingOptions{margin:8px 0}#pairingOptions>summary{min-height:44px;color:var(--muted);font-size:13px}#pairingOptions label{margin-top:0}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
@@ -122,7 +124,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
 @media(max-width:600px){.a35-update>button{width:100%;min-height:48px}}
 </style></head><body>
 <header><div><div class="eyebrow">ToolStudio / Connected workspace</div><h1>Connection</h1></div><div class="row"><span id="peerState" class="badge">No device connected</span><button id="theme">Pearl / Graphite</button><button id="expand">Full screen</button></div></header>
-<p id="notice" class="status" role="status" aria-live="polite">Choose a connection. Nothing is sent automatically.</p>
+<p id="notice" class="status" role="status" aria-live="polite">Connect two devices to start sharing.</p>
 <div class="shell"><nav aria-label="Connection tools">
 <button data-page="devices" aria-current="page">01 · Connect devices</button><button data-page="transfer">02 · Transfer & camera</button><button data-page="remote">03 · Remote & results</button><button data-page="messages">04 · Session messages</button><button data-page="websocket">05 · WebSocket</button><button data-page="usb">07 · USB</button><button data-page="health">08 · Connection health</button><button data-page="help">09 · Setup & help</button></nav><main>
 <section id="devices"><h2>Connect your devices</h2><p class="muted">Pair one device at a time. Approve the connection on both screens, then choose what it can do.</p><div class="grid"><div class="card"><h3>This session</h3><label>Device name<input id="deviceName" maxlength="40" value="My device"></label><p id="pairStatus" class="status">Not paired</p><div class="row"><button id="disconnect">Disconnect & revoke</button><button id="copyIdentity">Copy verification code</button></div><p id="identity" class="muted">A verification code appears after connecting. Compare it on both devices before approving.</p><h3>Allow the other device to…</h3><label><input type="checkbox" id="allowFiles" checked>Offer files, photos and text for review</label><label><input type="checkbox" id="allowMessages" checked>Send session messages</label><label><input type="checkbox" id="allowRemote">Control this Calc Studio tab</label><label><input type="checkbox" id="allowResults">Request a read-only result display</label><small>Permissions start again after every pairing. Main-tab actions also require approval in Calc Studio.</small></div>
@@ -370,11 +372,12 @@ function installEasyConnection(api) {
  function goto(name, focus) {
   page(name);more.open = false;
   if (name === 'devices') {selected = 'wifi';peerSetup.hidden = false;chooser.hidden = true}
+  renderSupport();
   const e = $(focus);for (let p = e?.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
   e?.focus();e?.scrollIntoView({block:'nearest'});
  }
- function start() {selected = 'wifi';page('devices');peerSetup.hidden = true;chooser.hidden = false;openPeer.focus()}
- nav.querySelector('[data-page=devices]').onclick = () => {selected = 'wifi';page('devices');peerSetup.hidden = !state.pc;chooser.hidden = !!state.pc};
+ function start() {selected = 'wifi';page('devices');peerSetup.hidden = true;chooser.hidden = false;renderSupport();openPeer.focus()}
+ nav.querySelector('[data-page=devices]').onclick = () => {selected = 'wifi';page('devices');peerSetup.hidden = !state.pc;chooser.hidden = !!state.pc;renderSupport()};
  const startButton = button('Connections home', start);startButton.id = 'connectionStart';
  const guideButton = button('How to connect', () => showGuide(selected));guideButton.id = 'connectionGuide';header.prepend(startButton, guideButton);
  const display = detail('Display', [], 'connectionDisplay'), displayActions = node('div', undefined, 'display-actions');
@@ -429,7 +432,8 @@ function installEasyConnection(api) {
  const shareTitle = node('h3'), shareButtons = node('div', undefined, 'row');
  for (const [id, label, target, focus] of [['shareMessage', 'Send message', 'messages', 'message'], ['sharePhoto', 'Send photo', 'transfer', 'photoFile'], ['shareFile', 'Send file', 'transfer', 'sendFile']]) {const b = button(label, () => goto(target, focus));b.id = id;shareButtons.append(b)}
  share.append(shareTitle, node('p', 'Ready to share. The other device reviews each photo, file or text offer.', 'muted'), shareButtons, button('Disconnect', () => $('disconnect').click()));
- workspace.append(roles, methodLabel, guideStatus, manual, codeCard, network);sessionCard.querySelector('h3').after(nameLabel);
+ const pairingOptions = detail('Change pairing method', [methodLabel], 'pairingOptions');
+ workspace.append(roles, pairingOptions, guideStatus, manual, codeCard, network);sessionCard.querySelector('h3').after(nameLabel);
  const sessionDetails = detail('Device name, permissions & session', [sessionCard], 'sessionDetails');
  const wifiHelp = detail('Connection help & network requirements', [support, button('Read sharing guide', () => showGuide('wifi')), button('Read copy & paste guide', () => showGuide('manual'))], 'pairingHelp');
  peerSetup.append(steps, live, share, workspace, sessionDetails, wifiHelp);
@@ -473,6 +477,7 @@ function installEasyConnection(api) {
  const doctor = installConnectionDoctor(api);wifiHelp.append(doctor);
  const connectionState = node('p', '', 'connection-status-summary');connectionState.id = 'connectionStateSummary';connectionState.setAttribute('role', 'status');$('notice').after(connectionState);
  function renderSupport() {
+  devices.classList.toggle('pairing-visible', !peerSetup.hidden);
   const caps = connectionCapabilities({rtc:window.RTCPeerConnection, crypto:crypto.subtle, secure:isSecureContext, usb:navigator.usb, ws:window.WebSocket});
   const available = {wifi:caps.wifi ? 'Browser sharing supported. Choose a role and exchange pairing details.' : 'Secure browser sharing unavailable. Use a supporting browser on HTTPS or localhost.', usb:caps.usb ? 'WebUSB available. A compatible hardware interface is still required.' : 'USB API unavailable here. Read the guide for browser and hardware requirements.', websocket:caps.websocket ? 'Enter your server address below, then choose Connect. Wait for Open before sending.' : 'WebSocket unavailable in this browser.'};
   for (const kind of Object.keys(available)) {
@@ -491,7 +496,8 @@ function installEasyConnection(api) {
   manual.hidden = method.value !== 'manual';codeCard.hidden = method.value !== 'server';
   $('hostRoom').hidden = role !== 'first';$('joinRoom').hidden = role !== 'second';
   createBlock.hidden = role !== 'first';localBlock.hidden = !localType;remoteBlock.hidden = role === 'first' && !localType;
-  if (role === 'second') exchange.append(remoteBlock, localBlock);else exchange.append(createBlock, localBlock, remoteBlock);
+  const order = role === 'second' ? [createBlock, remoteBlock, localBlock] : [createBlock, localBlock, remoteBlock];
+  if (order.some((e, i) => exchange.children[i] !== e)) exchange.replaceChildren(...order);
   $('createOffer').disabled = !caps.wifi || !!state.pairingBusy;
   $('applySignal').disabled = !caps.wifi || !!state.pairingBusy || !$('remoteSignal').value.trim();
   $('copySignal').disabled = $('saveSignal').disabled = !localType || !!state.pairingBusy;
@@ -510,7 +516,7 @@ function installEasyConnection(api) {
  for (const id of ['peerState', 'usbLog', 'wsState', 'roomStatus', 'notice']) observer.observe($(id), {childList:true, characterData:true, subtree:true});
  window.addEventListener('connection:state', renderSupport);
  const refresh = button('Check browser support again', renderSupport);refresh.id = 'refreshConnectionSupport';chooser.append(refresh);
- if ($('roomCode').value && $('signalURL').value) {peerSetup.hidden = false;chooser.hidden = true;method.value = 'server';role = 'second'}
+ if ($('roomCode').value && $('signalURL').value) {peerSetup.hidden = false;chooser.hidden = true;method.value = 'server';role = 'second';pairingOptions.open = true}
  renderSupport();
  window.addEventListener('pagehide', () => {observer.disconnect();window.removeEventListener('connection:state', renderSupport)}, {once:true});
  return {showGuide};

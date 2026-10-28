@@ -11,6 +11,8 @@ header>div:first-child{display:flex;gap:8px 12px;align-items:center;flex-wrap:wr
 @media(max-width:760px){.advanced-methods{grid-template-columns:1fr}.connection-primary{padding:16px}.connection-primary>button{width:100%;margin-right:0}.pairing-roles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pairing-roles button{font-size:13px;padding:10px 8px}.connection-progress{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.connection-progress li{font-size:12px}.connected-actions .row>button{flex:1 1 100px}.pairing-next{padding:12px}.pairing-next h3{font-size:16px}.pairing-next p{font-size:13px}#manualPairing{padding:14px}#pairingLocal{padding:12px}.pairing-exchange button{font-size:13px}.pairing-exchange .row>button{flex:1 1 120px}#pairingMethod{font-size:13px}}
 @media(prefers-reduced-motion:no-preference){.connected-actions{animation:connection-reveal .18s ease-out}@keyframes connection-reveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}}
 
+#devices.pairing-visible>p{display:none}#pairingOptions{margin:8px 0}#pairingOptions>summary{min-height:44px;color:var(--muted);font-size:13px}#pairingOptions label{margin-top:0}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
