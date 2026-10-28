@@ -38,7 +38,7 @@ RPS unrevealed choices exist only in memory, never in the DOM or save profile, a
 - Snake coaching checks next-step exits and penalizes space too small for its body. It remains advisory.
 - RPS learning includes historical transitions after the previous hand; it never observes the current throw.
 - Hard Ludo includes whole-team exposure changes and prioritizes an immediate full-game finish. Future dice are not predicted.
-- Settings changes reset the selected board without retaining an obsolete session. Cancel leaves both settings and board intact. Repeated identical Sudoku entries do not inflate move counts; asynchronous coaching blocks conflicting input.
+- Settings changes reset the selected board without retaining an obsolete session. Cancel leaves settings, the board and any completed first-player challenge result intact. Repeated identical Sudoku entries do not inflate move counts; asynchronous coaching blocks conflicting input.
 - Existing complete Tic-tac-toe search, exact shortest Lights Out solutions, 2048 merge/spawn/Undo behavior, word tile identities and unique Sudoku generation remain covered by regression.
 
 ## Validation

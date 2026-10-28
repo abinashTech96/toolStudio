@@ -99,6 +99,11 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 #gameOptions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))}
 #gameOptions label,#gameOptions select{min-width:0;max-width:100%}
 @media(max-width:650px){#gameOptions{grid-template-columns:minmax(0,1fr)}#gameOptions label{min-width:0;width:100%}}
+/* Keep native control/focus painting inside the arcade frame. Individual
+   boards retain their own scroll container on small screens. */
+#arcadeMain{overflow-x:clip}
+.settings-heading h2{min-width:0}
+.settings-heading button{flex-shrink:0;white-space:nowrap}
 
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}

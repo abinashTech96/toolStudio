@@ -28,7 +28,7 @@ function saveSoon(){if(profile.enabled&&!persistTimer)persistTimer=setTimeout(sa
 let analysisEpoch=0,thinking=false,analysisFailure='';
 function stop(){rpsChoice=null;rpsPhase='first';clearTimeout(ludoTimer);ludoTimer=null;analysisEpoch++;thinking=false;analysisFailure='';cancelAnalysis();clearInterval(timer);clearTimeout(memoryTimer);timer=null;memoryTimer=null;running=false;pending=null}
 function directions(action){const pad=node('div',undefined,'dpad');for(const[d,s]of[['up','↑'],['left','←'],['down','↓'],['right','→']])pad.append(button(s,()=>action(d),'Move '+d));return pad}
-function wantRestart(){if(state&&(state.moves||game==='scramble'&&state.picked.length||game==='ludo'&&state.die!==null)&&!ended())return confirm('Start a new game? Current progress for this game will be replaced.');return true}
+function wantRestart(){const local=challenge(),betweenRounds=local&&local.phase!=='complete'&&local.results.length>0;if(betweenRounds||state&&(state.moves||game==='scramble'&&state.picked.length||game==='ludo'&&state.die!==null)&&!ended())return confirm('Start a new game? Current progress for this game will be replaced.');return true}
 function newState(id){const level=settings(id).level;
  if(id==='rps')return meta(createRPS());
  if(id==='hangman')return meta(createHangman(level,Math.random,sessions[id]?.wordIndex));
