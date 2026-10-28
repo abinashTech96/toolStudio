@@ -78,6 +78,34 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 
 #gameSearch::placeholder{color:var(--muted);opacity:1}
 
+/* Play setup stays with the game, independent of dock width or visibility. */
+.play-heading-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+#settingsToggle{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;font-size:13px;padding:8px 12px;border-color:var(--accent);white-space:nowrap}
+#settingsToggle[aria-expanded=true]{background:var(--accent);color:var(--game-on)}
+.play-setup{margin:12px 0 3px;font-size:13px;font-weight:750;overflow-wrap:anywhere}
+.mode-description{font-size:12px;color:var(--muted);line-height:1.65;margin:4px 0;max-width:78ch}
+.play-card>.settings-panel{margin:14px 0;padding:14px;background:var(--bg)}
+#gameOptions{align-items:end}#gameOptions label{flex-direction:column;align-items:stretch;gap:5px;min-width:130px;flex:1}
+#gameOptions select{width:100%;max-width:100%;min-width:0}
+.local-round{padding:12px;margin-top:14px;border:1px solid var(--line);background:var(--bg);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}
+.local-round h2{font-size:18px;margin:0;width:100%}.local-round p{width:100%;margin:0;line-height:1.6}.local-round button{font-size:13px;min-height:44px;padding:8px 12px}.local-round strong{flex:1}
+#board.local-waiting{display:none}
+@media(max-width:650px){.game-heading{flex-direction:row;align-items:start}.game-heading>div:first-child{min-width:0;flex:1}.game-heading h1{font-size:23px;overflow-wrap:anywhere}.play-heading-actions{flex-direction:column;align-items:flex-end;gap:6px}.play-category{display:none}#settingsToggle{padding:8px;font-size:12px}.library-heading{gap:8px}.library-heading h1{font-size:24px}#librarySettingsSlot #settingsToggle{font-size:0;gap:0;padding:8px 12px}#librarySettingsSlot #settingsToggle>span:first-child{font-size:18px}#gameOptions label{min-width:100%;max-width:100%}.play-setup{font-size:12px}}
+/* Native selects and the large Mines grid must not set the page's intrinsic
+   width in WebKit. Keep the board's horizontal scrolling inside its viewport. */
+#playView,.play-card,.settings-panel,#boardViewport{min-width:0;max-width:100%}
+.play-card,.play-card>.settings-panel,#boardViewport{width:100%}
+.play-card{max-width:min(100%,820px)}
+#boardViewport{contain:inline-size}
+#gameOptions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))}
+#gameOptions label,#gameOptions select{min-width:0;max-width:100%}
+@media(max-width:650px){#gameOptions{grid-template-columns:minmax(0,1fr)}#gameOptions label{min-width:0;width:100%}}
+/* Keep native control/focus painting inside the arcade frame. Individual
+   boards retain their own scroll container on small screens. */
+#arcadeMain{overflow-x:clip}
+.settings-heading h2{min-width:0}
+.settings-heading button{flex-shrink:0;white-space:nowrap}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
@@ -187,7 +215,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
 @media(max-width:600px){.a35-update>button{width:100%;min-height:48px}}
 </style></head>
 <body data-game-view="library"><a class="skip-link" href="#arcadeMain">Skip to games</a>
-<aside id="gameDock" aria-label="Games dock"><div class="dock-brand"><span aria-hidden="true">∑</span><span class="dock-label">ToolStudio <small>Games · v43</small></span></div>
+<aside id="gameDock" aria-label="Games dock"><div class="dock-brand"><span aria-hidden="true">∑</span><span class="dock-label">ToolStudio <small>Games · v44</small></span></div>
 <button id="dockToggle" aria-label="Collapse dock" aria-expanded="true" aria-controls="gameDock"><span aria-hidden="true">☰</span><span class="dock-label">Collapse dock</span></button>
 <button id="dockSearchButton" aria-label="Search games"><span aria-hidden="true">⌕</span><span class="dock-label">Search games</span></button><label class="dock-search">Find a game<input id="gameSearch" type="search" placeholder="Search games" autocomplete="off"><small id="dockSearchCount"></small></label>
 <nav aria-label="Games navigation">
@@ -195,20 +223,59 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
 <button id="dockFavorites" aria-label="Favorite games"><span aria-hidden="true">☆</span><span class="dock-label">Favorites</span></button>
 <button id="resumeGame" aria-label="Resume game" hidden><span aria-hidden="true">▷</span><span class="dock-label">Resume game</span></button>
 <button id="restart" aria-label="New game" hidden><span aria-hidden="true">↻</span><span class="dock-label">New game</span></button>
-<button id="settingsToggle" aria-label="Game settings" aria-expanded="false" aria-controls="settingsPanel"><span aria-hidden="true">⚙</span><span class="dock-label">Settings</span></button>
 <button id="howToPlay" aria-label="How to play" aria-expanded="false" aria-controls="gameHelp" hidden><span aria-hidden="true">?</span><span class="dock-label">How to play</span></button>
 <button id="fullscreen" aria-label="Fullscreen"><span aria-hidden="true">↗</span><span class="dock-label">Fullscreen</span></button>
 <button id="exitFullscreen" aria-label="Exit fullscreen" hidden><span aria-hidden="true">↙</span><span class="dock-label">Exit fullscreen</span></button>
-</nav><div class="dock-bottom"><a href="../guide.html#edition43" id="guideLink" aria-label="Studio guide"><span aria-hidden="true">▤</span><span class="dock-label">Studio guide</span></a><a href="../index.html" id="studioLink" aria-label="Back to ToolStudio"><span aria-hidden="true">←</span><span class="dock-label">Back to ToolStudio</span></a><span class="dock-label dock-note">A small break.<br>A clear mind.</span></div></aside>
+</nav><div class="dock-bottom"><a href="../guide.html#edition44" id="guideLink" aria-label="Studio guide"><span aria-hidden="true">▤</span><span class="dock-label">Studio guide</span></a><a href="../index.html" id="studioLink" aria-label="Back to ToolStudio"><span aria-hidden="true">←</span><span class="dock-label">Back to ToolStudio</span></a><span class="dock-label dock-note">A small break.<br>A clear mind.</span></div></aside>
 <button id="dockBackdrop" aria-label="Close dock" hidden></button>
 <main id="arcadeMain" tabindex="-1">
-<section id="libraryView" aria-labelledby="libraryTitle"><div class="library-heading"><div><p class="eyebrow">YOUR LITTLE ARCADE</p><h1 id="libraryTitle">Pick a little play time.</h1><p class="library-description">15 games. Play, think, reset.</p></div></div>
+<section id="libraryView" aria-labelledby="libraryTitle"><div class="library-heading"><div><p class="eyebrow">YOUR LITTLE ARCADE</p><h1 id="libraryTitle">Pick a little play time.</h1><p class="library-description">15 games. Play, think, reset.</p></div><div id="librarySettingsSlot"><button id="settingsToggle" aria-label="Game settings" aria-expanded="false" aria-controls="settingsPanel"><span aria-hidden="true">⚙</span><span>Settings</span></button></div></div>
 <div id="recentGames" aria-label="Recently played games"></div><div id="gameFilters" role="group" aria-label="Game categories"></div><p id="libraryCount" role="status"></p><nav id="gamePicker" aria-label="Choose a game"></nav><p id="libraryEmpty" hidden>No games match. Try another search or category.</p></section>
-<section id="playView" hidden aria-labelledby="gameTitle"><article class="play-card"><div class="game-heading"><div><p class="eyebrow" id="gameTag"></p><h1 id="gameTitle">Games</h1></div><p class="play-category" id="playCategory"></p></div><p id="gameStatus" role="status" aria-live="polite"></p>
+<section id="playView" hidden aria-labelledby="gameTitle"><article class="play-card"><div class="game-heading"><div><p class="eyebrow" id="gameTag"></p><h1 id="gameTitle">Games</h1></div><div class="play-heading-actions"><p class="play-category" id="playCategory"></p><div id="playSettingsSlot"></div></div></div><p id="playSetup" class="play-setup"></p><p id="modeDescription" class="mode-description"></p><section id="localRound" class="local-round" aria-label="Local friends challenge" hidden></section><p id="gameStatus" role="status" aria-live="polite"></p>
 <div id="gameHelp" hidden><h2>How to play</h2><p id="instructions"></p><p class="hint" id="keyboardHint"></p></div><div id="boardViewport"><div id="board" role="group" tabindex="0" aria-label="Game board"></div></div><div id="gameControls"></div><div class="coach"><button id="hint">Coach hint</button><button id="applyHint" hidden>Place hint</button><p id="hintText" role="status"></p></div><p id="record" class="hint"></p><p id="scoreboard" class="hint"></p></article></section>
 <section id="settingsPanel" class="settings-panel" hidden aria-labelledby="settingsTitle"><div class="settings-heading"><h2 id="settingsTitle" tabindex="-1">Game settings</h2><button id="closeSettings" aria-label="Close settings">Close</button></div><div id="gameOptions"></div><label class="theme-label">Appearance<select id="gameTheme" aria-label="Appearance"><option value="follow">Follow ToolStudio</option><option value="forest">Forest</option><option value="sky">Sky</option><option value="cartoon">Cartoon</option><option value="neon">Neon</option><option value="pearl">Pearl</option><option value="graphite">Graphite</option></select></label>
 <section class="save-panel" aria-label="Game progress"><label><input type="checkbox" id="remember"> Remember game progress and personal bests on this device</label><button id="clearSaves">Clear saved games</button><p id="saveStatus" role="status">Progress is kept only while this page remains open.</p></section></section>
-<p class="footnote">No sign-in. No ads. Local coaching. Hints keep assisted bests separate.</p></main><script>globalThis.__toolStudioGameWorker="(()=>{var w=t=>t===\"X\"?\"O\":\"X\",J=[-1,0,1].flatMap(t=>[-1,0,1].filter(n=>n||t).map(n=>[n,t]));function _(t,n,e){if(!Number.isInteger(n)||n<0||n>=64||t[n])return[];let o=[],r=n%8,f=Math.floor(n/8);for(let[i,s]of J){let a=[],l=r+i,c=f+s;for(;l>=0&&l<8&&c>=0&&c<8&&t[c*8+l]===w(e);)a.push(c*8+l),l+=i,c+=s;a.length&&l>=0&&l<8&&c>=0&&c<8&&t[c*8+l]===e&&o.push(...a)}return o}function y(t,n){return t.flatMap((e,o)=>!e&&_(t,o,n).length?[o]:[])}function E(t){if(y(t,\"X\").length||y(t,\"O\").length)return null;let n=t.filter(e=>e===\"X\").length-t.filter(e=>e===\"O\").length;return n===0?\"draw\":n>0?\"X\":\"O\"}function j(t,n){let e=_(t.board,n,t.turn);if(!e.length)return null;let o=t.board.slice();o[n]=t.turn;for(let f of e)o[f]=t.turn;let r=w(t.turn);return{board:o,turn:y(o,r).length?r:t.turn}}function Q(t,n){let e=w(n),o=E(t);if(o)return o===\"draw\"?0:o===n?1e5:-1e5;let r=5*(y(t,n).length-y(t,e).length);for(let f=0;f<64;f++)if(t[f]){let i=f%8,s=Math.floor(f/8),a=(i===0||i===7)&&(s===0||s===7)?100:i===0||i===7||s===0||s===7?8:1;for(let l of[0,7,56,63])!t[l]&&Math.abs(i-l%8)<=1&&Math.abs(s-Math.floor(l/8))<=1&&(a=-25);r+=t[f]===n?a:-a}return r}function H(t,n=\"O\",e=\"medium\",o=Math.random){let r=y(t,n);if(!r.length)return-1;if(e===\"easy\")return r[Math.floor(o()*r.length)];let f=0,i=r[0],s=Symbol(\"budget\");function a(l,c,h,u){if(++f>16e3)throw s;if(!c||E(l.board))return Q(l.board,n);let d=y(l.board,l.turn);if(!d.length)return a({...l,turn:w(l.turn)},c-1,h,u);let g=l.turn===n,m=g?-1/0:1/0;for(let M of d){let v=a(j(l,M),c-1,h,u);if(m=g?Math.max(m,v):Math.min(m,v),g?h=Math.max(h,m):u=Math.min(u,m),u<=h)break}return m}for(let l=1;l<=(e===\"hard\"?4:2);l++){let c=-1/0,h=i;try{for(let u of r){let d=a(j({board:t,turn:n},u),l-1,-1/0,1/0);d>c&&(c=d,h=u)}i=h}catch(u){if(u!==s)throw u;break}}return i}var Z=t=>t.every((n,e)=>n===(e+1)%t.length);function A(t,n){let e=t.indexOf(0),o=e%n,r=Math.floor(e/n);return[r?e-n:-1,o?e-1:-1,r<n-1?e+n:-1,o<n-1?e+1:-1].filter(f=>f>=0)}function $(t,n,e){if(!A(t,n).includes(e))return null;let o=t.slice(),r=o.indexOf(0);return[o[r],o[e]]=[o[e],o[r]],o}function O(t,n){return t.reduce((e,o,r)=>e+(o?Math.abs(r%n-(o-1)%n)+Math.abs(Math.floor(r/n)-Math.floor((o-1)/n)):0),0)}function q({board:t,size:n}){if(Z(t))return{cells:[],text:\"The puzzle is already complete.\"};let e=[],o=new Map([[t.join(\",\"),0]]);function r(l){e.push(l);let c=e.length-1;for(;c;){let h=c-1>>1;if(e[h].f<=l.f)break;e[c]=e[h],c=h}e[c]=l}function f(){let l=e[0],c=e.pop();if(e.length){let h=0;for(;h*2+1<e.length;){let u=h*2+1;if(u+1<e.length&&e[u+1].f<e[u].f&&u++,e[u].f>=c.f)break;e[h]=e[u],h=u}e[h]=c}return l}let i=null,s=!1;r({board:t,g:0,h:O(t,n),f:O(t,n),first:-1});for(let l=0;e.length&&l<4e3;l++){let c=f();if(c.first>=0&&(!i||c.h<i.h||c.h===i.h&&c.g<i.g)&&(i=c),!c.h){i=c,s=!0;break}if(!(c.g>=70))for(let h of A(c.board,n)){let u=$(c.board,n,h),d=u.join(\",\"),g=c.g+1;if((o.get(d)??1/0)<=g)continue;o.set(d,g);let m=O(u,n);r({board:u,g,h:m,f:g+m,first:c.first<0?h:c.first})}}let a=i?.first??A(t,n)[0];return{cells:[a],text:\"Slide tile \"+t[a]+(s?\". Bounded search found a path to the goal.\":\". Bounded search favors progress toward the goal; this move is not guaranteed optimal.\")}}function B(t,n){let e=0,o=0,r=[],f=[];for(let i=0;i<4;i++)t[i]===n[i]?e++:(r.push(t[i]),f.push(n[i]));for(let i of r){let s=f.indexOf(i);s>=0&&(o++,f.splice(s,1))}return{exact:e,misplaced:o}}function z(t,n){let e=[];for(let o=0;o<t**4;o++){let r=o,f=Array.from({length:4},()=>{let i=r%t+1;return r=Math.floor(r/t),i});n.every(i=>{let s=B(f,i.guess);return s.exact===i.exact&&s.misplaced===i.misplaced})&&e.push(f)}return e}function L({colors:t,history:n}){let e=z(t,n);if(!e.length)return{cells:[],text:\"No code matches this feedback.\"};let o=e[0],r=1/0,f=new Set(n.map(s=>s.guess.join(\"\"))),i=e.filter(s=>!f.has(s.join(\"\")));for(let s=0;s<Math.min(80,i.length);s++){let a=i[Math.floor(s*i.length/Math.min(80,i.length))],l=new Map;for(let h of e){let u=B(h,a),d=u.exact+\":\"+u.misplaced;l.set(d,(l.get(d)||0)+1)}let c=[...l.values()].reduce((h,u)=>h+u*u,0);c<r&&(r=c,o=a)}return{cells:[],text:e.length+(e.length===1?\" code remains\":\" codes remain\")+\" consistent with your feedback. Try \"+o.join(\" \")+\". The coach compares possible feedback groups without reading the hidden code.\"}}function I(t,n){if(![\"left\",\"right\",\"up\",\"down\"].includes(n))throw Error(\"Invalid direction\");let e=t.slice(),o=0;for(let r=0;r<4;r++){let f=Array.from({length:4},(a,l)=>n===\"left\"?r*4+l:n===\"right\"?r*4+3-l:n===\"up\"?l*4+r:(3-l)*4+r),i=f.map(a=>t[a]).filter(Boolean),s=[];for(let a=0;a<i.length;a++)if(i[a]===i[a+1]){let l=i[a]*2;s.push(l),o+=l,a++}else s.push(i[a]);f.forEach((a,l)=>e[a]=s[l]||0)}return{board:e,score:o,changed:e.some((r,f)=>r!==t[f])}}var p={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};function ee(t,n=16,e=Math.random){let o=Array.from({length:n*n},(r,f)=>[f%n,Math.floor(f/n)]).filter(r=>!t.some(f=>f[0]===r[0]&&f[1]===r[1]));return o.length?o[Math.floor(e()*o.length)]:null}function R(t,n,e=16,o=Math.random){if(t.over)return structuredClone(t);let r=p[t.direction],f=p[n]?n:t.direction,i=p[f],s=i[0]===-r[0]&&i[1]===-r[1]?t.direction:f,a=p[s]||r,l=[t.body[0][0]+a[0],t.body[0][1]+a[1]],c=!!t.food&&l[0]===t.food[0]&&l[1]===t.food[1],h=c?t.body:t.body.slice(0,-1);if(l.some(g=>g<0||g>=e)||h.some(g=>g[0]===l[0]&&g[1]===l[1]))return{...t,over:!0};let u=[l,...t.body];c||u.pop();let d=c?ee(u,e,o):t.food;return{body:u,food:d,direction:s,score:t.score+(c?1:0),over:!d,won:!d}}function S(t,n=Math.random){let e=t.slice();for(let o=e.length-1;o>0;o--){let r=Math.floor(n()*(o+1));[e[o],e[r]]=[e[r],e[o]]}return e}function P(t){let n=t.filter(r=>!r).length*240,e=Math.max(...t),o=t.map(r=>r?Math.log2(r):0);[0,3,12,15].some(r=>t[r]===e)&&(n+=Math.log2(e||1)*90);for(let r=0;r<4;r++)for(let f of[o.slice(r*4,r*4+4),[0,1,2,3].map(i=>o[i*4+r])]){let i=0,s=0;for(let a=0;a<3;a++)i+=Math.max(0,f[a]-f[a+1]),s+=Math.max(0,f[a+1]-f[a]);n-=Math.min(i,s)*25}return n}function F(t){let n=null,e=-1/0;for(let o of[\"left\",\"up\",\"right\",\"down\"]){let r=I(t,o);if(!r.changed)continue;let f=r.board.flatMap((a,l)=>a?[]:[l]),i=0;for(let a of f)for(let[l,c]of[[2,.9],[4,.1]]){let h=r.board.slice();h[a]=l;let u=-1e6;for(let d of[\"left\",\"up\",\"right\",\"down\"]){let g=I(h,d);g.changed&&(u=Math.max(u,P(g.board)+g.score))}i+=c*u/f.length}let s=(f.length?i:P(r.board))+r.score;s>e&&(e=s,n=o)}return{direction:n,text:n?\"Try \"+n+\". This two-move estimate favors empty space, ordered rows and a large corner tile. Random spawns can change the result.\":\"No legal moves remain.\"}}function te(t,n){let e=new Set,o=[t[0]],r=new Set(t.slice(1).map(f=>f.join(\",\")));for(let f=0;f<o.length;f++){let[i,s]=o[f],a=i+\",\"+s;if(!(e.has(a)||r.has(a)||i<0||s<0||i>=n||s>=n)){e.add(a);for(let[l,c]of Object.values(p))o.push([i+l,s+c])}}return e.size}function D(t,n=16){let e=null,o=-1/0;for(let r of Object.keys(p)){let f=p[t.direction],i=p[r];if(i[0]===-f[0]&&i[1]===-f[1])continue;let s=R(t,r,n,()=>0);if(s.over&&!s.won)continue;let a=te(s.body,n),l=t.food?Math.abs(s.body[0][0]-t.food[0])+Math.abs(s.body[0][1]-t.food[1]):0,c=a*20-l+(s.score>t.score?10:0);c>o&&(o=c,e=r)}return{direction:e,text:e?\"Try \"+e+\". It avoids an immediate collision and favors open escape space near food. This is a local safety check, not a guaranteed route.\":\"No safe next step was found.\"}}function T(t,n){if(t[n])return[];let e=Math.floor(n/9),o=n%9,r=new Set;for(let f=0;f<81;f++)(Math.floor(f/9)===e||f%9===o||Math.floor(f/27)===Math.floor(e/3)&&Math.floor(f%9/3)===Math.floor(o/3))&&r.add(t[f]);return[1,2,3,4,5,6,7,8,9].filter(f=>!r.has(f))}function U(t){let n=new Set;for(let e=0;e<81;e++)if(t[e])for(let o=e+1;o<81;o++)t[e]===t[o]&&(Math.floor(e/9)===Math.floor(o/9)||e%9===o%9||Math.floor(e/27)===Math.floor(o/27)&&Math.floor(e%9/3)===Math.floor(o%9/3))&&(n.add(e),n.add(o));return[...n]}var b=new Map;function V(t,n=1){let e=n+\":\"+t.join(\",\");if(b.has(e))return structuredClone(b.get(e));let o=ne(t,n);return o.exhausted||(b.set(e,structuredClone(o)),b.size>64&&b.delete(b.keys().next().value)),o}function ne(t,n=1){if(t.length!==81||U(t).length)return{count:0,solution:null};let e=t.slice(),o=0,r=null,f=0,i=!1;function s(){if(++f>25e4){i=!0;return}let a=-1,l;for(let c=0;c<81;c++)if(!e[c]){let h=T(e,c);if(!h.length)return;if((!l||h.length<l.length)&&(a=c,l=h,h.length===1))break}if(a<0){o++,r??=e.slice();return}for(let c of l)if(e[a]=c,s(),o>=n)break;e[a]=0}return s(),{count:i?n:o,solution:r,exhausted:i}}function W(t=\"medium\",n=Math.random){let e=()=>S([0,1,2],n),o=e().flatMap(l=>e().map(c=>l*3+c)),r=e().flatMap(l=>e().map(c=>l*3+c)),f=S([1,2,3,4,5,6,7,8,9],n),i=o.flatMap(l=>r.map(c=>f[(l*3+Math.floor(l/3)+c)%9])),s=i.slice(),a={easy:44,medium:36,hard:30}[t]||36;for(let l of S(Array.from({length:81},(c,h)=>h),n)){if(s.filter(Boolean).length<=a)break;let c=s[l];s[l]=0,V(s,2).count!==1&&(s[l]=c)}return{givens:s,board:s.slice(),notes:Array(81).fill(0),selected:s.findIndex(l=>!l),noteMode:!1,hints:0,completed:!1}}function K(t){let n=U(t.board);if(n.length)return{cell:n[0],value:0,text:\"Resolve the highlighted row, column or box conflict first.\"};let e=V(t.givens).solution;if(!e)return{cell:-1,text:\"This puzzle has no valid solution.\"};let o=t.board.findIndex((i,s)=>i&&i!==e[s]);if(o>=0)return{cell:o,value:0,text:\"Lookahead found an incorrect entry. Clear the highlighted cell before continuing.\"};for(let i=0;i<81;i++)if(!t.board[i]){let s=T(t.board,i);if(s.length===1)return{cell:i,value:s[0],text:\"Only \"+s[0]+\" fits row \"+(Math.floor(i/9)+1)+\", column \"+(i%9+1)+\".\"}}let r=[...Array.from({length:9},(i,s)=>Array.from({length:9},(a,l)=>s*9+l)),...Array.from({length:9},(i,s)=>Array.from({length:9},(a,l)=>l*9+s)),...Array.from({length:9},(i,s)=>Array.from({length:9},(a,l)=>(Math.floor(s/3)*3+Math.floor(l/3))*9+s%3*3+l%3))];for(let i of r)for(let s=1;s<=9;s++){if(i.some(l=>t.board[l]===s))continue;let a=i.filter(l=>!t.board[l]&&T(t.board,l).includes(s));if(a.length===1)return{cell:a[0],value:s,text:\"Only this cell can hold \"+s+\" in its row, column or box (a hidden single).\"}}let f=t.board.findIndex(i=>!i);return f<0?{cell:-1,text:\"Puzzle complete.\"}:{cell:f,value:e[f],text:\"Solver lookahead suggests \"+e[f]+\" at row \"+(Math.floor(f/9)+1)+\", column \"+(f%9+1)+\". Use Place hint to apply it.\"}}function X(t){for(let n=0;n<42;n++)if(t[n])for(let[e,o]of[[1,0],[0,1],[1,1],[-1,1]]){let r=n%7,f=Math.floor(n/7);if(!(r+e*3<0||r+e*3>=7||f+o*3>=6)&&[1,2,3].every(i=>t[(f+o*i)*7+r+e*i]===t[n]))return t[n]}return t.every(Boolean)?\"draw\":null}function k(t,n,e){if(!Number.isInteger(n)||n<0||n>6||X(t))return null;for(let o=5;o>=0;o--)if(!t[o*7+n]){let r=t.slice();return r[o*7+n]=e,r}return null}function oe(t){let n=0;for(let e=0;e<6;e++)n+=t[e*7+3]===\"O\"?5:t[e*7+3]===\"X\"?-5:0;for(let e=0;e<42;e++)for(let[o,r]of[[1,0],[0,1],[1,1],[-1,1]]){let f=e%7,i=Math.floor(e/7);if(f+o*3<0||f+o*3>=7||i+r*3>=6)continue;let s=[0,1,2,3].map(c=>t[(i+r*c)*7+f+o*c]),a=s.filter(c=>c===\"O\").length,l=s.filter(c=>c===\"X\").length;l||(n+=[0,1,8,70,1e4][a]),a||(n-=[0,1,10,90,1e4][l])}return n}function Y(t,n=\"medium\",e=Math.random,o=\"O\"){let r=o===\"O\"?t:t.map(u=>u===\"O\"?\"X\":u===\"X\"?\"O\":\"\"),f=[3,2,4,1,5,0,6],i=f.filter(u=>k(r,u,\"O\"));if(!i.length)return-1;for(let u of[\"O\",\"X\"])for(let d of i)if(X(k(r,d,u))===u)return d;if(n===\"easy\")return i[Math.floor(e()*i.length)];let s=0,a=n===\"hard\"?5:3;function l(u,d,g,m,M){let v=X(u);if(v)return v===\"O\"?1e5+d:v===\"X\"?-1e5-d:0;if(!d||++s>35e3)return oe(u);let x=g===\"O\"?-1/0:1/0;for(let G of f){let N=k(u,G,g);if(!N)continue;let C=l(N,d-1,g===\"O\"?\"X\":\"O\",m,M);if(g===\"O\"?(x=Math.max(x,C),m=Math.max(m,x)):(x=Math.min(x,C),M=Math.min(M,x)),M<=m)break}return x}let c=i[0],h=-1/0;for(let u of i){let d=l(k(r,u,\"O\"),a-1,\"X\",-1/0,1/0);d>h&&(h=d,c=u)}return c}self.onmessage=({data:t})=>{let{id:n,operation:e,payload:o}=t;try{let r;if(e===\"reversi\")r=H(o.board,o.player,o.level);else if(e===\"sliding\")r=q(o);else if(e===\"code\")r=L(o);else if(e===\"connect\")r=Y(o.board,o.level,Math.random,o.player);else if(e===\"sudokuHint\")r=K(o);else if(e===\"createSudoku\")r=W(o);else if(e===\"2048\")r=F(o);else if(e===\"snake\")r=D(o);else throw Error(\"Unknown analysis operation\");self.postMessage({id:n,result:r})}catch(r){self.postMessage({id:n,error:r.message})}};})();\n";(() => {
+<p class="footnote">No sign-in. No ads. Local coaching. Hints keep assisted bests separate.</p></main><script>globalThis.__toolStudioGameWorker="(()=>{var A=t=>t===\"X\"?\"O\":\"X\",ee=[-1,0,1].flatMap(t=>[-1,0,1].filter(n=>n||t).map(n=>[n,t]));function B(t,n,e){if(!Number.isInteger(n)||n<0||n>=64||t[n])return[];let r=[],o=n%8,s=Math.floor(n/8);for(let[i,c]of ee){let u=[],l=o+i,f=s+c;for(;l>=0&&l<8&&f>=0&&f<8&&t[f*8+l]===A(e);)u.push(f*8+l),l+=i,f+=c;u.length&&l>=0&&l<8&&f>=0&&f<8&&t[f*8+l]===e&&r.push(...u)}return r}function v(t,n){return t.flatMap((e,r)=>!e&&B(t,r,n).length?[r]:[])}function L(t){if(v(t,\"X\").length||v(t,\"O\").length)return null;let n=t.filter(e=>e===\"X\").length-t.filter(e=>e===\"O\").length;return n===0?\"draw\":n>0?\"X\":\"O\"}function q(t,n){let e=B(t.board,n,t.turn);if(!e.length)return null;let r=t.board.slice();r[n]=t.turn;for(let s of e)r[s]=t.turn;let o=A(t.turn);return{board:r,turn:v(r,o).length?o:t.turn}}function te(t,n){let e=A(n),r=L(t);if(r)return r===\"draw\"?0:r===n?1e5:-1e5;let o=t.filter(i=>!i).length,s=(o>16?8:3)*(v(t,n).length-v(t,e).length);s+=(o<=16?5:0)*(t.filter(i=>i===n).length-t.filter(i=>i===e).length);for(let i=0;i<64;i++)if(t[i]){let c=i%8,u=Math.floor(i/8),l=(c===0||c===7)&&(u===0||u===7)?100:c===0||c===7||u===0||u===7?8:1;for(let f of[0,7,56,63])!t[f]&&Math.abs(c-f%8)<=1&&Math.abs(u-Math.floor(f/8))<=1&&(l=-25);s+=t[i]===n?l:-l}return s}function R(t,n=\"O\",e=\"medium\",r=Math.random){let o=v(t,n);if(!o.length)return-1;if(e===\"easy\")return o[Math.floor(r()*o.length)];o.sort((l,f)=>Number([0,7,56,63].includes(f))-Number([0,7,56,63].includes(l)));let s=0,i=o[0],c=Symbol(\"budget\");function u(l,f,h,a){if(++s>16e3)throw c;if(!f||L(l.board))return te(l.board,n);let d=v(l.board,l.turn);if(!d.length)return u({...l,turn:A(l.turn)},f-1,h,a);let g=l.turn===n,m=g?-1/0:1/0;for(let p of d){let b=u(q(l,p),f-1,h,a);if(m=g?Math.max(m,b):Math.min(m,b),g?h=Math.max(h,m):a=Math.min(a,m),a<=h)break}return m}for(let l=1;l<=(e===\"hard\"?4:2);l++){let f=-1/0,h=i;try{for(let a of o){let d=u(q({board:t,turn:n},a),l-1,-1/0,1/0);d>f&&(f=d,h=a)}i=h}catch(a){if(a!==c)throw a;break}}return i}var ne=t=>t.every((n,e)=>n===(e+1)%t.length);function X(t,n){let e=t.indexOf(0),r=e%n,o=Math.floor(e/n);return[o?e-n:-1,r?e-1:-1,o<n-1?e+n:-1,r<n-1?e+1:-1].filter(s=>s>=0)}function oe(t,n,e){if(!X(t,n).includes(e))return null;let r=t.slice(),o=r.indexOf(0);return[r[o],r[e]]=[r[e],r[o]],r}function N(t,n){let e=new Set,r=0;for(let o=0;o<t.length;o++)if(t[o]){for(let s=o+1;s<t.length;s++)if(t[s]&&!e.has(o)&&!e.has(s)){let i=t[o]-1,c=t[s]-1,u=Math.floor(o/n),l=o%n;(u===Math.floor(s/n)&&Math.floor(i/n)===u&&Math.floor(c/n)===u&&i%n>c%n||l===s%n&&i%n===l&&c%n===l&&Math.floor(i/n)>Math.floor(c/n))&&(e.add(o),e.add(s),r++)}}return r*2+t.reduce((o,s,i)=>o+(s?Math.abs(i%n-(s-1)%n)+Math.abs(Math.floor(i/n)-Math.floor((s-1)/n)):0),0)}function F({board:t,size:n}){if(ne(t))return{cells:[],text:\"The puzzle is already complete.\"};let e=[],r=new Map([[t.join(\",\"),0]]);function o(l){e.push(l);let f=e.length-1;for(;f;){let h=f-1>>1;if(e[h].f<=l.f)break;e[f]=e[h],f=h}e[f]=l}function s(){let l=e[0],f=e.pop();if(e.length){let h=0;for(;h*2+1<e.length;){let a=h*2+1;if(a+1<e.length&&e[a+1].f<e[a].f&&a++,e[a].f>=f.f)break;e[h]=e[a],h=a}e[h]=f}return l}let i=null,c=!1;o({board:t,g:0,h:N(t,n),f:N(t,n),first:-1});for(let l=0;e.length&&l<4e3;l++){let f=s();if(f.g===(r.get(f.board.join(\",\"))??1/0)){if(f.first>=0&&(!i||f.h<i.h||f.h===i.h&&f.g<i.g)&&(i=f),!f.h){i=f,c=!0;break}if(!(f.g>=70))for(let h of X(f.board,n)){let a=oe(f.board,n,h),d=a.join(\",\"),g=f.g+1;if((r.get(d)??1/0)<=g)continue;r.set(d,g);let m=N(a,n);o({board:a,g,h:m,f:g+m,first:f.first<0?h:f.first})}}}let u=i?.first??X(t,n)[0];return{cells:[u],text:\"Slide tile \"+t[u]+(c?\". Bounded search found a path to the goal.\":\". Bounded search favors progress toward the goal; this move is not guaranteed optimal.\")}}function P(t,n){let e=0,r=0,o=[],s=[];for(let i=0;i<4;i++)t[i]===n[i]?e++:(o.push(t[i]),s.push(n[i]));for(let i of o){let c=s.indexOf(i);c>=0&&(r++,s.splice(c,1))}return{exact:e,misplaced:r}}function re(t,n){let e=[];for(let r=0;r<t**4;r++){let o=r,s=Array.from({length:4},()=>{let i=o%t+1;return o=Math.floor(o/t),i});n.every(i=>{let c=P(s,i.guess);return c.exact===i.exact&&c.misplaced===i.misplaced})&&e.push(s)}return e}function D({colors:t,history:n}){let e=re(t,n);if(!e.length)return{cells:[],text:\"No code matches this feedback.\"};let r=e[0],o=1/0,s=1/0,i=new Set(n.map(u=>u.guess.join(\"\"))),c=e.filter(u=>!i.has(u.join(\"\")));for(let u=0;u<Math.min(80,c.length);u++){let l=c[Math.floor(u*c.length/Math.min(80,c.length))],f=new Map;for(let g of e){let m=P(g,l),p=m.exact+\":\"+m.misplaced;f.set(p,(f.get(p)||0)+1)}let h=[...f.values()],a=Math.max(...h),d=h.reduce((g,m)=>g+m*m,0);(a<s||a===s&&d<o)&&(s=a,o=d,r=l)}return{cells:[],text:e.length+(e.length===1?\" code remains\":\" codes remain\")+\" consistent with your feedback. Try \"+r.join(\" \")+\". The coach minimizes the largest remaining feedback group, then expected ambiguity, without reading the hidden code.\"}}function j(t,n){if(![\"left\",\"right\",\"up\",\"down\"].includes(n))throw Error(\"Invalid direction\");let e=t.slice(),r=0;for(let o=0;o<4;o++){let s=Array.from({length:4},(u,l)=>n===\"left\"?o*4+l:n===\"right\"?o*4+3-l:n===\"up\"?l*4+o:(3-l)*4+o),i=s.map(u=>t[u]).filter(Boolean),c=[];for(let u=0;u<i.length;u++)if(i[u]===i[u+1]){let l=i[u]*2;c.push(l),r+=l,u++}else c.push(i[u]);s.forEach((u,l)=>e[u]=c[l]||0)}return{board:e,score:r,changed:e.some((o,s)=>o!==t[s])}}var x={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};function ie(t,n=16,e=Math.random){let r=Array.from({length:n*n},(o,s)=>[s%n,Math.floor(s/n)]).filter(o=>!t.some(s=>s[0]===o[0]&&s[1]===o[1]));return r.length?r[Math.floor(e()*r.length)]:null}function C(t,n,e=16,r=Math.random){if(t.over)return structuredClone(t);let o=x[t.direction],s=x[n]?n:t.direction,i=x[s],c=i[0]===-o[0]&&i[1]===-o[1]?t.direction:s,u=x[c]||o,l=[t.body[0][0]+u[0],t.body[0][1]+u[1]],f=!!t.food&&l[0]===t.food[0]&&l[1]===t.food[1],h=f?t.body:t.body.slice(0,-1);if(l.some(g=>g<0||g>=e)||h.some(g=>g[0]===l[0]&&g[1]===l[1]))return{...t,over:!0};let a=[l,...t.body];f||a.pop();let d=f?ie(a,e,r):t.food;return{body:a,food:d,direction:c,score:t.score+(f?1:0),over:!d,won:!d}}function _(t,n=Math.random){let e=t.slice();for(let r=e.length-1;r>0;r--){let o=Math.floor(n()*(r+1));[e[r],e[o]]=[e[o],e[r]]}return e}function U(t){let n=t.filter(o=>!o).length*240,e=Math.max(...t),r=t.map(o=>o?Math.log2(o):0);[0,3,12,15].some(o=>t[o]===e)&&(n+=Math.log2(e||1)*90);for(let o=0;o<4;o++)for(let s of[r.slice(o*4,o*4+4),[0,1,2,3].map(i=>r[i*4+o])]){let i=0,c=0;for(let u=0;u<3;u++)i+=Math.max(0,s[u]-s[u+1]),c+=Math.max(0,s[u+1]-s[u]);n-=Math.min(i,c)*25}return n}function W(t){let n=null,e=-1/0;for(let r of[\"left\",\"up\",\"right\",\"down\"]){let o=j(t,r);if(!o.changed)continue;let s=o.board.flatMap((u,l)=>u?[]:[l]),i=0;for(let u of s)for(let[l,f]of[[2,.9],[4,.1]]){let h=o.board.slice();h[u]=l;let a=-1e6;for(let d of[\"left\",\"up\",\"right\",\"down\"]){let g=j(h,d);g.changed&&(a=Math.max(a,U(g.board)+g.score))}i+=f*a/s.length}let c=(s.length?i:U(o.board))+o.score;c>e&&(e=c,n=r)}return{direction:n,text:n?\"Try \"+n+\". This two-move estimate favors empty space, ordered rows and a large corner tile. Random spawns can change the result.\":\"No legal moves remain.\"}}function le(t,n){let e=new Set,r=[t[0]],o=new Set(t.slice(1).map(s=>s.join(\",\")));for(let s=0;s<r.length;s++){let[i,c]=r[s],u=i+\",\"+c;if(!(e.has(u)||o.has(u)||i<0||c<0||i>=n||c>=n)){e.add(u);for(let[l,f]of Object.values(x))r.push([i+l,c+f])}}return e.size}function V(t,n=16){let e=null,r=-1/0;for(let o of Object.keys(x)){let s=x[t.direction],i=x[o];if(i[0]===-s[0]&&i[1]===-s[1])continue;let c=C(t,o,n,()=>0);if(c.over&&!c.won)continue;let u=le(c.body,n),l=t.food?Math.abs(c.body[0][0]-t.food[0])+Math.abs(c.body[0][1]-t.food[1]):0,f=Object.keys(x).filter(a=>{let d=C(c,a,n,()=>0);return!d.over||d.won}).length,h=u*20-l+(c.score>t.score?10:0)+f*12-(u<c.body.length?1e4:0);h>r&&(r=h,e=o)}return{direction:e,text:e?\"Try \"+e+\". It checks immediate collisions, next-step exits and whether the open area can hold your body before favoring nearby food. Future safety is not guaranteed.\":\"No safe next step was found.\"}}function E(t,n){if(t[n])return[];let e=Math.floor(n/9),r=n%9,o=new Set;for(let s=0;s<81;s++)(Math.floor(s/9)===e||s%9===r||Math.floor(s/27)===Math.floor(e/3)&&Math.floor(s%9/3)===Math.floor(r/3))&&o.add(t[s]);return[1,2,3,4,5,6,7,8,9].filter(s=>!o.has(s))}function K(t){let n=new Set;for(let e=0;e<81;e++)if(t[e])for(let r=e+1;r<81;r++)t[e]===t[r]&&(Math.floor(e/9)===Math.floor(r/9)||e%9===r%9||Math.floor(e/27)===Math.floor(r/27)&&Math.floor(e%9/3)===Math.floor(r%9/3))&&(n.add(e),n.add(r));return[...n]}var k=new Map;function Y(t,n=1){let e=n+\":\"+t.join(\",\");if(k.has(e))return structuredClone(k.get(e));let r=se(t,n);return r.exhausted||(k.set(e,structuredClone(r)),k.size>64&&k.delete(k.keys().next().value)),r}function se(t,n=1){if(t.length!==81||K(t).length)return{count:0,solution:null};let e=t.slice(),r=0,o=null,s=0,i=!1;function c(){if(++s>25e4){i=!0;return}let u=-1,l;for(let f=0;f<81;f++)if(!e[f]){let h=E(e,f);if(!h.length)return;if((!l||h.length<l.length)&&(u=f,l=h,h.length===1))break}if(u<0){r++,o??=e.slice();return}for(let f of l)if(e[u]=f,c(),r>=n)break;e[u]=0}return c(),{count:i?n:r,solution:o,exhausted:i}}function G(t=\"medium\",n=Math.random){let e=()=>_([0,1,2],n),r=e().flatMap(l=>e().map(f=>l*3+f)),o=e().flatMap(l=>e().map(f=>l*3+f)),s=_([1,2,3,4,5,6,7,8,9],n),i=r.flatMap(l=>o.map(f=>s[(l*3+Math.floor(l/3)+f)%9])),c=i.slice(),u={easy:44,medium:36,hard:30}[t]||36;for(let l of _(Array.from({length:81},(f,h)=>h),n)){if(c.filter(Boolean).length<=u)break;let f=c[l];c[l]=0,Y(c,2).count!==1&&(c[l]=f)}return{givens:c,board:c.slice(),notes:Array(81).fill(0),selected:c.findIndex(l=>!l),noteMode:!1,hints:0,completed:!1}}function J(t){let n=K(t.board);if(n.length)return{cell:n[0],value:0,text:\"Resolve the highlighted row, column or box conflict first.\"};let e=Y(t.givens).solution;if(!e)return{cell:-1,text:\"This puzzle has no valid solution.\"};let r=t.board.findIndex((i,c)=>i&&i!==e[c]);if(r>=0)return{cell:r,value:0,text:\"Lookahead found an incorrect entry. Clear the highlighted cell before continuing.\"};for(let i=0;i<81;i++)if(!t.board[i]){let c=E(t.board,i);if(c.length===1)return{cell:i,value:c[0],text:\"Only \"+c[0]+\" fits row \"+(Math.floor(i/9)+1)+\", column \"+(i%9+1)+\".\"}}let o=[...Array.from({length:9},(i,c)=>Array.from({length:9},(u,l)=>c*9+l)),...Array.from({length:9},(i,c)=>Array.from({length:9},(u,l)=>l*9+c)),...Array.from({length:9},(i,c)=>Array.from({length:9},(u,l)=>(Math.floor(c/3)*3+Math.floor(l/3))*9+c%3*3+l%3))];for(let i of o)for(let c=1;c<=9;c++){if(i.some(l=>t.board[l]===c))continue;let u=i.filter(l=>!t.board[l]&&E(t.board,l).includes(c));if(u.length===1)return{cell:u[0],value:c,text:\"Only this cell can hold \"+c+\" in its row, column or box (a hidden single).\"}}let s=t.board.findIndex(i=>!i);return s<0?{cell:-1,text:\"Puzzle complete.\"}:{cell:s,value:e[s],text:\"Solver lookahead suggests \"+e[s]+\" at row \"+(Math.floor(s/9)+1)+\", column \"+(s%9+1)+\". Use Place hint to apply it.\"}}function S(t){for(let n=0;n<42;n++)if(t[n])for(let[e,r]of[[1,0],[0,1],[1,1],[-1,1]]){let o=n%7,s=Math.floor(n/7);if(!(o+e*3<0||o+e*3>=7||s+r*3>=6)&&[1,2,3].every(i=>t[(s+r*i)*7+o+e*i]===t[n]))return t[n]}return t.every(Boolean)?\"draw\":null}function I(t,n,e){if(!Number.isInteger(n)||n<0||n>6||S(t))return null;for(let r=5;r>=0;r--)if(!t[r*7+n]){let o=t.slice();return o[r*7+n]=e,o}return null}function ce(t){let n=0;for(let e=0;e<6;e++)n+=t[e*7+3]===\"O\"?5:t[e*7+3]===\"X\"?-5:0;for(let e=0;e<42;e++)for(let[r,o]of[[1,0],[0,1],[1,1],[-1,1]]){let s=e%7,i=Math.floor(e/7);if(s+r*3<0||s+r*3>=7||i+o*3>=6)continue;let c=[0,1,2,3].map(f=>t[(i+o*f)*7+s+r*f]),u=c.filter(f=>f===\"O\").length,l=c.filter(f=>f===\"X\").length;l||(n+=[0,1,8,70,1e4][u]),u||(n-=[0,1,10,90,1e4][l])}return n}function Q(t,n=\"medium\",e=Math.random,r=\"O\"){let o=r===\"O\"?t:t.map(a=>a===\"O\"?\"X\":a===\"X\"?\"O\":\"\"),s=[3,2,4,1,5,0,6],i=s.filter(a=>I(o,a,\"O\"));if(!i.length)return-1;for(let a of[\"O\",\"X\"])for(let d of i)if(S(I(o,d,a))===a)return d;if(n===\"easy\")return i[Math.floor(e()*i.length)];let c=0,u=i[0],l=Symbol(\"budget\"),f=new Map;function h(a,d,g,m,p){if(++c>35e3)throw l;let b=S(a);if(b)return b===\"O\"?1e5+d:b===\"X\"?-1e5-d:0;if(!d)return ce(a);let T=g+d+a.join(\".\");if(f.has(T))return f.get(T);let Z=m,$=p,O=g===\"O\",y=O?-1/0:1/0,H=!1,z=s.flatMap(w=>{let M=I(a,w,g);return M?[{c:w,next:M,win:S(M)===g}]:[]}).sort((w,M)=>Number(M.win)-Number(w.win));for(let{next:w}of z){let M=h(w,d-1,O?\"X\":\"O\",m,p);if(y=O?Math.max(y,M):Math.min(y,M),O?m=Math.max(m,y):p=Math.min(p,y),p<=m){H=!0;break}}return!H&&y>Z&&y<$&&f.set(T,y),y}for(let a=1;a<=(n===\"hard\"?6:3);a++){let d=-1/0,g=u;try{for(let m of i){let p=h(I(o,m,\"O\"),a-1,\"X\",-1/0,1/0);p>d&&(d=p,g=m)}u=g}catch(m){if(m!==l)throw m;break}}return u}self.onmessage=({data:t})=>{let{id:n,operation:e,payload:r}=t;try{let o;if(e===\"reversi\")o=R(r.board,r.player,r.level);else if(e===\"sliding\")o=F(r);else if(e===\"code\")o=D(r);else if(e===\"connect\")o=Q(r.board,r.level,Math.random,r.player);else if(e===\"sudokuHint\")o=J(r);else if(e===\"createSudoku\")o=G(r);else if(e===\"2048\")o=W(r);else if(e===\"snake\")o=V(r);else throw Error(\"Unknown analysis operation\");self.postMessage({id:n,result:o})}catch(o){self.postMessage({id:n,error:o.message})}};})();\n";(() => {
+  // src/games/local-play.js
+  var directGames = ["ttt", "connect4", "reversi", "ludo", "memory", "rps"];
+  var challengeGames = ["2048", "snake", "sudoku", "mines", "sliding", "lights", "code", "hangman", "scramble"];
+  var modeChoices = (id) => directGames.includes(id) ? [["solo", ["memory"].includes(id) ? "Solo" : "Vs computer"], ["two", id === "ludo" ? "Local friends \xB7 pass & play" : "Local friends \xB7 2 players"]] : [["solo", "Solo"], ["challenge", "Local friends \xB7 2-round challenge"]];
+  function localDescription(id, mode) {
+    if (mode === "two") return id === "memory" ? "Take turns finding pairs. A match scores one point and keeps your turn; a miss passes the turn after both cards close." : id === "rps" ? "Choose privately, pass the device, then reveal both hands together. First to three wins." : id === "ludo" ? "Pass this device to the highlighted player. Choose two or four players." : "Take turns on this device. X starts; the computer is off. Difficulty only affects the computer.";
+    if (mode === "challenge") return ["snake", "2048"].includes(id) ? "One attempt each on this device. Fewer hints wins first, then higher score. Use Finish round when ready." : "One puzzle each at the same setting; boards or words may differ. Completion wins first, then fewer hints and moves. Two unfinished attempts draw.";
+    return id === "memory" ? "Find every pair in as few turns as possible." : directGames.includes(id) ? "Play against the computer. Adjust its options in Settings." : "Play at your own pace.";
+  }
+  function memoryTurn(local, matched) {
+    return { turn: matched ? local.turn : 1 - local.turn, scores: local.scores.map((n, i) => n + (matched && i === local.turn ? 1 : 0)) };
+  }
+  var newChallenge = () => ({ round: 0, phase: "ready", results: [] });
+  function challengeResult(id, state2, won) {
+    let score = 0;
+    if (["2048", "snake"].includes(id)) score = state2.score;
+    if (id === "mines") score = state2.revealed.length;
+    if (id === "sudoku") score = state2.board.filter(Boolean).length;
+    if (id === "lights") score = state2.board.filter((v) => !v).length;
+    if (id === "sliding") score = state2.board.filter((v, i) => v === (i + 1) % state2.board.length).length;
+    if (id === "code") score = Math.max(0, ...state2.history.map((r) => r.exact * 5 + r.misplaced));
+    if (id === "hangman") score = state2.guessed.length;
+    if (id === "scramble") score = state2.picked.length;
+    return { won: !!won, score, moves: state2.moves, hints: state2.hints };
+  }
+  function compareChallenge(id, a, b) {
+    if (!["snake", "2048"].includes(id)) {
+      if (a.won !== b.won) return a.won ? -1 : 1;
+      if (!a.won) return 0;
+    }
+    if (a.hints !== b.hints) return Math.sign(a.hints - b.hints);
+    if (["snake", "2048"].includes(id)) return Math.sign(b.score - a.score);
+    return Math.sign(a.moves - b.moves);
+  }
+  function completeChallenge(c, result) {
+    if (c.phase !== "playing") return c;
+    const results = [...c.results, result];
+    return { round: 1, phase: results.length === 2 ? "complete" : "ready", results };
+  }
+
   // src/games/catalog.js
   var gameCatalog = [
     ["rps", "Rock\u2013Paper\u2013Scissors", "Quick play", "First to three wins", "\u25D2", "1 min"],
@@ -339,6 +406,9 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       $2("dockFavorites").removeAttribute("aria-current");
       $2("resumeGame").setAttribute("aria-current", "page");
       $2("playCategory").textContent = gameCatalog.find((g) => g.id === id).category;
+      $2("playSettingsSlot").append($2("settingsToggle"));
+      $2("modeDescription").after($2("settingsPanel"));
+      $2("gameOptions").hidden = false;
       closeMobile();
       refresh();
       $2("playView").getAnimations().forEach((a) => a.cancel());
@@ -356,6 +426,9 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         }
       }
       onLeave();
+      $2("librarySettingsSlot").append($2("settingsToggle"));
+      $2("libraryView").after($2("settingsPanel"));
+      $2("gameOptions").hidden = true;
       favoritesOnly = favorite;
       filter = "All";
       $2("gameSearch").value = "";
@@ -518,6 +591,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     });
     for (const e of dock.querySelectorAll("[aria-label]")) e.title = e.getAttribute("aria-label");
     $2("libraryTitle").tabIndex = -1;
+    $2("gameOptions").hidden = true;
     dockState();
     applyTheme();
     refresh();
@@ -606,7 +680,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   }
   function rpsComputer(history2, level = "medium", random = Math.random) {
     if (level !== "hard" || history2.length < 3 || random() < 0.3) return hands[Math.floor(random() * 3)];
-    const count = hands.map((h) => history2.slice(-8).filter((r) => r.human === h).length), highest = Math.max(...count), likely = hands.filter((_, i) => count[i] === highest);
+    const recent = history2.slice(-8), last = recent.at(-1)?.human, following = recent.slice(0, -1).flatMap((r, i) => r.human === last ? [recent[i + 1].human] : []);
+    const count = hands.map((h) => recent.filter((r) => r.human === h).length + following.filter((v) => v === h).length), highest = Math.max(...count), likely = hands.filter((_, i) => count[i] === highest);
     return hands[(hands.indexOf(likely[Math.floor(random() * likely.length)]) + 1) % 3];
   }
   var createRPS = () => ({ history: [] });
@@ -731,6 +806,23 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     for (const token of moves) {
       const n = moveLudo(s, token), position = n.tokens[s.turn][token], captures = n.tokens.reduce((count, a, p) => count + (p === s.turn ? 0 : a.filter((v, i) => v === -1 && s.tokens[p][i] !== -1).length), 0);
       let score = (position === 57 ? 500 : position >= 51 ? 90 : position) * 2 + captures * 220 + (s.tokens[s.turn][token] === -1 ? 35 : 0);
+      if (n.winner === s.turn) score += 1e5;
+      if (level === "hard") {
+        const risk = (board3) => board3.tokens[s.turn].reduce((sum, v, t) => {
+          if (v < 0 || v > 50) return sum;
+          const target = ludoCell(board3, s.turn, t);
+          if (safeCells.includes(target)) return sum;
+          let threats = 0;
+          for (let p = 0; p < board3.players; p++) if (p !== s.turn) for (let other = 0; other < 4; other++) {
+            const from = board3.tokens[p][other];
+            if (from < 0 || from > 50) continue;
+            const distance = (target - ludoCell(board3, p, other) + 52) % 52;
+            if (distance > 0 && distance <= 6 && from + distance <= 50) threats++;
+          }
+          return sum + threats * (60 + v);
+        }, 0);
+        score += (risk(s) - risk(n)) * 0.8;
+      }
       if (level === "hard" && position >= 0 && position <= 50) {
         const target = ludoCell(n, s.turn, token);
         if (safeCells.includes(target)) score += 60;
@@ -887,6 +979,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     return { size, board: board3, undo: null };
   }
   function toggleLights(board3, size, cell) {
+    if (!Number.isInteger(cell) || cell < 0 || cell >= board3.length) return board3.slice();
     const next2 = board3.slice(), x = cell % size, y = Math.floor(cell / size);
     for (const [dx, dy] of [[0, 0], [0, -1], [-1, 0], [0, 1], [1, 0]]) {
       const c = x + dx, r = y + dy;
@@ -1261,11 +1354,21 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   }
   function mineHint(state2) {
     if (!state2.bombs) return { cell: -1, text: "Choose any square. Your first square and its neighbors are protected." };
-    for (const i of state2.revealed) {
-      const neighbors = mineNeighbors(i, state2.size), count = neighbors.filter((j) => state2.bombs.includes(j)).length, flags = neighbors.filter((j) => state2.flags.includes(j)).length, hidden = neighbors.filter((j) => !state2.revealed.includes(j) && !state2.flags.includes(j));
-      if (!hidden.length) continue;
-      if (flags === count) return { cell: hidden[0], action: "reveal", text: "Assuming your flags are correct, all remaining neighbors of the highlighted numbered square are safe.", source: i };
-      if (count - flags === hidden.length) return { cell: hidden[0], action: "flag", text: "The remaining mine count equals the covered neighbors. Assuming earlier flags are correct, this square is a mine.", source: i };
+    const constraints = [];
+    for (const source of state2.revealed) {
+      const neighbors = mineNeighbors(source, state2.size), count = neighbors.filter((j) => state2.bombs.includes(j)).length, flags = neighbors.filter((j) => state2.flags.includes(j)).length, cells = neighbors.filter((j) => !state2.revealed.includes(j) && !state2.flags.includes(j)), remaining = count - flags;
+      if (remaining < 0 || remaining > cells.length) return { cell: source, text: "The visible numbers disagree with nearby flags. Recheck your flags before asking for a deduction." };
+      if (!cells.length) continue;
+      constraints.push({ source, cells, remaining });
+    }
+    for (const { source, cells, remaining } of constraints) {
+      if (remaining === 0) return { cell: cells[0], action: "reveal", text: "Assuming your flags are correct, every covered neighbor of this numbered square is safe.", source };
+      if (remaining === cells.length) return { cell: cells[0], action: "flag", text: "The remaining mine count equals the covered neighbors. Assuming earlier flags are correct, this square is a mine.", source };
+    }
+    for (const a of constraints) for (const b of constraints) {
+      if (a.cells.length >= b.cells.length || !a.cells.every((i) => b.cells.includes(i))) continue;
+      const extra = b.cells.filter((i) => !a.cells.includes(i)), remaining = b.remaining - a.remaining;
+      if (remaining === 0 || remaining === extra.length) return { cell: extra[0], action: remaining === 0 ? "reveal" : "flag", source: b.source, text: "Comparing two overlapping visible clues (subset subtraction), this square is " + (remaining === 0 ? "safe" : "a mine") + " if your existing flags are correct." };
     }
     return { cell: -1, text: "No forced move is visible from the current numbers and flags. The coach does not inspect hidden squares." };
   }
@@ -1321,6 +1424,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       const n = s.deck?.length;
       valid = [12, 16, 24].includes(n) && board(s.deck, n, (v) => integer(v, n / 2 - 1)) && Array.from({ length: n / 2 }, (_, v) => s.deck.filter((x) => x === v).length === 2).every(Boolean) && ids(s.open, n) && s.open.length <= 2 && ids(s.matched, n) && s.matched.length % 2 === 0 && s.open.every((i) => !s.matched.includes(i)) && object(s.seen) && Object.entries(s.seen).every(([i, v]) => String(Number(i)) === i && integer(Number(i), n - 1) && s.deck[Number(i)] === v) && Array.from({ length: n / 2 }, (_, v) => s.matched.filter((i) => s.deck[i] === v).length % 2 === 0).every(Boolean);
     }
+    if (id === "memory" && s.local !== void 0) valid = valid && object(s.local) && Object.keys(s.local).length === 2 && [0, 1].includes(s.local.turn) && board(s.local.scores, 2, (v) => integer(v, 12)) && s.local.scores.reduce((a, b) => a + b, 0) === s.matched.length / 2;
     if (id === "ttt" || id === "connect4") {
       const n = id === "ttt" ? 9 : 42;
       valid = board(s.board, n, (v) => ["", "X", "O"].includes(v));
@@ -1384,7 +1488,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         }
       }
     }
-    const allowed = { 2048: ["board", "score", "undo"], snake: ["body", "food", "direction", "score", "over", "won"], memory: ["deck", "open", "matched", "seen"], ttt: ["board"], sudoku: ["givens", "board", "notes", "selected", "noteMode", "completed"], mines: ["size", "mines", "bombs", "revealed", "flags", "over", "won"], connect4: ["board"], reversi: ["board", "turn"], sliding: ["size", "board", "undo"], lights: ["size", "board"], code: ["colors", "secret", "draft", "history"], rps: ["history"], hangman: ["wordIndex", "guessed", "limit"], scramble: ["wordIndex", "order", "picked", "completed"], ludo: ["players", "tokens", "turn", "die", "streak", "winner", "last"] }[id];
+    const allowed = { 2048: ["board", "score", "undo"], snake: ["body", "food", "direction", "score", "over", "won"], memory: ["deck", "open", "matched", "seen", "local"], ttt: ["board"], sudoku: ["givens", "board", "notes", "selected", "noteMode", "completed"], mines: ["size", "mines", "bombs", "revealed", "flags", "over", "won"], connect4: ["board"], reversi: ["board", "turn"], sliding: ["size", "board", "undo"], lights: ["size", "board"], code: ["colors", "secret", "draft", "history"], rps: ["history"], hangman: ["wordIndex", "guessed", "limit"], scramble: ["wordIndex", "order", "picked", "completed"], ludo: ["players", "tokens", "turn", "die", "streak", "winner", "last"] }[id];
     if (!allowed || Object.keys(s).some((k) => !["moves", "hints", "credited", ...allowed].includes(k))) valid = false;
     if (id === "sudoku" && valid) valid = s.completed === (s.board.every(Boolean) && sudokuConflicts(s.board).length === 0);
     if (id === "snake" && valid) valid = s.food !== null || s.won;
@@ -1392,12 +1496,13 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     return structuredClone(s);
   }
   function validateProfile(v) {
-    if (!object(v) || v.version !== 2 || typeof v.enabled !== "boolean" || !gameIds.includes(v.active) || !object(v.settings) || !object(v.saves) || !object(v.best) || !object(v.matches) || Object.keys(v).some((k) => !["version", "enabled", "active", "settings", "saves", "best", "matches", "library"].includes(k))) throw Error("Invalid Games save");
-    for (const [id, setting] of Object.entries(v.settings)) if (!gameIds.includes(id) || !object(setting) || !["easy", "medium", "hard"].includes(setting.level) || !["solo", "two"].includes(setting.mode) || Object.keys(setting).some((k) => !["level", "mode", ...id === "ludo" ? ["players"] : []].includes(k))) throw Error("Invalid Games settings");
+    if (!object(v) || v.version !== 2 || typeof v.enabled !== "boolean" || !gameIds.includes(v.active) || !object(v.settings) || !object(v.saves) || !object(v.best) || !object(v.matches) || Object.keys(v).some((k) => !["version", "enabled", "active", "settings", "saves", "best", "matches", "library", "challenges"].includes(k))) throw Error("Invalid Games save");
+    for (const [id, setting] of Object.entries(v.settings)) if (!gameIds.includes(id) || !object(setting) || !["easy", "medium", "hard"].includes(setting.level) || !["solo", "two", ...challengeGames.includes(id) ? ["challenge"] : []].includes(setting.mode) || Object.keys(setting).some((k) => !["level", "mode", ...id === "ludo" ? ["players"] : []].includes(k))) throw Error("Invalid Games settings");
     for (const [id, setting] of Object.entries(v.settings)) if (setting.players !== void 0 && (id !== "ludo" || ![2, 4].includes(setting.players))) throw Error("Invalid player count");
     for (const [id, s] of Object.entries(v.saves)) {
       if (!gameIds.includes(id)) throw Error("Unknown saved game");
       validateGame(id, s);
+      if (id === "memory" && v.settings[id]?.mode === "two" !== !!s.local) throw Error("Memory players do not match the saved board");
       if ((id === "ttt" || id === "connect4") && (v.settings[id]?.mode || "solo") === "solo") {
         const b = s.board, end = id === "connect4" ? connectWinner(b) : outcome(b);
         if (end && end !== "draw" && b.filter((x) => x === "X").length - b.filter((x) => x === "O").length !== (end === "X" ? 1 : 0)) throw Error("Invalid completed match");
@@ -1412,6 +1517,14 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       const lib = v.library;
       if (!object(lib) || Object.keys(lib).some((k) => !["favorites", "recent", "collapsed", "theme"].includes(k)) || !Array.isArray(lib.favorites) || !Array.isArray(lib.recent) || lib.favorites.length > gameIds.length || lib.recent.length > 6 || ![lib.favorites, lib.recent].every((a) => new Set(a).size === a.length && a.every((id) => gameIds.includes(id))) || typeof lib.collapsed !== "boolean" || !["follow", "forest", "sky", "cartoon", "neon", "pearl", "graphite"].includes(lib.theme)) throw Error("Invalid Games library");
     }
+    if (v.challenges !== void 0) {
+      if (!object(v.challenges)) throw Error("Invalid local challenges");
+      for (const [id, c] of Object.entries(v.challenges)) {
+        const valid = challengeGames.includes(id) && v.settings[id]?.mode === "challenge" && object(c) && Object.keys(c).length === 3 && [0, 1].includes(c.round) && ["ready", "playing", "complete"].includes(c.phase) && Array.isArray(c.results) && c.results.length === (c.phase === "complete" ? 2 : c.round) && c.results.every((r) => object(r) && Object.keys(r).length === 4 && typeof r.won === "boolean" && integer(r.score) && integer(r.moves) && integer(r.hints));
+        if (!valid || c.phase === "complete" && c.round !== 1) throw Error("Invalid local challenge round");
+      }
+    }
+    for (const [id, s] of Object.entries(v.saves)) if (v.settings[id]?.mode === "challenge" && !v.challenges?.[id]) throw Error("Missing local challenge round");
     const result = structuredClone(v);
     result.matches.reversi ??= { X: 0, O: 0, draw: 0 };
     result.matches.rps ??= { X: 0, O: 0, draw: 0 };
@@ -1463,6 +1576,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   var arcadeShell;
   var ludoTimer = null;
   var wordNotice = "";
+  var rpsChoice = null;
+  var rpsPhase = "first";
+  var challenge = () => settings().mode === "challenge" ? profile.challenges?.[game] : null;
+  var blocked = () => !!challenge() && challenge().phase !== "playing";
   function node(tag, text, cls) {
     const n = document.createElement(tag);
     if (text !== void 0) n.textContent = text;
@@ -1507,6 +1624,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     persistTimer = null;
     if (!profile.enabled || saveError) return;
     if (state) sessions[game] = structuredClone(state);
+    if (game === "memory" && state?.local && state.open.length === 2) {
+      sessions[game].open = [];
+      sessions[game].local = memoryTurn(state.local, false);
+    }
     profile.saves = structuredClone(sessions);
     profile.active = game;
     try {
@@ -1524,6 +1645,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   var thinking = false;
   var analysisFailure = "";
   function stop() {
+    rpsChoice = null;
+    rpsPhase = "first";
     clearTimeout(ludoTimer);
     ludoTimer = null;
     analysisEpoch++;
@@ -1543,7 +1666,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     return pad;
   }
   function wantRestart() {
-    if (state && (state.moves || game === "scramble" && state.picked.length || game === "ludo" && state.die !== null) && !ended()) return confirm("Start a new game? Current progress for this game will be replaced.");
+    const local = challenge(), betweenRounds = local && local.phase !== "complete" && local.results.length > 0;
+    if (betweenRounds || state && (state.moves || game === "scramble" && state.picked.length || game === "ludo" && state.die !== null) && !ended()) return confirm("Start a new game? Current progress for this game will be replaced.");
     return true;
   }
   function newState(id) {
@@ -1561,7 +1685,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       const body = [[7, 7], [6, 7], [5, 7]];
       return meta({ body, food: foodFor(body), direction: "right", score: 0, over: false, won: false });
     }
-    if (id === "memory") return meta({ deck: memoryDeck({ easy: 6, medium: 8, hard: 12 }[level]), open: [], matched: [], seen: {} });
+    if (id === "memory") return meta({ deck: memoryDeck({ easy: 6, medium: 8, hard: 12 }[level]), open: [], matched: [], seen: {}, ...settings(id).mode === "two" ? { local: { turn: 0, scores: [0, 0] } } : {} });
     if (id === "ttt" || id === "connect4") return meta({ board: Array(id === "ttt" ? 9 : 42).fill("") });
     if (id === "sudoku") return meta(createSudoku(level));
     return meta(createMines(level));
@@ -1575,22 +1699,26 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       select.append(o);
     }
     select.value = value;
-    select.onchange = () => {
+    select.onchange = async () => {
       if (!wantRestart()) {
         select.value = value;
         return;
       }
       change(select.value);
       delete sessions[game];
-      start(game, false);
-      $("gameOptions").querySelector("select")?.focus();
+      if (profile.challenges) delete profile.challenges[game];
+      await start(game, false);
+      [...$("gameOptions").querySelectorAll("select")].find((e) => e.getAttribute("aria-label") === label)?.focus();
     };
     wrap.append(select);
     $("gameOptions").append(wrap);
   }
   async function start(id, resume = true) {
-    if (state) {
-      if (game === "memory") state.open = [];
+    if (state && resume) {
+      if (game === "memory") {
+        if (state.local && state.open.length === 2) state.local = memoryTurn(state.local, false);
+        state.open = [];
+      }
       sessions[game] = structuredClone(state);
     }
     stop();
@@ -1608,6 +1736,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       const next2 = resume && sessions[id] ? structuredClone(sessions[id]) : id === "sudoku" ? meta(await analyse("createSudoku", settings(id).level)) : newState(id);
       if (epoch !== analysisEpoch) return;
       state = next2;
+      if (settings(id).mode === "challenge") {
+        profile.challenges ??= {};
+        if (!resume || !profile.challenges[id]) profile.challenges[id] = newChallenge();
+      } else if (profile.challenges) delete profile.challenges[id];
     } catch (e) {
       if (e.name !== "AbortError") setStatus(e.message);
       return;
@@ -1627,11 +1759,12 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     $("instructions").textContent = info[2];
     board2.setAttribute("aria-label", info[0] + " game board");
     $("keyboardHint").textContent = game === "hangman" ? "Focus the board and type A\u2013Z, or use the letter buttons." : game === "scramble" ? "Type letters to select tiles \xB7 Backspace removes the last letter \xB7 Enter checks the word." : game === "ludo" ? "Roll, then choose a legal token below the board. All controls support keyboard and touch." : game === "snake" ? "Arrows or WASD \xB7 Space pauses \xB7 leaving this tab pauses play." : game === "2048" ? "Focus the board, then use arrow keys, swipe or the direction buttons." : game === "sliding" ? "Arrow keys move a numbered tile toward the arrow \xB7 touch or click an adjacent tile." : game === "sudoku" ? "Arrow keys select a cell \xB7 1\u20139 enter a digit \xB7 Delete clears \xB7 N toggles notes." : "Tab and Enter select squares and actions. All games support touch controls.";
-    if (game !== "2048") selectSetting(game === "rps" ? "Opponent style" : game === "sliding" ? "Puzzle size" : game === "lights" ? "Pattern" : game === "code" ? "Code digits" : game === "memory" ? "Board size" : game === "snake" ? "Speed" : "Difficulty", game === "rps" ? [["medium", "Random"], ["hard", "Pattern learning"]] : game === "sliding" ? [["easy", "3 \xD7 3 \xB7 gentle"], ["medium", "3 \xD7 3 \xB7 mixed"], ["hard", "4 \xD7 4 \xB7 mixed"]] : game === "lights" ? [["easy", "4 \xD7 4"], ["medium", "5 \xD7 5 \xB7 gentle"], ["hard", "5 \xD7 5 \xB7 mixed"]] : game === "code" ? [["easy", "1\u20134"], ["medium", "1\u20135"], ["hard", "1\u20136"]] : game === "memory" ? [["easy", "6 pairs"], ["medium", "8 pairs"], ["hard", "12 pairs"]] : game === "snake" ? [["easy", "Relaxed"], ["medium", "Normal"], ["hard", "Fast"]] : [["easy", "Easy"], ["medium", "Medium"], ["hard", game === "ttt" ? "Unbeatable" : "Hard"]], settings().level, (v) => {
-      profile.settings[game] = { ...settings(), level: v };
-    });
-    if (["ttt", "connect4", "reversi", "ludo"].includes(game)) selectSetting("Opponent", [["solo", "Computer"], ["two", game === "ludo" ? "Pass & play" : "Two players"]], settings().mode, (v) => {
+    const modeLabel = ["ttt", "connect4", "reversi", "ludo"].includes(game) ? "Opponent" : "Play mode";
+    selectSetting(modeLabel, modeChoices(game), settings().mode, (v) => {
       profile.settings[game] = { ...settings(), mode: v };
+    });
+    if (game !== "2048" && !(settings().mode === "two" && ["ttt", "connect4", "reversi", "ludo", "rps"].includes(game))) selectSetting(game === "rps" ? "Opponent style" : game === "sliding" ? "Puzzle size" : game === "lights" ? "Pattern" : game === "code" ? "Code digits" : game === "memory" ? "Board size" : game === "snake" ? "Speed" : "Difficulty", game === "rps" ? [["medium", "Random"], ["hard", "Pattern learning"]] : game === "sliding" ? [["easy", "3 \xD7 3 \xB7 gentle"], ["medium", "3 \xD7 3 \xB7 mixed"], ["hard", "4 \xD7 4 \xB7 mixed"]] : game === "lights" ? [["easy", "4 \xD7 4"], ["medium", "5 \xD7 5 \xB7 gentle"], ["hard", "5 \xD7 5 \xB7 mixed"]] : game === "code" ? [["easy", "1\u20134"], ["medium", "1\u20135"], ["hard", "1\u20136"]] : game === "memory" ? [["easy", "6 pairs"], ["medium", "8 pairs"], ["hard", "12 pairs"]] : game === "snake" ? [["easy", "Relaxed"], ["medium", "Normal"], ["hard", "Fast"]] : [["easy", "Easy"], ["medium", "Medium"], ["hard", game === "ttt" ? "Unbeatable" : "Hard"]], settings().level, (v) => {
+      profile.settings[game] = { ...settings(), level: v };
     });
     if (game === "ludo") selectSetting("Players", [["2", "2 players"], ["4", "4 players"]], String(settings().players || 2), (v) => {
       profile.settings[game] = { ...settings(), players: Number(v) };
@@ -1699,6 +1832,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       b.id = "slidingUndo";
       $("gameControls").append(b);
     }
+    updatePlaySetup();
     render();
     saveSoon();
     if (game === "reversi") void computerReversi();
@@ -1712,6 +1846,16 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.querySelectorAll(".suggested").forEach((e) => e.classList.remove("suggested"));
   }
   function record() {
+    if (challenge()) {
+      $("record").textContent = "Local challenge \xB7 results stay separate from solo personal bests.";
+      $("scoreboard").textContent = "";
+      return;
+    }
+    if (game === "memory" && settings().mode === "two") {
+      $("record").textContent = "Local match \xB7 most pairs wins.";
+      $("scoreboard").textContent = "Player 1: " + state.local.scores[0] + " pairs \xB7 Player 2: " + state.local.scores[1] + " pairs";
+      return;
+    }
     if (ended() && !state.credited) {
       state.credited = true;
       const setting2 = settings(), key2 = game + ":" + setting2.level + ":" + setting2.mode + ":" + (state.hints ? "assisted" : "solo") + (game === "ludo" ? ":" + state.players : "");
@@ -1726,10 +1870,29 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       }
     }
     const setting = settings(), key = game + ":" + setting.level + ":" + setting.mode + ":" + (state.hints ? "assisted" : "solo") + (game === "ludo" ? ":" + state.players : ""), best = profile.best[key];
+    if (game === "rps" && settings().mode === "two") {
+      $("record").textContent = "Local match \xB7 first to three wins.";
+      $("scoreboard").textContent = "";
+      return;
+    }
     $("record").textContent = (best === void 0 ? "No completed personal best yet." : "Personal best: " + best + (["2048", "snake"].includes(game) ? " points" : " moves")) + (state.hints ? " \xB7 Assisted (" + state.hints + " hints)." : " \xB7 No hints used.");
     $("scoreboard").textContent = ["ttt", "connect4", "reversi", "rps"].includes(game) ? "Match scoreboard \xB7 X " + profile.matches[game].X + " \xB7 O " + profile.matches[game].O + " \xB7 Draws " + profile.matches[game].draw : "";
   }
   function render() {
+    if (challenge() && challenge().phase === "playing" && ended()) finishChallengeRound(true);
+    renderLocalRound();
+    if (blocked()) {
+      board2.replaceChildren();
+      board2.className = "local-waiting";
+      $("gameControls").hidden = true;
+      document.querySelector(".coach").hidden = true;
+      setStatus(challenge().phase === "complete" ? "Challenge complete." : "Player " + (challenge().round + 1) + " \xB7 Ready when you are.");
+      record();
+      saveSoon();
+      return;
+    }
+    $("gameControls").hidden = false;
+    document.querySelector(".coach").hidden = false;
     board2.className = { 2048: "tiles", snake: "snake", memory: "memory", ttt: "ttt", sudoku: "sudoku", mines: "mines", connect4: "connect4", reversi: "reversi", sliding: "sliding", lights: "lights", code: "code", rps: "rps", hangman: "hangman", scramble: "scramble", ludo: "ludo" }[game];
     board2.replaceChildren();
     if (game === "2048") {
@@ -1778,7 +1941,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         const text = v || Array.from({ length: 9 }, (_, n) => state.notes[i] & 1 << n ? n + 1 : "").join(""), b = button(String(text || "\xB7"), () => {
           state.selected = i;
           render();
-          board2.children[i].focus();
+          board2.children[i]?.focus();
         }, "Row " + (Math.floor(i / 9) + 1) + ", column " + (i % 9 + 1) + ", " + (v || "empty") + (state.givens[i] ? ", given" : ""));
         b.className = (state.givens[i] ? "given " : "") + (i === state.selected ? "selected " : "") + (conflicts.has(i) ? "conflict " : "") + (!v && state.notes[i] ? "pencil" : "");
         b.tabIndex = i === state.selected ? 0 : -1;
@@ -1821,13 +1984,19 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     renderArcade();
     const retry = $("retryAI");
     if (retry) retry.hidden = thinking || !!ended() || settings().mode !== "solo" || (game === "connect4" ? state.board.filter(Boolean).length % 2 !== 1 : game === "reversi" ? state.turn !== "O" : game === "ludo" ? state.turn === 0 : true);
+    if (game === "memory" && state.local) {
+      const [a, b] = state.local.scores;
+      setStatus(ended() ? (a === b ? "A draw!" : (a > b ? "Player 1" : "Player 2") + " wins!") + " \xB7 " + a + "\u2013" + b + " pairs" : "Player " + (state.local.turn + 1) + " to play \xB7 " + a + "\u2013" + b + " pairs" + (state.open.length === 2 ? " \xB7 Remember these cards." : ""));
+    }
+    if (challenge()) setStatus("Player " + (challenge().round + 1) + " \xB7 " + status.textContent);
     if (analysisFailure) setStatus(analysisFailure);
-    $("hint").disabled = !!ended() || thinking;
+    $("hint").disabled = !!ended() || thinking || settings().mode === "two" && ["rps", "memory"].includes(game);
+    document.querySelector(".coach").hidden = settings().mode === "two" && ["rps", "memory"].includes(game);
     record();
     saveSoon();
   }
   function move2048(dir) {
-    if (game !== "2048" || !state || thinking) return;
+    if (blocked() || game !== "2048" || !state || thinking) return;
     const next2 = slide2048(state.board, dir);
     if (next2.changed) {
       state.undo = { board: state.board.slice(), score: state.score };
@@ -1839,7 +2008,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
   }
   function playTTT(i) {
-    if (state.board[i] || ended()) return;
+    if (thinking || state.board[i] || ended()) return;
     clearHint();
     const turn = state.board.filter(Boolean).length % 2 ? "O" : "X";
     state.board[i] = turn;
@@ -1886,7 +2055,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
   }
   function flip(i) {
-    if (state.open.length === 2 || state.open.includes(i) || state.matched.includes(i)) return;
+    if (blocked() || thinking || ended() || state.open.length === 2 || state.open.includes(i) || state.matched.includes(i)) return;
     clearHint();
     state.open.push(i);
     state.seen[i] = state.deck[i];
@@ -1896,8 +2065,11 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       if (state.deck[a] === state.deck[b]) {
         state.matched.push(a, b);
         state.open = [];
+        if (state.local) state.local = memoryTurn(state.local, true);
       } else memoryTimer = setTimeout(() => {
+        memoryTimer = null;
         state.open = [];
+        if (state.local) state.local = memoryTurn(state.local, false);
         render();
       }, 850);
     }
@@ -1905,7 +2077,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.children[i]?.focus();
   }
   function steer(dir) {
-    if (game !== "snake" || pending2 || state.over) return;
+    if (blocked() || game !== "snake" || pending2 || state.over) return;
     const a = vectors[state.direction], b = vectors[dir];
     if (a[0] === -b[0] && a[1] === -b[1]) return;
     pending2 = dir;
@@ -1921,7 +2093,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
   }
   function toggleSnake() {
-    if (game !== "snake" || state.over) return;
+    if (blocked() || game !== "snake" || state.over) return;
     if (running) {
       pauseSnake();
       return;
@@ -1938,9 +2110,9 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     render();
   }
   function enterSudoku(value) {
-    if (!state) return;
+    if (blocked() || thinking || !state) return;
     const i = state.selected;
-    if (state.completed || state.givens[i]) return;
+    if (state.completed || state.givens[i] || !state.noteMode && state.board[i] === value) return;
     clearHint();
     if (state.noteMode && value) state.notes[i] ^= 1 << value - 1;
     else {
@@ -1950,10 +2122,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       state.completed = state.board.every(Boolean) && !sudokuConflicts(state.board).length;
     }
     render();
-    board2.children[i].focus();
+    board2.children[i]?.focus();
   }
   function playMine(i, forceFlag = false) {
-    if (state.over || thinking) return;
+    if (blocked() || state.over || thinking) return;
     clearHint();
     if (forceFlag || flagMode) {
       if (state.revealed.includes(i)) return;
@@ -1971,7 +2143,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.children[i]?.focus();
   }
   $("hint").onclick = async () => {
-    if (ended() || thinking) return;
+    if (blocked() || ended() || thinking || settings().mode === "two" && ["rps", "memory"].includes(game)) return;
     const epoch = analysisEpoch, snapshot = JSON.stringify(state);
     thinking = true;
     $("hint").disabled = true;
@@ -1989,7 +2161,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       }
       if (game === "connect4") {
         const player = state.board.filter(Boolean).length % 2 ? "O" : "X", col = await analyse("connect", { board: state.board, level: "hard", player });
-        info = { cells: [col], text: "Try column " + (col + 1) + ". The coach checks immediate wins and threats, then searches up to five plies with a bounded heuristic." };
+        info = { cells: [col], text: "Try column " + (col + 1) + ". The coach checks immediate wins and threats, then searches up to six plies with completed-depth search, transposition caching and a node budget." };
       }
       if (game === "sudoku") info = await analyse("sudokuHint", state);
       if (game === "mines") info = mineHint(state);
@@ -2038,14 +2210,14 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     state.noteMode = false;
     enterSudoku(hintInfo.value);
   };
-  $("restart").onclick = () => {
+  $("restart").onclick = async () => {
     if (!wantRestart()) return;
     delete sessions[game];
-    start(game, false);
+    await start(game, false);
     board2.focus();
   };
   board2.onkeydown = (e) => {
-    if (!state || thinking || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (blocked() || !state || thinking || e.ctrlKey || e.metaKey || e.altKey) return;
     if (game === "hangman" && /^[a-z]$/i.test(e.key)) {
       e.preventDefault();
       playHangman(e.key);
@@ -2110,7 +2282,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     origin = [e.clientX, e.clientY];
   };
   board2.onpointerup = (e) => {
-    if (!origin) return;
+    if (blocked() || !origin) return;
     const dx = e.clientX - origin[0], dy = e.clientY - origin[1];
     origin = null;
     if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
@@ -2120,9 +2292,13 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   };
   board2.onpointercancel = () => origin = null;
   function leave() {
+    rpsChoice = null;
+    rpsPhase = "first";
     if (!state) return;
+    if (game === "rps" && settings().mode === "two") render();
     if (game === "snake") pauseSnake();
     if (game === "memory" && state.open.length) {
+      if (state.open.length === 2 && state.local) state.local = memoryTurn(state.local, false);
       state.open = [];
       clearTimeout(memoryTimer);
       render();
@@ -2162,7 +2338,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   };
   $("clearSaves").onclick = () => {
     if (!confirm("Clear only saved Games progress, settings and bests on this device? Tool Studio workspaces will not be changed.")) return;
-    const activeSetting = { ...settings() };
+    const activeSetting = { ...settings() }, activeChallenge = challenge() ? structuredClone(challenge()) : null;
     try {
       localStorage.removeItem(SAVE_KEY);
       profile = defaults();
@@ -2172,6 +2348,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       $("saveStatus").textContent = "Saved Games data cleared. Current game remains playable.";
       if (state) {
         profile.settings[game] = activeSetting;
+        if (activeChallenge) profile.challenges = { [game]: activeChallenge };
         record();
       }
       arcadeShell.refresh();
@@ -2351,7 +2528,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
   }
   function playSliding(cell) {
-    if (thinking || ended()) return;
+    if (blocked() || thinking || ended()) return;
     const next2 = slidePuzzle(state.board, state.size, cell);
     if (!next2) return;
     const blank = state.board.indexOf(0);
@@ -2363,7 +2540,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.children[blank]?.focus();
   }
   function playLights(cell) {
-    if (thinking || ended()) return;
+    if (blocked() || thinking || ended()) return;
     state.board = toggleLights(state.board, state.size, cell);
     state.moves++;
     clearHint();
@@ -2373,6 +2550,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   }
   function renderArcade() {
     if (game === "rps") {
+      if (settings().mode === "two") {
+        renderLocalRPS();
+        return;
+      }
       const scores = rpsScores(state.history), score = node("div", void 0, "rps-score");
       score.append(node("span", "You " + scores.X), node("span", "Computer " + scores.O));
       board2.append(score);
@@ -2502,7 +2683,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
   }
   function playHangman(letter) {
-    if (game !== "hangman" || thinking) return;
+    if (blocked() || game !== "hangman" || thinking) return;
     const next2 = guessLetter(state, letter);
     if (!next2) return;
     state = { ...state, ...next2, moves: state.moves + 1 };
@@ -2511,7 +2692,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.focus();
   }
   function pickScramble(tile2) {
-    if (game !== "scramble" || state.completed || thinking || state.picked.includes(tile2)) return;
+    if (blocked() || game !== "scramble" || state.completed || thinking || state.picked.includes(tile2)) return;
     state.picked.push(tile2);
     wordNotice = "";
     clearHint();
@@ -2519,7 +2700,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.focus();
   }
   function submitScramble() {
-    if (game !== "scramble" || thinking) return;
+    if (blocked() || game !== "scramble" || thinking) return;
     const next2 = checkScramble(state);
     if (!next2) return;
     state = { ...state, ...next2, moves: state.moves + 1 };
@@ -2572,6 +2753,131 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       ludoTimer = setTimeout(step, 450);
     };
     ludoTimer = setTimeout(step, 450);
+  }
+  function updatePlaySetup() {
+    const s = settings(), mode = modeChoices(game).find(([value]) => value === s.mode)?.[1] || "Solo";
+    const level = [...$("gameOptions").querySelectorAll("select")].filter((e) => !["Opponent", "Play mode", "Players"].includes(e.getAttribute("aria-label"))).map((e) => e.selectedOptions[0]?.textContent).join(" \xB7 ");
+    $("playSetup").textContent = mode + (game === "ludo" ? " \xB7 " + (s.players || 2) + " players" : "") + (level ? " \xB7 " + level : "");
+    $("modeDescription").textContent = localDescription(game, s.mode);
+  }
+  function finishChallengeRound(natural = false) {
+    const c = challenge();
+    if (!c || c.phase !== "playing") return;
+    const won = natural && (game === "mines" ? state.won : game === "hangman" ? hangmanWon(state) : game === "code" ? codeWon(state) : true);
+    profile.challenges[game] = completeChallenge(c, challengeResult(game, state, won));
+    state.credited = true;
+    stop();
+    clearHint();
+    saveSoon();
+  }
+  function renderLocalRound() {
+    const c = challenge(), panel = $("localRound");
+    panel.hidden = !c;
+    panel.replaceChildren();
+    if (!c) return;
+    if (c.phase === "playing") {
+      panel.append(node("strong", "Player " + (c.round + 1) + " \xB7 your attempt"));
+      const finish = button(["2048", "snake"].includes(game) ? "Finish round" : "End attempt", () => {
+        if (!confirm("Finish this attempt and pass the device? An unfinished puzzle does not count as completed.")) return;
+        finishChallengeRound();
+        render();
+        panel.querySelector("button")?.focus();
+      });
+      finish.id = "finishRound";
+      panel.append(finish);
+      return;
+    }
+    if (c.phase === "complete") {
+      const rank = compareChallenge(game, ...c.results);
+      panel.append(node("h2", rank === 0 ? "A draw!" : (rank < 0 ? "Player 1" : "Player 2") + " wins!"));
+      c.results.forEach((r, i) => panel.append(node("p", "Player " + (i + 1) + " \xB7 " + (["snake", "2048"].includes(game) ? r.score + " points" : r.won ? "Completed in " + r.moves + " moves" : "Unfinished") + " \xB7 " + r.hints + " hints")));
+      const again = button("Play another challenge", async () => {
+        if (!wantRestart()) return;
+        await start(game, false);
+        $("localRound").querySelector("button")?.focus();
+      });
+      again.id = "anotherChallenge";
+      panel.append(again);
+      return;
+    }
+    panel.append(node("h2", c.round ? "Pass to Player 2" : "Player 1, ready?"), node("p", c.round ? "The previous attempt is hidden. Your new board uses the same setting." : "One attempt each. You can end an attempt at any time."));
+    const begin = button("Start Player " + (c.round + 1), async () => {
+      begin.disabled = true;
+      const epoch = analysisEpoch;
+      try {
+        if (c.round === 1) {
+          const next2 = game === "sudoku" ? meta(await analyse("createSudoku", settings().level)) : game === "hangman" ? meta(createHangman(settings().level, Math.random, state.wordIndex)) : game === "scramble" ? meta(createScramble(settings().level, Math.random, state.wordIndex)) : newState(game);
+          if (epoch !== analysisEpoch) return;
+          state = next2;
+        }
+        c.phase = "playing";
+        clearHint();
+        render();
+        board2.focus();
+      } catch (e) {
+        if (epoch === analysisEpoch) {
+          setStatus("Could not prepare this round. Try again.");
+          begin.disabled = false;
+        }
+      }
+    });
+    begin.id = "beginRound";
+    panel.append(begin);
+  }
+  function renderLocalRPS() {
+    const scores = rpsScores(state.history), over = ended(), score = node("div", void 0, "rps-score");
+    score.append(node("span", "Player 1: " + scores.X), node("span", "Player 2: " + scores.O));
+    board2.append(score);
+    if (over) {
+      const last = state.history.at(-1);
+      if (last) board2.append(node("p", "Player 1 chose " + last.human + " \xB7 Player 2 chose " + last.computer + ".", "round-result"));
+      setStatus(over === "draw" ? "A drawn match." : (over === "X" ? "Player 1" : "Player 2") + " won the match!");
+      return;
+    }
+    if (rpsPhase === "handover") {
+      setStatus("Pass the device to Player 2. Player 1\u2019s choice is hidden.");
+      const ready = button("Player 2 ready", () => {
+        rpsPhase = "second";
+        render();
+        focusPlayable();
+      });
+      ready.id = "rpsReady";
+      board2.append(ready);
+      return;
+    }
+    if (rpsPhase === "reveal") {
+      const last = state.history.at(-1);
+      board2.append(node("p", "Player 1 chose " + last.human + " \xB7 Player 2 chose " + last.computer + ".", "round-result"));
+      setStatus("Round revealed \xB7 " + scores.draw + " tied rounds \xB7 First to three wins.");
+      const next2 = button("Next round", () => {
+        rpsPhase = "first";
+        render();
+        focusPlayable();
+      });
+      next2.id = "nextRPSRound";
+      board2.append(next2);
+      return;
+    }
+    setStatus((rpsPhase === "second" ? "Player 2" : "Player 1") + " \xB7 Choose privately. First to three wins.");
+    const row = node("div", void 0, "rps-hands");
+    for (const hand of hands) {
+      const b = button(hand[0].toUpperCase() + hand.slice(1), () => {
+        if (rpsPhase === "first") {
+          rpsChoice = hand;
+          rpsPhase = "handover";
+        } else if (rpsPhase === "second" && rpsChoice) {
+          state.history.push({ human: rpsChoice, computer: hand });
+          state.moves++;
+          rpsChoice = null;
+          rpsPhase = "reveal";
+        }
+        clearHint();
+        render();
+        board2.focus();
+      }, "Choose " + hand);
+      row.append(b);
+    }
+    board2.append(row);
   }
 })();
 </script></body></html>

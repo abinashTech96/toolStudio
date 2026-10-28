@@ -44,7 +44,9 @@ export function playReversi(state, cell) {
 function reversiValue(board, player) {
   const other = opposite(player), end = reversiOutcome(board);
   if (end) return end === 'draw' ? 0 : end === player ? 100000 : -100000;
-  let score = 5 * (reversiMoves(board, player).length - reversiMoves(board, other).length);
+  const empty=board.filter(v=>!v).length;
+  let score = (empty>16?8:3) * (reversiMoves(board, player).length - reversiMoves(board, other).length);
+  score+=(empty<=16?5:0)*(board.filter(v=>v===player).length-board.filter(v=>v===other).length);
   for (let i = 0; i < 64; i++) if (board[i]) {
     const x = i % 8, y = Math.floor(i / 8);
     let weight = (x === 0 || x === 7) && (y === 0 || y === 7) ? 100 : x === 0 || x === 7 || y === 0 || y === 7 ? 8 : 1;
@@ -56,6 +58,7 @@ function reversiValue(board, player) {
 export function reversiMove(board, player = 'O', level = 'medium', random = Math.random) {
   const moves = reversiMoves(board, player); if (!moves.length) return -1;
   if (level === 'easy') return moves[Math.floor(random() * moves.length)];
+  moves.sort((a,b)=>Number([0,7,56,63].includes(b))-Number([0,7,56,63].includes(a)));
   let nodes = 0, choice = moves[0];const exhausted=Symbol('budget');
   function search(s,depth,alpha,beta){
     if(++nodes>16000)throw exhausted;
@@ -99,8 +102,13 @@ export function createSliding(level = 'medium', random = Math.random) {
   if (slidingSolved(board)) board = slidePuzzle(board, size, slidingNeighbors(board, size)[0]);
   return {size, board, undo: null};
 }
-function manhattan(board, size) {
-  return board.reduce((sum, v, i) => sum + (v ? Math.abs(i % size - (v - 1) % size) + Math.abs(Math.floor(i / size) - Math.floor((v - 1) / size)) : 0), 0);
+export function slidingDistance(board,size){
+ const used=new Set();let conflicts=0;
+ for(let i=0;i<board.length;i++)if(board[i])for(let j=i+1;j<board.length;j++)if(board[j]&&!used.has(i)&&!used.has(j)){
+  const a=board[i]-1,b=board[j]-1,row=Math.floor(i/size),col=i%size;
+  if(row===Math.floor(j/size)&&Math.floor(a/size)===row&&Math.floor(b/size)===row&&a%size>b%size||col===j%size&&a%size===col&&b%size===col&&Math.floor(a/size)>Math.floor(b/size)){used.add(i);used.add(j);conflicts++}
+ }
+ return conflicts*2+board.reduce((sum, v, i) => sum + (v ? Math.abs(i % size - (v - 1) % size) + Math.abs(Math.floor(i / size) - Math.floor((v - 1) / size)) : 0), 0);
 }
 export function slidingHint({board, size}) {
   if (slidingSolved(board)) return {cells: [], text: 'The puzzle is already complete.'};
@@ -109,16 +117,17 @@ export function slidingHint({board, size}) {
   function push(item) { open.push(item); let i = open.length - 1; while (i) { const p = (i - 1) >> 1; if (open[p].f <= item.f) break; open[i] = open[p]; i = p; } open[i] = item; }
   function pop() { const first = open[0], last = open.pop(); if (open.length) { let i = 0; while (i * 2 + 1 < open.length) { let c = i * 2 + 1; if (c + 1 < open.length && open[c + 1].f < open[c].f) c++; if (open[c].f >= last.f) break; open[i] = open[c]; i = c; } open[i] = last; } return first; }
   let best = null, solved = false;
-  push({board, g: 0, h: manhattan(board, size), f: manhattan(board, size), first: -1});
+  push({board, g: 0, h: slidingDistance(board, size), f: slidingDistance(board, size), first: -1});
   for (let count = 0; open.length && count < 4000; count++) {
     const current = pop();
+    if(current.g!==(seen.get(current.board.join(','))??Infinity))continue;
     if (current.first >= 0 && (!best || current.h < best.h || current.h === best.h && current.g < best.g)) best = current;
     if (!current.h) { best = current; solved = true; break; }
     if (current.g >= 70) continue;
     for (const cell of slidingNeighbors(current.board, size)) {
       const next = slidePuzzle(current.board, size, cell), key = next.join(','), g = current.g + 1;
       if ((seen.get(key) ?? Infinity) <= g) continue;
-      seen.set(key, g); const h = manhattan(next, size);
+      seen.set(key, g); const h = slidingDistance(next, size);
       push({board: next, g, h, f: g + h, first: current.first < 0 ? cell : current.first});
     }
   }
@@ -127,6 +136,7 @@ export function slidingHint({board, size}) {
 }
 
 export function toggleLights(board, size, cell) {
+  if(!Number.isInteger(cell)||cell<0||cell>=board.length)return board.slice();
   const next = board.slice(), x = cell % size, y = Math.floor(cell / size);
   for (const [dx, dy] of [[0, 0], [0, -1], [-1, 0], [0, 1], [1, 0]]) {
     const c = x + dx, r = y + dy; if (c >= 0 && c < size && r >= 0 && r < size) next[r * size + c] ^= 1;
@@ -195,15 +205,15 @@ export function codeCandidates(colors, history) {
 export function codeHint({colors, history}) {
   const possible = codeCandidates(colors, history);
   if (!possible.length) return {cells: [], text: 'No code matches this feedback.'};
-  let guess = possible[0], best = Infinity;
+  let guess = possible[0], best = Infinity,bestWorst=Infinity;
   const tried = new Set(history.map(r => r.guess.join('')));
   const options = possible.filter(g => !tried.has(g.join('')));
   // At most 80 candidate guesses × 1,296 possibilities; never inspect the secret.
   for (let i = 0; i < Math.min(80, options.length); i++) {
     const candidate = options[Math.floor(i * options.length / Math.min(80, options.length))], buckets = new Map();
     for (const secret of possible) { const f = codeFeedback(secret, candidate), k = f.exact + ':' + f.misplaced; buckets.set(k, (buckets.get(k) || 0) + 1); }
-    const cost = [...buckets.values()].reduce((sum, n) => sum + n * n, 0);
-    if (cost < best) { best = cost; guess = candidate; }
+    const sizes=[...buckets.values()],worst=Math.max(...sizes),cost=sizes.reduce((sum,n)=>sum+n*n,0);
+    if(worst<bestWorst||worst===bestWorst&&cost<best){bestWorst=worst;best=cost;guess=candidate;}
   }
-  return {cells: [], text: possible.length + (possible.length === 1 ? ' code remains' : ' codes remain') + ' consistent with your feedback. Try ' + guess.join(' ') + '. The coach compares possible feedback groups without reading the hidden code.'};
+  return {cells: [], text: possible.length + (possible.length === 1 ? ' code remains' : ' codes remain') + ' consistent with your feedback. Try ' + guess.join(' ') + '. The coach minimizes the largest remaining feedback group, then expected ambiguity, without reading the hidden code.'};
 }

@@ -22,8 +22,8 @@ export function hint2048(board){
  return{direction:choice,text:choice?'Try '+choice+'. This two-move estimate favors empty space, ordered rows and a large corner tile. Random spawns can change the result.':'No legal moves remain.'};
 }
 function reachable(body,size){const seen=new Set(),queue=[body[0]],walls=new Set(body.slice(1).map(p=>p.join(',')));for(let at=0;at<queue.length;at++){const[x,y]=queue[at],k=x+','+y;if(seen.has(k)||walls.has(k)||x<0||y<0||x>=size||y>=size)continue;seen.add(k);for(const[dx,dy]of Object.values(vectors))queue.push([x+dx,y+dy])}return seen.size}
-export function snakeHint(state,size=16){let best=null,rank=-Infinity;for(const dir of Object.keys(vectors)){const a=vectors[state.direction],v=vectors[dir];if(v[0]===-a[0]&&v[1]===-a[1])continue;const next=stepSnake(state,dir,size,()=>0);if(next.over&&!next.won)continue;const area=reachable(next.body,size),distance=state.food?Math.abs(next.body[0][0]-state.food[0])+Math.abs(next.body[0][1]-state.food[1]):0;const score=area*20-distance+(next.score>state.score?10:0);if(score>rank){rank=score;best=dir}}
- return{direction:best,text:best?'Try '+best+'. It avoids an immediate collision and favors open escape space near food. This is a local safety check, not a guaranteed route.':'No safe next step was found.'};
+export function snakeHint(state,size=16){let best=null,rank=-Infinity;for(const dir of Object.keys(vectors)){const a=vectors[state.direction],v=vectors[dir];if(v[0]===-a[0]&&v[1]===-a[1])continue;const next=stepSnake(state,dir,size,()=>0);if(next.over&&!next.won)continue;const area=reachable(next.body,size),distance=state.food?Math.abs(next.body[0][0]-state.food[0])+Math.abs(next.body[0][1]-state.food[1]):0;const exits=Object.keys(vectors).filter(d=>{const n=stepSnake(next,d,size,()=>0);return !n.over||n.won}).length;const score=area*20-distance+(next.score>state.score?10:0)+exits*12-(area<next.body.length?10000:0);if(score>rank){rank=score;best=dir}}
+ return{direction:best,text:best?'Try '+best+'. It checks immediate collisions, next-step exits and whether the open area can hold your body before favoring nearby food. Future safety is not guaranteed.':'No safe next step was found.'};
 }
 export function sudokuCandidates(board,i){if(board[i])return[];const row=Math.floor(i/9),col=i%9,used=new Set();for(let j=0;j<81;j++)if(Math.floor(j/9)===row||j%9===col||Math.floor(j/27)===Math.floor(row/3)&&Math.floor(j%9/3)===Math.floor(col/3))used.add(board[j]);return[1,2,3,4,5,6,7,8,9].filter(v=>!used.has(v))}
 export function sudokuConflicts(board){const bad=new Set();for(let i=0;i<81;i++)if(board[i])for(let j=i+1;j<81;j++)if(board[i]===board[j]&&(Math.floor(i/9)===Math.floor(j/9)||i%9===j%9||Math.floor(i/27)===Math.floor(j/27)&&Math.floor(i%9/3)===Math.floor(j%9/3))){bad.add(i);bad.add(j)}return[...bad]}
@@ -49,13 +49,54 @@ export function revealMine(state,id,random=Math.random){const s=structuredClone(
  if(!s.bombs){const safe=new Set([id,...mineNeighbors(id,s.size)]);s.bombs=shuffle(Array.from({length:n},(_,i)=>i).filter(i=>!safe.has(i)),random).slice(0,s.mines)}
  if(s.bombs.includes(id)){s.over=true;return s}const shown=new Set(s.revealed),queue=[id];for(let at=0;at<queue.length;at++){const i=queue[at];if(shown.has(i)||s.flags.includes(i)||s.bombs.includes(i))continue;shown.add(i);if(!mineNeighbors(i,s.size).some(j=>s.bombs.includes(j)))queue.push(...mineNeighbors(i,s.size))}s.revealed=[...shown];s.won=s.revealed.length===n-s.mines;s.over=s.won;return s;
 }
-export function mineHint(state){if(!state.bombs)return{cell:-1,text:'Choose any square. Your first square and its neighbors are protected.'};for(const i of state.revealed){const neighbors=mineNeighbors(i,state.size),count=neighbors.filter(j=>state.bombs.includes(j)).length,flags=neighbors.filter(j=>state.flags.includes(j)).length,hidden=neighbors.filter(j=>!state.revealed.includes(j)&&!state.flags.includes(j));if(!hidden.length)continue;if(flags===count)return{cell:hidden[0],action:'reveal',text:'Assuming your flags are correct, all remaining neighbors of the highlighted numbered square are safe.',source:i};if(count-flags===hidden.length)return{cell:hidden[0],action:'flag',text:'The remaining mine count equals the covered neighbors. Assuming earlier flags are correct, this square is a mine.',source:i}}return{cell:-1,text:'No forced move is visible from the current numbers and flags. The coach does not inspect hidden squares.'}}
+export function mineHint(state){
+ if(!state.bombs)return{cell:-1,text:'Choose any square. Your first square and its neighbors are protected.'};
+ const constraints=[];
+ for(const source of state.revealed){
+  const neighbors=mineNeighbors(source,state.size),count=neighbors.filter(j=>state.bombs.includes(j)).length,flags=neighbors.filter(j=>state.flags.includes(j)).length,cells=neighbors.filter(j=>!state.revealed.includes(j)&&!state.flags.includes(j)),remaining=count-flags;
+  if(remaining<0||remaining>cells.length)return{cell:source,text:'The visible numbers disagree with nearby flags. Recheck your flags before asking for a deduction.'};
+  if(!cells.length)continue;
+  constraints.push({source,cells,remaining});
+ }
+ for(const {source,cells,remaining}of constraints){
+  if(remaining===0)return{cell:cells[0],action:'reveal',text:'Assuming your flags are correct, every covered neighbor of this numbered square is safe.',source};
+  if(remaining===cells.length)return{cell:cells[0],action:'flag',text:'The remaining mine count equals the covered neighbors. Assuming earlier flags are correct, this square is a mine.',source};
+ }
+ for(const a of constraints)for(const b of constraints){
+  if(a.cells.length>=b.cells.length||!a.cells.every(i=>b.cells.includes(i)))continue;
+  const extra=b.cells.filter(i=>!a.cells.includes(i)),remaining=b.remaining-a.remaining;
+  if(remaining===0||remaining===extra.length)return{cell:extra[0],action:remaining===0?'reveal':'flag',source:b.source,text:'Comparing two overlapping visible clues (subset subtraction), this square is '+(remaining===0?'safe':'a mine')+' if your existing flags are correct.'};
+ }
+ return{cell:-1,text:'No forced move is visible from the current numbers and flags. The coach does not inspect hidden squares.'};
+}
+
 export function connectWinner(board){for(let i=0;i<42;i++)if(board[i])for(const[dx,dy]of[[1,0],[0,1],[1,1],[-1,1]]){const x=i%7,y=Math.floor(i/7);if(x+dx*3<0||x+dx*3>=7||y+dy*3>=6)continue;if([1,2,3].every(n=>board[(y+dy*n)*7+x+dx*n]===board[i]))return board[i]}return board.every(Boolean)?'draw':null}
 export function dropDisc(board,column,player){if(!Number.isInteger(column)||column<0||column>6||connectWinner(board))return null;for(let row=5;row>=0;row--)if(!board[row*7+column]){const next=board.slice();next[row*7+column]=player;return next}return null}
 function connectScore(b){let score=0;for(let r=0;r<6;r++)score+=b[r*7+3]==='O'?5:b[r*7+3]==='X'?-5:0;for(let i=0;i<42;i++)for(const[dx,dy]of[[1,0],[0,1],[1,1],[-1,1]]){const x=i%7,y=Math.floor(i/7);if(x+dx*3<0||x+dx*3>=7||y+dy*3>=6)continue;const a=[0,1,2,3].map(n=>b[(y+dy*n)*7+x+dx*n]),o=a.filter(v=>v==='O').length,p=a.filter(v=>v==='X').length;if(!p)score+=[0,1,8,70,10000][o];if(!o)score-=[0,1,10,90,10000][p]}return score}
-export function connectMove(board,level='medium',random=Math.random,player='O'){const b=player==='O'?board:board.map(v=>v==='O'?'X':v==='X'?'O':''),order=[3,2,4,1,5,0,6],legal=order.filter(c=>dropDisc(b,c,'O'));if(!legal.length)return -1;for(const p of['O','X'])for(const c of legal)if(connectWinner(dropDisc(b,c,p))===p)return c;if(level==='easy')return legal[Math.floor(random()*legal.length)];let nodes=0;const depth=level==='hard'?5:3;
- function minimax(b,d,turn,alpha,beta){const end=connectWinner(b);if(end)return end==='O'?100000+d:end==='X'?-100000-d:0;if(!d||++nodes>35000)return connectScore(b);let value=turn==='O'?-Infinity:Infinity;for(const c of order){const n=dropDisc(b,c,turn);if(!n)continue;const v=minimax(n,d-1,turn==='O'?'X':'O',alpha,beta);if(turn==='O'){value=Math.max(value,v);alpha=Math.max(alpha,value)}else{value=Math.min(value,v);beta=Math.min(beta,value)}if(beta<=alpha)break}return value}
- let best=legal[0],value=-Infinity;for(const c of legal){const rank=minimax(dropDisc(b,c,'O'),depth-1,'X',-Infinity,Infinity);if(rank>value){value=rank;best=c}}return best;
+export function connectMove(board,level='medium',random=Math.random,player='O'){
+ const b=player==='O'?board:board.map(v=>v==='O'?'X':v==='X'?'O':''),order=[3,2,4,1,5,0,6],legal=order.filter(c=>dropDisc(b,c,'O'));
+ if(!legal.length)return -1;
+ for(const mark of ['O','X'])for(const c of legal)if(connectWinner(dropDisc(b,c,mark))===mark)return c;
+ if(level==='easy')return legal[Math.floor(random()*legal.length)];
+ let nodes=0,choice=legal[0];const exhausted=Symbol('budget'),cache=new Map();
+ function search(position,depth,turn,alpha,beta){
+  if(++nodes>35000)throw exhausted;
+  const end=connectWinner(position);if(end)return end==='O'?100000+depth:end==='X'?-100000-depth:0;
+  if(!depth)return connectScore(position);
+  const key=turn+depth+position.join('.');if(cache.has(key))return cache.get(key);
+  const initialAlpha=alpha,initialBeta=beta,max=turn==='O';let value=max?-Infinity:Infinity,cut=false;
+  // Search winning continuations first; center remains the deterministic tie-break.
+  const moves=order.flatMap(c=>{const next=dropDisc(position,c,turn);return next?[{c,next,win:connectWinner(next)===turn}]:[]}).sort((a,b)=>Number(b.win)-Number(a.win));
+  for(const {next}of moves){const rank=search(next,depth-1,max?'X':'O',alpha,beta);value=max?Math.max(value,rank):Math.min(value,rank);if(max)alpha=Math.max(alpha,value);else beta=Math.min(beta,value);if(beta<=alpha){cut=true;break}}
+  // A cutoff is a bound, not an exact transposition value.
+  if(!cut&&value>initialAlpha&&value<initialBeta)cache.set(key,value);return value;
+ }
+ for(let depth=1;depth<=(level==='hard'?6:3);depth++){
+  let value=-Infinity,next=choice;
+  try{for(const c of legal){const rank=search(dropDisc(b,c,'O'),depth-1,'X',-Infinity,Infinity);if(rank>value){value=rank;next=c}}choice=next}
+  catch(error){if(error!==exhausted)throw error;break}
+ }
+ return choice;
 }
 
 export function pruneSudokuNotes(board,notes){return notes.map((mask,i)=>board[i]?0:mask&sudokuCandidates(board,i).reduce((n,v)=>n|(1<<(v-1)),0))}
