@@ -379,6 +379,7 @@ function installHome(c, registry, options = {}) {
   };
   let category = "", expanded = false, visible = false, clockTimer, resizeFrame, categorySignature = "";
   let limits = { categories: 24, tools: 24, features: 24 };
+  let featureDrawer = null, featureSequence = 0;
   const home = node("section", void 0, "studio-home");
   home.id = "studioHome";
   home.hidden = true;
@@ -504,10 +505,13 @@ function installHome(c, registry, options = {}) {
     if (entry.feature) c.n28FeatureOpen(entry.feature);
     else c.openTab(entry.id);
   }
-  function animateContent() {
+  function animateReveal(element) {
+    element.getAnimations?.().forEach((a) => a.cancel());
     if (!visible || c.u19Motion() !== "full" || matchMedia("(prefers-reduced-motion:reduce)").matches) return;
-    grid.getAnimations?.().forEach((a) => a.cancel());
-    grid.animate?.([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 180, easing: "cubic-bezier(.2,.8,.2,1)" });
+    element.animate?.([{ opacity: 0, transform: "translateY(4px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 150, easing: "cubic-bezier(.2,.8,.2,1)" });
+  }
+  function animateContent() {
+    animateReveal(grid);
   }
   function pinControl(kind, id, label) {
     const current = () => kind === "tool" ? c.favorites : prefs()[kind === "category" ? "pinnedCategories" : "pinnedFeatures"] || [];
@@ -541,15 +545,61 @@ function installHome(c, registry, options = {}) {
     card.dataset.tool = entry.id;
     card.dataset.kind = entry.feature ? "feature" : "tool";
     const open = button("", () => launch(entry), "home-tool-open");
-    open.append(node("small", categoryLabel(entry.category)), node("strong", entry.label), node("span", entry.description || c.studioDescription(entry.id) || "Open this workspace."));
+    if (!category || search.value.trim()) open.append(node("small", categoryLabel(entry.category)));
+    open.append(node("strong", entry.label));
+    const description = entry.description || c.studioDescription(entry.id) || "";
+    const generic = description.replace(/\.$/, "") === entry.label + " advanced workspace" || description.replace(/\.$/, "") === entry.label + " \xB7 local interactive workspace";
+    if (description && !generic) {
+      open.append(node("span", description));
+      open.title = description;
+    }
     card.append(open, pinControl(entry.feature ? "feature" : "tool", entry.feature ? featurePinKey(entry.feature, c.n28Normalize) : entry.id, entry.label));
     if (!entry.feature) {
       const mod = modules.get(entry.id), features = availableFeatures().filter((e) => mod?.routes.includes(e.id));
       if (features.length) {
-        const detail = node("details", void 0, "home-tool-features");
-        detail.append(node("summary", features.length + " features"));
+        const detail = node("details", void 0, "home-tool-features"), summary = node("summary", features.length + " features"), drawer = node("section", void 0, "home-feature-drawer"), list = node("div", void 0, "home-feature-list");
+        drawer.id = "homeFeatures-" + ++featureSequence;
+        const heading = node("div", void 0, "home-feature-heading"), headingTitle = node("h3", entry.label + " features");
+        headingTitle.id = drawer.id + "-title";
+        drawer.setAttribute("aria-labelledby", headingTitle.id);
+        heading.append(headingTitle, button("Close features", () => {
+          detail.open = false;
+          summary.focus({ preventScroll: true });
+        }));
+        list.tabIndex = 0;
+        list.setAttribute("role", "group");
+        list.setAttribute("aria-label", entry.label + " features");
+        drawer.append(heading, list);
+        detail.append(summary);
+        summary.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowDown" && detail.open) {
+            event.preventDefault();
+            event.stopPropagation();
+            list.querySelector("button")?.focus();
+          }
+        });
+        drawer.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            event.preventDefault();
+            event.stopPropagation();
+            detail.open = false;
+            summary.focus({ preventScroll: true });
+          }
+        });
         detail.addEventListener("toggle", () => {
-          if (detail.open && detail.childElementCount === 1) for (const feature of features) detail.append(featureRow(feature));
+          if (detail.open && detail.isConnected) {
+            if (featureDrawer?.detail !== detail) closeFeatureDrawer();
+            if (!list.childElementCount) for (const feature of features) list.append(featureRow(feature));
+            featureDrawer = { detail, drawer, list, card };
+            placeFeatureDrawer();
+            summary.setAttribute("aria-controls", drawer.id);
+            animateReveal(list);
+          } else {
+            summary.removeAttribute("aria-controls");
+            list.getAnimations?.().forEach((a) => a.cancel());
+            drawer.remove();
+            if (featureDrawer?.detail === detail) featureDrawer = null;
+          }
         });
         card.append(detail);
       }
@@ -629,12 +679,13 @@ function installHome(c, registry, options = {}) {
         item.dataset.categoryTile = cat.id;
         const card = button("", () => selectCategory(cat.id), "home-category");
         card.id = "homeCategory-" + cat.id;
+        card.title = summaries[cat.id] || "Explore this category.";
         card.dataset.category = cat.id;
         card.setAttribute("aria-controls", "homeResults");
         const available = availableModules().filter((mod) => mod.category === cat.id).length;
         const icon = node("span", symbols[cat.id] || "\u25C7", "home-category-icon");
         icon.setAttribute("aria-hidden", "true");
-        card.append(icon, node("strong", cat.label), node("small", available + " tools"), node("p", summaries[cat.id] || "Explore this category."));
+        card.append(icon, node("strong", cat.label), node("small", available + " tool" + (available === 1 ? "" : "s")), node("p", summaries[cat.id] || "Explore this category."));
         item.append(card, pinControl("category", cat.id, cat.label));
         categoryGrid.append(item);
       }
@@ -657,11 +708,42 @@ function installHome(c, registry, options = {}) {
     const tiles = [...categoryGrid.querySelectorAll(".home-category-tile")], index = tiles.findIndex((tile) => tile.dataset.categoryTile === category);
     if (index < 0) return;
     const columns = getComputedStyle(categoryGrid).gridTemplateColumns.split(" ").length, rowEnd = Math.min(tiles.length - 1, Math.floor(index / columns) * columns + columns - 1);
-    if (tiles[rowEnd].nextElementSibling !== results) tiles[rowEnd].after(results);
+    if (tiles[rowEnd].nextElementSibling !== results) {
+      const focus = results.contains(document.activeElement) ? document.activeElement : null;
+      tiles[rowEnd].after(results);
+      focus?.focus({ preventScroll: true });
+    }
+  }
+  function closeFeatureDrawer() {
+    if (!featureDrawer) return;
+    const previous = featureDrawer;
+    featureDrawer = null;
+    previous.list.getAnimations?.().forEach((a) => a.cancel());
+    previous.detail.querySelector("summary").removeAttribute("aria-controls");
+    previous.drawer.remove();
+    previous.detail.open = false;
+  }
+  function placeFeatureDrawer() {
+    if (!featureDrawer) return;
+    const { card, drawer, list } = featureDrawer, host = card.parentElement;
+    if (!host || !card.isConnected) {
+      closeFeatureDrawer();
+      return;
+    }
+    const cards = [...host.children].filter((child) => child.classList.contains("home-tool-card")), index = cards.indexOf(card), columns = getComputedStyle(host).gridTemplateColumns.split(" ").length;
+    if (index < 0) return;
+    const last = cards[Math.min(cards.length - 1, Math.floor(index / columns) * columns + columns - 1)];
+    if (last.nextElementSibling !== drawer) {
+      const focus = drawer.contains(document.activeElement) ? document.activeElement : null, top = list.scrollTop;
+      last.after(drawer);
+      list.scrollTop = top;
+      focus?.focus({ preventScroll: true });
+    }
   }
   function applyView() {
     grid.dataset.view = prefs().view || "grid";
     for (const control of views.children) control.setAttribute("aria-pressed", String(control.dataset.view === grid.dataset.view));
+    placeFeatureDrawer();
   }
   function renderSearch() {
     const found = discoveryResults(extras.categories(), availableModules(), availableFeatures(), search.value, c.n28Normalize, c.n28Rank), total = found.categories.length + found.tools.length + found.features.length;
@@ -683,7 +765,7 @@ function installHome(c, registry, options = {}) {
         } else if (kind === "tools") list.append(toolCard(entry));
         else {
           const mod = owners.get(entry.id);
-          list.append(toolCard({ id: entry.id, label: entry.label, category: mod?.category, description: (mod?.label || "Workspace") + " \u2192 " + entry.label, feature: entry }));
+          list.append(toolCard({ id: entry.id, label: entry.label, category: mod?.category, description: mod?.label || "Workspace", feature: entry }));
         }
       }
       section.append(list);
@@ -705,6 +787,7 @@ function installHome(c, registry, options = {}) {
     }
   }
   function render() {
+    closeFeatureDrawer();
     renderFavorites();
     renderPersonal();
     renderCategories();
@@ -787,6 +870,8 @@ function installHome(c, registry, options = {}) {
       return "home";
     }
     if (!Object.hasOwn(c.views, id)) return;
+    if (visible) home.getAnimations?.({ subtree: true }).forEach((a) => a.cancel());
+    closeFeatureDrawer();
     visible = false;
     clearTimeout(clockTimer);
     home.hidden = true;
@@ -836,9 +921,19 @@ function installHome(c, registry, options = {}) {
       if (Math.abs(next - width) < 1) return;
       width = next;
       cancelAnimationFrame(resizeFrame);
-      resizeFrame = requestAnimationFrame(placeResults);
+      resizeFrame = requestAnimationFrame(() => {
+        placeResults();
+        placeFeatureDrawer();
+      });
     }).observe(categoryGrid);
   }
+  window.addEventListener("resize", () => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(() => {
+      placeResults();
+      placeFeatureDrawer();
+    });
+  });
   window.calcStudio = Object.freeze({ ...window.calcStudio, home: () => showHome(true), homeVisible: () => visible });
   readAddress();
 }
