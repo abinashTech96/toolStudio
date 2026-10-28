@@ -376,7 +376,7 @@ function installEasyConnection(api) {
   const e = $(focus);for (let p = e?.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
   e?.focus();e?.scrollIntoView({block:'nearest'});
  }
- function start() {selected = 'wifi';page('devices');peerSetup.hidden = true;chooser.hidden = false;renderSupport();openPeer.focus()}
+ function start() {selected = 'wifi';more.open = false;page('devices');peerSetup.hidden = true;chooser.hidden = false;renderSupport();openPeer.focus()}
  nav.querySelector('[data-page=devices]').onclick = () => {selected = 'wifi';page('devices');peerSetup.hidden = !state.pc;chooser.hidden = !!state.pc;renderSupport()};
  const startButton = button('Connections home', start);startButton.id = 'connectionStart';
  const guideButton = button('How to connect', () => showGuide(selected));guideButton.id = 'connectionGuide';header.prepend(startButton, guideButton);
@@ -460,7 +460,7 @@ function installEasyConnection(api) {
   box.append(node('h3', g.title), readiness, current, button('Step-by-step guide', () => showGuide(kind)));$(g.target).prepend(box);
  }
  for (const b of nav.querySelectorAll('[data-page]')) b.addEventListener('click', () => {
-  const name = b.dataset.page;if (name !== 'devices') selected = ['usb','websocket'].includes(name) ? name : 'wifi';
+  more.open = false;const name = b.dataset.page;if (name !== 'devices') selected = ['usb','websocket'].includes(name) ? name : 'wifi';
  });
  // Full instructions stay readable before a connection or browser permission prompt.
  const help=$('help'),oldHelp=help.querySelector('.card'),hosting=node('div',undefined,'guide-needs');
