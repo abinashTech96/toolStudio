@@ -2280,6 +2280,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     rpsChoice = null;
     rpsPhase = "first";
     if (!state) return;
+    if (game === "rps" && settings().mode === "two") render();
     if (game === "snake") pauseSnake();
     if (game === "memory" && state.open.length) {
       if (state.open.length === 2 && state.local) state.local = memoryTurn(state.local, false);
