@@ -70,7 +70,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --prefer-offline --no-audit --no-fund
-      - run: npx playwright install --with-deps "${{ matrix.browser }}"
+      - run: npx playwright install --with-deps "${{ matrix.browser }}" ${{ matrix.browser == 'webkit' && 'chromium' || '' }}
       - run: npm run build
       - run: npm run test:connection
       - run: npm run test:home-redesign
