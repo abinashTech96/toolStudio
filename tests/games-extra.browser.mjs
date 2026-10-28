@@ -29,6 +29,20 @@ try{
   assert.equal(await page.locator('#gamePicker button').count(),11);
   const height=await page.locator('#gamePicker').evaluate(e=>e.getBoundingClientRect().height);assert(height<130);
  });
+ await test('Game selection keeps text readable throughout its transition',async()=>{
+  for(const colorScheme of ['light','dark']){
+   await page.emulateMedia({colorScheme});
+   const ratios=await page.evaluate(async()=>{
+    const luminance=color=>{const rgb=color.match(/[\d.]+/g).slice(0,3).map(Number).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4});return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]};
+    const result=[];
+    for(const id of ['lights','ttt','code','2048']){
+     const old=document.querySelector('#gamePicker [aria-pressed=true]'),next=document.querySelector('[data-game="'+id+'"]');next.click();
+     for(let frame=0;frame<10;frame++){await new Promise(requestAnimationFrame);for(const element of [old,next]){const css=getComputedStyle(element),a=luminance(css.color),b=luminance(css.backgroundColor);result.push((Math.max(a,b)+.05)/(Math.min(a,b)+.05))}}
+    }return result;
+   });
+   assert(ratios.every(r=>r>=4.5),colorScheme+' minimum contrast '+Math.min(...ratios));
+  }await page.emulateMedia({colorScheme:'light'});
+ });
  await test('Reversi responds with a legal computer turn and offers a local coach',async()=>{
   await select('reversi');assert.equal(await page.locator('#board button:not(:disabled)').count(),4);
   await page.locator('#board button:not(:disabled)').first().click();
