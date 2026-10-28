@@ -19,7 +19,7 @@ try {
   check(await page.locator('#studioHome').isVisible()&&!await page.locator('#calculator').isVisible(),'Fresh URL opens the dashboard instead of Calculator');
   check(!requests.some(url=>/assets\/(ocr|vendor|advanced)/.test(url)),'Dashboard keeps heavy engines lazy');
   check(await page.locator('.home-category').count()===11,'All eleven folder categories are discoverable');
-  check(await page.locator('.home-tool-card').count()===8,'Initial dashboard shows a compact set of tools');
+  check(await page.locator('.home-tool-card').count()===0,'Initial homepage shows categories without opening a tool list');
   await page.locator('[data-category=developer]').click();
   check((await page.locator('.home-tool-open small').allTextContents()).every(x=>x==='Developer, API & Automation'),'Category selection filters tool cards');
   await page.locator('.home-clear').click();

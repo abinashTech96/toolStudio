@@ -21,7 +21,7 @@ try {
   installHome(context, config.registry);
   document.body.removeAttribute('data-loading'); document.getElementById('studioBoot')?.remove();
   window.__toolStudioReady = true;
-  if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register(new URL('sw.js', base), {scope: base.pathname}).then(registration=>{const notify=()=>{if(registration.waiting)window.dispatchEvent(new CustomEvent('toolstudio:update',{detail:{registration}}))};notify();registration.addEventListener('updatefound',()=>registration.installing?.addEventListener('statechange',notify))}).catch(error => console.warn('Offline cache unavailable', error));
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register(new URL('sw.js', base), {scope: base.pathname}).then(registration=>{const notify=()=>{if(registration.waiting&&registration.active&&registration.waiting!==registration.active)window.dispatchEvent(new CustomEvent('toolstudio:update',{detail:{registration}}))};notify();registration.addEventListener('updatefound',()=>registration.installing?.addEventListener('statechange',notify))}).catch(error => console.warn('Offline cache unavailable', error));
 } catch (error) {
   console.error(error);
   if (status) status.textContent = 'Tool Studio could not finish loading. Check your connection and retry.';

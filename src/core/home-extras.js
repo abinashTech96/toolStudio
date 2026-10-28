@@ -1,3 +1,4 @@
+import{featurePinKey}from'./home-discovery.js';
 import{displayVersion,fileTargets}from'./home-state.js';
 
 export function installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render}){
@@ -5,11 +6,11 @@ export function installHomeExtras({c,registry,options,home,personal,browse,foote
   const button=(label,run,className='home-chip')=>{const e=node('button',label,className);e.type='button';e.onclick=run;return e};
   let inputRevision=0,navigationRevision=0;document.addEventListener('input',()=>inputRevision++,true);
   const api=c.$advanced.api,prefs=()=>api.homePreferences(),save=(change,immediate=true)=>{try{api.saveHomePreferences({...prefs(),...change},{immediate});return true}catch(e){c.toast(e.message);return false}};
-  const version=displayVersion(registry.appVersion||'35.0.0');document.title='Tool Studio — '+version;
-  const guide=button('Guide',()=>{
-    if(options.guideHTML){const url=URL.createObjectURL(new Blob([options.guideHTML],{type:'text/html'}));window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000)}
-    else window.open(new URL('./guide.html',location.href),'_blank','noopener');
-  });const headerGuide=c.$('u18GuideOpen');headerGuide?.addEventListener('click',event=>{if(document.body.dataset.home==='true'){event.preventDefault();event.stopImmediatePropagation();guide.click()}},true);guide.id='homeGuide';guide.setAttribute('aria-label','Open guide');
+  const version=displayVersion(registry.appVersion||'35.0.0');document.title='ToolStudio — '+version;
+  const openGuide=(fragment='')=>{
+    if(options.guideHTML){const url=URL.createObjectURL(new Blob([options.guideHTML],{type:'text/html'}));window.open(url+fragment,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000)}
+    else window.open(new URL('./guide.html'+fragment,location.href),'_blank','noopener');
+  };const guide=button('Guide',()=>openGuide());footer.append(button('What’s new',()=>openGuide('#edition41')));const headerGuide=c.$('u18GuideOpen');headerGuide?.addEventListener('click',event=>{if(document.body.dataset.home==='true'){event.preventDefault();event.stopImmediatePropagation();guide.click()}},true);guide.id='homeGuide';guide.setAttribute('aria-label','Open guide');
   const actions=node('div',undefined,'home-hero-actions');const versionLabel=node('span',version,'home-version');versionLabel.title='Application version '+(registry.appVersion||'35.0.0');actions.append(guide,versionLabel);home.querySelector('.home-hero').append(actions);
   const tasks=node('section',undefined,'home-task-shortcuts');tasks.setAttribute('aria-label','Task shortcuts');
   for(const[label,id]of[['Format JSON','jsonformatter'],['Analyze Apex log','logs'],['Compare files','excel'],['Calculate EMI','tools']])tasks.append(button(label,()=>{if(id==='tools')c.n28FeatureOpen(c.n28Entry('home:task:emi','tools','Loan / EMI','',{loan:true}));else c.openTab(id)}));
@@ -31,7 +32,7 @@ export function installHomeExtras({c,registry,options,home,personal,browse,foote
     }catch(e){fileStatus.textContent=e.message;c.toast(e.message)}finally{busy=false;open.disabled=false}
   });open.id='homeFileOpen';
   review.append(targetLabel,target,open,button('Cancel file',clear));review.hidden=true;drop.append(dropTitle,choose,file,fileStatus,review);tasks.after(drop);
-  const accept=files=>{clear();try{if(files.length!==1)throw Error('Choose one file at a time.');targets=fileTargets(files[0]);pendingFile=files[0];target.replaceChildren(...targets.map((t,i)=>new Option(t.label,String(i))));fileStatus.textContent=pendingFile.name+' · '+Math.ceil(pendingFile.size/1024)+' KiB. Choose a tool to open it.';review.hidden=false}catch(e){fileStatus.textContent=e.message}};
+  const accept=files=>{clear();const drawer=drop.closest('.home-auxiliary');if(drawer)drawer.open=true;try{if(files.length!==1)throw Error('Choose one file at a time.');targets=fileTargets(files[0]);pendingFile=files[0];target.replaceChildren(...targets.map((t,i)=>new Option(t.label,String(i))));fileStatus.textContent=pendingFile.name+' · '+Math.ceil(pendingFile.size/1024)+' KiB. Choose a tool to open it.';review.hidden=false}catch(e){fileStatus.textContent=e.message}};
   file.onchange=()=>accept([...file.files]);target.onchange=()=>ticket++;
   drop.ondragover=e=>{if(e.dataTransfer?.types.includes('Files')){e.preventDefault();drop.classList.add('home-dragover')}};drop.ondragleave=()=>drop.classList.remove('home-dragover');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('home-dragover');accept([...e.dataTransfer.files])};
   const projects=node('section',undefined,'home-projects'),projectList=node('div',undefined,'home-project-list');projects.append(node('h2','Recent saved projects'),projectList);footer.before(projects);
@@ -47,18 +48,19 @@ export function installHomeExtras({c,registry,options,home,personal,browse,foote
   const orderedCategories=()=>{const map=new Map(registry.categories.map(x=>[x.id,x]));return[...prefs().categories,...registry.categories.map(x=>x.id)].filter((id,i,all)=>all.indexOf(id)===i&&map.has(id)).map(id=>map.get(id))};
   function renderCustomize(){
     customBody.replaceChildren(node('p','Pin workspaces with the star on each card. Move favorites and categories into your preferred order.'));
-    for(const[kind,ids]of[['favorites',[...c.favorites]],['categories',orderedCategories().map(x=>x.id)]]){
-      const list=node('div',undefined,'home-order-list');list.append(node('h3',kind==='favorites'?'Favorites':'Categories'));
-      for(const[id,index]of ids.map((id,index)=>[id,index])){const label=kind==='favorites'?c.views[id]:registry.categories.find(x=>x.id===id)?.label;if(!label)continue;const row=node('div');row.append(node('span',label));
-        for(const[delta,word]of[[-1,'earlier'],[1,'later']]){const move=button('Move '+label+' '+word,()=>{const next=[...ids];[next[index],next[index+delta]]=[next[index+delta],next[index]];let saved;if(kind==='categories')saved=save({categories:next});else{saved=c.csPersist('calc-studio-favorites',next);if(saved){c.favorites=next;c.renderFavorites()}}if(saved){render();(customBody.querySelector('[data-order="'+kind+'-'+(index+delta)+'-'+delta+'"]:not([disabled])')||customBody.querySelector('[data-order="'+kind+'-'+(index+delta)+'-'+(-delta)+'"]'))?.focus()}});move.dataset.order=kind+'-'+index+'-'+delta;move.textContent=delta<0?'↑':'↓';move.setAttribute('aria-label','Move '+label+' '+word);move.disabled=index+delta<0||index+delta>=ids.length;row.append(move)}list.append(row)}customBody.append(list)
+    for(const[kind,ids]of[['favorites',[...c.favorites]],['categories',orderedCategories().map(x=>x.id)],['pinnedCategories',prefs().pinnedCategories||[]],['pinnedFeatures',prefs().pinnedFeatures||[]]]){
+      const list=node('div',undefined,'home-order-list');list.append(node('h3',({favorites:'Favorite tools',categories:'Categories',pinnedCategories:'Favorite categories',pinnedFeatures:'Favorite features'})[kind]));
+      for(const[id,index]of ids.map((id,index)=>[id,index])){const label=kind==='favorites'?c.views[id]:kind==='pinnedFeatures'?c.n28GetIndex().find(e=>featurePinKey(e,c.n28Normalize)===id)?.label||({'home:emi':'Loan / EMI'})[id]:registry.categories.find(x=>x.id===id)?.label;if(!label)continue;const row=node('div');row.append(node('span',label));
+        for(const[delta,word]of[[-1,'earlier'],[1,'later']]){const move=button('Move '+label+' '+word,()=>{const next=[...ids];[next[index],next[index+delta]]=[next[index+delta],next[index]];let saved;if(kind!=='favorites')saved=save({[kind]:next});else{saved=c.csPersist('calc-studio-favorites',next);if(saved){c.favorites=next;c.renderFavorites()}}if(saved){render();(customBody.querySelector('[data-order="'+kind+'-'+(index+delta)+'-'+delta+'"]:not([disabled])')||customBody.querySelector('[data-order="'+kind+'-'+(index+delta)+'-'+(-delta)+'"]'))?.focus()}});move.dataset.order=kind+'-'+index+'-'+delta;move.textContent=delta<0?'↑':'↓';move.setAttribute('aria-label','Move '+label+' '+word);move.disabled=index+delta<0||index+delta>=ids.length;row.append(move)}list.append(row)}customBody.append(list)
     }
-    customBody.append(button('Reset category order',()=>{if(save({categories:[]}))render()}));
+    const recent=node('label'),showRecent=node('input');showRecent.type='checkbox';showRecent.checked=prefs().showRecent!==false;showRecent.onchange=()=>{if(save({showRecent:showRecent.checked}))render()};recent.append(showRecent,document.createTextNode('Show recent work'));customBody.append(recent);
+    customBody.append(button('Reset category order',()=>{if(save({categories:[]}))render()}),button('Reset Home layout',()=>{if(save({categories:[],view:'grid',showRecent:true}))render()}));
   }
   const keydown=e=>{
     if(document.body.dataset.home!=='true'||e.altKey||e.ctrlKey||e.metaKey||e.isComposing)return;
     const editing=e.target.closest?.('input,textarea,select,[contenteditable=true]');
     if(e.key==='/'&&!editing){e.preventDefault();search.focus();return}
-    const buttons=[...grid.querySelectorAll('.home-tool-open')],index=buttons.indexOf(document.activeElement);
+    const buttons=[...grid.querySelectorAll('.home-tool-open,.home-result-category')],index=buttons.indexOf(document.activeElement);
     if((document.activeElement===search||index>=0)&&['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].includes(e.key)&&buttons.length){e.preventDefault();buttons[Math.max(0,Math.min(buttons.length-1,index+(e.key==='ArrowUp'||e.key==='ArrowLeft'?-1:1)))].focus()}
     else if(index>=0&&e.key==='Escape'){e.preventDefault();search.focus()}
   };document.addEventListener('keydown',keydown);
