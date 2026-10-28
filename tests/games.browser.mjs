@@ -22,7 +22,7 @@ try{
  check(page.url()===base+'games/index.html','Options Games opens separate page under GitHub Pages subpath');
  check(await page.evaluate(()=>window.opener===null),'Games has no opener bridge to the tool workspace');
  check(await main.locator('#jsonInput').inputValue()==='{"keep":"workspace"}','Launching games retains existing tool input');
- check(await page.locator('#gamePicker button').count()===7,'All seven game choices are available');
+ check(await page.locator('#gamePicker button').count()===11,'All eleven game choices are available');
  await page.locator('#board').press('ArrowLeft');
  check(await page.locator('#gameStatus').innerText()==='Score 4 · Merge equal tiles.','2048 keyboard move merges tiles and updates score');
  await page.getByRole('button',{name:'Move down',exact:true}).click();
