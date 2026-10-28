@@ -2045,7 +2045,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.focus();
   };
   board2.onkeydown = (e) => {
-    if (!state || thinking) return;
+    if (!state || thinking || e.ctrlKey || e.metaKey || e.altKey) return;
     if (game === "hangman" && /^[a-z]$/i.test(e.key)) {
       e.preventDefault();
       playHangman(e.key);
@@ -2058,7 +2058,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         if (tile2 !== void 0) pickScramble(tile2);
       } else if (e.key === "Backspace") {
         e.preventDefault();
-        if (state.picked.length) {
+        if (!state.completed && state.picked.length) {
           state.picked.pop();
           clearHint();
           render();
