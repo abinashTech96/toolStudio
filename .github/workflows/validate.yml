@@ -22,13 +22,13 @@ jobs:
       - run: npm ci --prefer-offline --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
       - run: npm run build
+      - run: npm run test:connection
       - run: npm run check
       - run: npm test
       - run: npm run test:home
       - run: npm run test:home-redesign
       - run: npm run test:home-extras
       - run: npm run test:games
-      - run: npm run test:connection
       - run: npm run test:v40
       - run: npm run test:v39
       - run: npm run test:workflows
@@ -72,11 +72,11 @@ jobs:
       - run: npm ci --prefer-offline --no-audit --no-fund
       - run: npx playwright install --with-deps "${{ matrix.browser }}"
       - run: npm run build
+      - run: npm run test:connection
       - run: npm run test:home-redesign
       - run: npm run test:games-extra
       - run: npm run test:arcade
       - run: npm run test:play-setup
-      - run: npm run test:connection
       - run: npm run test:pdf-ui
       - run: npm run test:reliability
         env:
