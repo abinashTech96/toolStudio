@@ -11,6 +11,7 @@ The root URL opens a category-first homepage. All 11 categories are represented 
 - Search groups Categories, Tools and Features and retains exact feature actions, including loan/EMI mode. Each group initially renders up to 24 results, with Show more for the remainder. Clearing search restores the prior category. Optional-tool controls remain accessible while searching.
 - Grid/List, category order, favorite order and recent-work visibility are customizable. Reset Home layout restores presentation preferences while retaining favorite pins and entered work.
 - Recent work, saved-project review, existing quick actions and reviewed file handoff remain under an expandable section. Open a file and dragging a file reveal the area. File selection still requires explicit review before replacing a target tool's input.
+- First-time offline installation does not announce a new release. A waiting worker is announced only when it replaces an established active worker. Actual update banners use the selected theme palette and retain explicit activation and saved-work guards.
 - Guide, version, release notes, Connection and Games remain available. Standalone Guide and release notes use the embedded guide. Legacy Calc_Studio filenames remain compatible.
 
 ## Existing workspace UI
