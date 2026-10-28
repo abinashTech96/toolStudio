@@ -1,3 +1,4 @@
+import {chooseGame,gameLibrary,gameSettings} from './game-navigation.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -15,33 +16,24 @@ page.setDefaultTimeout(12000);page.on('pageerror',e=>errors.push(e.message));pag
 fs.mkdirSync('test-results',{recursive:true});
 const test=async(name,fn)=>{await fn();checks.push(name);console.log('PASS',name)};
 const meta=s=>({...s,moves:0,hints:0,credited:false});
-async function select(id){await page.locator('[data-game='+id+']').click();await page.waitForFunction(id=>document.querySelector('[data-game='+id+']').getAttribute('aria-pressed')==='true',id)}
+async function select(id){await chooseGame(page,id);await page.waitForFunction(id=>document.querySelector('[data-game='+id+']').getAttribute('aria-pressed')==='true',id)}
 async function saved(){await page.waitForTimeout(750);return page.evaluate(key=>JSON.parse(localStorage.getItem(key)),SAVE_KEY)}
 async function fixture(id,state,setting={level:'medium',mode:'solo'}){
- if(await page.locator('#remember').isChecked())await page.locator('#remember').uncheck();
+ await gameSettings(page);if(await page.locator('#remember').isChecked())await page.locator('#remember').uncheck();
  const p=defaults();p.enabled=true;p.active=id;p.saves[id]=state;p.settings[id]=setting;
- await page.evaluate(([key,data])=>localStorage.setItem(key,JSON.stringify(data)),[SAVE_KEY,p]);await page.reload();
+ await page.evaluate(([key,data])=>{localStorage.setItem(key,JSON.stringify(data));history.replaceState(null,'','#game='+data.active)},[SAVE_KEY,p]);await page.reload();
  await page.waitForFunction(id=>document.querySelector('[data-game='+id+']').getAttribute('aria-pressed')==='true',id);
 }
 try{
- await page.goto('http://127.0.0.1:4293/toolStudio/games/index.html');await page.waitForSelector('.tile');
- await test('All eleven games are reachable with a compact game picker',async()=>{
-  assert.equal(await page.locator('#gamePicker button').count(),11);
-  const height=await page.locator('#gamePicker').evaluate(e=>e.getBoundingClientRect().height);assert(height<130);
+ await page.goto('http://127.0.0.1:4293/toolStudio/games/index.html');await chooseGame(page,'2048');await page.waitForSelector('.tile');
+ await test('All fifteen games are reachable from the compact library',async()=>{
+  await gameLibrary(page);assert.equal(await page.locator('#gamePicker [data-game]').count(),15);assert((await page.locator('.game-card').first().boundingBox()).height<=120);
  });
- await test('Game selection keeps text readable throughout its transition',async()=>{
-  for(const colorScheme of ['light','dark']){
-   await page.emulateMedia({colorScheme});
-   const ratios=await page.evaluate(async()=>{
-    const luminance=color=>{const rgb=color.match(/[\d.]+/g).slice(0,3).map(Number).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4});return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]};
-    const result=[];
-    for(const id of ['lights','ttt','code','2048']){
-     const old=document.querySelector('#gamePicker [aria-pressed=true]'),next=document.querySelector('[data-game="'+id+'"]');next.click();
-     for(let frame=0;frame<10;frame++){await new Promise(requestAnimationFrame);for(const element of [old,next]){const css=getComputedStyle(element),a=luminance(css.color),b=luminance(css.backgroundColor);result.push((Math.max(a,b)+.05)/(Math.min(a,b)+.05))}}
-    }return result;
-   });
-   assert(ratios.every(r=>r>=4.5),colorScheme+' minimum contrast '+Math.min(...ratios));
-  }await page.emulateMedia({colorScheme:'light'});
+ await test('Dock selection keeps text readable throughout its transition',async()=>{
+  for(const colorScheme of ['light','dark']){await page.emulateMedia({colorScheme});const ratios=await page.evaluate(async()=>{
+   const lum=color=>{const rgb=color.match(/[\d.]+/g).slice(0,3).map(Number).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4});return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]};const result=[];
+   for(const id of ['dockFavorites','allGames']){const button=document.getElementById(id);button.click();for(let frame=0;frame<10;frame++){await new Promise(requestAnimationFrame);const css=getComputedStyle(button),a=lum(css.color),b=lum(css.backgroundColor);result.push((Math.max(a,b)+.05)/(Math.min(a,b)+.05))}}return result;
+  });assert(ratios.every(r=>r>=4.5),colorScheme+' minimum contrast '+Math.min(...ratios))}await page.emulateMedia({colorScheme:'light'});
  });
  await test('Reversi responds with a legal computer turn and offers a local coach',async()=>{
   await select('reversi');assert.equal(await page.locator('#board button:not(:disabled)').count(),4);
@@ -75,7 +67,7 @@ try{
   await page.locator('#hint').click();await page.waitForFunction(()=>document.querySelector('#hintText').textContent.includes('consistent with your feedback'));assert.equal(await page.locator('.code-answer').count(),0);
  });
  await test('Progress and drafts for all four games survive switching and an opted-in reload',async()=>{
-  await page.evaluate(()=>localStorage.setItem('toolstudio-workspace-sentinel','keep'));assert.equal(await page.evaluate(key=>localStorage.getItem(key),SAVE_KEY),null);await page.locator('#remember').check();
+  await page.evaluate(()=>localStorage.setItem('toolstudio-workspace-sentinel','keep'));assert.equal(await page.evaluate(key=>localStorage.getItem(key),SAVE_KEY),null);await gameSettings(page);await page.locator('#remember').check();
   for(const id of ['reversi','sliding','lights','code']){await select(id);await saved()}
   await select('code');await page.getByLabel('Digit 1',{exact:true}).selectOption('2');const before=await saved();
   assert(['reversi','sliding','lights','code'].every(id=>before.saves[id]));await page.reload();await page.waitForSelector('.code-draft');assert.equal(await page.getByLabel('Digit 1',{exact:true}).inputValue(),'2');
@@ -98,10 +90,10 @@ try{
  });
  await test('Earlier Games v2 saves retain their scores and original boards',async()=>{
   const old=defaults();delete old.matches.reversi;old.enabled=true;old.best['2048:medium:solo:solo']=128;old.saves['2048']=meta({board:[2,4,...Array(14).fill(0)],score:12,undo:null});
-  await page.locator('#remember').uncheck();await page.evaluate(([key,data])=>localStorage.setItem(key,JSON.stringify(data)),[SAVE_KEY,old]);await page.reload();await page.waitForSelector('.tile');assert((await page.locator('#gameStatus').innerText()).includes('Score 12'));assert((await page.locator('#record').innerText()).includes('128 points'));assert(!(await page.locator('#saveStatus').innerText()).includes('could not'));
+  await gameSettings(page);await page.locator('#remember').uncheck();await page.evaluate(([key,data])=>{localStorage.setItem(key,JSON.stringify(data));history.replaceState(null,'','#game='+data.active)},[SAVE_KEY,old]);await page.reload();await page.waitForSelector('.tile');assert((await page.locator('#gameStatus').innerText()).includes('Score 12'));assert((await page.locator('#record').innerText()).includes('128 points'));assert(!(await page.locator('#saveStatus').innerText()).includes('could not'));
  });
  await test('Compact picker and new boards fit phone, tablet, desktop and TV viewports',async()=>{
-  for(const width of [320,390,768,1440,1920]){await page.setViewportSize({width,height:900});for(const id of ['reversi','sliding','lights','code']){await select(id);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),id+' '+width);if(width<560){assert((await page.locator('#gamePicker').boundingBox()).height<80);assert(await page.locator('#gamePicker [aria-pressed=true]').evaluate(e=>{const a=e.getBoundingClientRect(),b=e.parentElement.getBoundingClientRect();return a.left>=b.left&&a.right<=b.right}))}}}
+  for(const width of [320,390,768,1440,1920]){await page.setViewportSize({width,height:900});for(const id of ['reversi','sliding','lights','code']){await select(id);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),id+' '+width);assert.equal(Math.round((await page.locator('#gameDock').boundingBox()).x),0)}}
  });
  await test('New games pass light and dark accessibility checks with live content',async()=>{
   await page.setViewportSize({width:1280,height:1000});for(const colorScheme of ['light','dark']){await page.emulateMedia({colorScheme});for(const id of ['reversi','sliding','lights','code']){await select(id);const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze();assert.deepEqual(audit.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[],id+' '+colorScheme)}}
@@ -112,11 +104,11 @@ try{
  await test('Standalone offline games include working coaches without external requests',async()=>{
   const off=await context.newPage(),requests=[];off.on('pageerror',e=>errors.push(e.message));off.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url())});
   await off.goto(pathToFileURL(path.resolve('dist/offline/Calc_Studio_Games.html')).href);
-  for(const id of ['reversi','sliding','lights','code']){await off.locator('[data-game='+id+']').click();await off.locator('#hint').click();await off.waitForFunction(()=>document.querySelector('#hintText').textContent.length>10);}
+  for(const id of ['reversi','sliding','lights','code']){await chooseGame(off,id);await off.locator('#hint').click();await off.waitForFunction(()=>document.querySelector('#hintText').textContent.length>10);}
   assert.deepEqual(requests,[]);await off.close();
  });
  await test('Clear saved Games leaves tool workspace data intact',async()=>{
-  await page.locator('#clearSaves').click();assert.equal(await page.evaluate(key=>localStorage.getItem(key),SAVE_KEY),null);assert.equal(await page.evaluate(()=>localStorage.getItem('toolstudio-workspace-sentinel')),'keep');
+  await gameSettings(page);await page.locator('#clearSaves').click();assert.equal(await page.evaluate(key=>localStorage.getItem(key),SAVE_KEY),null);assert.equal(await page.evaluate(()=>localStorage.getItem('toolstudio-workspace-sentinel')),'keep');
  });
  await page.emulateMedia({colorScheme:'light',reducedMotion:'no-preference'});await select('lights');await page.screenshot({path:'test-results/games-extra-'+kind+'-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await select('code');await page.screenshot({path:'test-results/games-extra-'+kind+'-mobile.png',fullPage:true});
  await test('No new Games runtime errors',()=>assert.deepEqual(errors,[]));

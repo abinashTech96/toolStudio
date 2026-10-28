@@ -1,15 +1,10 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>Games · ToolStudio</title><style>:root{color-scheme:light;--ink:#203e35;--muted:#526b61;--bg:#edf2e9;--paper:#fafbf5;--line:#cedbcd;--accent:#315f48;font:16px/1.5 system-ui,sans-serif;color:var(--ink);background:var(--bg)}*{box-sizing:border-box}body{margin:0}button,a,select{touch-action:manipulation}button,select{font:inherit;color:inherit;border:1px solid var(--line);background:var(--paper);border-radius:12px;min-height:48px;padding:10px 16px;cursor:pointer}button:hover,a:hover{filter:brightness(.96)}button:focus-visible,a:focus-visible,select:focus-visible,#board:focus-visible{outline:3px solid #bc6328;outline-offset:4px}button:disabled{cursor:default;opacity:.7}a{color:inherit;text-decoration:none}header{max-width:1100px;margin:18px auto;display:flex;align-items:center;gap:18px;padding:12px 20px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}header>a:last-child{margin-left:auto;min-height:48px;display:flex;align-items:center}.brand{display:flex;gap:10px;align-items:center;font-size:21px;font-weight:800}.section-label{border-left:1px solid var(--line);padding-left:18px;color:var(--muted)}main{max-width:1000px;margin:auto;padding:20px}.intro h1{font-size:clamp(30px,5vw,48px);letter-spacing:-.04em;margin:4px 0}.intro p{color:var(--muted);margin:8px 0}.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:800;color:var(--muted)}#gamePicker{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0 20px}#gamePicker button{text-align:left;font-weight:750;padding:16px}#gamePicker small{display:block;font-size:12px;font-weight:400;color:var(--muted)}#gamePicker button[aria-pressed=true]{background:var(--accent);color:white;border-color:var(--accent)}#gamePicker button[aria-pressed=true] small{color:#e2edde}.play-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:24px;max-width:700px;margin:auto}.game-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.game-heading h2{font-size:29px;margin:0}.game-heading p{margin:0}#instructions{color:var(--muted);font-size:14px;max-width:54ch}#gameStatus{font-weight:700;min-height:24px}#gameOptions label{display:flex;gap:10px;align-items:center;flex-wrap:wrap}#board{width:min(100%,420px);margin:20px auto;aspect-ratio:1;border-radius:16px;touch-action:pan-y}#board.tiles,#board.memory,#board.ttt{display:grid;gap:8px;padding:8px;background:var(--line)}#board.tiles,#board.memory{grid-template-columns:repeat(4,minmax(0,1fr))}#board.ttt{grid-template-columns:repeat(3,minmax(0,1fr))}.tile{display:grid;place-items:center;border-radius:9px;background:#dce5d6;min-width:0;font-size:clamp(18px,4vw,34px);font-weight:800;color:#203e35}.tile[data-value="2"]{background:#f3ead8}.tile[data-value="4"]{background:#ecdbb4}.tile[data-value="8"]{background:#e9b980}.tile[data-value="16"]{background:#e7a867}.tile[data-value="32"],.tile[data-value="64"]{background:#dc936a}.tile.high{background:#315f48;color:white;font-size:clamp(15px,4vw,28px)}.memory button,.ttt button{padding:0;min-height:48px;font-size:clamp(22px,5vw,42px);background:#f7f9f2;font-weight:750}.memory button.matched{background:#cae3cb;opacity:1;color:#203e35}.memory button.revealed{background:#f4dfb6}.ttt button{font-size:clamp(30px,6vw,60px)}#board.snake{display:grid;grid-template-columns:repeat(16,1fr);gap:1px;padding:8px;background:#d7e2cf}#board.snake span{border-radius:2px;background:#e5eddc}#board.snake .body{background:#467652}#board.snake .head{background:#183b29}#board.snake .food{background:#c5572b;border-radius:50%}#gameControls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.dpad{display:grid;grid-template-columns:repeat(3,56px);gap:6px}.dpad button{font-size:20px;padding:6px}.dpad button:first-child{grid-column:2}.dpad button:nth-child(2){grid-column:1}.hint,.footnote{font-size:12px;color:var(--muted);text-align:center}.hint{margin-top:18px}.footnote{margin:24px 0}#pause{align-self:center}@media(max-width:560px){header{margin:8px;gap:12px;padding:6px 12px}.brand{font-size:17px}.section-label{padding-left:12px;font-size:14px}header>a:last-child{font-size:12px}main{padding:16px}#gamePicker{grid-template-columns:repeat(2,1fr);margin-top:20px}#gamePicker button{padding:12px}.play-card{padding:16px;border-radius:18px}#board{gap:5px}.game-heading h2{font-size:25px}.game-heading button{font-size:14px;padding:8px 12px}}@media(prefers-color-scheme:dark){:root{--ink:#e1eddf;--muted:#b1c5b8;--bg:#17261f;--paper:#21352a;--line:#425b49;--accent:#315f48}.memory button,.ttt button{color:#203e35}}
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>Games · ToolStudio</title><style>:root{color-scheme:light;--ink:#203e35;--muted:#526b61;--bg:#edf2e9;--paper:#fafbf5;--line:#cedbcd;--accent:#315f48;font:16px/1.5 system-ui,sans-serif;color:var(--ink);background:var(--bg)}*{box-sizing:border-box}body{margin:0}button,a,select{touch-action:manipulation}button,select{font:inherit;color:inherit;border:1px solid var(--line);background:var(--paper);border-radius:12px;min-height:48px;padding:10px 16px;cursor:pointer}button:hover,a:hover{filter:brightness(.96)}button:focus-visible,a:focus-visible,select:focus-visible,#board:focus-visible{outline:3px solid #bc6328;outline-offset:4px}button:disabled{cursor:default;opacity:.7}a{color:inherit;text-decoration:none}header{max-width:1100px;margin:18px auto;display:flex;align-items:center;gap:18px;padding:12px 20px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}header>a:last-child{margin-left:auto;min-height:48px;display:flex;align-items:center}.brand{display:flex;gap:10px;align-items:center;font-size:21px;font-weight:800}.section-label{border-left:1px solid var(--line);padding-left:18px;color:var(--muted)}main{max-width:1000px;margin:auto;padding:20px}.intro h1{font-size:clamp(30px,5vw,48px);letter-spacing:-.04em;margin:4px 0}.intro p{color:var(--muted);margin:8px 0}.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:800;color:var(--muted)}.play-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:24px;max-width:700px;margin:auto}.game-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.game-heading h2{font-size:29px;margin:0}.game-heading p{margin:0}#instructions{color:var(--muted);font-size:14px;max-width:54ch}#gameStatus{font-weight:700;min-height:24px}#gameOptions label{display:flex;gap:10px;align-items:center;flex-wrap:wrap}#board{width:min(100%,420px);margin:20px auto;aspect-ratio:1;border-radius:16px;touch-action:pan-y}#board.tiles,#board.memory,#board.ttt{display:grid;gap:8px;padding:8px;background:var(--line)}#board.tiles,#board.memory{grid-template-columns:repeat(4,minmax(0,1fr))}#board.ttt{grid-template-columns:repeat(3,minmax(0,1fr))}.tile{display:grid;place-items:center;border-radius:9px;background:#dce5d6;min-width:0;font-size:clamp(18px,4vw,34px);font-weight:800;color:#203e35}.tile[data-value="2"]{background:#f3ead8}.tile[data-value="4"]{background:#ecdbb4}.tile[data-value="8"]{background:#e9b980}.tile[data-value="16"]{background:#e7a867}.tile[data-value="32"],.tile[data-value="64"]{background:#dc936a}.tile.high{background:#315f48;color:white;font-size:clamp(15px,4vw,28px)}.memory button,.ttt button{padding:0;min-height:48px;font-size:clamp(22px,5vw,42px);background:#f7f9f2;font-weight:750}.memory button.matched{background:#cae3cb;opacity:1;color:#203e35}.memory button.revealed{background:#f4dfb6}.ttt button{font-size:clamp(30px,6vw,60px)}#board.snake{display:grid;grid-template-columns:repeat(16,1fr);gap:1px;padding:8px;background:#d7e2cf}#board.snake span{border-radius:2px;background:#e5eddc}#board.snake .body{background:#467652}#board.snake .head{background:#183b29}#board.snake .food{background:#c5572b;border-radius:50%}#gameControls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.dpad{display:grid;grid-template-columns:repeat(3,56px);gap:6px}.dpad button{font-size:20px;padding:6px}.dpad button:first-child{grid-column:2}.dpad button:nth-child(2){grid-column:1}.hint,.footnote{font-size:12px;color:var(--muted);text-align:center}.hint{margin-top:18px}.footnote{margin:24px 0}#pause{align-self:center}@media(max-width:560px){header{margin:8px;gap:12px;padding:6px 12px}.brand{font-size:17px}.section-label{padding-left:12px;font-size:14px}header>a:last-child{font-size:12px}main{padding:16px}.play-card{padding:16px;border-radius:18px}#board{gap:5px}.game-heading h2{font-size:25px}.game-heading button{font-size:14px;padding:8px 12px}}@media(prefers-color-scheme:dark){:root{--ink:#e1eddf;--muted:#b1c5b8;--bg:#17261f;--paper:#21352a;--line:#425b49;--accent:#315f48}.memory button,.ttt button{color:#203e35}}
 
 #board.tiles,#board.memory{grid-template-rows:repeat(4,minmax(0,1fr))}#board.ttt{grid-template-rows:repeat(3,minmax(0,1fr))}#board.tiles,#board.snake{touch-action:none}
-[hidden]{display:none!important}#gamePicker{grid-template-columns:repeat(4,minmax(0,1fr))}.heading-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}#gameOptions{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.coach{margin-top:20px;padding:14px;background:var(--bg);border-radius:14px}.coach p{font-size:14px;margin-bottom:0}.save-panel{max-width:700px;margin:20px auto;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--paper);font-size:14px}.save-panel label{display:flex;gap:10px;align-items:center;min-height:48px}.save-panel input{width:22px;height:22px}.save-panel button{margin:8px 0}.save-panel p{font-size:13px;color:var(--muted);margin-bottom:0}.suggested{outline:3px solid #b45f18!important;outline-offset:-3px}#board.memory{grid-template-columns:repeat(var(--memory-cols,4),minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr))}#board.memory:has(button:nth-child(24)){aspect-ratio:1.5}.keypad{display:grid;grid-template-columns:repeat(5,minmax(48px,1fr));gap:6px;width:min(100%,420px)}#board.sudoku{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:1px;background:var(--line);padding:3px;width:min(100%,486px)}#board.sudoku button{min-height:0;min-width:0;padding:0;border-radius:0;border:0;font-size:clamp(17px,4vw,25px);color:#244e7b;background:#fafbf5}#board.sudoku .given{font-weight:800;color:#203e35;background:#e1e9db}#board.sudoku .selected{box-shadow:inset 0 0 0 3px #b46b2d}#board.sudoku .conflict{background:#f5c8c8;color:#772020}#board.sudoku .pencil{font-size:clamp(8px,2vw,12px);word-break:break-all;letter-spacing:1px}#board.sudoku button:nth-child(3n){border-right:2px solid #72856f}#board.sudoku button:nth-child(n+19):nth-child(-n+27),#board.sudoku button:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid #72856f}#board.mines{display:grid;grid-template-columns:repeat(var(--mine-size),minmax(0,1fr));grid-template-rows:repeat(var(--mine-size),minmax(0,1fr));gap:2px;background:var(--line);padding:6px;width:min(100%,600px)}#board.mines button{min-width:0;min-height:0;padding:0;border-radius:3px;font-size:clamp(10px,2vw,20px);color:#203e35;background:#d8e5ce;font-weight:750}#board.mines .revealed{background:#f7f8ed}#board.mines .bomb{background:#e9b39d}#board.connect4{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-template-rows:48px repeat(6,minmax(0,1fr));gap:5px;background:var(--line);padding:8px;aspect-ratio:1;max-width:480px;width:100%}#board.connect4 button{padding:0;min-width:0;min-height:48px}.disc{display:grid;place-items:center;border-radius:50%;background:var(--paper);font-size:clamp(15px,3vw,24px);font-weight:800}.disc.X{background:#e9b980;color:#203e35}.disc.O{background:#315f48;color:white}.game-fullscreen #exitFullscreen{position:fixed;right:16px;top:12px;z-index:99;background:var(--paper);box-shadow:0 3px 14px #0003}.game-fullscreen header{padding-right:160px}.game-fullscreen .intro{display:none}button:disabled{opacity:.8}.game-fullscreen .play-card{max-width:850px}body.game-fullscreen{overflow:auto}@media(max-width:560px){#gamePicker{grid-template-columns:repeat(2,minmax(0,1fr))}.heading-actions{max-width:170px}.heading-actions button{font-size:12px}.game-heading{align-items:flex-start}#board.memory:has(button:nth-child(24)){grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(6,minmax(48px,1fr));aspect-ratio:2/3}#board.connect4{gap:3px;padding:5px;aspect-ratio:.9}.keypad{grid-template-columns:repeat(5,minmax(40px,1fr))}.keypad button{padding:6px;min-width:0}.game-fullscreen header{padding-right:125px}.game-fullscreen header .section-label,.game-fullscreen #guideLink{display:none}.game-fullscreen #exitFullscreen{right:8px;top:8px;font-size:13px}}@media(prefers-color-scheme:dark){.coach,.save-panel{color:var(--ink)}}
+[hidden]{display:none!important}.heading-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}#gameOptions{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.coach{margin-top:20px;padding:14px;background:var(--bg);border-radius:14px}.coach p{font-size:14px;margin-bottom:0}.save-panel{max-width:700px;margin:20px auto;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--paper);font-size:14px}.save-panel label{display:flex;gap:10px;align-items:center;min-height:48px}.save-panel input{width:22px;height:22px}.save-panel button{margin:8px 0}.save-panel p{font-size:13px;color:var(--muted);margin-bottom:0}.suggested{outline:3px solid #b45f18!important;outline-offset:-3px}#board.memory{grid-template-columns:repeat(var(--memory-cols,4),minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr))}#board.memory:has(button:nth-child(24)){aspect-ratio:1.5}.keypad{display:grid;grid-template-columns:repeat(5,minmax(48px,1fr));gap:6px;width:min(100%,420px)}#board.sudoku{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:1px;background:var(--line);padding:3px;width:min(100%,486px)}#board.sudoku button{min-height:0;min-width:0;padding:0;border-radius:0;border:0;font-size:clamp(17px,4vw,25px);color:#244e7b;background:#fafbf5}#board.sudoku .given{font-weight:800;color:#203e35;background:#e1e9db}#board.sudoku .selected{box-shadow:inset 0 0 0 3px #b46b2d}#board.sudoku .conflict{background:#f5c8c8;color:#772020}#board.sudoku .pencil{font-size:clamp(8px,2vw,12px);word-break:break-all;letter-spacing:1px}#board.sudoku button:nth-child(3n){border-right:2px solid #72856f}#board.sudoku button:nth-child(n+19):nth-child(-n+27),#board.sudoku button:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid #72856f}#board.mines{display:grid;grid-template-columns:repeat(var(--mine-size),minmax(0,1fr));grid-template-rows:repeat(var(--mine-size),minmax(0,1fr));gap:2px;background:var(--line);padding:6px;width:min(100%,600px)}#board.mines button{min-width:0;min-height:0;padding:0;border-radius:3px;font-size:clamp(10px,2vw,20px);color:#203e35;background:#d8e5ce;font-weight:750}#board.mines .revealed{background:#f7f8ed}#board.mines .bomb{background:#e9b39d}#board.connect4{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-template-rows:48px repeat(6,minmax(0,1fr));gap:5px;background:var(--line);padding:8px;aspect-ratio:1;max-width:480px;width:100%}#board.connect4 button{padding:0;min-width:0;min-height:48px}.disc{display:grid;place-items:center;border-radius:50%;background:var(--paper);font-size:clamp(15px,3vw,24px);font-weight:800}.disc.X{background:#e9b980;color:#203e35}.disc.O{background:#315f48;color:white}.game-fullscreen #exitFullscreen{position:fixed;right:16px;top:12px;z-index:99;background:var(--paper);box-shadow:0 3px 14px #0003}.game-fullscreen header{padding-right:160px}.game-fullscreen .intro{display:none}button:disabled{opacity:.8}.game-fullscreen .play-card{max-width:850px}body.game-fullscreen{overflow:auto}@media(max-width:560px){.heading-actions{max-width:170px}.heading-actions button{font-size:12px}.game-heading{align-items:flex-start}#board.memory:has(button:nth-child(24)){grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(6,minmax(48px,1fr));aspect-ratio:2/3}#board.connect4{gap:3px;padding:5px;aspect-ratio:.9}.keypad{grid-template-columns:repeat(5,minmax(40px,1fr))}.keypad button{padding:6px;min-width:0}.game-fullscreen header{padding-right:125px}.game-fullscreen header .section-label,.game-fullscreen #guideLink{display:none}.game-fullscreen #exitFullscreen{right:8px;top:8px;font-size:13px}}@media(prefers-color-scheme:dark){.coach,.save-panel{color:var(--ink)}}
 
 #boardViewport{max-width:100%;overflow:auto;overscroll-behavior:contain}#board.mines{min-width:calc(var(--mine-size)*40px);touch-action:pan-x pan-y}#board.sudoku{min-width:324px}#board.connect4{min-width:384px}
-
-/* Compact game navigation; keep targets large enough for touch. */
-#gamePicker{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 6px}
-#gamePicker button{flex:0 1 auto;min-height:44px;padding:8px 13px;border-radius:10px;font-size:14px}
-#gamePicker small{display:none}
 .picker-hint{margin:0 0 16px;font-size:12px;color:var(--muted)}
 #board.reversi,#board.sliding,#board.lights{display:grid;gap:4px;padding:6px;background:var(--line)}
 #board.reversi{grid-template-columns:repeat(8,minmax(40px,1fr));grid-template-rows:repeat(8,minmax(40px,1fr));min-width:360px}
@@ -32,10 +27,56 @@
 .code-draft select{display:block;width:100%;min-width:0;padding:8px;font-size:20px;color:var(--ink)}
 .check-code{width:100%;font-weight:750;background:var(--accent);color:#fff}
 .code-answer{text-align:center;font-weight:750}
-#gamePicker button,#board.lights button,#board.sliding button{transition:border-color 140ms ease,box-shadow 140ms ease}
-@media(max-width:560px){#gamePicker{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;padding:4px 4px 8px;scroll-padding:8px}#gamePicker button{flex:0 0 auto;white-space:nowrap}.picker-hint{font-size:11px}.intro h1{font-size:30px}}
+@media(max-width:560px){.picker-hint{font-size:11px}.intro h1{font-size:30px}}
 @media(prefers-color-scheme:dark){#board.reversi .legal{border-color:#b2cdb6}}
-@media(prefers-reduced-motion:reduce){#gamePicker button,#board.lights button,#board.sliding button{transition:none}}
+@media(prefers-reduced-motion:reduce){}
+
+/* v43: a left dock, a compact library, and a separate playing surface. */
+html[data-theme]{--ink:var(--text);--paper:var(--panel);--game-on:#fff}
+html[data-theme=neon],html[data-theme=graphite]{--game-on:#14262d}
+html[data-theme=cartoon]{--game-on:#352b46}
+:root{--game-on:#fff;--dock-width:196px}
+body{padding-left:var(--dock-width);min-height:100vh;color:var(--ink);background:var(--bg)}
+body[data-dock=collapsed]{--dock-width:68px}
+button,select,input{font:inherit}button{min-height:44px}input[type=search]{color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;min-height:46px;padding:10px 14px;width:100%;outline-offset:3px}
+.skip-link{position:fixed;left:8px;top:-100px;padding:12px;z-index:100;background:var(--paper);border:2px solid var(--accent)}.skip-link:focus{top:8px}
+#gameDock{position:fixed;inset:0 auto 0 0;width:var(--dock-width);z-index:30;border-right:1px solid var(--line);background:var(--paper);padding:20px 12px;display:flex;flex-direction:column;gap:18px;overflow-y:auto;overscroll-behavior:contain}
+.dock-brand{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:800;padding:4px 10px;min-height:48px}.dock-brand>span:first-child{font-size:28px}.dock-brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;margin-top:3px}
+#gameDock nav,.dock-bottom{display:flex;flex-direction:column;gap:5px}#gameDock button,#gameDock a{display:flex;gap:12px;align-items:center;min-height:44px;width:100%;padding:10px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--ink);text-align:left;font-size:13px;font-weight:600;white-space:nowrap}#gameDock :is(button,a)>span:first-child{flex:0 0 22px;text-align:center;font-size:20px;line-height:1}
+#gameDock :is(button,a):hover{background:var(--bg);filter:none}#gameDock [aria-current=page]{background:var(--accent);color:var(--game-on)}#dockToggle{border-color:var(--line)!important}.dock-bottom{margin-top:auto}.dock-note{font-size:11px;color:var(--muted);padding:10px;line-height:1.6}
+body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .dock-label{display:none}body[data-dock=collapsed] .dock-brand{padding:0;justify-content:center}body[data-dock=collapsed] #gameDock :is(button,a){justify-content:center;padding:10px 6px}
+#arcadeMain{max-width:1250px;margin:auto;padding:32px clamp(12px,3vw,48px);min-width:0;outline:none}
+.library-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin:4px 0 22px}.library-heading h1{font-size:clamp(25px,3vw,36px);letter-spacing:-.055em;line-height:1.15;margin:6px 0 8px}.library-description{margin:0;color:var(--muted);font-size:14px}.game-search{display:block;flex:0 1 320px;min-width:180px;color:var(--muted);font-size:12px}.game-search input{display:block;margin-top:6px;font-size:14px}
+#recentGames{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:18px}#recentGames:empty{display:none}.recent-label{font-size:12px;color:var(--muted);margin-right:5px}#recentGames button{font-size:12px;padding:6px 11px;min-height:38px}
+#gameFilters{display:flex;gap:6px;flex-wrap:wrap}#gameFilters button{padding:6px 12px;min-height:38px;font-size:12px;border-radius:20px;background:transparent}#gameFilters [aria-pressed=true]{background:var(--accent);color:var(--game-on);border-color:var(--accent)}#libraryCount{font-size:12px;color:var(--muted);margin:14px 0 10px}
+#gamePicker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0;overflow:visible;padding:0}
+.game-card{position:relative;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;align-self:stretch;overflow:hidden}
+#gamePicker .game-card-open{display:flex;align-items:center;gap:12px;width:100%;min-height:106px;padding:16px 40px 16px 14px;text-align:left;border:0;border-radius:13px;background:transparent;color:var(--ink);white-space:normal;font-weight:400;font-size:14px}
+.game-icon{display:grid;place-items:center;flex:none;width:38px;height:38px;border:1px solid var(--line);border-radius:10px;font-size:23px;font-weight:700;background:var(--bg);color:var(--ink)}.game-card-copy{display:flex;flex-direction:column;gap:4px;min-width:0}.game-card-copy strong{font-size:14px;line-height:1.3;overflow-wrap:anywhere}.game-description{font-size:12px;line-height:1.4;color:var(--muted)}#gamePicker small{display:block;font-size:10px;line-height:1.4;color:var(--muted);font-weight:400}#gamePicker [aria-pressed=true]{background:transparent;color:var(--ink)}
+#gamePicker .game-favorite{position:absolute;right:3px;top:3px;width:36px;min-height:36px;height:36px;padding:0;font-size:21px;background:transparent;border:0;color:var(--ink);border-radius:9px}#gamePicker .game-favorite[aria-pressed=true]{color:var(--ink);background:var(--bg)}.game-card:hover{border-color:var(--accent)}#libraryEmpty{padding:24px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:14px}
+.play-card{max-width:820px;border-radius:20px;padding:24px;margin:0 auto}.game-heading{align-items:start;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px;gap:10px}.game-heading h1{font-size:clamp(27px,3vw,36px);line-height:1.15;letter-spacing:-.04em;margin:5px 0 0}.play-category{margin:0;color:var(--muted);font-size:12px}.game-heading .eyebrow{font-size:10px}#gameStatus{font-size:14px;margin:18px 0 0;min-height:22px}#board{margin:20px auto}#gameHelp{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}#gameHelp h2{font-size:14px;margin:0}#instructions{max-width:none;font-size:13px;line-height:1.7}#gameHelp .hint{text-align:left;margin:8px 0 0}
+.coach{display:flex;align-items:start;gap:8px;flex-wrap:wrap;margin-top:16px;padding:12px}.coach button{font-size:13px;padding:8px 12px}.coach p{width:100%;margin:0;font-size:13px;line-height:1.65}.coach p:empty{display:none}.hint{font-size:12px;margin-top:14px}.footnote{font-size:11px;margin:22px 0}
+.settings-panel{max-width:820px;margin:16px auto;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--paper)}.settings-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.settings-heading h2{font-size:18px;margin:0}.settings-heading button{font-size:12px;padding:6px 12px}.theme-label{font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.theme-label select{font-size:13px;min-height:44px}.save-panel{border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;margin:20px 0 0;padding:16px 0 0;max-width:none}.save-panel label{font-size:13px;line-height:1.6}.save-panel button{font-size:12px}#gameOptions{margin:18px 0}#gameOptions label{font-size:13px}#gameOptions select{font-size:13px;min-height:44px;padding:8px 12px}
+#board.rps,#board.hangman,#board.scramble,#board.ludo{aspect-ratio:auto;width:100%;max-width:600px;padding:0;background:transparent;border-radius:0}
+.rps-score{display:flex;justify-content:center;gap:25px;font-size:20px;font-weight:750;margin:25px 0}.rps-hands{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.rps-hands button{display:flex;flex-direction:column;gap:8px;align-items:center;min-width:100px;padding:18px;font-weight:700}.rps-hands span{font-size:36px}.round-result{text-align:center;font-size:14px;line-height:1.7}.round-history{max-height:150px;overflow:auto;font-size:12px;color:var(--muted);padding-left:22px}
+.word-clue{font-size:13px;color:var(--muted);text-align:center;line-height:1.6}.word-display{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:20px 0}.word-display span{display:grid;place-items:center;width:34px;min-height:44px;border-bottom:2px solid var(--accent);font-size:23px;font-weight:750;color:var(--ink)}.letter-keyboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(38px,1fr));gap:5px;max-width:500px;margin:20px auto}.letter-keyboard button{min-width:0;min-height:44px;padding:4px;font-size:14px}.letter-keyboard .correct{background:var(--accent);color:var(--game-on);opacity:1}.letter-keyboard .incorrect{text-decoration:line-through;opacity:.6}.hangman-meter{display:flex;gap:5px;justify-content:center}.hangman-meter span{width:14px;height:14px;border:1px solid var(--muted);border-radius:50%}.hangman-meter .used{background:var(--muted)}
+.scramble-slots,.scramble-bank{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:18px 0}.scramble-slots{min-height:50px;padding:10px;border:1px dashed var(--line);border-radius:12px}.scramble-slots button,.scramble-bank button{width:44px;min-height:44px;padding:5px;font-size:20px;font-weight:700}.word-actions{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}.word-actions button{font-size:13px;padding:8px 12px}.word-notice{text-align:center;color:var(--muted);font-size:13px}
+.ludo-visual{display:block;width:min(100%,480px);margin:auto;border:1px solid var(--line);border-radius:14px;background:#fcfbf3}.ludo-visual text{font:700 12px system-ui,sans-serif;fill:#20362c;text-anchor:middle;dominant-baseline:middle}.ludo-visual .token-text{fill:#fff;font-size:10px}.ludo-turn{text-align:center;font-size:15px;font-weight:700}.ludo-tokens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px auto;max-width:480px}.ludo-tokens button{padding:10px;font-size:13px;min-height:48px}.ludo-tokens button.legal{border:2px solid var(--accent);background:var(--bg)}.ludo-roll{display:block;margin:16px auto 0;font-weight:750;background:var(--accent);color:var(--game-on)}.ludo-progress{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}.ludo-progress .current{font-weight:800;color:var(--ink)}
+.game-fullscreen #exitFullscreen{position:static;right:auto;top:auto;box-shadow:none;background:transparent}.game-fullscreen .play-card{max-width:950px}#gameDock #exitFullscreen{border:1px solid var(--accent)}
+#gameDock :is(button,a),.game-card,.game-icon{transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}#gamePicker .game-card-open:hover{filter:none}.game-card:focus-within{border-color:var(--accent)}
+@media(hover:hover) and (pointer:fine){.game-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px #0000000b}}
+@media(max-width:1100px){#gamePicker{grid-template-columns:repeat(2,minmax(0,1fr))}.library-heading{align-items:start;flex-direction:column;gap:16px}.game-search{flex:auto;width:100%;max-width:450px}}
+@media(max-width:650px){body{--dock-width:56px}body[data-dock=collapsed]{--dock-width:56px}#gameDock{padding:12px 6px}body[data-dock=expanded] #gameDock{width:216px;box-shadow:8px 0 25px #0002}body[data-dock=expanded]{--dock-width:56px}body.dock-overlay{overflow:hidden}#dockBackdrop{position:fixed;inset:0;z-index:25;border:0;border-radius:0;background:#101b2470;padding:0}#arcadeMain{padding:22px 10px}.library-heading{margin-bottom:18px}.library-heading h1{font-size:27px}#gamePicker{grid-template-columns:minmax(0,1fr);gap:8px}#gamePicker .game-card-open{min-height:88px;padding:12px 44px 12px 12px;gap:10px}#gamePicker .game-favorite{width:44px;height:44px;min-height:44px}.game-description{font-size:12px}.game-search{min-width:0}#gameFilters{gap:5px}#gameFilters button{font-size:11px;padding:6px 10px}.game-card-copy strong{font-size:14px}.play-card{padding:14px 10px;border-radius:14px}.game-heading{padding-bottom:12px;flex-direction:column;gap:6px}.game-heading h1{font-size:26px}.play-category{font-size:11px}#gameStatus{font-size:13px;line-height:1.6}.coach{padding:10px;gap:6px}.settings-panel{padding:14px 10px}#board.tiles{gap:5px;padding:5px}.tile{font-size:24px}.rps-hands{gap:6px}.rps-hands button{min-width:64px;flex:1;font-size:11px;padding:10px 6px}.rps-hands span{font-size:28px}.rps-score{font-size:16px;gap:14px}.word-display{gap:4px}.word-display span{width:25px;font-size:20px}.letter-keyboard{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.scramble-bank button,.scramble-slots button{width:38px;font-size:18px}.ludo-tokens{gap:5px}.ludo-tokens button{font-size:11px;padding:8px 5px}.ludo-progress{font-size:10px}}
+@media(min-width:1550px){#gamePicker{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){#gameDock :is(button,a),.game-card,.game-icon{transition:none}}
+
+#gamePicker button.game-card-open[aria-pressed=true]{background:transparent;color:var(--ink)}
+.game-card[data-current=true]{border-color:var(--accent)}
+#gameDock [aria-current=page]:hover{background:var(--accent);color:var(--game-on)}
+
+#gameDock #dockSearchButton{display:none}.dock-search{display:block;font-size:11px;color:var(--muted);padding:0 2px}.dock-search input{font-size:13px;margin:6px 0;min-height:44px;padding:8px 10px}.dock-search small{display:block;font-size:10px;line-height:1.5}body[data-dock=collapsed] .dock-search{display:none}body[data-dock=collapsed] #gameDock #dockSearchButton{display:flex}.library-heading{justify-content:flex-start}.library-heading>div{max-width:100%}
+
+#gameSearch::placeholder{color:var(--muted);opacity:1}
 
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
@@ -145,11 +186,631 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
 .a35-update>button{border:1px solid var(--accent);border-radius:9px;padding:10px 14px;background:var(--accent);color:var(--on);font-weight:650}
 @media(max-width:600px){.a35-update>button{width:100%;min-height:48px}}
 </style></head>
-<body><header><a class="brand" href="../index.html" id="studioLink">∑ <span>tool studio</span></a><span class="section-label">Games</span><a href="../guide.html" id="guideLink">Studio guide</a></header>
-<main><section class="intro"><p class="eyebrow">A LITTLE PLAY TIME</p><h1>Take a small break.</h1><p>Eleven games, thoughtful opponents and a helpful coach. Play at your own pace.</p></section>
-<nav aria-label="Choose a game" id="gamePicker"><button data-game="2048" aria-pressed="true">2048 <small>Slide & merge</small></button><button data-game="snake" aria-pressed="false">Snake <small>Find your rhythm</small></button><button data-game="memory" aria-pressed="false">Memory Match <small>Find matching pairs</small></button><button data-game="ttt" aria-pressed="false">Tic-tac-toe <small>Solo or together</small></button><button data-game="sudoku" aria-pressed="false">Sudoku <small>Notes & logical hints</small></button><button data-game="mines" aria-pressed="false">Minesweeper <small>Reason from clues</small></button><button data-game="connect4" aria-pressed="false">Connect Four <small>Think ahead</small></button><button data-game="reversi" aria-pressed="false">Reversi <small>Flip the balance</small></button><button data-game="sliding" aria-pressed="false">Sliding Puzzle <small>Find your way home</small></button><button data-game="lights" aria-pressed="false">Lights Out <small>Chain reactions</small></button><button data-game="code" aria-pressed="false">Codebreaker <small>Follow the clues</small></button></nav><p class="picker-hint">Choose a game above. On small screens, swipe the game list to see more.</p>
-<section class="play-card" aria-labelledby="gameTitle"><div class="game-heading"><div><p class="eyebrow" id="gameTag"></p><h2 id="gameTitle">2048</h2></div><div class="heading-actions"><button id="fullscreen">Fullscreen</button><button id="exitFullscreen" hidden>Exit fullscreen</button><button id="restart">New game</button></div></div><p id="instructions"></p><div id="gameOptions"></div><p id="gameStatus" role="status" aria-live="polite"></p><div id="boardViewport"><div id="board" role="group" tabindex="0" aria-label="Game board"></div></div><div id="gameControls"></div><div class="coach"><button id="hint">Coach hint</button><button id="applyHint" hidden>Place hint</button><p id="hintText" role="status"></p></div><p id="record" class="hint"></p><p id="scoreboard" class="hint"></p><p class="hint" id="keyboardHint"></p></section>
-<section class="save-panel" aria-label="Game progress"><label><input type="checkbox" id="remember"> Remember game progress and personal bests on this device</label><button id="clearSaves">Clear saved games</button><p id="saveStatus" role="status">Progress is kept only while this page remains open.</p></section><p class="footnote">No sign-in. No ads. Coaching runs locally. Hints are counted so assisted bests stay separate.</p></main><script>globalThis.__toolStudioGameWorker="(()=>{var w=t=>t===\"X\"?\"O\":\"X\",J=[-1,0,1].flatMap(t=>[-1,0,1].filter(n=>n||t).map(n=>[n,t]));function j(t,n,e){if(!Number.isInteger(n)||n<0||n>=64||t[n])return[];let o=[],r=n%8,i=Math.floor(n/8);for(let[s,c]of J){let a=[],l=r+s,f=i+c;for(;l>=0&&l<8&&f>=0&&f<8&&t[f*8+l]===w(e);)a.push(f*8+l),l+=s,f+=c;a.length&&l>=0&&l<8&&f>=0&&f<8&&t[f*8+l]===e&&o.push(...a)}return o}function M(t,n){return t.flatMap((e,o)=>!e&&j(t,o,n).length?[o]:[])}function C(t){if(M(t,\"X\").length||M(t,\"O\").length)return null;let n=t.filter(e=>e===\"X\").length-t.filter(e=>e===\"O\").length;return n===0?\"draw\":n>0?\"X\":\"O\"}function H(t,n){let e=j(t.board,n,t.turn);if(!e.length)return null;let o=t.board.slice();o[n]=t.turn;for(let i of e)o[i]=t.turn;let r=w(t.turn);return{board:o,turn:M(o,r).length?r:t.turn}}function Q(t,n){let e=w(n),o=C(t);if(o)return o===\"draw\"?0:o===n?1e5:-1e5;let r=5*(M(t,n).length-M(t,e).length);for(let i=0;i<64;i++)if(t[i]){let s=i%8,c=Math.floor(i/8),a=(s===0||s===7)&&(c===0||c===7)?100:s===0||s===7||c===0||c===7?8:1;for(let l of[0,7,56,63])!t[l]&&Math.abs(s-l%8)<=1&&Math.abs(c-Math.floor(l/8))<=1&&(a=-25);r+=t[i]===n?a:-a}return r}function E(t,n=\"O\",e=\"medium\",o=Math.random){let r=M(t,n);if(!r.length)return-1;if(e===\"easy\")return r[Math.floor(o()*r.length)];let i=0;function s(l,f,h,u){if(!f||++i>16e3||C(l.board))return Q(l.board,n);let d=M(l.board,l.turn);if(!d.length)return s({...l,turn:w(l.turn)},f-1,h,u);let g=l.turn===n,m=g?-1/0:1/0;for(let y of d){let v=s(H(l,y),f-1,h,u);if(m=g?Math.max(m,v):Math.min(m,v),g?h=Math.max(h,m):u=Math.min(u,m),u<=h)break}return m}let c=-1/0,a=r[0];for(let l of r){let f=s(H({board:t,turn:n},l),e===\"hard\"?3:1,-1/0,1/0);f>c&&(c=f,a=l)}return a}var Z=t=>t.every((n,e)=>n===(e+1)%t.length);function I(t,n){let e=t.indexOf(0),o=e%n,r=Math.floor(e/n);return[r?e-n:-1,o?e-1:-1,r<n-1?e+n:-1,o<n-1?e+1:-1].filter(i=>i>=0)}function $(t,n,e){if(!I(t,n).includes(e))return null;let o=t.slice(),r=o.indexOf(0);return[o[r],o[e]]=[o[e],o[r]],o}function O(t,n){return t.reduce((e,o,r)=>e+(o?Math.abs(r%n-(o-1)%n)+Math.abs(Math.floor(r/n)-Math.floor((o-1)/n)):0),0)}function q({board:t,size:n}){if(Z(t))return{cells:[],text:\"The puzzle is already complete.\"};let e=[],o=new Map([[t.join(\",\"),0]]);function r(l){e.push(l);let f=e.length-1;for(;f;){let h=f-1>>1;if(e[h].f<=l.f)break;e[f]=e[h],f=h}e[f]=l}function i(){let l=e[0],f=e.pop();if(e.length){let h=0;for(;h*2+1<e.length;){let u=h*2+1;if(u+1<e.length&&e[u+1].f<e[u].f&&u++,e[u].f>=f.f)break;e[h]=e[u],h=u}e[h]=f}return l}let s=null,c=!1;r({board:t,g:0,h:O(t,n),f:O(t,n),first:-1});for(let l=0;e.length&&l<4e3;l++){let f=i();if(f.first>=0&&(!s||f.h<s.h||f.h===s.h&&f.g<s.g)&&(s=f),!f.h){s=f,c=!0;break}if(!(f.g>=70))for(let h of I(f.board,n)){let u=$(f.board,n,h),d=u.join(\",\"),g=f.g+1;if((o.get(d)??1/0)<=g)continue;o.set(d,g);let m=O(u,n);r({board:u,g,h:m,f:g+m,first:f.first<0?h:f.first})}}let a=s?.first??I(t,n)[0];return{cells:[a],text:\"Slide tile \"+t[a]+(c?\". Bounded search found a path to the goal.\":\". Bounded search favors progress toward the goal; this move is not guaranteed optimal.\")}}function B(t,n){let e=0,o=0,r=[],i=[];for(let s=0;s<4;s++)t[s]===n[s]?e++:(r.push(t[s]),i.push(n[s]));for(let s of r){let c=i.indexOf(s);c>=0&&(o++,i.splice(c,1))}return{exact:e,misplaced:o}}function z(t,n){let e=[];for(let o=0;o<t**4;o++){let r=o,i=Array.from({length:4},()=>{let s=r%t+1;return r=Math.floor(r/t),s});n.every(s=>{let c=B(i,s.guess);return c.exact===s.exact&&c.misplaced===s.misplaced})&&e.push(i)}return e}function L({colors:t,history:n}){let e=z(t,n);if(!e.length)return{cells:[],text:\"No code matches this feedback.\"};let o=e[0],r=1/0,i=new Set(n.map(c=>c.guess.join(\"\"))),s=e.filter(c=>!i.has(c.join(\"\")));for(let c=0;c<Math.min(80,s.length);c++){let a=s[Math.floor(c*s.length/Math.min(80,s.length))],l=new Map;for(let h of e){let u=B(h,a),d=u.exact+\":\"+u.misplaced;l.set(d,(l.get(d)||0)+1)}let f=[...l.values()].reduce((h,u)=>h+u*u,0);f<r&&(r=f,o=a)}return{cells:[],text:e.length+(e.length===1?\" code remains\":\" codes remain\")+\" consistent with your feedback. Try \"+o.join(\" \")+\". The coach compares possible feedback groups without reading the hidden code.\"}}function A(t,n){if(![\"left\",\"right\",\"up\",\"down\"].includes(n))throw Error(\"Invalid direction\");let e=t.slice(),o=0;for(let r=0;r<4;r++){let i=Array.from({length:4},(a,l)=>n===\"left\"?r*4+l:n===\"right\"?r*4+3-l:n===\"up\"?l*4+r:(3-l)*4+r),s=i.map(a=>t[a]).filter(Boolean),c=[];for(let a=0;a<s.length;a++)if(s[a]===s[a+1]){let l=s[a]*2;c.push(l),o+=l,a++}else c.push(s[a]);i.forEach((a,l)=>e[a]=c[l]||0)}return{board:e,score:o,changed:e.some((r,i)=>r!==t[i])}}var p={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};function ee(t,n=16,e=Math.random){let o=Array.from({length:n*n},(r,i)=>[i%n,Math.floor(i/n)]).filter(r=>!t.some(i=>i[0]===r[0]&&i[1]===r[1]));return o.length?o[Math.floor(e()*o.length)]:null}function _(t,n,e=16,o=Math.random){let r=p[t.direction],i=p[n]||r,s=i[0]===-r[0]&&i[1]===-r[1]?t.direction:n,c=p[s]||r,a=[t.body[0][0]+c[0],t.body[0][1]+c[1]],l=!!t.food&&a[0]===t.food[0]&&a[1]===t.food[1],f=l?t.body:t.body.slice(0,-1);if(a.some(d=>d<0||d>=e)||f.some(d=>d[0]===a[0]&&d[1]===a[1]))return{...t,over:!0};let h=[a,...t.body];l||h.pop();let u=l?ee(h,e,o):t.food;return{body:h,food:u,direction:s,score:t.score+(l?1:0),over:!u,won:!u}}function S(t,n=Math.random){let e=t.slice();for(let o=e.length-1;o>0;o--){let r=Math.floor(n()*(o+1));[e[o],e[r]]=[e[r],e[o]]}return e}function R(t){let n=t.filter(r=>!r).length*240,e=Math.max(...t),o=t.map(r=>r?Math.log2(r):0);[0,3,12,15].some(r=>t[r]===e)&&(n+=Math.log2(e||1)*90);for(let r=0;r<4;r++)for(let i of[o.slice(r*4,r*4+4),[0,1,2,3].map(s=>o[s*4+r])]){let s=0,c=0;for(let a=0;a<3;a++)s+=Math.max(0,i[a]-i[a+1]),c+=Math.max(0,i[a+1]-i[a]);n-=Math.min(s,c)*25}return n}function P(t){let n=null,e=-1/0;for(let o of[\"left\",\"up\",\"right\",\"down\"]){let r=A(t,o);if(!r.changed)continue;let i=r.board.flatMap((a,l)=>a?[]:[l]),s=0;for(let a of i)for(let[l,f]of[[2,.9],[4,.1]]){let h=r.board.slice();h[a]=l;let u=-1e6;for(let d of[\"left\",\"up\",\"right\",\"down\"]){let g=A(h,d);g.changed&&(u=Math.max(u,R(g.board)+g.score))}s+=f*u/i.length}let c=(i.length?s:R(r.board))+r.score;c>e&&(e=c,n=o)}return{direction:n,text:n?\"Try \"+n+\". This two-move estimate favors empty space, ordered rows and a large corner tile. Random spawns can change the result.\":\"No legal moves remain.\"}}function te(t,n){let e=new Set,o=[t[0]],r=new Set(t.slice(1).map(i=>i.join(\",\")));for(let i=0;i<o.length;i++){let[s,c]=o[i],a=s+\",\"+c;if(!(e.has(a)||r.has(a)||s<0||c<0||s>=n||c>=n)){e.add(a);for(let[l,f]of Object.values(p))o.push([s+l,c+f])}}return e.size}function F(t,n=16){let e=null,o=-1/0;for(let r of Object.keys(p)){let i=p[t.direction],s=p[r];if(s[0]===-i[0]&&s[1]===-i[1])continue;let c=_(t,r,n,()=>0);if(c.over&&!c.won)continue;let a=te(c.body,n),l=t.food?Math.abs(c.body[0][0]-t.food[0])+Math.abs(c.body[0][1]-t.food[1]):0,f=a*20-l+(c.score>t.score?10:0);f>o&&(o=f,e=r)}return{direction:e,text:e?\"Try \"+e+\". It avoids an immediate collision and favors open escape space near food. This is a local safety check, not a guaranteed route.\":\"No safe next step was found.\"}}function D(t,n){if(t[n])return[];let e=Math.floor(n/9),o=n%9,r=new Set;for(let i=0;i<81;i++)(Math.floor(i/9)===e||i%9===o||Math.floor(i/27)===Math.floor(e/3)&&Math.floor(i%9/3)===Math.floor(o/3))&&r.add(t[i]);return[1,2,3,4,5,6,7,8,9].filter(i=>!r.has(i))}function U(t){let n=new Set;for(let e=0;e<81;e++)if(t[e])for(let o=e+1;o<81;o++)t[e]===t[o]&&(Math.floor(e/9)===Math.floor(o/9)||e%9===o%9||Math.floor(e/27)===Math.floor(o/27)&&Math.floor(e%9/3)===Math.floor(o%9/3))&&(n.add(e),n.add(o));return[...n]}var b=new Map;function V(t,n=1){let e=n+\":\"+t.join(\",\");if(b.has(e))return structuredClone(b.get(e));let o=ne(t,n);return o.exhausted||(b.set(e,structuredClone(o)),b.size>64&&b.delete(b.keys().next().value)),o}function ne(t,n=1){if(t.length!==81||U(t).length)return{count:0,solution:null};let e=t.slice(),o=0,r=null,i=0,s=!1;function c(){if(++i>25e4){s=!0;return}let a=-1,l;for(let f=0;f<81;f++)if(!e[f]){let h=D(e,f);if(!h.length)return;if((!l||h.length<l.length)&&(a=f,l=h,h.length===1))break}if(a<0){o++,r??=e.slice();return}for(let f of l)if(e[a]=f,c(),o>=n)break;e[a]=0}return c(),{count:s?n:o,solution:r,exhausted:s}}function W(t=\"medium\",n=Math.random){let e=()=>S([0,1,2],n),o=e().flatMap(l=>e().map(f=>l*3+f)),r=e().flatMap(l=>e().map(f=>l*3+f)),i=S([1,2,3,4,5,6,7,8,9],n),s=o.flatMap(l=>r.map(f=>i[(l*3+Math.floor(l/3)+f)%9])),c=s.slice(),a={easy:44,medium:36,hard:30}[t]||36;for(let l of S(Array.from({length:81},(f,h)=>h),n)){if(c.filter(Boolean).length<=a)break;let f=c[l];c[l]=0,V(c,2).count!==1&&(c[l]=f)}return{givens:c,board:c.slice(),notes:Array(81).fill(0),selected:c.findIndex(l=>!l),noteMode:!1,hints:0,completed:!1}}function K(t){let n=U(t.board);if(n.length)return{cell:n[0],value:0,text:\"Resolve the highlighted row, column or box conflict first.\"};let e=V(t.givens).solution;if(!e)return{cell:-1,text:\"This puzzle has no valid solution.\"};let o=t.board.findIndex((i,s)=>i&&i!==e[s]);if(o>=0)return{cell:o,value:0,text:\"Lookahead found an incorrect entry. Clear the highlighted cell before continuing.\"};for(let i=0;i<81;i++)if(!t.board[i]){let s=D(t.board,i);if(s.length===1)return{cell:i,value:s[0],text:\"Only \"+s[0]+\" fits row \"+(Math.floor(i/9)+1)+\", column \"+(i%9+1)+\".\"}}let r=t.board.findIndex(i=>!i);return r<0?{cell:-1,text:\"Puzzle complete.\"}:{cell:r,value:e[r],text:\"Solver lookahead suggests \"+e[r]+\" at row \"+(Math.floor(r/9)+1)+\", column \"+(r%9+1)+\". Use Place hint to apply it.\"}}function T(t){for(let n=0;n<42;n++)if(t[n])for(let[e,o]of[[1,0],[0,1],[1,1],[-1,1]]){let r=n%7,i=Math.floor(n/7);if(!(r+e*3<0||r+e*3>=7||i+o*3>=6)&&[1,2,3].every(s=>t[(i+o*s)*7+r+e*s]===t[n]))return t[n]}return t.every(Boolean)?\"draw\":null}function k(t,n,e){if(!Number.isInteger(n)||n<0||n>6||T(t))return null;for(let o=5;o>=0;o--)if(!t[o*7+n]){let r=t.slice();return r[o*7+n]=e,r}return null}function oe(t){let n=0;for(let e=0;e<6;e++)n+=t[e*7+3]===\"O\"?5:t[e*7+3]===\"X\"?-5:0;for(let e=0;e<42;e++)for(let[o,r]of[[1,0],[0,1],[1,1],[-1,1]]){let i=e%7,s=Math.floor(e/7);if(i+o*3<0||i+o*3>=7||s+r*3>=6)continue;let c=[0,1,2,3].map(f=>t[(s+r*f)*7+i+o*f]),a=c.filter(f=>f===\"O\").length,l=c.filter(f=>f===\"X\").length;l||(n+=[0,1,8,70,1e4][a]),a||(n-=[0,1,10,90,1e4][l])}return n}function Y(t,n=\"medium\",e=Math.random,o=\"O\"){let r=o===\"O\"?t:t.map(u=>u===\"O\"?\"X\":u===\"X\"?\"O\":\"\"),i=[3,2,4,1,5,0,6],s=i.filter(u=>k(r,u,\"O\"));if(!s.length)return-1;for(let u of[\"O\",\"X\"])for(let d of s)if(T(k(r,d,u))===u)return d;if(n===\"easy\")return s[Math.floor(e()*s.length)];let c=0,a=n===\"hard\"?5:3;function l(u,d,g,m,y){let v=T(u);if(v)return v===\"O\"?1e5+d:v===\"X\"?-1e5-d:0;if(!d||++c>35e3)return oe(u);let x=g===\"O\"?-1/0:1/0;for(let G of i){let X=k(u,G,g);if(!X)continue;let N=l(X,d-1,g===\"O\"?\"X\":\"O\",m,y);if(g===\"O\"?(x=Math.max(x,N),m=Math.max(m,x)):(x=Math.min(x,N),y=Math.min(y,x)),y<=m)break}return x}let f=s[0],h=-1/0;for(let u of s){let d=l(k(r,u,\"O\"),a-1,\"X\",-1/0,1/0);d>h&&(h=d,f=u)}return f}self.onmessage=({data:t})=>{let{id:n,operation:e,payload:o}=t;try{let r;if(e===\"reversi\")r=E(o.board,o.player,o.level);else if(e===\"sliding\")r=q(o);else if(e===\"code\")r=L(o);else if(e===\"connect\")r=Y(o.board,o.level,Math.random,o.player);else if(e===\"sudokuHint\")r=K(o);else if(e===\"createSudoku\")r=W(o);else if(e===\"2048\")r=P(o);else if(e===\"snake\")r=F(o);else throw Error(\"Unknown analysis operation\");self.postMessage({id:n,result:r})}catch(r){self.postMessage({id:n,error:r.message})}};})();\n";(() => {
+<body data-game-view="library"><a class="skip-link" href="#arcadeMain">Skip to games</a>
+<aside id="gameDock" aria-label="Games dock"><div class="dock-brand"><span aria-hidden="true">∑</span><span class="dock-label">ToolStudio <small>Games · v43</small></span></div>
+<button id="dockToggle" aria-label="Collapse dock" aria-expanded="true" aria-controls="gameDock"><span aria-hidden="true">☰</span><span class="dock-label">Collapse dock</span></button>
+<button id="dockSearchButton" aria-label="Search games"><span aria-hidden="true">⌕</span><span class="dock-label">Search games</span></button><label class="dock-search">Find a game<input id="gameSearch" type="search" placeholder="Search games" autocomplete="off"><small id="dockSearchCount"></small></label>
+<nav aria-label="Games navigation">
+<button id="allGames" aria-label="All games" aria-current="page"><span aria-hidden="true">▦</span><span class="dock-label">All games</span></button>
+<button id="dockFavorites" aria-label="Favorite games"><span aria-hidden="true">☆</span><span class="dock-label">Favorites</span></button>
+<button id="resumeGame" aria-label="Resume game" hidden><span aria-hidden="true">▷</span><span class="dock-label">Resume game</span></button>
+<button id="restart" aria-label="New game" hidden><span aria-hidden="true">↻</span><span class="dock-label">New game</span></button>
+<button id="settingsToggle" aria-label="Game settings" aria-expanded="false" aria-controls="settingsPanel"><span aria-hidden="true">⚙</span><span class="dock-label">Settings</span></button>
+<button id="howToPlay" aria-label="How to play" aria-expanded="false" aria-controls="gameHelp" hidden><span aria-hidden="true">?</span><span class="dock-label">How to play</span></button>
+<button id="fullscreen" aria-label="Fullscreen"><span aria-hidden="true">↗</span><span class="dock-label">Fullscreen</span></button>
+<button id="exitFullscreen" aria-label="Exit fullscreen" hidden><span aria-hidden="true">↙</span><span class="dock-label">Exit fullscreen</span></button>
+</nav><div class="dock-bottom"><a href="../guide.html#edition43" id="guideLink" aria-label="Studio guide"><span aria-hidden="true">▤</span><span class="dock-label">Studio guide</span></a><a href="../index.html" id="studioLink" aria-label="Back to ToolStudio"><span aria-hidden="true">←</span><span class="dock-label">Back to ToolStudio</span></a><span class="dock-label dock-note">A small break.<br>A clear mind.</span></div></aside>
+<button id="dockBackdrop" aria-label="Close dock" hidden></button>
+<main id="arcadeMain" tabindex="-1">
+<section id="libraryView" aria-labelledby="libraryTitle"><div class="library-heading"><div><p class="eyebrow">YOUR LITTLE ARCADE</p><h1 id="libraryTitle">Pick a little play time.</h1><p class="library-description">15 games. Play, think, reset.</p></div></div>
+<div id="recentGames" aria-label="Recently played games"></div><div id="gameFilters" role="group" aria-label="Game categories"></div><p id="libraryCount" role="status"></p><nav id="gamePicker" aria-label="Choose a game"></nav><p id="libraryEmpty" hidden>No games match. Try another search or category.</p></section>
+<section id="playView" hidden aria-labelledby="gameTitle"><article class="play-card"><div class="game-heading"><div><p class="eyebrow" id="gameTag"></p><h1 id="gameTitle">Games</h1></div><p class="play-category" id="playCategory"></p></div><p id="gameStatus" role="status" aria-live="polite"></p>
+<div id="gameHelp" hidden><h2>How to play</h2><p id="instructions"></p><p class="hint" id="keyboardHint"></p></div><div id="boardViewport"><div id="board" role="group" tabindex="0" aria-label="Game board"></div></div><div id="gameControls"></div><div class="coach"><button id="hint">Coach hint</button><button id="applyHint" hidden>Place hint</button><p id="hintText" role="status"></p></div><p id="record" class="hint"></p><p id="scoreboard" class="hint"></p></article></section>
+<section id="settingsPanel" class="settings-panel" hidden aria-labelledby="settingsTitle"><div class="settings-heading"><h2 id="settingsTitle" tabindex="-1">Game settings</h2><button id="closeSettings" aria-label="Close settings">Close</button></div><div id="gameOptions"></div><label class="theme-label">Appearance<select id="gameTheme" aria-label="Appearance"><option value="follow">Follow ToolStudio</option><option value="forest">Forest</option><option value="sky">Sky</option><option value="cartoon">Cartoon</option><option value="neon">Neon</option><option value="pearl">Pearl</option><option value="graphite">Graphite</option></select></label>
+<section class="save-panel" aria-label="Game progress"><label><input type="checkbox" id="remember"> Remember game progress and personal bests on this device</label><button id="clearSaves">Clear saved games</button><p id="saveStatus" role="status">Progress is kept only while this page remains open.</p></section></section>
+<p class="footnote">No sign-in. No ads. Local coaching. Hints keep assisted bests separate.</p></main><script>globalThis.__toolStudioGameWorker="(()=>{var w=t=>t===\"X\"?\"O\":\"X\",J=[-1,0,1].flatMap(t=>[-1,0,1].filter(n=>n||t).map(n=>[n,t]));function _(t,n,e){if(!Number.isInteger(n)||n<0||n>=64||t[n])return[];let o=[],r=n%8,f=Math.floor(n/8);for(let[i,s]of J){let a=[],l=r+i,c=f+s;for(;l>=0&&l<8&&c>=0&&c<8&&t[c*8+l]===w(e);)a.push(c*8+l),l+=i,c+=s;a.length&&l>=0&&l<8&&c>=0&&c<8&&t[c*8+l]===e&&o.push(...a)}return o}function y(t,n){return t.flatMap((e,o)=>!e&&_(t,o,n).length?[o]:[])}function E(t){if(y(t,\"X\").length||y(t,\"O\").length)return null;let n=t.filter(e=>e===\"X\").length-t.filter(e=>e===\"O\").length;return n===0?\"draw\":n>0?\"X\":\"O\"}function j(t,n){let e=_(t.board,n,t.turn);if(!e.length)return null;let o=t.board.slice();o[n]=t.turn;for(let f of e)o[f]=t.turn;let r=w(t.turn);return{board:o,turn:y(o,r).length?r:t.turn}}function Q(t,n){let e=w(n),o=E(t);if(o)return o===\"draw\"?0:o===n?1e5:-1e5;let r=5*(y(t,n).length-y(t,e).length);for(let f=0;f<64;f++)if(t[f]){let i=f%8,s=Math.floor(f/8),a=(i===0||i===7)&&(s===0||s===7)?100:i===0||i===7||s===0||s===7?8:1;for(let l of[0,7,56,63])!t[l]&&Math.abs(i-l%8)<=1&&Math.abs(s-Math.floor(l/8))<=1&&(a=-25);r+=t[f]===n?a:-a}return r}function H(t,n=\"O\",e=\"medium\",o=Math.random){let r=y(t,n);if(!r.length)return-1;if(e===\"easy\")return r[Math.floor(o()*r.length)];let f=0,i=r[0],s=Symbol(\"budget\");function a(l,c,h,u){if(++f>16e3)throw s;if(!c||E(l.board))return Q(l.board,n);let d=y(l.board,l.turn);if(!d.length)return a({...l,turn:w(l.turn)},c-1,h,u);let g=l.turn===n,m=g?-1/0:1/0;for(let M of d){let v=a(j(l,M),c-1,h,u);if(m=g?Math.max(m,v):Math.min(m,v),g?h=Math.max(h,m):u=Math.min(u,m),u<=h)break}return m}for(let l=1;l<=(e===\"hard\"?4:2);l++){let c=-1/0,h=i;try{for(let u of r){let d=a(j({board:t,turn:n},u),l-1,-1/0,1/0);d>c&&(c=d,h=u)}i=h}catch(u){if(u!==s)throw u;break}}return i}var Z=t=>t.every((n,e)=>n===(e+1)%t.length);function A(t,n){let e=t.indexOf(0),o=e%n,r=Math.floor(e/n);return[r?e-n:-1,o?e-1:-1,r<n-1?e+n:-1,o<n-1?e+1:-1].filter(f=>f>=0)}function $(t,n,e){if(!A(t,n).includes(e))return null;let o=t.slice(),r=o.indexOf(0);return[o[r],o[e]]=[o[e],o[r]],o}function O(t,n){return t.reduce((e,o,r)=>e+(o?Math.abs(r%n-(o-1)%n)+Math.abs(Math.floor(r/n)-Math.floor((o-1)/n)):0),0)}function q({board:t,size:n}){if(Z(t))return{cells:[],text:\"The puzzle is already complete.\"};let e=[],o=new Map([[t.join(\",\"),0]]);function r(l){e.push(l);let c=e.length-1;for(;c;){let h=c-1>>1;if(e[h].f<=l.f)break;e[c]=e[h],c=h}e[c]=l}function f(){let l=e[0],c=e.pop();if(e.length){let h=0;for(;h*2+1<e.length;){let u=h*2+1;if(u+1<e.length&&e[u+1].f<e[u].f&&u++,e[u].f>=c.f)break;e[h]=e[u],h=u}e[h]=c}return l}let i=null,s=!1;r({board:t,g:0,h:O(t,n),f:O(t,n),first:-1});for(let l=0;e.length&&l<4e3;l++){let c=f();if(c.first>=0&&(!i||c.h<i.h||c.h===i.h&&c.g<i.g)&&(i=c),!c.h){i=c,s=!0;break}if(!(c.g>=70))for(let h of A(c.board,n)){let u=$(c.board,n,h),d=u.join(\",\"),g=c.g+1;if((o.get(d)??1/0)<=g)continue;o.set(d,g);let m=O(u,n);r({board:u,g,h:m,f:g+m,first:c.first<0?h:c.first})}}let a=i?.first??A(t,n)[0];return{cells:[a],text:\"Slide tile \"+t[a]+(s?\". Bounded search found a path to the goal.\":\". Bounded search favors progress toward the goal; this move is not guaranteed optimal.\")}}function B(t,n){let e=0,o=0,r=[],f=[];for(let i=0;i<4;i++)t[i]===n[i]?e++:(r.push(t[i]),f.push(n[i]));for(let i of r){let s=f.indexOf(i);s>=0&&(o++,f.splice(s,1))}return{exact:e,misplaced:o}}function z(t,n){let e=[];for(let o=0;o<t**4;o++){let r=o,f=Array.from({length:4},()=>{let i=r%t+1;return r=Math.floor(r/t),i});n.every(i=>{let s=B(f,i.guess);return s.exact===i.exact&&s.misplaced===i.misplaced})&&e.push(f)}return e}function L({colors:t,history:n}){let e=z(t,n);if(!e.length)return{cells:[],text:\"No code matches this feedback.\"};let o=e[0],r=1/0,f=new Set(n.map(s=>s.guess.join(\"\"))),i=e.filter(s=>!f.has(s.join(\"\")));for(let s=0;s<Math.min(80,i.length);s++){let a=i[Math.floor(s*i.length/Math.min(80,i.length))],l=new Map;for(let h of e){let u=B(h,a),d=u.exact+\":\"+u.misplaced;l.set(d,(l.get(d)||0)+1)}let c=[...l.values()].reduce((h,u)=>h+u*u,0);c<r&&(r=c,o=a)}return{cells:[],text:e.length+(e.length===1?\" code remains\":\" codes remain\")+\" consistent with your feedback. Try \"+o.join(\" \")+\". The coach compares possible feedback groups without reading the hidden code.\"}}function I(t,n){if(![\"left\",\"right\",\"up\",\"down\"].includes(n))throw Error(\"Invalid direction\");let e=t.slice(),o=0;for(let r=0;r<4;r++){let f=Array.from({length:4},(a,l)=>n===\"left\"?r*4+l:n===\"right\"?r*4+3-l:n===\"up\"?l*4+r:(3-l)*4+r),i=f.map(a=>t[a]).filter(Boolean),s=[];for(let a=0;a<i.length;a++)if(i[a]===i[a+1]){let l=i[a]*2;s.push(l),o+=l,a++}else s.push(i[a]);f.forEach((a,l)=>e[a]=s[l]||0)}return{board:e,score:o,changed:e.some((r,f)=>r!==t[f])}}var p={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};function ee(t,n=16,e=Math.random){let o=Array.from({length:n*n},(r,f)=>[f%n,Math.floor(f/n)]).filter(r=>!t.some(f=>f[0]===r[0]&&f[1]===r[1]));return o.length?o[Math.floor(e()*o.length)]:null}function R(t,n,e=16,o=Math.random){if(t.over)return structuredClone(t);let r=p[t.direction],f=p[n]?n:t.direction,i=p[f],s=i[0]===-r[0]&&i[1]===-r[1]?t.direction:f,a=p[s]||r,l=[t.body[0][0]+a[0],t.body[0][1]+a[1]],c=!!t.food&&l[0]===t.food[0]&&l[1]===t.food[1],h=c?t.body:t.body.slice(0,-1);if(l.some(g=>g<0||g>=e)||h.some(g=>g[0]===l[0]&&g[1]===l[1]))return{...t,over:!0};let u=[l,...t.body];c||u.pop();let d=c?ee(u,e,o):t.food;return{body:u,food:d,direction:s,score:t.score+(c?1:0),over:!d,won:!d}}function S(t,n=Math.random){let e=t.slice();for(let o=e.length-1;o>0;o--){let r=Math.floor(n()*(o+1));[e[o],e[r]]=[e[r],e[o]]}return e}function P(t){let n=t.filter(r=>!r).length*240,e=Math.max(...t),o=t.map(r=>r?Math.log2(r):0);[0,3,12,15].some(r=>t[r]===e)&&(n+=Math.log2(e||1)*90);for(let r=0;r<4;r++)for(let f of[o.slice(r*4,r*4+4),[0,1,2,3].map(i=>o[i*4+r])]){let i=0,s=0;for(let a=0;a<3;a++)i+=Math.max(0,f[a]-f[a+1]),s+=Math.max(0,f[a+1]-f[a]);n-=Math.min(i,s)*25}return n}function F(t){let n=null,e=-1/0;for(let o of[\"left\",\"up\",\"right\",\"down\"]){let r=I(t,o);if(!r.changed)continue;let f=r.board.flatMap((a,l)=>a?[]:[l]),i=0;for(let a of f)for(let[l,c]of[[2,.9],[4,.1]]){let h=r.board.slice();h[a]=l;let u=-1e6;for(let d of[\"left\",\"up\",\"right\",\"down\"]){let g=I(h,d);g.changed&&(u=Math.max(u,P(g.board)+g.score))}i+=c*u/f.length}let s=(f.length?i:P(r.board))+r.score;s>e&&(e=s,n=o)}return{direction:n,text:n?\"Try \"+n+\". This two-move estimate favors empty space, ordered rows and a large corner tile. Random spawns can change the result.\":\"No legal moves remain.\"}}function te(t,n){let e=new Set,o=[t[0]],r=new Set(t.slice(1).map(f=>f.join(\",\")));for(let f=0;f<o.length;f++){let[i,s]=o[f],a=i+\",\"+s;if(!(e.has(a)||r.has(a)||i<0||s<0||i>=n||s>=n)){e.add(a);for(let[l,c]of Object.values(p))o.push([i+l,s+c])}}return e.size}function D(t,n=16){let e=null,o=-1/0;for(let r of Object.keys(p)){let f=p[t.direction],i=p[r];if(i[0]===-f[0]&&i[1]===-f[1])continue;let s=R(t,r,n,()=>0);if(s.over&&!s.won)continue;let a=te(s.body,n),l=t.food?Math.abs(s.body[0][0]-t.food[0])+Math.abs(s.body[0][1]-t.food[1]):0,c=a*20-l+(s.score>t.score?10:0);c>o&&(o=c,e=r)}return{direction:e,text:e?\"Try \"+e+\". It avoids an immediate collision and favors open escape space near food. This is a local safety check, not a guaranteed route.\":\"No safe next step was found.\"}}function T(t,n){if(t[n])return[];let e=Math.floor(n/9),o=n%9,r=new Set;for(let f=0;f<81;f++)(Math.floor(f/9)===e||f%9===o||Math.floor(f/27)===Math.floor(e/3)&&Math.floor(f%9/3)===Math.floor(o/3))&&r.add(t[f]);return[1,2,3,4,5,6,7,8,9].filter(f=>!r.has(f))}function U(t){let n=new Set;for(let e=0;e<81;e++)if(t[e])for(let o=e+1;o<81;o++)t[e]===t[o]&&(Math.floor(e/9)===Math.floor(o/9)||e%9===o%9||Math.floor(e/27)===Math.floor(o/27)&&Math.floor(e%9/3)===Math.floor(o%9/3))&&(n.add(e),n.add(o));return[...n]}var b=new Map;function V(t,n=1){let e=n+\":\"+t.join(\",\");if(b.has(e))return structuredClone(b.get(e));let o=ne(t,n);return o.exhausted||(b.set(e,structuredClone(o)),b.size>64&&b.delete(b.keys().next().value)),o}function ne(t,n=1){if(t.length!==81||U(t).length)return{count:0,solution:null};let e=t.slice(),o=0,r=null,f=0,i=!1;function s(){if(++f>25e4){i=!0;return}let a=-1,l;for(let c=0;c<81;c++)if(!e[c]){let h=T(e,c);if(!h.length)return;if((!l||h.length<l.length)&&(a=c,l=h,h.length===1))break}if(a<0){o++,r??=e.slice();return}for(let c of l)if(e[a]=c,s(),o>=n)break;e[a]=0}return s(),{count:i?n:o,solution:r,exhausted:i}}function W(t=\"medium\",n=Math.random){let e=()=>S([0,1,2],n),o=e().flatMap(l=>e().map(c=>l*3+c)),r=e().flatMap(l=>e().map(c=>l*3+c)),f=S([1,2,3,4,5,6,7,8,9],n),i=o.flatMap(l=>r.map(c=>f[(l*3+Math.floor(l/3)+c)%9])),s=i.slice(),a={easy:44,medium:36,hard:30}[t]||36;for(let l of S(Array.from({length:81},(c,h)=>h),n)){if(s.filter(Boolean).length<=a)break;let c=s[l];s[l]=0,V(s,2).count!==1&&(s[l]=c)}return{givens:s,board:s.slice(),notes:Array(81).fill(0),selected:s.findIndex(l=>!l),noteMode:!1,hints:0,completed:!1}}function K(t){let n=U(t.board);if(n.length)return{cell:n[0],value:0,text:\"Resolve the highlighted row, column or box conflict first.\"};let e=V(t.givens).solution;if(!e)return{cell:-1,text:\"This puzzle has no valid solution.\"};let o=t.board.findIndex((i,s)=>i&&i!==e[s]);if(o>=0)return{cell:o,value:0,text:\"Lookahead found an incorrect entry. Clear the highlighted cell before continuing.\"};for(let i=0;i<81;i++)if(!t.board[i]){let s=T(t.board,i);if(s.length===1)return{cell:i,value:s[0],text:\"Only \"+s[0]+\" fits row \"+(Math.floor(i/9)+1)+\", column \"+(i%9+1)+\".\"}}let r=[...Array.from({length:9},(i,s)=>Array.from({length:9},(a,l)=>s*9+l)),...Array.from({length:9},(i,s)=>Array.from({length:9},(a,l)=>l*9+s)),...Array.from({length:9},(i,s)=>Array.from({length:9},(a,l)=>(Math.floor(s/3)*3+Math.floor(l/3))*9+s%3*3+l%3))];for(let i of r)for(let s=1;s<=9;s++){if(i.some(l=>t.board[l]===s))continue;let a=i.filter(l=>!t.board[l]&&T(t.board,l).includes(s));if(a.length===1)return{cell:a[0],value:s,text:\"Only this cell can hold \"+s+\" in its row, column or box (a hidden single).\"}}let f=t.board.findIndex(i=>!i);return f<0?{cell:-1,text:\"Puzzle complete.\"}:{cell:f,value:e[f],text:\"Solver lookahead suggests \"+e[f]+\" at row \"+(Math.floor(f/9)+1)+\", column \"+(f%9+1)+\". Use Place hint to apply it.\"}}function X(t){for(let n=0;n<42;n++)if(t[n])for(let[e,o]of[[1,0],[0,1],[1,1],[-1,1]]){let r=n%7,f=Math.floor(n/7);if(!(r+e*3<0||r+e*3>=7||f+o*3>=6)&&[1,2,3].every(i=>t[(f+o*i)*7+r+e*i]===t[n]))return t[n]}return t.every(Boolean)?\"draw\":null}function k(t,n,e){if(!Number.isInteger(n)||n<0||n>6||X(t))return null;for(let o=5;o>=0;o--)if(!t[o*7+n]){let r=t.slice();return r[o*7+n]=e,r}return null}function oe(t){let n=0;for(let e=0;e<6;e++)n+=t[e*7+3]===\"O\"?5:t[e*7+3]===\"X\"?-5:0;for(let e=0;e<42;e++)for(let[o,r]of[[1,0],[0,1],[1,1],[-1,1]]){let f=e%7,i=Math.floor(e/7);if(f+o*3<0||f+o*3>=7||i+r*3>=6)continue;let s=[0,1,2,3].map(c=>t[(i+r*c)*7+f+o*c]),a=s.filter(c=>c===\"O\").length,l=s.filter(c=>c===\"X\").length;l||(n+=[0,1,8,70,1e4][a]),a||(n-=[0,1,10,90,1e4][l])}return n}function Y(t,n=\"medium\",e=Math.random,o=\"O\"){let r=o===\"O\"?t:t.map(u=>u===\"O\"?\"X\":u===\"X\"?\"O\":\"\"),f=[3,2,4,1,5,0,6],i=f.filter(u=>k(r,u,\"O\"));if(!i.length)return-1;for(let u of[\"O\",\"X\"])for(let d of i)if(X(k(r,d,u))===u)return d;if(n===\"easy\")return i[Math.floor(e()*i.length)];let s=0,a=n===\"hard\"?5:3;function l(u,d,g,m,M){let v=X(u);if(v)return v===\"O\"?1e5+d:v===\"X\"?-1e5-d:0;if(!d||++s>35e3)return oe(u);let x=g===\"O\"?-1/0:1/0;for(let G of f){let N=k(u,G,g);if(!N)continue;let C=l(N,d-1,g===\"O\"?\"X\":\"O\",m,M);if(g===\"O\"?(x=Math.max(x,C),m=Math.max(m,x)):(x=Math.min(x,C),M=Math.min(M,x)),M<=m)break}return x}let c=i[0],h=-1/0;for(let u of i){let d=l(k(r,u,\"O\"),a-1,\"X\",-1/0,1/0);d>h&&(h=d,c=u)}return c}self.onmessage=({data:t})=>{let{id:n,operation:e,payload:o}=t;try{let r;if(e===\"reversi\")r=H(o.board,o.player,o.level);else if(e===\"sliding\")r=q(o);else if(e===\"code\")r=L(o);else if(e===\"connect\")r=Y(o.board,o.level,Math.random,o.player);else if(e===\"sudokuHint\")r=K(o);else if(e===\"createSudoku\")r=W(o);else if(e===\"2048\")r=F(o);else if(e===\"snake\")r=D(o);else throw Error(\"Unknown analysis operation\");self.postMessage({id:n,result:r})}catch(r){self.postMessage({id:n,error:r.message})}};})();\n";(() => {
+  // src/games/catalog.js
+  var gameCatalog = [
+    ["rps", "Rock\u2013Paper\u2013Scissors", "Quick play", "First to three wins", "\u25D2", "1 min"],
+    ["hangman", "Hangman", "Words", "Find the hidden word", "A", "2 min"],
+    ["scramble", "Word Scramble", "Words", "Put the letters in order", "\u2194", "2 min"],
+    ["ludo", "Ludo", "Strategy", "Roll, race and bring tokens home", "\u2684", "15+ min"],
+    ["2048", "2048", "Puzzles", "Slide and merge equal tiles", "\u25A6", "5 min"],
+    ["snake", "Snake", "Quick play", "Find a safe route to the food", "\u2301", "3 min"],
+    ["memory", "Memory Match", "Memory", "Remember and match pairs", "\u25A7", "3 min"],
+    ["ttt", "Tic-tac-toe", "Strategy", "Three in a row, solo or together", "\xD7", "1 min"],
+    ["sudoku", "Sudoku", "Puzzles", "Digits, notes and logical hints", "9", "10+ min"],
+    ["mines", "Minesweeper", "Puzzles", "Find safe squares from clues", "\u2691", "5 min"],
+    ["connect4", "Connect Four", "Strategy", "Drop discs and think ahead", "\u25CF", "5 min"],
+    ["reversi", "Reversi", "Strategy", "Flip the balance of the board", "\u25D0", "10 min"],
+    ["sliding", "Sliding Puzzle", "Puzzles", "Move every tile into place", "\u25A5", "5 min"],
+    ["lights", "Lights Out", "Puzzles", "A little chain reaction", "\u263C", "3 min"],
+    ["code", "Codebreaker", "Puzzles", "Follow the feedback", "?", "5 min"]
+  ].map(([id, name, category, description, icon, duration]) => ({ id, name, category, description, icon, duration }));
+  var arcadeInfo = {
+    rps: ["Rock\u2013Paper\u2013Scissors", "ONE, TWO, THREE", "First to three wins. Rock beats scissors, scissors beats paper, paper beats rock. Ties do not award points. Random play stays unpredictable; the optional learning opponent uses only earlier rounds."],
+    hangman: ["Hangman", "ONE LETTER AT A TIME", "Guess letters to find the word. Repeated letters are revealed together. Choose Easy, Medium or Hard for word length and mistake allowance. Revealing a letter with Coach counts as assistance."],
+    scramble: ["Word Scramble", "EVERY LETTER HAS A PLACE", "Tap letters to build a word. Tap an answer letter to remove it. Use every tile exactly once, then Check word. Duplicate letters are separate tiles. There is no timer."],
+    ludo: ["Ludo", "A LITTLE LUCK, A LITTLE STRATEGY", "Roll a six to leave the yard. Select a legal token, travel into your own home lane and land home exactly. Starts and marked stars are safe. Six, capture or reaching home grants a bonus roll; a third consecutive six forfeits the turn. Tokens may share squares; this version has no blockades. First to bring all four home wins."]
+  };
+
+  // src/games/library.js
+  var libraryDefaults = () => ({ favorites: [], recent: [], collapsed: false, theme: "follow" });
+  function installLibrary({ getProfile, play, onLeave, onPause, persist }) {
+    const $2 = (id) => document.getElementById(id), dock = $2("gameDock"), main = $2("arcadeMain"), picker2 = $2("gamePicker");
+    let current = null, filter = "All", favoritesOnly = false, mobile = matchMedia("(max-width:650px)").matches, collapsed = mobile || getProfile().library.collapsed;
+    const prefs = () => getProfile().library;
+    function element(tag, text, cls) {
+      const n = document.createElement(tag);
+      if (text !== void 0) n.textContent = text;
+      if (cls) n.className = cls;
+      return n;
+    }
+    function closeMobile() {
+      if (mobile) {
+        collapsed = true;
+        dockState();
+      }
+    }
+    function dockState() {
+      document.body.dataset.dock = collapsed ? "collapsed" : "expanded";
+      $2("dockToggle").setAttribute("aria-expanded", String(!collapsed));
+      $2("dockToggle").setAttribute("aria-label", collapsed ? "Expand dock" : "Collapse dock");
+      $2("dockToggle").title = collapsed ? "Expand dock" : "Collapse dock";
+      $2("dockToggle").querySelector(".dock-label").textContent = collapsed ? "Expand dock" : "Collapse dock";
+      const overlay = mobile && !collapsed;
+      $2("dockBackdrop").hidden = !overlay;
+      main.inert = overlay;
+      document.body.classList.toggle("dock-overlay", overlay);
+    }
+    function setSettings(open) {
+      if (open) onPause?.();
+      closeMobile();
+      $2("settingsPanel").hidden = !open;
+      $2("settingsToggle").setAttribute("aria-expanded", String(open));
+      if (open) $2("settingsTitle").focus();
+      else $2("settingsToggle").focus();
+      closeMobile();
+    }
+    function applyTheme() {
+      let theme = prefs().theme;
+      if (theme === "follow") {
+        try {
+          const raw = localStorage.getItem("calc-studio-theme");
+          theme = JSON.parse(raw);
+        } catch {
+          theme = null;
+        }
+      }
+      if (["forest", "sky", "cartoon", "neon", "pearl", "graphite"].includes(theme)) document.documentElement.dataset.theme = theme;
+      else delete document.documentElement.dataset.theme;
+      $2("gameTheme").value = prefs().theme;
+    }
+    function refresh() {
+      const query = $2("gameSearch").value.trim().toLowerCase();
+      let shown = 0;
+      for (const card of picker2.children) {
+        const entry = gameCatalog.find((g) => g.id === card.dataset.card);
+        card.dataset.current = String(current === entry.id);
+        card.hidden = !!(favoritesOnly && !prefs().favorites.includes(entry.id) || filter !== "All" && entry.category !== filter || query && ![entry.name, entry.description, entry.category].join(" ").toLowerCase().includes(query));
+        if (!card.hidden) shown++;
+        const star = card.querySelector("[data-favorite]");
+        const favored = prefs().favorites.includes(entry.id);
+        star.setAttribute("aria-pressed", String(favored));
+        star.textContent = favored ? "\u2605" : "\u2606";
+        card.querySelector("[data-game]").setAttribute("aria-pressed", String(current === entry.id));
+      }
+      $2("libraryTitle").textContent = favoritesOnly ? "Your favorite games." : "Pick a little play time.";
+      $2("libraryCount").textContent = shown + (shown === 1 ? " game" : " games") + (filter !== "All" ? " \xB7 " + filter : "");
+      $2("libraryEmpty").hidden = shown !== 0;
+      $2("dockSearchCount").textContent = shown + (shown === 1 ? " game" : " games") + " \xB7 Enter to browse";
+      $2("recentGames").replaceChildren();
+      if (!favoritesOnly && prefs().recent.length) {
+        $2("recentGames").append(element("span", "Jump back in", "recent-label"));
+        for (const id of prefs().recent.slice(0, 3)) {
+          const e = gameCatalog.find((g) => g.id === id), b = element("button", e.name);
+          b.type = "button";
+          b.dataset.resume = id;
+          b.onclick = () => void launch(id);
+          $2("recentGames").append(b);
+        }
+      }
+      $2("resumeGame").hidden = !current && !getProfile().saves[getProfile().active];
+    }
+    async function launch(id, fromHistory = false) {
+      if (!gameCatalog.some((g) => g.id === id)) return;
+      current = id;
+      if (!fromHistory && location.hash !== "#game=" + id) {
+        try {
+          history.pushState(null, "", "#game=" + id);
+        } catch {
+        }
+      }
+      getProfile().active = id;
+      prefs().recent = [id, ...prefs().recent.filter((g) => g !== id)].slice(0, 6);
+      $2("libraryView").hidden = true;
+      $2("playView").hidden = false;
+      document.body.dataset.gameView = "play";
+      $2("settingsPanel").hidden = true;
+      $2("settingsToggle").setAttribute("aria-expanded", "false");
+      $2("restart").hidden = false;
+      $2("howToPlay").hidden = false;
+      $2("allGames").removeAttribute("aria-current");
+      $2("dockFavorites").removeAttribute("aria-current");
+      $2("resumeGame").setAttribute("aria-current", "page");
+      $2("playCategory").textContent = gameCatalog.find((g) => g.id === id).category;
+      closeMobile();
+      refresh();
+      $2("playView").getAnimations().forEach((a) => a.cancel());
+      if (!matchMedia("(prefers-reduced-motion:reduce)").matches) $2("playView").animate([{ transform: "translateY(5px)" }, { transform: "translateY(0)" }], { duration: 160, easing: "ease-out" });
+      await play(id);
+      if (current === id && document.body.dataset.gameView === "play") $2("board").focus({ preventScroll: true });
+      persist();
+    }
+    function library(favorite = false, fromHistory = false) {
+      $2("playView").getAnimations().forEach((a) => a.cancel());
+      if (!fromHistory && location.hash.startsWith("#game=")) {
+        try {
+          history.pushState(null, "", location.href.split("#")[0]);
+        } catch {
+        }
+      }
+      onLeave();
+      favoritesOnly = favorite;
+      filter = "All";
+      $2("gameSearch").value = "";
+      for (const b of $2("gameFilters").children) b.setAttribute("aria-pressed", String(b.textContent === "All"));
+      $2("playView").hidden = true;
+      $2("libraryView").hidden = false;
+      document.body.dataset.gameView = "library";
+      $2("restart").hidden = true;
+      $2("howToPlay").hidden = true;
+      $2("settingsPanel").hidden = true;
+      $2("settingsToggle").setAttribute("aria-expanded", "false");
+      $2("allGames").toggleAttribute("aria-current", !favorite);
+      if (!favorite) $2("allGames").setAttribute("aria-current", "page");
+      $2("dockFavorites").toggleAttribute("aria-current", favorite);
+      if (favorite) $2("dockFavorites").setAttribute("aria-current", "page");
+      $2("resumeGame").removeAttribute("aria-current");
+      closeMobile();
+      refresh();
+      const target = current ? picker2.querySelector('[data-game="' + current + '"]') : null;
+      (target && !target.closest("article").hidden ? target : $2("libraryTitle")).focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+    for (const g of gameCatalog) {
+      const card = element("article", void 0, "game-card");
+      card.dataset.card = g.id;
+      const b = element("button", void 0, "game-card-open");
+      b.type = "button";
+      b.dataset.game = g.id;
+      b.setAttribute("aria-label", g.name);
+      b.setAttribute("aria-pressed", "false");
+      const icon = element("span", g.icon, "game-icon");
+      icon.setAttribute("aria-hidden", "true");
+      const content = element("span", void 0, "game-card-copy");
+      content.append(element("strong", g.name), element("span", g.description, "game-description"), element("small", g.category + " \xB7 " + g.duration));
+      b.append(icon, content);
+      b.onclick = () => void launch(g.id);
+      const star = element("button", "\u2606", "game-favorite");
+      star.type = "button";
+      star.dataset.favorite = g.id;
+      star.setAttribute("aria-label", "Favorite " + g.name);
+      star.onclick = () => {
+        prefs().favorites = prefs().favorites.includes(g.id) ? prefs().favorites.filter((id) => id !== g.id) : [...prefs().favorites, g.id];
+        refresh();
+        persist();
+      };
+      card.append(b, star);
+      picker2.append(card);
+    }
+    for (const category of ["All", "Quick play", "Words", "Memory", "Strategy", "Puzzles"]) {
+      const b = element("button", category);
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(category === "All"));
+      b.onclick = () => {
+        filter = category;
+        for (const n of b.parentElement.children) n.setAttribute("aria-pressed", String(n === b));
+        refresh();
+      };
+      $2("gameFilters").append(b);
+    }
+    $2("gameSearch").oninput = () => {
+      const query = $2("gameSearch").value;
+      if (document.body.dataset.gameView === "play") {
+        const keepDock = mobile && !collapsed;
+        library();
+        if (keepDock) {
+          collapsed = false;
+          dockState();
+        }
+        $2("gameSearch").value = query;
+        $2("gameSearch").focus();
+      }
+      refresh();
+    };
+    $2("gameSearch").onkeydown = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        closeMobile();
+        (picker2.querySelector("article:not([hidden]) [data-game]") || $2("libraryTitle")).focus();
+        $2("libraryView").scrollIntoView({ block: "start" });
+      }
+    };
+    $2("dockSearchButton").onclick = () => {
+      onPause?.();
+      collapsed = false;
+      dockState();
+      $2("gameSearch").focus();
+    };
+    $2("allGames").onclick = () => library();
+    $2("dockFavorites").onclick = () => library(true);
+    $2("resumeGame").onclick = () => void launch(current || getProfile().active);
+    $2("dockToggle").onclick = () => {
+      collapsed = !collapsed;
+      if (!collapsed) onPause?.();
+      if (!mobile) {
+        prefs().collapsed = collapsed;
+        persist();
+      }
+      dockState();
+    };
+    $2("dockBackdrop").onclick = () => {
+      collapsed = true;
+      dockState();
+      $2("dockToggle").focus();
+    };
+    $2("settingsToggle").onclick = () => setSettings($2("settingsPanel").hidden);
+    $2("closeSettings").onclick = () => setSettings(false);
+    $2("howToPlay").onclick = () => {
+      const open = $2("gameHelp").hidden;
+      $2("gameHelp").hidden = !open;
+      $2("howToPlay").setAttribute("aria-expanded", String(open));
+      closeMobile();
+      if (open) $2("gameHelp").scrollIntoView({ block: "nearest" });
+    };
+    $2("gameTheme").onchange = () => {
+      prefs().theme = $2("gameTheme").value;
+      applyTheme();
+      persist();
+    };
+    window.addEventListener("storage", (event) => {
+      if (event.key === "calc-studio-theme" && prefs().theme === "follow") applyTheme();
+    });
+    document.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        onPause?.();
+        collapsed = false;
+        dockState();
+        $2("gameSearch").focus();
+        return;
+      }
+      if (event.key === "Escape") {
+        if (mobile && !collapsed) {
+          event.preventDefault();
+          collapsed = true;
+          dockState();
+          $2("dockToggle").focus();
+        } else if (!$2("settingsPanel").hidden) setSettings(false);
+      }
+    });
+    matchMedia("(max-width:650px)").addEventListener("change", (e) => {
+      mobile = e.matches;
+      collapsed = mobile || prefs().collapsed;
+      dockState();
+    });
+    dock.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab" || !mobile || collapsed) return;
+      const focusable = [...dock.querySelectorAll("button:not([hidden]),a:not([hidden]),input:not([hidden])")].filter((e) => e.getClientRects().length), first = focusable[0], last = focusable.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    window.addEventListener("popstate", () => {
+      const id = location.hash.startsWith("#game=") ? location.hash.slice(6) : "";
+      if (gameCatalog.some((g) => g.id === id)) void launch(id, true);
+      else library(false, true);
+    });
+    for (const e of dock.querySelectorAll("[aria-label]")) e.title = e.getAttribute("aria-label");
+    $2("libraryTitle").tabIndex = -1;
+    dockState();
+    applyTheme();
+    refresh();
+    return { launch, library, refresh, applyTheme };
+  }
+
+  // src/games/word-bank.js
+  var words = [
+    ["APPLE", "Everyday", "A crisp fruit that grows on trees."],
+    ["BREAD", "Everyday", "A loaf can be sliced for sandwiches."],
+    ["CLOCK", "Everyday", "It shows the time."],
+    ["CHAIR", "Everyday", "A seat with a back."],
+    ["BRUSH", "Everyday", "A tool with bristles."],
+    ["SPOON", "Everyday", "Use it to eat soup."],
+    ["TRAIN", "Everyday", "Carriages travel together on rails."],
+    ["LIGHT", "Everyday", "It makes a dark room visible."],
+    ["HOUSE", "Everyday", "A building people live in."],
+    ["PAPER", "Everyday", "A sheet you can write on."],
+    ["RIVER", "Nature", "Water flowing toward a larger body of water."],
+    ["CLOUD", "Nature", "A floating collection of water droplets."],
+    ["OCEAN", "Nature", "A very large body of salt water."],
+    ["TIGER", "Nature", "A large striped wild cat."],
+    ["LEAF", "Nature", "A plant part that uses sunlight."],
+    ["MOON", "Nature", "Earth\u2019s natural satellite."],
+    ["SEED", "Nature", "A tiny beginning for a new plant."],
+    ["RAIN", "Nature", "Water falling from clouds."],
+    ["WIND", "Nature", "Air in motion."],
+    ["STAR", "Nature", "A distant glowing ball of gas."],
+    ["BUTTON", "Everyday", "Press this small control to perform an action."],
+    ["POCKET", "Everyday", "A small sewn compartment in clothing."],
+    ["WINDOW", "Everyday", "A glass opening in a wall."],
+    ["BRIDGE", "Everyday", "A structure crossing a gap or river."],
+    ["PENCIL", "Everyday", "A writing tool whose marks can be erased."],
+    ["BASKET", "Everyday", "A container often woven from strips."],
+    ["GARDEN", "Nature", "A place where plants are grown and tended."],
+    ["FOREST", "Nature", "An extensive area covered by trees."],
+    ["PLANET", "Nature", "A large world orbiting a star."],
+    ["FLOWER", "Nature", "The colorful blooming part of a plant."],
+    ["COMPUTER", "Technology", "An electronic machine that processes instructions."],
+    ["KEYBOARD", "Technology", "An arrangement of keys used to enter text."],
+    ["BROWSER", "Technology", "An application that opens websites."],
+    ["NETWORK", "Technology", "Connected devices that exchange information."],
+    ["PROGRAM", "Technology", "A set of instructions for a computer."],
+    ["STORAGE", "Technology", "Space used to keep digital information."],
+    ["VARIABLE", "Technology", "A named value that can change in a program."],
+    ["FUNCTION", "Technology", "A reusable unit of instructions."],
+    ["DATABASE", "Technology", "An organized collection of stored information."],
+    ["ALGORITHM", "Technology", "A sequence of steps for solving a problem."],
+    ["MOUNTAIN", "Nature", "A very high natural rise in the land."],
+    ["SUNSHINE", "Nature", "Light reaching us directly from the sun."],
+    ["RAINDROP", "Nature", "A single small bead falling from a cloud."],
+    ["BUTTERFLY", "Nature", "An insect with broad colorful wings."],
+    ["ELEPHANT", "Nature", "A large mammal with a trunk."],
+    ["NOTEBOOK", "Everyday", "Bound pages used to record thoughts."],
+    ["UMBRELLA", "Everyday", "A portable canopy that keeps rain off."],
+    ["BACKPACK", "Everyday", "A bag carried using shoulder straps."],
+    ["CALENDAR", "Everyday", "An arrangement of days, weeks and months."],
+    ["TELESCOPE", "Everyday", "An instrument that helps us see distant objects."],
+    ["BIRD", "Nature", "A feathered animal, many of which can fly."],
+    ["FISH", "Nature", "An aquatic animal with gills."],
+    ["BOOK", "Everyday", "Bound pages that tell a story or share information."],
+    ["BALL", "Everyday", "A round object used in many sports."],
+    ["LAMP", "Everyday", "A device that provides light."],
+    ["MOUSE", "Technology", "A pointing device moved by hand."],
+    ["PIXEL", "Technology", "A tiny picture element on a screen."],
+    ["ROBOT", "Technology", "A machine that can carry out programmed actions."],
+    ["CAMERA", "Technology", "A device that captures photographs."],
+    ["SENSOR", "Technology", "A device that detects a physical change."]
+  ].map(([word, category, clue]) => ({ word, category, clue }));
+
+  // src/games/arcade-rules.js
+  var hands = ["rock", "paper", "scissors"];
+  function rpsResult(human, computer) {
+    if (!hands.includes(human) || !hands.includes(computer)) throw Error("Choose a valid hand");
+    return human === computer ? "draw" : hands[(hands.indexOf(computer) + 1) % 3] === human ? "X" : "O";
+  }
+  function rpsScores(history2) {
+    return history2.reduce((a, r) => {
+      a[rpsResult(r.human, r.computer)]++;
+      return a;
+    }, { X: 0, O: 0, draw: 0 });
+  }
+  function rpsOutcome(s) {
+    const scores = rpsScores(s.history);
+    return scores.X >= 3 ? "X" : scores.O >= 3 ? "O" : s.history.length >= 100 ? "draw" : null;
+  }
+  function rpsComputer(history2, level = "medium", random = Math.random) {
+    if (level !== "hard" || history2.length < 3 || random() < 0.3) return hands[Math.floor(random() * 3)];
+    const count = hands.map((h) => history2.slice(-8).filter((r) => r.human === h).length), highest = Math.max(...count), likely = hands.filter((_, i) => count[i] === highest);
+    return hands[(hands.indexOf(likely[Math.floor(random() * likely.length)]) + 1) % 3];
+  }
+  var createRPS = () => ({ history: [] });
+  function playRPS(s, human, level = "medium", random = Math.random) {
+    if (rpsOutcome(s)) return null;
+    const computer = rpsComputer(s.history, level, random);
+    rpsResult(human, computer);
+    return { history: [...s.history, { human, computer }] };
+  }
+  function wordPool(level) {
+    return words.flatMap((r, i) => (level === "easy" ? r.word.length <= 5 : level === "hard" ? r.word.length >= 8 : r.word.length >= 6 && r.word.length <= 7) ? [i] : []);
+  }
+  function chooseWord(level, random, exclude = -1) {
+    const pool = wordPool(level).filter((i) => i !== exclude);
+    return pool[Math.floor(random() * pool.length)];
+  }
+  function createHangman(level = "medium", random = Math.random, exclude = -1) {
+    return { wordIndex: chooseWord(level, random, exclude), guessed: [], limit: { easy: 8, medium: 7, hard: 6 }[level] };
+  }
+  var hangmanWrong = (s) => s.guessed.filter((c) => !words[s.wordIndex].word.includes(c)).length;
+  var hangmanWon = (s) => [...words[s.wordIndex].word].every((c) => s.guessed.includes(c));
+  var hangmanOver = (s) => hangmanWon(s) || hangmanWrong(s) >= s.limit;
+  function guessLetter(s, letter) {
+    const c = String(letter).toUpperCase();
+    if (hangmanOver(s) || !/^[A-Z]$/.test(c) || s.guessed.includes(c)) return null;
+    return { ...s, guessed: [...s.guessed, c] };
+  }
+  function hangmanHint(s) {
+    const word = words[s.wordIndex].word, missing = [...new Set(word)].filter((c) => !s.guessed.includes(c));
+    missing.sort((a, b) => [...word].filter((c) => c === b).length - [...word].filter((c) => c === a).length);
+    const letter = missing[0];
+    return { letter, text: letter ? "Try the letter " + letter + ". It appears in the hidden word; using this reveal counts as assistance." : "Every letter has already been found." };
+  }
+  function shuffleWord(word, random = Math.random) {
+    const order = Array.from({ length: word.length }, (_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    if (order.map((i) => word[i]).join("") === word) order.push(order.shift());
+    return order;
+  }
+  function createScramble(level = "medium", random = Math.random, exclude = -1) {
+    const wordIndex = chooseWord(level, random, exclude);
+    return { wordIndex, order: shuffleWord(words[wordIndex].word, random), picked: [], completed: false };
+  }
+  var scrambleText = (s) => s.picked.map((i) => words[s.wordIndex].word[i]).join("");
+  function checkScramble(s) {
+    if (s.completed || s.picked.length !== words[s.wordIndex].word.length) return null;
+    return { ...s, completed: scrambleText(s) === words[s.wordIndex].word };
+  }
+  function scrambleHint(s) {
+    const word = words[s.wordIndex].word, guess = scrambleText(s);
+    let index = 0;
+    while (index < guess.length && guess[index] === word[index]) index++;
+    return { index, letter: word[index], text: index < word.length ? "Position " + (index + 1) + " should be " + word[index] + ". Place hint keeps a correct prefix and adds this letter." : "The letters are in order. Check your word to finish." };
+  }
+
+  // src/games/ludo.js
+  var ludoColors = ["Red", "Green", "Yellow", "Blue"];
+  var safeCells = [0, 8, 13, 21, 26, 34, 39, 47];
+  var ludoFinish = 57;
+  var ludoSeats = (players) => players === 2 ? [0, 2] : [0, 1, 2, 3];
+  var ludoCell = (s, p, t) => (ludoSeats(s.players)[p] * 13 + s.tokens[p][t]) % 52;
+  function createLudo(players = 2) {
+    if (![2, 4].includes(players)) throw Error("Choose two or four players");
+    return { players, tokens: Array.from({ length: players }, () => Array(4).fill(-1)), turn: 0, die: null, streak: 0, winner: null, last: "Red starts. Roll a six to leave the yard." };
+  }
+  function ludoMoves(s) {
+    if (s.die === null || s.winner !== null) return [];
+    return s.tokens[s.turn].flatMap((v, i) => v === -1 ? s.die === 6 ? [i] : [] : v < ludoFinish && v + s.die <= ludoFinish ? [i] : []);
+  }
+  var nextTurn = (s) => ({ ...s, turn: (s.turn + 1) % s.players, die: null, streak: 0 });
+  function rollLudo(state2, die) {
+    if (state2.die !== null || state2.winner !== null) return null;
+    if (!Number.isInteger(die) || die < 1 || die > 6) throw Error("Invalid die");
+    const name = ludoColors[ludoSeats(state2.players)[state2.turn]], s = { ...state2, die, streak: die === 6 ? state2.streak + 1 : 0, last: name + " rolled " + die + ". Choose a highlighted token." };
+    if (s.streak === 3) return { ...nextTurn(s), last: name + " rolled three consecutive sixes. Turn passes." };
+    if (!ludoMoves(s).length) {
+      if (die === 6) return { ...s, die: null, last: name + " has no legal move. Six grants another roll." };
+      return { ...nextTurn(s), last: name + " has no legal move. Turn passes." };
+    }
+    return s;
+  }
+  function moveLudo(state2, token) {
+    if (!ludoMoves(state2).includes(token)) return null;
+    const s = structuredClone(state2), p = s.turn, old = s.tokens[p][token], position = old === -1 ? 0 : old + s.die;
+    s.tokens[p][token] = position;
+    let captured = 0;
+    if (position <= 50) {
+      const target = ludoCell(s, p, token);
+      if (!safeCells.includes(target)) {
+        for (let other = 0; other < s.players; other++) if (other !== p) {
+          for (let t = 0; t < 4; t++) if (s.tokens[other][t] >= 0 && s.tokens[other][t] <= 50 && ludoCell(s, other, t) === target) {
+            s.tokens[other][t] = -1;
+            captured++;
+          }
+        }
+      }
+    }
+    const name = ludoColors[ludoSeats(s.players)[p]], home = position === ludoFinish, bonus = s.die === 6 || captured > 0 || home;
+    s.last = name + " moved token " + (token + 1) + (home ? " home" : old === -1 ? " out of the yard" : " by " + s.die) + (captured ? " and captured " + captured + " token" + (captured === 1 ? "" : "s") : "") + ".";
+    if (s.tokens[p].every((v) => v === ludoFinish)) {
+      s.winner = p;
+      s.die = null;
+      s.streak = 0;
+      s.last = name + " wins! All four tokens are home.";
+      return s;
+    }
+    s.die = null;
+    if (!bonus) {
+      s.turn = (p + 1) % s.players;
+      s.streak = 0;
+    } else s.last += " Bonus roll.";
+    return s;
+  }
+  function chooseLudo(s, level = "medium", random = Math.random) {
+    const moves = ludoMoves(s);
+    if (!moves.length) return -1;
+    if (level === "easy") return moves[Math.floor(random() * moves.length)];
+    let best = -Infinity, choice = moves[0];
+    for (const token of moves) {
+      const n = moveLudo(s, token), position = n.tokens[s.turn][token], captures = n.tokens.reduce((count, a, p) => count + (p === s.turn ? 0 : a.filter((v, i) => v === -1 && s.tokens[p][i] !== -1).length), 0);
+      let score = (position === 57 ? 500 : position >= 51 ? 90 : position) * 2 + captures * 220 + (s.tokens[s.turn][token] === -1 ? 35 : 0);
+      if (level === "hard" && position >= 0 && position <= 50) {
+        const target = ludoCell(n, s.turn, token);
+        if (safeCells.includes(target)) score += 60;
+        else for (let p = 0; p < s.players; p++) if (p !== s.turn) {
+          for (let t = 0; t < 4; t++) if (n.tokens[p][t] >= 0 && n.tokens[p][t] <= 50) {
+            const distance = (target - ludoCell(n, p, t) + 52) % 52;
+            if (distance > 0 && distance <= 6 && n.tokens[p][t] + distance <= 50) score -= 45;
+          }
+        }
+      }
+      if (score > best) {
+        best = score;
+        choice = token;
+      }
+    }
+    return choice;
+  }
+  function ludoHint(s) {
+    if (s.die === null) return { text: "Roll first. The coach never predicts the next die.", token: -1 };
+    const token = chooseLudo(s, "hard");
+    return { token, text: token < 0 ? "There is no legal token move." : "Try token " + (token + 1) + ". The coach weighs captures, safe squares, home progress and nearby threats; future dice remain random." };
+  }
+
+  // src/games/ludo-view.js
+  var quarter = [[1, 6], [2, 6], [3, 6], [4, 6], [5, 6], [6, 5], [6, 4], [6, 3], [6, 2], [6, 1], [6, 0], [7, 0], [8, 0]];
+  function rotateCell([x, y], turns) {
+    for (let i = 0; i < turns; i++) [x, y] = [14 - y, x];
+    return [x, y];
+  }
+  var ludoTrack = Array.from({ length: 4 }, (_, p) => quarter.map((c) => rotateCell(c, p))).flat();
+  var paint = ["#aa3c42", "#276a4b", "#8b6418", "#315f9b"];
+  function drawLudo(s) {
+    const ns = "http://www.w3.org/2000/svg";
+    function el(tag, attrs, text) {
+      const n = document.createElementNS(ns, tag);
+      for (const [k, v] of Object.entries(attrs || {})) n.setAttribute(k, String(v));
+      if (text !== void 0) n.textContent = text;
+      return n;
+    }
+    const svg = el("svg", { viewBox: "0 0 450 450", class: "ludo-visual", "aria-hidden": "true" }), size = 30;
+    function rect(x, y, w, h, fill, rx = 0) {
+      svg.append(el("rect", { x: x * size, y: y * size, width: w * size, height: h * size, fill, rx, stroke: "#879c8b", "stroke-width": 0.6 }));
+    }
+    for (let p = 0; p < 4; p++) {
+      const [x, y] = rotateCell([0, 0], p), left = x === 14 ? 9 : 0, top = y === 14 ? 9 : 0;
+      rect(left, top, 6, 6, paint[p], 12);
+      rect(left + 0.7, top + 0.7, 4.6, 4.6, "#fafbf5", 10);
+      svg.append(el("text", { x: (left + 3) * size, y: (top + 0.35) * size, style: "fill:white;font-size:9px" }, ludoColors[p]));
+    }
+    for (let i = 0; i < ludoTrack.length; i++) {
+      const [x, y] = ludoTrack[i];
+      rect(x, y, 1, 1, i % 13 === 0 ? paint[Math.floor(i / 13)] : "#fcfbf3");
+      if (safeCells.includes(i)) svg.append(el("text", { x: (x + 0.5) * size, y: (y + 0.5) * size, style: "font-size:18px;fill:" + (i % 13 === 0 ? "#fff" : "#526b61") }, "\u2606"));
+    }
+    for (let p = 0; p < 4; p++) for (let step = 1; step <= 6; step++) {
+      const [x, y] = rotateCell([step, 7], p);
+      rect(x, y, 1, 1, paint[p]);
+    }
+    rect(6, 6, 3, 3, "#e2eade");
+    svg.append(el("text", { x: 225, y: 225, style: "font-size:13px" }, s.die === null ? "HOME" : "\u2684 " + s.die));
+    const groups = /* @__PURE__ */ new Map(), seats = ludoSeats(s.players);
+    for (let player = 0; player < s.players; player++) for (let token = 0; token < 4; token++) {
+      const progress = s.tokens[player][token], color = seats[player];
+      let xy;
+      if (progress === -1) xy = rotateCell([token % 2 ? 4 : 2, token < 2 ? 2 : 4], color);
+      else if (progress <= 50) xy = ludoTrack[ludoCell(s, player, token)];
+      else if (progress < 57) xy = rotateCell([progress - 50, 7], color);
+      else continue;
+      const key = xy.join(",");
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push({ player, color, token, xy });
+    }
+    for (const group of groups.values()) for (let index = 0; index < group.length; index++) {
+      const { xy, color, token } = group[index], spread = group.length > 1 ? 0.2 : 0, x = (xy[0] + 0.5 + (index % 2 ? spread : -spread)) * size, y = (xy[1] + 0.5 + (index > 1 ? spread : -spread)) * size, r = group.length > 1 ? 8 : 11;
+      svg.append(el("circle", { cx: x, cy: y, r, fill: paint[color], stroke: "#fff", "stroke-width": 1.8 }));
+      svg.append(el("text", { x, y, class: "token-text", style: "font-size:" + (group.length > 1 ? 7 : 10) + "px" }, ludoColors[color][0] + (token + 1)));
+    }
+    return svg;
+  }
+
   // src/games/extras.js
   var opposite = (p) => p === "X" ? "O" : "X";
   var rays = [-1, 0, 1].flatMap((y) => [-1, 0, 1].filter((x) => x || y).map((x) => [x, y]));
@@ -247,7 +908,19 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       row++;
     }
     if (rows.some((r) => !r.slice(0, n).some(Boolean) && r[n])) return null;
-    return pivots.filter((_, i) => rows[i][n]);
+    const free = Array.from({ length: n }, (_, i) => i).filter((i) => !pivots.includes(i));
+    let best = pivots.filter((_, i) => rows[i][n]);
+    if (free.length <= 12) for (let bits = 0; bits < 2 ** free.length; bits++) {
+      const vector = Array(n).fill(0);
+      free.forEach((col, i) => vector[col] = bits >> i & 1);
+      pivots.forEach((col, i) => {
+        vector[col] = rows[i][n];
+        for (const f of free) vector[col] ^= rows[i][f] & vector[f];
+      });
+      const candidate = vector.flatMap((v, i) => v ? [i] : []);
+      if (candidate.length < best.length) best = candidate;
+    }
+    return best;
   }
   function createLights(level = "medium", random = Math.random) {
     const size = level === "easy" ? 4 : 5;
@@ -262,7 +935,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   }
   function lightsHint({ board: board3, size }) {
     const solution = lightSolution(board3, size);
-    return { cells: solution?.length ? [solution[0]] : [], text: solution === null ? "No solution exists for this pattern." : !solution.length ? "All lights are already off." : "Press the highlighted square. Linear algebra found a solution using " + solution.length + " remaining presses; this is not necessarily the shortest solution." };
+    return { cells: solution?.length ? [solution[0]] : [], text: solution === null ? "No solution exists for this pattern." : !solution.length ? "All lights are already off." : "Press the highlighted square. Linear algebra compared all solutions and found a shortest solution using " + solution.length + " remaining presses." };
   }
   function codeFeedback(secret, guess) {
     let exact = 0, misplaced = 0;
@@ -354,16 +1027,21 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     return board3.every(Boolean) ? "draw" : null;
   }
   function bestMove(board3) {
-    const score = (b, turn) => {
+    const cache2 = /* @__PURE__ */ new Map();
+    const score = (b, turn, depth = 0) => {
       const end = outcome(b);
-      if (end) return end === "O" ? 10 : end === "X" ? -10 : 0;
+      if (end) return end === "O" ? 10 - depth : end === "X" ? depth - 10 : 0;
+      const key = turn + b.join(".");
+      if (cache2.has(key)) return cache2.get(key);
       const values = b.flatMap((v, i) => {
         if (v) return [];
         const next2 = b.slice();
         next2[i] = turn;
-        return [score(next2, turn === "O" ? "X" : "O")];
+        return [score(next2, turn === "O" ? "X" : "O", depth + 1)];
       });
-      return turn === "O" ? Math.max(...values) : Math.min(...values);
+      const value2 = turn === "O" ? Math.max(...values) : Math.min(...values);
+      cache2.set(key, value2);
+      return value2;
     };
     if (outcome(board3)) return -1;
     let move = -1, value = -Infinity;
@@ -411,7 +1089,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     return empty.length ? empty[Math.floor(random() * empty.length)] : null;
   }
   function stepSnake(state2, direction, size = 16, random = Math.random) {
-    const prior = vectors[state2.direction], asked = vectors[direction] || prior, dir = asked[0] === -prior[0] && asked[1] === -prior[1] ? state2.direction : direction;
+    if (state2.over) return structuredClone(state2);
+    const prior = vectors[state2.direction], requested = vectors[direction] ? direction : state2.direction, asked = vectors[requested], dir = asked[0] === -prior[0] && asked[1] === -prior[1] ? state2.direction : requested;
     const v = vectors[dir] || prior, head = [state2.body[0][0] + v[0], state2.body[0][1] + v[1]], eat = !!state2.food && head[0] === state2.food[0] && head[1] === state2.food[1];
     const occupied = eat ? state2.body : state2.body.slice(0, -1);
     if (head.some((n) => n < 0 || n >= size) || occupied.some((p) => p[0] === head[0] && p[1] === head[1])) return { ...state2, over: true };
@@ -420,9 +1099,28 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     const food = eat ? foodFor(body, size, random) : state2.food;
     return { body, food, direction: dir, score: state2.score + (eat ? 1 : 0), over: !food, won: !food };
   }
+  var reachableTTT;
+  function validTicTacToe(board3) {
+    if (!reachableTTT) {
+      reachableTTT = /* @__PURE__ */ new Set();
+      const visit = (b, turn) => {
+        const key = b.join(".");
+        if (reachableTTT.has(key)) return;
+        reachableTTT.add(key);
+        if (outcome(b)) return;
+        for (let i = 0; i < 9; i++) if (!b[i]) {
+          const next2 = b.slice();
+          next2[i] = turn;
+          visit(next2, turn === "X" ? "O" : "X");
+        }
+      };
+      visit(Array(9).fill(""), "X");
+    }
+    return reachableTTT.has(board3.join("."));
+  }
 
   // src/games/brain.js
-  var gameIds = ["2048", "snake", "memory", "ttt", "sudoku", "mines", "connect4", "reversi", "sliding", "lights", "code"];
+  var gameIds = ["2048", "snake", "memory", "ttt", "sudoku", "mines", "connect4", "reversi", "sliding", "lights", "code", "rps", "hangman", "scramble", "ludo"];
   function shuffle(values, random = Math.random) {
     const a = values.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -588,6 +1286,20 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
     return null;
   }
+  function pruneSudokuNotes(board3, notes) {
+    return notes.map((mask, i) => board3[i] ? 0 : mask & sudokuCandidates(board3, i).reduce((n, v) => n | 1 << v - 1, 0));
+  }
+  function chordMine(state2, cell) {
+    if (state2.over || !state2.bombs || !state2.revealed.includes(cell)) return structuredClone(state2);
+    const neighbors = mineNeighbors(cell, state2.size), count = neighbors.filter((i) => state2.bombs.includes(i)).length;
+    if (!count || neighbors.filter((i) => state2.flags.includes(i)).length !== count) return structuredClone(state2);
+    let next2 = state2;
+    for (const i of neighbors) {
+      if (next2.over) break;
+      if (!next2.revealed.includes(i) && !next2.flags.includes(i)) next2 = revealMine(next2, i);
+    }
+    return structuredClone(next2);
+  }
 
   // src/games/saves.js
   var SAVE_KEY = "toolstudio-games-v2";
@@ -598,7 +1310,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   var point = (p, size) => Array.isArray(p) && p.length === 2 && p.every((n) => integer(n, size - 1));
   var tile = (n) => integer(n, 2 ** 30) && (n === 0 || Number.isInteger(Math.log2(n)) && n >= 2);
   function defaults() {
-    return { version: 2, enabled: false, active: "2048", settings: {}, saves: {}, best: {}, matches: { ttt: { X: 0, O: 0, draw: 0 }, connect4: { X: 0, O: 0, draw: 0 }, reversi: { X: 0, O: 0, draw: 0 } } };
+    return { version: 2, enabled: false, active: "2048", settings: {}, saves: {}, best: {}, matches: { ttt: { X: 0, O: 0, draw: 0 }, connect4: { X: 0, O: 0, draw: 0 }, reversi: { X: 0, O: 0, draw: 0 }, rps: { X: 0, O: 0, draw: 0 } }, library: libraryDefaults() };
   }
   function validateGame(id, s) {
     if (!object(s) || !integer(s.moves) || !integer(s.hints) || typeof s.credited !== "boolean") throw Error("Invalid game metadata");
@@ -620,6 +1332,21 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         }
       }
     }
+    if (id === "ttt" && valid) valid = validTicTacToe(s.board);
+    if (id === "connect4" && valid) {
+      const winners = ["X", "O"].filter((mark) => connectWinner(s.board.map((v) => v === mark ? v : "")) === mark);
+      if (winners.length > 1) valid = false;
+      else if (winners.length) {
+        const winner = winners[0], x = s.board.filter((v) => v === "X").length, o = s.board.filter((v) => v === "O").length;
+        valid = x - o === (winner === "X" ? 1 : 0) && Array.from({ length: 7 }, (_, col) => {
+          const row = Array.from({ length: 6 }, (_2, r) => r * 7 + col).find((i) => s.board[i]);
+          if (row === void 0 || s.board[row] !== winner) return false;
+          const prev = s.board.slice();
+          prev[row] = "";
+          return !connectWinner(prev);
+        }).some(Boolean);
+      }
+    }
     if (id === "sudoku") valid = board(s.givens, 81, (v) => integer(v, 9)) && s.givens.filter(Boolean).length >= 17 && board(s.board, 81, (v) => integer(v, 9)) && s.givens.every((v, i) => !v || s.board[i] === v) && board(s.notes, 81, (v) => integer(v, 511)) && integer(s.selected, 80) && typeof s.noteMode === "boolean" && typeof s.completed === "boolean" && !sudokuConflicts(s.givens).length && solveSudoku(s.givens, 2).count === 1;
     if (id === "mines") {
       const n = s.size * s.size;
@@ -635,7 +1362,29 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       const digits = (a) => board(a, 4, (v) => integer(v, s.colors) && v >= 1);
       valid = [4, 5, 6].includes(s.colors) && digits(s.secret) && digits(s.draft) && Array.isArray(s.history) && s.history.length <= 10 && s.moves === s.history.length && s.history.every((r, i) => object(r) && Object.keys(r).length === 3 && digits(r.guess) && integer(r.exact, 4) && integer(r.misplaced, 4) && r.exact === codeFeedback(s.secret, r.guess).exact && r.misplaced === codeFeedback(s.secret, r.guess).misplaced && (i === s.history.length - 1 || r.exact !== 4));
     }
-    const allowed = { 2048: ["board", "score", "undo"], snake: ["body", "food", "direction", "score", "over", "won"], memory: ["deck", "open", "matched", "seen"], ttt: ["board"], sudoku: ["givens", "board", "notes", "selected", "noteMode", "completed"], mines: ["size", "mines", "bombs", "revealed", "flags", "over", "won"], connect4: ["board"], reversi: ["board", "turn"], sliding: ["size", "board", "undo"], lights: ["size", "board"], code: ["colors", "secret", "draft", "history"] }[id];
+    if (id === "rps") valid = Array.isArray(s.history) && s.history.length <= 100 && s.moves === s.history.length && s.history.every((r, i) => object(r) && Object.keys(r).length === 2 && hands.includes(r.human) && hands.includes(r.computer) && !rpsOutcome({ history: s.history.slice(0, i) }));
+    if (id === "hangman") valid = integer(s.wordIndex, words.length - 1) && Array.isArray(s.guessed) && s.guessed.length <= 26 && new Set(s.guessed).size === s.guessed.length && s.guessed.every((c) => typeof c === "string" && /^[A-Z]$/.test(c)) && [6, 7, 8].includes(s.limit) && s.moves === s.guessed.length && hangmanWrong(s) <= s.limit && s.guessed.every((_, i) => !hangmanOver({ ...s, guessed: s.guessed.slice(0, i) }));
+    if (id === "scramble") {
+      const n = words[s.wordIndex]?.word.length;
+      valid = integer(s.wordIndex, words.length - 1) && ids(s.order, n) && s.order.length === n && ids(s.picked, n) && typeof s.completed === "boolean" && (!s.completed || s.moves > 0 && scrambleText(s) === words[s.wordIndex].word);
+    }
+    if (id === "ludo") {
+      valid = [2, 4].includes(s.players) && Array.isArray(s.tokens) && s.tokens.length === s.players && s.tokens.every((a) => board(a, 4, (v) => Number.isInteger(v) && v >= -1 && v <= 57)) && integer(s.turn, s.players - 1) && (s.die === null || Number.isInteger(s.die) && s.die >= 1 && s.die <= 6) && integer(s.streak, 2) && (s.winner === null || integer(s.winner, s.players - 1)) && typeof s.last === "string" && s.last.length <= 200;
+      if (valid) {
+        const winners = s.tokens.flatMap((a, i) => a.every((v) => v === 57) ? [i] : []);
+        valid = s.winner === null ? winners.length === 0 : winners.length === 1 && winners[0] === s.winner && s.turn === s.winner && s.die === null && s.streak === 0;
+        if (s.die !== null) valid = valid && ludoMoves(s).length > 0 && (s.die === 6 ? s.streak > 0 : s.streak === 0);
+        const occupied = /* @__PURE__ */ new Map();
+        for (let player = 0; player < s.players; player++) for (let token = 0; token < 4; token++) if (s.tokens[player][token] >= 0 && s.tokens[player][token] <= 50) {
+          const cell = ludoCell(s, player, token);
+          if (!safeCells.includes(cell)) {
+            if (occupied.has(cell) && occupied.get(cell) !== player) valid = false;
+            occupied.set(cell, player);
+          }
+        }
+      }
+    }
+    const allowed = { 2048: ["board", "score", "undo"], snake: ["body", "food", "direction", "score", "over", "won"], memory: ["deck", "open", "matched", "seen"], ttt: ["board"], sudoku: ["givens", "board", "notes", "selected", "noteMode", "completed"], mines: ["size", "mines", "bombs", "revealed", "flags", "over", "won"], connect4: ["board"], reversi: ["board", "turn"], sliding: ["size", "board", "undo"], lights: ["size", "board"], code: ["colors", "secret", "draft", "history"], rps: ["history"], hangman: ["wordIndex", "guessed", "limit"], scramble: ["wordIndex", "order", "picked", "completed"], ludo: ["players", "tokens", "turn", "die", "streak", "winner", "last"] }[id];
     if (!allowed || Object.keys(s).some((k) => !["moves", "hints", "credited", ...allowed].includes(k))) valid = false;
     if (id === "sudoku" && valid) valid = s.completed === (s.board.every(Boolean) && sudokuConflicts(s.board).length === 0);
     if (id === "snake" && valid) valid = s.food !== null || s.won;
@@ -643,22 +1392,30 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     return structuredClone(s);
   }
   function validateProfile(v) {
-    if (!object(v) || v.version !== 2 || typeof v.enabled !== "boolean" || !gameIds.includes(v.active) || !object(v.settings) || !object(v.saves) || !object(v.best) || !object(v.matches) || Object.keys(v).some((k) => !["version", "enabled", "active", "settings", "saves", "best", "matches"].includes(k))) throw Error("Invalid Games save");
-    for (const [id, setting] of Object.entries(v.settings)) if (!gameIds.includes(id) || !object(setting) || !["easy", "medium", "hard"].includes(setting.level) || !["solo", "two"].includes(setting.mode) || Object.keys(setting).some((k) => !["level", "mode"].includes(k))) throw Error("Invalid Games settings");
+    if (!object(v) || v.version !== 2 || typeof v.enabled !== "boolean" || !gameIds.includes(v.active) || !object(v.settings) || !object(v.saves) || !object(v.best) || !object(v.matches) || Object.keys(v).some((k) => !["version", "enabled", "active", "settings", "saves", "best", "matches", "library"].includes(k))) throw Error("Invalid Games save");
+    for (const [id, setting] of Object.entries(v.settings)) if (!gameIds.includes(id) || !object(setting) || !["easy", "medium", "hard"].includes(setting.level) || !["solo", "two"].includes(setting.mode) || Object.keys(setting).some((k) => !["level", "mode", ...id === "ludo" ? ["players"] : []].includes(k))) throw Error("Invalid Games settings");
+    for (const [id, setting] of Object.entries(v.settings)) if (setting.players !== void 0 && (id !== "ludo" || ![2, 4].includes(setting.players))) throw Error("Invalid player count");
     for (const [id, s] of Object.entries(v.saves)) {
       if (!gameIds.includes(id)) throw Error("Unknown saved game");
       validateGame(id, s);
       if ((id === "ttt" || id === "connect4") && (v.settings[id]?.mode || "solo") === "solo") {
-        const b = s.board, end = id === "connect4" ? connectWinner(b) : null;
-        if (!end && id === "connect4" && b.filter((x) => x === "X").length !== b.filter((x) => x === "O").length) throw Error("Incomplete computer turn");
+        const b = s.board, end = id === "connect4" ? connectWinner(b) : outcome(b);
+        if (end && end !== "draw" && b.filter((x) => x === "X").length - b.filter((x) => x === "O").length !== (end === "X" ? 1 : 0)) throw Error("Invalid completed match");
       }
     }
-    for (const [k, n] of Object.entries(v.best)) if (!/^(2048|snake|memory|ttt|sudoku|mines|connect4|reversi|sliding|lights|code):(easy|medium|hard):(solo|two):(assisted|solo)$/.test(k) || !integer(n)) throw Error("Invalid Games best");
+    for (const [k, n] of Object.entries(v.best)) if (!/^(2048|snake|memory|ttt|sudoku|mines|connect4|reversi|sliding|lights|code|rps|hangman|scramble|ludo):(easy|medium|hard):(solo|two):(assisted|solo)(?::[24])?$/.test(k) || !integer(n) || (k.startsWith("ludo:") ? k.split(":").length !== 5 : k.split(":").length !== 4)) throw Error("Invalid Games best");
     for (const id of ["ttt", "connect4"]) if (!object(v.matches[id]) || Object.keys(v.matches[id]).length !== 3 || !["X", "O", "draw"].every((k) => integer(v.matches[id][k]))) throw Error("Invalid match scoreboard");
     if (v.matches.reversi !== void 0 && (!object(v.matches.reversi) || Object.keys(v.matches.reversi).length !== 3 || !["X", "O", "draw"].every((k) => integer(v.matches.reversi[k])))) throw Error("Invalid Reversi scoreboard");
-    if (Object.keys(v.matches).some((k) => !["ttt", "connect4", "reversi"].includes(k))) throw Error("Invalid match scoreboard");
+    if (Object.keys(v.matches).some((k) => !["ttt", "connect4", "reversi", "rps"].includes(k))) throw Error("Invalid match scoreboard");
+    if (v.matches.rps !== void 0 && (!object(v.matches.rps) || Object.keys(v.matches.rps).length !== 3 || !["X", "O", "draw"].every((k) => integer(v.matches.rps[k])))) throw Error("Invalid RPS scoreboard");
+    if (v.library !== void 0) {
+      const lib = v.library;
+      if (!object(lib) || Object.keys(lib).some((k) => !["favorites", "recent", "collapsed", "theme"].includes(k)) || !Array.isArray(lib.favorites) || !Array.isArray(lib.recent) || lib.favorites.length > gameIds.length || lib.recent.length > 6 || ![lib.favorites, lib.recent].every((a) => new Set(a).size === a.length && a.every((id) => gameIds.includes(id))) || typeof lib.collapsed !== "boolean" || !["follow", "forest", "sky", "cartoon", "neon", "pearl", "graphite"].includes(lib.theme)) throw Error("Invalid Games library");
+    }
     const result = structuredClone(v);
     result.matches.reversi ??= { X: 0, O: 0, draw: 0 };
+    result.matches.rps ??= { X: 0, O: 0, draw: 0 };
+    result.library ??= libraryDefaults();
     return result;
   }
   function loadProfile(storage) {
@@ -703,6 +1460,9 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   var hintInfo = null;
   var flagMode = false;
   var sessions = structuredClone(profile.saves);
+  var arcadeShell;
+  var ludoTimer = null;
+  var wordNotice = "";
   function node(tag, text, cls) {
     const n = document.createElement(tag);
     if (text !== void 0) n.textContent = text;
@@ -724,6 +1484,10 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   }
   function ended() {
     if (!state) return true;
+    if (game === "rps") return rpsOutcome(state);
+    if (game === "hangman") return hangmanOver(state);
+    if (game === "scramble") return state.completed;
+    if (game === "ludo") return state.winner === null ? null : "player" + state.winner;
     if (game === "2048") return !canMove2048(state.board);
     if (game === "ttt") return outcome(state.board);
     if (game === "connect4") return connectWinner(state.board);
@@ -741,8 +1505,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   function saveNow() {
     clearTimeout(persistTimer);
     persistTimer = null;
-    if (!state || !profile.enabled || saveError) return;
-    sessions[game] = structuredClone(state);
+    if (!profile.enabled || saveError) return;
+    if (state) sessions[game] = structuredClone(state);
     profile.saves = structuredClone(sessions);
     profile.active = game;
     try {
@@ -760,6 +1524,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   var thinking = false;
   var analysisFailure = "";
   function stop() {
+    clearTimeout(ludoTimer);
+    ludoTimer = null;
     analysisEpoch++;
     thinking = false;
     analysisFailure = "";
@@ -777,11 +1543,15 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     return pad;
   }
   function wantRestart() {
-    if (state?.moves && !ended()) return confirm("Start a new game? Current progress for this game will be replaced.");
+    if (state && (state.moves || game === "scramble" && state.picked.length || game === "ludo" && state.die !== null) && !ended()) return confirm("Start a new game? Current progress for this game will be replaced.");
     return true;
   }
   function newState(id) {
     const level = settings(id).level;
+    if (id === "rps") return meta(createRPS());
+    if (id === "hangman") return meta(createHangman(level, Math.random, sessions[id]?.wordIndex));
+    if (id === "scramble") return meta(createScramble(level, Math.random, sessions[id]?.wordIndex));
+    if (id === "ludo") return meta(createLudo(settings(id).players || 2));
     if (id === "reversi") return meta(createReversi());
     if (id === "sliding") return meta(createSliding(level));
     if (id === "lights") return meta(createLights(level));
@@ -827,6 +1597,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     game = id;
     state = null;
     hintInfo = null;
+    wordNotice = "";
     flagMode = false;
     $("gameControls").replaceChildren();
     $("gameOptions").replaceChildren();
@@ -850,18 +1621,32 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     $("applyHint").hidden = true;
     for (const b of picker.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.game === game));
     revealGameChoice();
-    const info = { ...extraInfo, 2048: ["2048", "ONE MORE MERGE", "Combine equal tiles. Coach estimates two moves ahead; Undo takes back one move."], snake: ["Snake", "KEEP GROWING", "Collect food without hitting a wall or yourself. Coach favors open escape space."], memory: ["Memory Match", "LOOK. REMEMBER. MATCH.", "Find every pair. Coach only recalls cards you have already revealed."], ttt: ["Tic-tac-toe", "THREE IN A ROW", "Complete a row, column or diagonal. Try the computer or a second player."], sudoku: ["Sudoku", "REASON IT THROUGH", "Fill each row, column and 3 \xD7 3 box with 1\u20139. Use notes or ask for a logical hint."], mines: ["Minesweeper", "READ THE CLUES", "Reveal every safe square. Your first click and its neighbors are protected. Flag suspected mines. Scroll the board on small screens."], connect4: ["Connect Four", "THINK A FEW MOVES AHEAD", "Drop discs into columns. Make four in a row horizontally, vertically or diagonally."] }[id];
+    const info = { ...extraInfo, ...arcadeInfo, 2048: ["2048", "ONE MORE MERGE", "Combine equal tiles. Coach estimates two moves ahead; Undo takes back one move."], snake: ["Snake", "KEEP GROWING", "Collect food without hitting a wall or yourself. Coach favors open escape space."], memory: ["Memory Match", "LOOK. REMEMBER. MATCH.", "Find every pair. Coach only recalls cards you have already revealed."], ttt: ["Tic-tac-toe", "THREE IN A ROW", "Complete a row, column or diagonal. Try the computer or a second player."], sudoku: ["Sudoku", "REASON IT THROUGH", "Fill each row, column and 3 \xD7 3 box with 1\u20139. Use notes or ask for a logical hint."], mines: ["Minesweeper", "READ THE CLUES", "Reveal every safe square. Your first click and its neighbors are protected. Flag suspected mines. Tap a revealed number again to open its neighbors when your flag count matches it; wrong flags can lose the game."], connect4: ["Connect Four", "THINK A FEW MOVES AHEAD", "Drop discs into columns. Make four in a row horizontally, vertically or diagonally."] }[id];
     $("gameTitle").textContent = info[0];
     $("gameTag").textContent = info[1];
     $("instructions").textContent = info[2];
     board2.setAttribute("aria-label", info[0] + " game board");
-    $("keyboardHint").textContent = game === "snake" ? "Arrows or WASD \xB7 Space pauses \xB7 leaving this tab pauses play." : game === "2048" ? "Focus the board, then use arrow keys, swipe or the direction buttons." : game === "sliding" ? "Arrow keys move a numbered tile toward the arrow \xB7 touch or click an adjacent tile." : game === "sudoku" ? "Arrow keys select a cell \xB7 1\u20139 enter a digit \xB7 Delete clears \xB7 N toggles notes." : "Tab and Enter select squares and actions. All games support touch controls.";
-    if (game !== "2048") selectSetting(game === "sliding" ? "Puzzle size" : game === "lights" ? "Pattern" : game === "code" ? "Code digits" : game === "memory" ? "Board size" : game === "snake" ? "Speed" : "Difficulty", game === "sliding" ? [["easy", "3 \xD7 3 \xB7 gentle"], ["medium", "3 \xD7 3 \xB7 mixed"], ["hard", "4 \xD7 4 \xB7 mixed"]] : game === "lights" ? [["easy", "4 \xD7 4"], ["medium", "5 \xD7 5 \xB7 gentle"], ["hard", "5 \xD7 5 \xB7 mixed"]] : game === "code" ? [["easy", "1\u20134"], ["medium", "1\u20135"], ["hard", "1\u20136"]] : game === "memory" ? [["easy", "6 pairs"], ["medium", "8 pairs"], ["hard", "12 pairs"]] : game === "snake" ? [["easy", "Relaxed"], ["medium", "Normal"], ["hard", "Fast"]] : [["easy", "Easy"], ["medium", "Medium"], ["hard", game === "ttt" ? "Unbeatable" : "Hard"]], settings().level, (v) => {
+    $("keyboardHint").textContent = game === "hangman" ? "Focus the board and type A\u2013Z, or use the letter buttons." : game === "scramble" ? "Type letters to select tiles \xB7 Backspace removes the last letter \xB7 Enter checks the word." : game === "ludo" ? "Roll, then choose a legal token below the board. All controls support keyboard and touch." : game === "snake" ? "Arrows or WASD \xB7 Space pauses \xB7 leaving this tab pauses play." : game === "2048" ? "Focus the board, then use arrow keys, swipe or the direction buttons." : game === "sliding" ? "Arrow keys move a numbered tile toward the arrow \xB7 touch or click an adjacent tile." : game === "sudoku" ? "Arrow keys select a cell \xB7 1\u20139 enter a digit \xB7 Delete clears \xB7 N toggles notes." : "Tab and Enter select squares and actions. All games support touch controls.";
+    if (game !== "2048") selectSetting(game === "rps" ? "Opponent style" : game === "sliding" ? "Puzzle size" : game === "lights" ? "Pattern" : game === "code" ? "Code digits" : game === "memory" ? "Board size" : game === "snake" ? "Speed" : "Difficulty", game === "rps" ? [["medium", "Random"], ["hard", "Pattern learning"]] : game === "sliding" ? [["easy", "3 \xD7 3 \xB7 gentle"], ["medium", "3 \xD7 3 \xB7 mixed"], ["hard", "4 \xD7 4 \xB7 mixed"]] : game === "lights" ? [["easy", "4 \xD7 4"], ["medium", "5 \xD7 5 \xB7 gentle"], ["hard", "5 \xD7 5 \xB7 mixed"]] : game === "code" ? [["easy", "1\u20134"], ["medium", "1\u20135"], ["hard", "1\u20136"]] : game === "memory" ? [["easy", "6 pairs"], ["medium", "8 pairs"], ["hard", "12 pairs"]] : game === "snake" ? [["easy", "Relaxed"], ["medium", "Normal"], ["hard", "Fast"]] : [["easy", "Easy"], ["medium", "Medium"], ["hard", game === "ttt" ? "Unbeatable" : "Hard"]], settings().level, (v) => {
       profile.settings[game] = { ...settings(), level: v };
     });
-    if (["ttt", "connect4", "reversi"].includes(game)) selectSetting("Opponent", [["solo", "Computer"], ["two", "Two players"]], settings().mode, (v) => {
+    if (["ttt", "connect4", "reversi", "ludo"].includes(game)) selectSetting("Opponent", [["solo", "Computer"], ["two", game === "ludo" ? "Pass & play" : "Two players"]], settings().mode, (v) => {
       profile.settings[game] = { ...settings(), mode: v };
     });
+    if (game === "ludo") selectSetting("Players", [["2", "2 players"], ["4", "4 players"]], String(settings().players || 2), (v) => {
+      profile.settings[game] = { ...settings(), players: Number(v) };
+    });
+    if (["connect4", "reversi", "ludo"].includes(game)) {
+      const retry = button("Continue computer turn", () => {
+        analysisFailure = "";
+        if (game === "connect4") void computerConnect();
+        if (game === "reversi") void computerReversi();
+        if (game === "ludo") computerLudo();
+      });
+      retry.id = "retryAI";
+      retry.hidden = true;
+      $("gameControls").append(retry);
+    }
     if (game === "2048") {
       const undo = button("Undo", () => {
         if (!state.undo) return;
@@ -917,6 +1702,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     render();
     saveSoon();
     if (game === "reversi") void computerReversi();
+    if (game === "connect4") void computerConnect();
+    if (game === "ludo") computerLudo();
   }
   function clearHint() {
     $("hintText").textContent = "";
@@ -927,9 +1714,9 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   function record() {
     if (ended() && !state.credited) {
       state.credited = true;
-      const setting2 = settings(), key2 = game + ":" + setting2.level + ":" + setting2.mode + ":" + (state.hints ? "assisted" : "solo");
-      const win = game === "mines" ? state.won : game === "snake" ? true : game === "sudoku" ? state.completed : game === "code" ? codeWon(state) : true;
-      if (["ttt", "connect4", "reversi"].includes(game)) {
+      const setting2 = settings(), key2 = game + ":" + setting2.level + ":" + setting2.mode + ":" + (state.hints ? "assisted" : "solo") + (game === "ludo" ? ":" + state.players : "");
+      const win = game === "mines" ? state.won : game === "snake" ? true : game === "sudoku" ? state.completed : game === "code" ? codeWon(state) : game === "hangman" ? hangmanWon(state) : game === "rps" ? ended() === "X" : game === "ludo" ? settings().mode === "two" || state.winner === 0 : true;
+      if (["ttt", "connect4", "reversi", "rps"].includes(game)) {
         const winner = ended();
         profile.matches[game][winner]++;
       } else if (win) {
@@ -938,12 +1725,12 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         else profile.best[key2] = Math.min(profile.best[key2] ?? Infinity, n);
       }
     }
-    const setting = settings(), key = game + ":" + setting.level + ":" + setting.mode + ":" + (state.hints ? "assisted" : "solo"), best = profile.best[key];
+    const setting = settings(), key = game + ":" + setting.level + ":" + setting.mode + ":" + (state.hints ? "assisted" : "solo") + (game === "ludo" ? ":" + state.players : ""), best = profile.best[key];
     $("record").textContent = (best === void 0 ? "No completed personal best yet." : "Personal best: " + best + (["2048", "snake"].includes(game) ? " points" : " moves")) + (state.hints ? " \xB7 Assisted (" + state.hints + " hints)." : " \xB7 No hints used.");
-    $("scoreboard").textContent = ["ttt", "connect4", "reversi"].includes(game) ? "Match scoreboard \xB7 X " + profile.matches[game].X + " \xB7 O " + profile.matches[game].O + " \xB7 Draws " + profile.matches[game].draw : "";
+    $("scoreboard").textContent = ["ttt", "connect4", "reversi", "rps"].includes(game) ? "Match scoreboard \xB7 X " + profile.matches[game].X + " \xB7 O " + profile.matches[game].O + " \xB7 Draws " + profile.matches[game].draw : "";
   }
   function render() {
-    board2.className = { 2048: "tiles", snake: "snake", memory: "memory", ttt: "ttt", sudoku: "sudoku", mines: "mines", connect4: "connect4", reversi: "reversi", sliding: "sliding", lights: "lights", code: "code" }[game];
+    board2.className = { 2048: "tiles", snake: "snake", memory: "memory", ttt: "ttt", sudoku: "sudoku", mines: "mines", connect4: "connect4", reversi: "reversi", sliding: "sliding", lights: "lights", code: "code", rps: "rps", hangman: "hangman", scramble: "scramble", ludo: "ludo" }[game];
     board2.replaceChildren();
     if (game === "2048") {
       for (const v of state.board) {
@@ -1031,13 +1818,16 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       setStatus(end === "draw" ? "A draw." : end ? end + " wins!" : turn + " to play" + (settings().mode === "solo" ? " \xB7 You are X." : ""));
     }
     renderExtras();
+    renderArcade();
+    const retry = $("retryAI");
+    if (retry) retry.hidden = thinking || !!ended() || settings().mode !== "solo" || (game === "connect4" ? state.board.filter(Boolean).length % 2 !== 1 : game === "reversi" ? state.turn !== "O" : game === "ludo" ? state.turn === 0 : true);
     if (analysisFailure) setStatus(analysisFailure);
     $("hint").disabled = !!ended() || thinking;
     record();
     saveSoon();
   }
   function move2048(dir) {
-    if (game !== "2048") return;
+    if (game !== "2048" || !state || thinking) return;
     const next2 = slide2048(state.board, dir);
     if (next2.changed) {
       state.undo = { board: state.board.slice(), score: state.score };
@@ -1062,7 +1852,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     if (!ended()) board2.querySelector("button:not(:disabled)")?.focus();
     else board2.focus();
   }
-  async function playConnect(c) {
+  function playConnect(c) {
     if (ended() || thinking || settings().mode === "solo" && state.board.filter(Boolean).length % 2) return;
     const turn = state.board.filter(Boolean).length % 2 ? "O" : "X", next2 = dropDisc(state.board, c, turn);
     if (!next2) return;
@@ -1070,25 +1860,30 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     state.board = next2;
     state.moves++;
     render();
-    if (settings().mode === "solo" && !ended()) {
-      thinking = true;
-      const epoch = analysisEpoch, snapshot = JSON.stringify(state.board);
-      setStatus("Computer is thinking\u2026");
-      board2.querySelectorAll("button").forEach((b) => b.disabled = true);
-      try {
-        const choice = await analyse("connect", { board: state.board, level: settings().level, player: "O" });
-        if (epoch !== analysisEpoch || snapshot !== JSON.stringify(state.board)) return;
-        if (choice >= 0) state.board = dropDisc(state.board, choice, "O");
-      } catch (e) {
-        if (epoch === analysisEpoch && e.name !== "AbortError") analysisFailure = e.message + " Restart or change Opponent to continue.";
-      } finally {
-        if (epoch === analysisEpoch) {
-          thinking = false;
-          render();
-          board2.querySelector("button:not(:disabled)")?.focus();
-        }
+    if (settings().mode === "solo") void computerConnect();
+    else focusPlayable();
+  }
+  async function computerConnect() {
+    if (game !== "connect4" || thinking || ended() || settings().mode !== "solo" || state.board.filter(Boolean).length % 2 !== 1) return;
+    thinking = true;
+    const epoch = analysisEpoch, snapshot = JSON.stringify(state.board);
+    render();
+    setStatus("Computer is thinking\u2026");
+    try {
+      const choice = await analyse("connect", { board: state.board, level: settings().level, player: "O" });
+      if (epoch !== analysisEpoch || snapshot !== JSON.stringify(state.board)) return;
+      const next2 = dropDisc(state.board, choice, "O");
+      if (!next2) throw Error("No legal computer move was returned.");
+      state.board = next2;
+    } catch (e) {
+      if (epoch === analysisEpoch && e.name !== "AbortError") analysisFailure = e.message + " Continue computer turn to retry.";
+    } finally {
+      if (epoch === analysisEpoch) {
+        thinking = false;
+        render();
+        focusPlayable();
       }
-    } else board2.querySelector("button:not(:disabled)")?.focus();
+    }
   }
   function flip(i) {
     if (state.open.length === 2 || state.open.includes(i) || state.matched.includes(i)) return;
@@ -1150,7 +1945,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     if (state.noteMode && value) state.notes[i] ^= 1 << value - 1;
     else {
       state.board[i] = value;
-      state.notes[i] = 0;
+      state.notes = pruneSudokuNotes(state.board, state.notes);
       state.moves++;
       state.completed = state.board.every(Boolean) && !sudokuConflicts(state.board).length;
     }
@@ -1158,14 +1953,19 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     board2.children[i].focus();
   }
   function playMine(i, forceFlag = false) {
-    if (state.over) return;
+    if (state.over || thinking) return;
     clearHint();
     if (forceFlag || flagMode) {
       if (state.revealed.includes(i)) return;
       if (state.flags.includes(i)) state.flags = state.flags.filter((j) => j !== i);
       else if (state.flags.length < state.mines) state.flags.push(i);
       else return;
-    } else state = { ...state, ...revealMine(state, i) };
+    } else {
+      const next2 = state.revealed.includes(i) ? chordMine(state, i) : revealMine(state, i);
+      if (JSON.stringify(next2) === JSON.stringify(state)) return;
+      state = { ...state, ...next2 };
+    }
+    ;
     state.moves++;
     render();
     board2.children[i]?.focus();
@@ -1200,10 +2000,15 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       if (game === "sliding") info = await analyse("sliding", { board: state.board, size: state.size });
       if (game === "lights") info = lightsHint(state);
       if (game === "code") info = await analyse("code", { colors: state.colors, history: state.history });
+      if (game === "rps") info = { cells: [], text: settings().level === "hard" ? "The learning opponent counts your previous eight throws. Vary your choices; it cannot see this round\u2019s choice." : "A random opponent has no reliable winning prediction. Every hand has the same chance." };
+      if (game === "hangman") info = hangmanHint(state);
+      if (game === "scramble") info = scrambleHint(state);
+      if (game === "ludo") info = ludoHint(state);
       if (epoch !== analysisEpoch || JSON.stringify({ ...state, hints: state.hints - 1 }) !== snapshot) return;
       hintInfo = info;
       $("hintText").textContent = info.text;
-      $("applyHint").hidden = game !== "sudoku" || !info.value;
+      $("applyHint").hidden = !(game === "sudoku" && info.value || game === "hangman" && info.letter || game === "scramble" && info.letter);
+      if (game === "ludo" && info.token >= 0) board2.querySelector('[data-ludo-token="' + info.token + '"]')?.classList.add("suggested");
       for (const i of info.cells || [info.cell, info.source].filter((i2) => i2 >= 0)) board2.children[i]?.classList.add("suggested");
       record();
       saveSoon();
@@ -1217,6 +2022,17 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     }
   };
   $("applyHint").onclick = () => {
+    if (game === "hangman" && hintInfo?.letter) {
+      playHangman(hintInfo.letter);
+      return;
+    }
+    if (game === "scramble" && hintInfo?.letter) {
+      state.picked = Array.from({ length: hintInfo.index + 1 }, (_, i) => i);
+      clearHint();
+      render();
+      board2.focus();
+      return;
+    }
     if (game !== "sudoku" || !hintInfo?.value) return;
     state.selected = hintInfo.cell;
     state.noteMode = false;
@@ -1228,15 +2044,32 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     start(game, false);
     board2.focus();
   };
-  picker.onclick = (e) => {
-    const b = e.target.closest("[data-game]");
-    if (b) {
-      start(b.dataset.game);
-      board2.focus();
-    }
-  };
   board2.onkeydown = (e) => {
-    if (!state || thinking) return;
+    if (!state || thinking || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (game === "hangman" && /^[a-z]$/i.test(e.key)) {
+      e.preventDefault();
+      playHangman(e.key);
+      return;
+    }
+    if (game === "scramble") {
+      if (/^[a-z]$/i.test(e.key)) {
+        e.preventDefault();
+        const tile2 = state.order.find((i) => !state.picked.includes(i) && words[state.wordIndex].word[i] === e.key.toUpperCase());
+        if (tile2 !== void 0) pickScramble(tile2);
+      } else if (e.key === "Backspace") {
+        e.preventDefault();
+        if (!state.completed && state.picked.length) {
+          state.picked.pop();
+          clearHint();
+          render();
+          board2.focus();
+        }
+      } else if (e.key === "Enter" && e.target === board2) {
+        e.preventDefault();
+        submitScramble();
+      }
+      return;
+    }
     if (game === "sliding" && ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
       e.preventDefault();
       const blank = state.board.indexOf(0), delta = { ArrowUp: state.size, ArrowDown: -state.size, ArrowLeft: 1, ArrowRight: -1 }[e.key];
@@ -1255,8 +2088,8 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         render();
       } else if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
         e.preventDefault();
-        const delta = { ArrowUp: -9, ArrowDown: 9, ArrowLeft: -1, ArrowRight: 1 }[e.key];
-        state.selected = (state.selected + delta + 81) % 81;
+        const row = Math.floor(state.selected / 9), col = state.selected % 9;
+        state.selected = e.key === "ArrowLeft" ? row * 9 + Math.max(0, col - 1) : e.key === "ArrowRight" ? row * 9 + Math.min(8, col + 1) : e.key === "ArrowUp" ? Math.max(0, row - 1) * 9 + col : Math.min(8, row + 1) * 9 + col;
         render();
         board2.children[state.selected].focus();
       }
@@ -1329,6 +2162,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
   };
   $("clearSaves").onclick = () => {
     if (!confirm("Clear only saved Games progress, settings and bests on this device? Tool Studio workspaces will not be changed.")) return;
+    const activeSetting = { ...settings() };
     try {
       localStorage.removeItem(SAVE_KEY);
       profile = defaults();
@@ -1336,7 +2170,12 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       for (const id of Object.keys(sessions)) delete sessions[id];
       $("remember").checked = false;
       $("saveStatus").textContent = "Saved Games data cleared. Current game remains playable.";
-      record();
+      if (state) {
+        profile.settings[game] = activeSetting;
+        record();
+      }
+      arcadeShell.refresh();
+      arcadeShell.applyTheme();
     } catch {
       $("saveStatus").textContent = "Browser storage is unavailable.";
     }
@@ -1376,12 +2215,19 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     $("studioLink").href = "./Calc_Studio_Offline.html";
     $("guideLink").hidden = true;
   }
-  start(game, profile.enabled);
+  arcadeShell = installLibrary({ getProfile: () => profile, play: (id) => start(id), onLeave: () => {
+    leave();
+    stop();
+  }, onPause: () => {
+    if (state && game === "snake") pauseSnake();
+  }, persist: saveSoon });
+  var requestedGame = location.hash.startsWith("#game=") ? location.hash.slice(6) : "";
+  if (gameIds.includes(requestedGame)) void arcadeShell.launch(requestedGame, true);
   function focusPlayable() {
     board2.querySelector("button:not(:disabled)")?.focus();
   }
   function revealGameChoice() {
-    const choice = picker.querySelector("[aria-pressed=true]");
+    const choice = picker.querySelector("[data-game][aria-pressed=true]");
     if (!choice || picker.scrollWidth <= picker.clientWidth) return;
     const a = choice.getBoundingClientRect(), b = picker.getBoundingClientRect();
     if (a.left < b.left + 4) picker.scrollLeft += a.left - b.left - 4;
@@ -1403,13 +2249,6 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       });
       const counts = "X " + state.board.filter((v) => v === "X").length + " \xB7 O " + state.board.filter((v) => v === "O").length;
       setStatus(counts + " \xB7 " + (end === "draw" ? "A draw." : end ? end + " wins!" : state.turn + " to play" + (settings().mode === "solo" ? " \xB7 You are X." : "")));
-      if (!end && settings().mode === "solo" && state.turn === "O" && !thinking) {
-        const retry = button("Continue computer turn", () => {
-          analysisFailure = "";
-          void computerReversi();
-        });
-        board2.append(retry);
-      }
     }
     if (game === "sliding") {
       board2.style.setProperty("--puzzle-size", state.size);
@@ -1435,14 +2274,14 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
       setStatus(ended() ? "All lights off in " + state.moves + (state.moves === 1 ? " move!" : " moves!") : state.board.filter(Boolean).length + " lights on \xB7 " + state.moves + " moves");
     }
     if (game === "code") {
-      const history = node("ol", void 0, "code-history");
-      history.setAttribute("aria-label", "Guess history");
+      const history2 = node("ol", void 0, "code-history");
+      history2.setAttribute("aria-label", "Guess history");
       for (const r of state.history) {
         const row = node("li");
         row.append(node("strong", r.guess.join(" ")), node("span", r.exact + " exact \xB7 " + r.misplaced + " misplaced"));
-        history.append(row);
+        history2.append(row);
       }
-      if (state.history.length) board2.append(history);
+      if (state.history.length) board2.append(history2);
       if (!ended()) {
         const draft = node("div", void 0, "code-draft");
         state.draft.forEach((v, i) => {
@@ -1531,6 +2370,208 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
     render();
     if (ended()) board2.focus();
     else board2.children[cell]?.focus();
+  }
+  function renderArcade() {
+    if (game === "rps") {
+      const scores = rpsScores(state.history), score = node("div", void 0, "rps-score");
+      score.append(node("span", "You " + scores.X), node("span", "Computer " + scores.O));
+      board2.append(score);
+      const row = node("div", void 0, "rps-hands");
+      for (const [hand, icon] of [["rock", "\u270A"], ["paper", "\u270B"], ["scissors", "\u270C"]]) {
+        const b = button("", () => {
+          if (ended() || thinking) return;
+          state = { ...state, ...playRPS(state, hand, settings().level), moves: state.moves + 1 };
+          clearHint();
+          render();
+          board2.focus();
+        }, "Choose " + hand);
+        const symbol = node("span", icon);
+        symbol.setAttribute("aria-hidden", "true");
+        b.append(symbol, node("strong", hand[0].toUpperCase() + hand.slice(1)));
+        b.disabled = !!ended();
+        row.append(b);
+      }
+      board2.append(row);
+      if (state.history.length) {
+        const last = state.history.at(-1);
+        board2.append(node("p", "You chose " + last.human + " \xB7 Computer chose " + last.computer + ".", "round-result"));
+        const history2 = node("ol", void 0, "round-history");
+        history2.setAttribute("aria-label", "Recent rounds");
+        for (const r of state.history.slice(-8)) history2.append(node("li", r.human + " / " + r.computer));
+        board2.append(history2);
+      }
+      setStatus(ended() === "X" ? "You won the match!" : ended() === "O" ? "Computer won the match." : ended() ? "A drawn match." : scores.draw + " tied rounds \xB7 First to three wins.");
+    }
+    if (game === "hangman") {
+      const entry = words[state.wordIndex], wrong = hangmanWrong(state);
+      board2.append(node("p", entry.category + " \xB7 " + entry.clue, "word-clue"));
+      const word = node("div", void 0, "word-display");
+      word.setAttribute("aria-label", "Word: " + [...entry.word].map((c) => state.guessed.includes(c) ? c : "blank").join(" "));
+      for (const c of entry.word) word.append(node("span", state.guessed.includes(c) || ended() ? c : "_"));
+      board2.append(word);
+      const meter = node("div", void 0, "hangman-meter");
+      meter.setAttribute("aria-hidden", "true");
+      for (let i = 0; i < state.limit; i++) meter.append(node("span", void 0, i < wrong ? "used" : ""));
+      board2.append(meter);
+      const keys = node("div", void 0, "letter-keyboard");
+      for (const c of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+        const b = button(c, () => playHangman(c), "Guess " + c);
+        b.disabled = state.guessed.includes(c) || !!ended();
+        if (state.guessed.includes(c)) b.className = entry.word.includes(c) ? "correct" : "incorrect";
+        keys.append(b);
+      }
+      board2.append(keys);
+      setStatus(hangmanWon(state) ? "Word found: " + entry.word + "!" : ended() ? "The word was " + entry.word + ". Try another." : state.limit - wrong + " mistakes left \xB7 " + state.guessed.length + " letters tried");
+    }
+    if (game === "scramble") {
+      const entry = words[state.wordIndex];
+      board2.append(node("p", entry.category + " \xB7 " + entry.clue, "word-clue"));
+      const slots = node("div", void 0, "scramble-slots");
+      slots.setAttribute("aria-label", "Your answer");
+      if (!state.picked.length) slots.append(node("span", "Tap letters below"));
+      state.picked.forEach((tile2, index) => {
+        const b = button(entry.word[tile2], () => {
+          if (state.completed || thinking) return;
+          state.picked.splice(index, 1);
+          wordNotice = "";
+          clearHint();
+          render();
+          board2.focus();
+        }, "Remove letter " + entry.word[tile2] + " at position " + (index + 1));
+        b.disabled = state.completed;
+        slots.append(b);
+      });
+      board2.append(slots);
+      const bank = node("div", void 0, "scramble-bank");
+      bank.setAttribute("aria-label", "Available letters");
+      for (const tile2 of state.order) {
+        const b = button(entry.word[tile2], () => pickScramble(tile2), "Choose letter " + entry.word[tile2] + ", tile " + (tile2 + 1));
+        b.disabled = state.completed || state.picked.includes(tile2);
+        b.dataset.wordTile = tile2;
+        bank.append(b);
+      }
+      board2.append(bank);
+      const actions = node("div", void 0, "word-actions"), check = button("Check word", submitScramble);
+      check.disabled = state.completed || state.picked.length !== entry.word.length;
+      check.id = "checkWord";
+      const clear = button("Clear letters", () => {
+        if (state.completed || thinking) return;
+        state.picked = [];
+        wordNotice = "";
+        clearHint();
+        render();
+        board2.focus();
+      });
+      clear.disabled = state.completed || !state.picked.length;
+      const shuffle2 = button("Shuffle letters", () => {
+        if (state.completed || thinking) return;
+        state.order = shuffleWord(entry.word);
+        render();
+        board2.focus();
+      });
+      shuffle2.disabled = state.completed;
+      actions.append(check, clear, shuffle2);
+      board2.append(actions);
+      if (wordNotice) board2.append(node("p", wordNotice, "word-notice"));
+      setStatus(state.completed ? "Word solved: " + entry.word + "!" : state.moves + " attempts \xB7 " + state.picked.length + " / " + entry.word.length + " letters placed");
+    }
+    if (game === "ludo") {
+      const seats = ludoSeats(state.players), name = ludoColors[seats[state.turn]], computer = settings().mode === "solo" && state.turn !== 0;
+      board2.append(drawLudo(state));
+      const roll = button(state.die === null ? "Roll die" : "Rolled " + state.die, rollHumanLudo);
+      roll.id = "rollDie";
+      roll.className = "ludo-roll";
+      roll.disabled = state.die !== null || !!ended() || computer || thinking;
+      board2.append(roll);
+      const tokens = node("div", void 0, "ludo-tokens"), legal = ludoMoves(state);
+      for (let token = 0; token < 4; token++) {
+        const position = state.tokens[state.turn][token], where = position < 0 ? "in yard" : position === 57 ? "home" : position >= 51 ? "home lane " + (position - 50) : "track " + (position + 1), b = button(name + " " + (token + 1) + " \xB7 " + where, () => moveHumanLudo(token), name + " token " + (token + 1) + ", " + where + (legal.includes(token) ? ", legal move" : ""));
+        b.dataset.ludoToken = token;
+        b.disabled = computer || thinking || !!ended() || !legal.includes(token);
+        b.className = legal.includes(token) ? "legal" : "";
+        tokens.append(b);
+      }
+      board2.append(tokens);
+      const progress = node("div", void 0, "ludo-progress");
+      for (let player = 0; player < state.players; player++) {
+        const summary = ludoColors[seats[player]] + ": " + state.tokens[player].filter((p) => p === 57).length + " home, " + state.tokens[player].filter((p) => p === -1).length + " in yard";
+        progress.append(node("span", summary, player === state.turn ? "current" : ""));
+      }
+      board2.append(progress);
+      setStatus(ended() ? state.last : name + " to play \xB7 " + state.last);
+    }
+  }
+  function playHangman(letter) {
+    if (game !== "hangman" || thinking) return;
+    const next2 = guessLetter(state, letter);
+    if (!next2) return;
+    state = { ...state, ...next2, moves: state.moves + 1 };
+    clearHint();
+    render();
+    board2.focus();
+  }
+  function pickScramble(tile2) {
+    if (game !== "scramble" || state.completed || thinking || state.picked.includes(tile2)) return;
+    state.picked.push(tile2);
+    wordNotice = "";
+    clearHint();
+    render();
+    board2.focus();
+  }
+  function submitScramble() {
+    if (game !== "scramble" || thinking) return;
+    const next2 = checkScramble(state);
+    if (!next2) return;
+    state = { ...state, ...next2, moves: state.moves + 1 };
+    wordNotice = state.completed ? "" : "Not quite. Rearrange the letters and try again.";
+    clearHint();
+    render();
+    board2.focus();
+  }
+  function rollHumanLudo() {
+    if (game !== "ludo" || thinking || settings().mode === "solo" && state.turn !== 0) return;
+    const next2 = rollLudo(state, 1 + Math.floor(Math.random() * 6));
+    if (!next2) return;
+    state = { ...state, ...next2 };
+    clearHint();
+    render();
+    computerLudo();
+  }
+  function moveHumanLudo(token) {
+    if (game !== "ludo" || thinking || settings().mode === "solo" && state.turn !== 0) return;
+    const next2 = moveLudo(state, token);
+    if (!next2) return;
+    state = { ...state, ...next2, moves: state.moves + 1 };
+    clearHint();
+    render();
+    computerLudo();
+    board2.focus();
+  }
+  function computerLudo() {
+    if (game !== "ludo" || thinking || ended() || settings().mode !== "solo" || state.turn === 0) return;
+    const epoch = analysisEpoch;
+    let ticks = 0;
+    thinking = true;
+    render();
+    const step = () => {
+      ludoTimer = null;
+      if (epoch !== analysisEpoch || game !== "ludo") return;
+      if (ended() || state.turn === 0 || ticks++ >= 24) {
+        thinking = false;
+        render();
+        return;
+      }
+      if (state.die === null) {
+        const next2 = rollLudo(state, 1 + Math.floor(Math.random() * 6));
+        if (next2) state = { ...state, ...next2 };
+      } else {
+        const next2 = moveLudo(state, chooseLudo(state, settings().level));
+        if (next2) state = { ...state, ...next2, moves: state.moves + 1 };
+      }
+      render();
+      ludoTimer = setTimeout(step, 450);
+    };
+    ludoTimer = setTimeout(step, 450);
   }
 })();
 </script></body></html>

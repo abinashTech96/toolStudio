@@ -56,26 +56,21 @@ function reversiValue(board, player) {
 export function reversiMove(board, player = 'O', level = 'medium', random = Math.random) {
   const moves = reversiMoves(board, player); if (!moves.length) return -1;
   if (level === 'easy') return moves[Math.floor(random() * moves.length)];
-  let nodes = 0;
-  function search(s, depth, alpha, beta) {
-    if (!depth || ++nodes > 16000 || reversiOutcome(s.board)) return reversiValue(s.board, player);
-    const choices = reversiMoves(s.board, s.turn);
-    if (!choices.length) return search({...s, turn: opposite(s.turn)}, depth - 1, alpha, beta);
-    const max = s.turn === player; let best = max ? -Infinity : Infinity;
-    for (const cell of choices) {
-      const value = search(playReversi(s, cell), depth - 1, alpha, beta);
-      best = max ? Math.max(best, value) : Math.min(best, value);
-      if (max) alpha = Math.max(alpha, best); else beta = Math.min(beta, best);
-      if (beta <= alpha) break;
-    }
-    return best;
+  let nodes = 0, choice = moves[0];const exhausted=Symbol('budget');
+  function search(s,depth,alpha,beta){
+    if(++nodes>16000)throw exhausted;
+    if(!depth||reversiOutcome(s.board))return reversiValue(s.board,player);
+    const choices=reversiMoves(s.board,s.turn);
+    if(!choices.length)return search({...s,turn:opposite(s.turn)},depth-1,alpha,beta);
+    const max=s.turn===player;let best=max?-Infinity:Infinity;
+    for(const cell of choices){const value=search(playReversi(s,cell),depth-1,alpha,beta);best=max?Math.max(best,value):Math.min(best,value);if(max)alpha=Math.max(alpha,best);else beta=Math.min(beta,best);if(beta<=alpha)break}return best;
   }
-  let best = -Infinity, choice = moves[0];
-  for (const cell of moves) {
-    const value = search(playReversi({board, turn: player}, cell), level === 'hard' ? 3 : 1, -Infinity, Infinity);
-    if (value > best) { best = value; choice = cell; }
-  }
-  return choice;
+  // Only replace the previous recommendation after every root move completes at the same depth.
+  for(let depth=1;depth<=(level==='hard'?4:2);depth++){
+    let best=-Infinity,next=choice;
+    try{for(const cell of moves){const value=search(playReversi({board,turn:player},cell),depth-1,-Infinity,Infinity);if(value>best){best=value;next=cell}}choice=next}
+    catch(error){if(error!==exhausted)throw error;break}
+  }return choice;
 }
 
 export const slidingGoal = size => Array.from({length: size * size}, (_, i) => (i + 1) % (size * size));
@@ -150,7 +145,14 @@ export function lightSolution(board, size) {
     pivots.push(col); row++;
   }
   if (rows.some(r => !r.slice(0, n).some(Boolean) && r[n])) return null;
-  return pivots.filter((_, i) => rows[i][n]);
+  const free=Array.from({length:n},(_,i)=>i).filter(i=>!pivots.includes(i));
+  let best=pivots.filter((_,i)=>rows[i][n]);
+  // The supported 4×4/5×5 boards have at most four free variables: enumerate all solutions.
+  if(free.length<=12)for(let bits=0;bits<2**free.length;bits++){
+    const vector=Array(n).fill(0);free.forEach((col,i)=>vector[col]=(bits>>i)&1);
+    pivots.forEach((col,i)=>{vector[col]=rows[i][n];for(const f of free)vector[col]^=rows[i][f]&vector[f]});
+    const candidate=vector.flatMap((v,i)=>v?[i]:[]);if(candidate.length<best.length)best=candidate;
+  }return best;
 }
 export function createLights(level = 'medium', random = Math.random) {
   const size = level === 'easy' ? 4 : 5; let board = Array(size * size).fill(0);
@@ -163,7 +165,7 @@ export function createLights(level = 'medium', random = Math.random) {
 }
 export function lightsHint({board, size}) {
   const solution = lightSolution(board, size);
-  return {cells: solution?.length ? [solution[0]] : [], text: solution === null ? 'No solution exists for this pattern.' : !solution.length ? 'All lights are already off.' : 'Press the highlighted square. Linear algebra found a solution using ' + solution.length + ' remaining presses; this is not necessarily the shortest solution.'};
+  return {cells: solution?.length ? [solution[0]] : [], text: solution === null ? 'No solution exists for this pattern.' : !solution.length ? 'All lights are already off.' : 'Press the highlighted square. Linear algebra compared all solutions and found a shortest solution using ' + solution.length + ' remaining presses.'};
 }
 
 export function codeFeedback(secret, guess) {

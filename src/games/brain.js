@@ -1,5 +1,5 @@
 import{bestMove,outcome,slide2048,stepSnake,vectors}from'./engines.js';
-export const gameIds=['2048','snake','memory','ttt','sudoku','mines','connect4','reversi','sliding','lights','code'];
+export const gameIds=['2048','snake','memory','ttt','sudoku','mines','connect4','reversi','sliding','lights','code','rps','hangman','scramble','ludo'];
 export function shuffle(values,random=Math.random){const a=values.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 export function memoryDeck(pairs=8,random=Math.random){return shuffle(Array.from({length:pairs*2},(_,i)=>i%pairs),random)}
 export function memoryHint(state){const known=Object.entries(state.seen).filter(([i])=>!state.matched.includes(Number(i)));for(const[i,v]of known){const pair=known.find(([j,w])=>j!==i&&w===v);if(pair)return{cells:[Number(i),Number(pair[0])],text:'You have seen a matching pair. Try the highlighted cards.'}}return{cells:[],text:'No remembered pair yet. Reveal an unseen card and remember its position.'}}
@@ -39,6 +39,8 @@ export function createSudoku(level='medium',random=Math.random){const group=()=>
 }
 export function sudokuHint(state){const bad=sudokuConflicts(state.board);if(bad.length)return{cell:bad[0],value:0,text:'Resolve the highlighted row, column or box conflict first.'};const solved=solveSudoku(state.givens).solution;if(!solved)return{cell:-1,text:'This puzzle has no valid solution.'};const wrong=state.board.findIndex((v,i)=>v&&v!==solved[i]);if(wrong>=0)return{cell:wrong,value:0,text:'Lookahead found an incorrect entry. Clear the highlighted cell before continuing.'};
  for(let i=0;i<81;i++)if(!state.board[i]){const c=sudokuCandidates(state.board,i);if(c.length===1)return{cell:i,value:c[0],text:'Only '+c[0]+' fits row '+(Math.floor(i/9)+1)+', column '+(i%9+1)+'.'}}
+ const units=[...Array.from({length:9},(_,r)=>Array.from({length:9},(_,c)=>r*9+c)),...Array.from({length:9},(_,c)=>Array.from({length:9},(_,r)=>r*9+c)),...Array.from({length:9},(_,b)=>Array.from({length:9},(_,i)=>(Math.floor(b/3)*3+Math.floor(i/3))*9+(b%3)*3+i%3))];
+ for(const unit of units)for(let value=1;value<=9;value++){if(unit.some(i=>state.board[i]===value))continue;const cells=unit.filter(i=>!state.board[i]&&sudokuCandidates(state.board,i).includes(value));if(cells.length===1)return{cell:cells[0],value,text:'Only this cell can hold '+value+' in its row, column or box (a hidden single).'}}
  const i=state.board.findIndex(v=>!v);return i<0?{cell:-1,text:'Puzzle complete.'}:{cell:i,value:solved[i],text:'Solver lookahead suggests '+solved[i]+' at row '+(Math.floor(i/9)+1)+', column '+(i%9+1)+'. Use Place hint to apply it.'};
 }
 export function mineNeighbors(i,size){const r=Math.floor(i/size),c=i%size,a=[];for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)if((x||y)&&r+y>=0&&c+x>=0&&r+y<size&&c+x<size)a.push((r+y)*size+c+x);return a}
@@ -55,3 +57,6 @@ export function connectMove(board,level='medium',random=Math.random,player='O'){
  function minimax(b,d,turn,alpha,beta){const end=connectWinner(b);if(end)return end==='O'?100000+d:end==='X'?-100000-d:0;if(!d||++nodes>35000)return connectScore(b);let value=turn==='O'?-Infinity:Infinity;for(const c of order){const n=dropDisc(b,c,turn);if(!n)continue;const v=minimax(n,d-1,turn==='O'?'X':'O',alpha,beta);if(turn==='O'){value=Math.max(value,v);alpha=Math.max(alpha,value)}else{value=Math.min(value,v);beta=Math.min(beta,value)}if(beta<=alpha)break}return value}
  let best=legal[0],value=-Infinity;for(const c of legal){const rank=minimax(dropDisc(b,c,'O'),depth-1,'X',-Infinity,Infinity);if(rank>value){value=rank;best=c}}return best;
 }
+
+export function pruneSudokuNotes(board,notes){return notes.map((mask,i)=>board[i]?0:mask&sudokuCandidates(board,i).reduce((n,v)=>n|(1<<(v-1)),0))}
+export function chordMine(state,cell){if(state.over||!state.bombs||!state.revealed.includes(cell))return structuredClone(state);const neighbors=mineNeighbors(cell,state.size),count=neighbors.filter(i=>state.bombs.includes(i)).length;if(!count||neighbors.filter(i=>state.flags.includes(i)).length!==count)return structuredClone(state);let next=state;for(const i of neighbors){if(next.over)break;if(!next.revealed.includes(i)&&!next.flags.includes(i))next=revealMine(next,i)}return structuredClone(next)}
