@@ -1,0 +1,9 @@
+# v47 — Guided Connect via QR
+
+Advanced → Connect via QR opens a separate compact view. Create connection immediately generates the first QR. Join connection opens the camera; a valid offer scan automatically creates and displays the reply QR. Scan reply QR on the creator automatically imports that answer. Both devices still compare and explicitly approve the security code. Send message and Send files become visible only after both approvals.
+
+This replaces the v46 Show/Scan/Generate answer controls and JSON preview/Insert popup. The manual JSON/file path, configured-server pairing, network settings, failure reports and the underlying peer/transfer protocol remain. They can be reached through Advanced. No extra pairing server, account, library or theme is added. Existing 84 workspaces, 139 routes and six themes remain.
+
+One instruction and one main action are shown during each active step. Numbered parts retain Previous/Next controls. Cancel scan keeps its step; Cancel connection ends the attempt. Wrong-role, unrelated, corrupt or oversized QR data is rejected without connecting. A late camera/image or cancelled peer task cannot revive an old attempt. Camera access starts only through an explicit Join/Scan action and tracks stop on completion, cancellation, hiding, navigation, session change, security review and exit. Camera denial retains image scanning and explicit restart. A failed attempt stays visible; Try again explicitly restarts the same role and the redacted report is under Advanced.
+
+Regression covers these transitions, real QR images, live generated video, narrow layouts, both Connection themes, standalone operation and native browser pairing/dual approval/message/reviewed PNG transfer. Whole-project suites cover all existing tools and published output. Physical Android cameras remain to be qualified after deployment; QR simplifies signaling exchange and does not claim to fix the separate Moto-started network-path failure.

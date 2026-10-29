@@ -120,7 +120,7 @@ const{closeUSB}=installUsb(adapterAPI);
 installSignaling({state,$,wsURL,initPeer,bind,validateSignal,signalData,gathered,notice,review,copy});
 installProtocol({...adapterAPI,packetEncode,packetDecode,download,review,page});
 installEasyConnection({...adapterAPI,page,copy,CONNECTION_BUILD});
-installManualQR({...adapterAPI,importSignal,pairingTask});
+installManualQR({...adapterAPI,page,review,copy,offer,disconnect,importSignal,pairingTask});
 installSessionTools(adapterAPI);
 window.connectionStudio=Object.freeze({version:1,build:CONNECTION_BUILD,disconnect,status:()=>({peer:state.pc?.connectionState||'closed',approved:state.approved&&state.peerApproved,bridge:state.bridge,files:state.received.length,permissions:permissions()}),createOffer:offer,importSignal,shutdown:()=>{disconnect();closeWS();void closeUSB();}});
 window.addEventListener('pagehide',()=>{state.disposed=true;state.port?.postMessage({type:'detach'});disconnect();closeWS();void closeUSB();state.port?.postMessage({type:'revoke'});state.port?.close()});

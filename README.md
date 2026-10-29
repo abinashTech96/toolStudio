@@ -85,7 +85,7 @@ Run npm run test:games, npm run test:home-extras and npm run test:updates along 
 
 ## Guided Connection setup
 
-Options → Connection starts with phone/computer sharing and guided First device / Second device pairing. Copy/paste and connection QR exchange need no signaling server; code pairing requires a configured server. In v46, scan an offer QR, review and Insert its JSON, then Generate answer QR. The first device scans the answer, reviews and inserts it, then chooses Use pasted details. Both approvals remain required. After both approvals, Send message, Send photo and Send file open the existing sharing controls. WebSocket, USB and diagnostic tools remain under Advanced. Bluetooth was removed in v45. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.
+Options → Connection starts with phone/computer sharing and guided First device / Second device pairing. Copy/paste and Advanced → Connect via QR need no signaling server; code pairing requires a configured server. The QR view guides Create → Join/scan → scan reply automatically, without JSON or Insert steps. Both approvals remain required. After both approvals, Send message, Send photo and Send file open the existing sharing controls. WebSocket, USB and diagnostic tools remain under Advanced. Bluetooth was removed in v45. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.
 
 ## Career Studio (v35.05)
 
@@ -120,3 +120,7 @@ Localization uses the pinned FormatJS ICU parser for nested plural/select syntax
 Games use bounded worker analysis for Sudoku generation/hints, Connect Four and the heavier coaches. Sudoku solutions and repeated analysis are cached with fixed limits. The separate Connection page includes browser/API and user-triggered pairing-server checks. Physical USB hardware still needs device-specific testing.
 
 Run `npm run test:workflows` for rejected-operation and sharing coverage, `npm run test:regression` for all suites, and `npm run inventory` after a dependency change. `docs/dependency-inventory.json` records exact npm pins/integrities, vendor hashes and the Python server pin. Vendor hashes identify the preserved bundles; npm audit does not cover those bundles or Python.
+
+## Guided Connect via QR (v47)
+
+Open Advanced → Connect via QR on both devices. Create connection shows the first QR; Join connection opens the other camera and automatically generates its reply. The first device scans that reply, then both users confirm the matching security code. Send message and Send files appear after both approvals. The old JSON preview/Insert and Generate answer QR controls are removed; manual copy/paste, JSON files, configured-server pairing and network settings remain available. No extra service or dependency is added. See [Connection guide](docs/connection-guide.md).
