@@ -29,12 +29,13 @@ export function peerSnapshot(pc) {
   remote:peerCandidateSummary(pc?.remoteDescription)
  };
 }
-export function peerFailureStage(snapshot,channelOpen=false) {
+export function peerFailureStage(snapshot,sessionApproved=false) {
+ if (sessionApproved) return 'session';
  if (!snapshot.local.total) return 'local-candidates';
  if (!snapshot.remote.total) return 'remote-candidates';
  if (!['connected','completed'].includes(snapshot.ice)) return 'network-path';
  if (snapshot.dtls!=='connected') return 'secure-transport';
- return channelOpen ? 'session' : 'data-channel';
+ return 'data-channel';
 }
 export function peerFailureText(stage) {
  const explanations = {

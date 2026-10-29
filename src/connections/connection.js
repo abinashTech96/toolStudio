@@ -51,7 +51,7 @@ function recordPeer(pc,event){
 function failPeer(pc,reason){
  if(state.pc!==pc)return;
  recordPeer(pc,reason);
- const snapshot=peerSnapshot(pc),stage=peerFailureStage(snapshot,state.dc?.readyState==='open');
+ const snapshot=peerSnapshot(pc),stage=peerFailureStage(snapshot,state.approved&&state.peerApproved);
  state.peerReport={format:'toolstudio-peer-report',version:1,appVersion:CONNECTION_BUILD,reason,stage,startedAt:state.peerAttempt?.startedAt,...snapshot,events:state.peerAttempt?.events.slice()||[]};
  state.peerFailure={stage,instruction:peerFailureText(stage)};
  cleanupPeer();notice('Connection failed. '+state.peerFailure.instruction,true);

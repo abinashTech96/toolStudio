@@ -187,12 +187,13 @@ function peerSnapshot(pc) {
   remote:peerCandidateSummary(pc?.remoteDescription)
  };
 }
-function peerFailureStage(snapshot,channelOpen=false) {
+function peerFailureStage(snapshot,sessionApproved=false) {
+ if (sessionApproved) return 'session';
  if (!snapshot.local.total) return 'local-candidates';
  if (!snapshot.remote.total) return 'remote-candidates';
  if (!['connected','completed'].includes(snapshot.ice)) return 'network-path';
  if (snapshot.dtls!=='connected') return 'secure-transport';
- return channelOpen ? 'session' : 'data-channel';
+ return 'data-channel';
 }
 function peerFailureText(stage) {
  const explanations = {
@@ -643,7 +644,7 @@ function recordPeer(pc,event){
 function failPeer(pc,reason){
  if(state.pc!==pc)return;
  recordPeer(pc,reason);
- const snapshot=peerSnapshot(pc),stage=peerFailureStage(snapshot,state.dc?.readyState==='open');
+ const snapshot=peerSnapshot(pc),stage=peerFailureStage(snapshot,state.approved&&state.peerApproved);
  state.peerReport={format:'toolstudio-peer-report',version:1,appVersion:CONNECTION_BUILD,reason,stage,startedAt:state.peerAttempt?.startedAt,...snapshot,events:state.peerAttempt?.events.slice()||[]};
  state.peerFailure={stage,instruction:peerFailureText(stage)};
  cleanupPeer();notice('Connection failed. '+state.peerFailure.instruction,true);
