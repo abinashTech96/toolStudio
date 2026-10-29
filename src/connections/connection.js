@@ -1,3 +1,4 @@
+import {installManualQR} from './manual-qr.js';
 import {CONNECTION_BUILD,peerSnapshot,peerFailureStage,peerFailureText} from './peer-diagnostics.js';
 import {connectionError,channelOpenOnce,validatePeerHello} from './operations.js';
 import {installSessionTools} from './session-tools.js';
@@ -119,6 +120,7 @@ const{closeUSB}=installUsb(adapterAPI);
 installSignaling({state,$,wsURL,initPeer,bind,validateSignal,signalData,gathered,notice,review,copy});
 installProtocol({...adapterAPI,packetEncode,packetDecode,download,review,page});
 installEasyConnection({...adapterAPI,page,copy,CONNECTION_BUILD});
+installManualQR({...adapterAPI,importSignal,pairingTask});
 installSessionTools(adapterAPI);
 window.connectionStudio=Object.freeze({version:1,build:CONNECTION_BUILD,disconnect,status:()=>({peer:state.pc?.connectionState||'closed',approved:state.approved&&state.peerApproved,bridge:state.bridge,files:state.received.length,permissions:permissions()}),createOffer:offer,importSignal,shutdown:()=>{disconnect();closeWS();void closeUSB();}});
 window.addEventListener('pagehide',()=>{state.disposed=true;state.port?.postMessage({type:'detach'});disconnect();closeWS();void closeUSB();state.port?.postMessage({type:'revoke'});state.port?.close()});
