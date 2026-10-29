@@ -1,6 +1,6 @@
 // Only fixed state names and counts leave this module. Never include SDP,
 // network addresses, ICE credentials, fingerprints, device names or messages.
-export const CONNECTION_BUILD = '46.0.0';
+export const CONNECTION_BUILD = '47.0.0';
 const peerStates = new Set(['new','connecting','connected','disconnected','failed','closed']);
 const iceStates = new Set(['new','checking','connected','completed','disconnected','failed','closed']);
 const signalingStates = new Set(['stable','have-local-offer','have-remote-offer','have-local-pranswer','have-remote-pranswer','closed']);
