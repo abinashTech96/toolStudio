@@ -24,3 +24,5 @@ Validation:
 - The existing native peer scenarios remain separate. Fault injection is not a replacement for real RTC or Android certification.
 
 After deployment, if Android pairing still fails, copy the connection report from each phone without refreshing. Those two reports are the next required evidence. It would be incorrect to claim this patch has already resolved the physical Android pairing failure.
+
+Reproduce the lifecycle cases with `node tests/connection-failure.browser.mjs`; these cases do not need real peer networking. Run `npm run test:connection` for the separate native peer and transfer scenarios as well. `CONNECTION_SKIP_REAL_RTC=1` is an explicit local environment limitation and must not be used to certify the native connection path in CI.
