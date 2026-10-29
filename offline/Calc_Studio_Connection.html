@@ -15,7 +15,7 @@ header>div:first-child{display:flex;gap:8px 12px;align-items:center;flex-wrap:wr
 
 #devices.pairing-visible>p{display:none}#pairingOptions{margin:8px 0}#pairingOptions>summary{min-height:44px;color:var(--muted);font-size:13px}#pairingOptions label{margin-top:0}
 
-.connection-build{display:block;font-size:.72rem;color:var(--muted);margin-top:.3rem}.pairing-failure{border-inline-start:4px solid var(--accent);margin-block:1rem}.pairing-failure button{margin:.25rem}.pairing-failure pre{max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.connection-build{font-size:.72rem;color:var(--muted);white-space:nowrap}.pairing-failure{border-inline-start:4px solid var(--accent);margin-block:1rem}.pairing-failure button{margin:.25rem}.pairing-failure pre{max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
 
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
@@ -378,9 +378,6 @@ function pairingView(state, {method = 'manual', role = 'first', localType = ''} 
   } else if (method === 'server' && state.pc) {
     step = 1; title = 'Complete code pairing';
     instruction = 'First device: send the code or pairing link. Second device: use the same server address, enter the code and choose Join. Then verify both screens.';
-  } else if (state.pc?.connectionState === 'connecting') {
-    step = 2; title = 'Connecting the devices…';
-    instruction = 'Keep both pages open. Approval appears only after the connection opens.';
   } else if (localType === 'answer') {
     step = 1; title = 'Send your answer to the first device';
     instruction = 'Copy your pairing details below and send them back. On the first device, paste them into Pairing details from the other device and choose Use pasted details.';
@@ -452,7 +449,7 @@ function installEasyConnection(api) {
  const display = detail('Display', [], 'connectionDisplay'), displayActions = node('div', undefined, 'display-actions');
  displayActions.append($('theme'), $('expand'), $('layoutTV'));display.append(displayActions);header.append(display);
  display.addEventListener('click', event => {if (event.target.closest('button')) display.open = false});
- document.querySelector('header>div').append($('peerState'),node('small','Connection v'+api.CONNECTION_BUILD,'connection-build'));
+ document.querySelector('header>div').append($('peerState'),node('small','v'+api.CONNECTION_BUILD,'connection-build'));
 
  const pairGrid = peerSetup.querySelector('.grid'), sessionCard = pairGrid.children[0], codeCard = pairGrid.children[1];
  const manualCard = [...peerSetup.children].find(c => c.classList.contains('card'));
