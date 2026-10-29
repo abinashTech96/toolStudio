@@ -85,7 +85,7 @@ Run npm run test:games, npm run test:home-extras and npm run test:updates along 
 
 ## Guided Connection setup
 
-Options → Connection starts with phone/computer sharing and guided First device / Second device pairing. Copy & paste needs no signaling server; code pairing requires a configured server. After both approvals, Send message, Send photo and Send file open the existing sharing controls. WebSocket, USB and diagnostic tools remain under Advanced. Bluetooth was removed in v45. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.
+Options → Connection starts with phone/computer sharing and guided First device / Second device pairing. Copy/paste and connection QR exchange need no signaling server; code pairing requires a configured server. In v46, scan an offer QR, review and Insert its JSON, then Generate answer QR. The first device scans the answer, reviews and inserts it, then chooses Use pasted details. Both approvals remain required. After both approvals, Send message, Send photo and Send file open the existing sharing controls. WebSocket, USB and diagnostic tools remain under Advanced. Bluetooth was removed in v45. See [the Connection guide](docs/connection-guide.md). Run npm run test:connection alongside existing tool and hardware regression suites.
 
 ## Career Studio (v35.05)
 

@@ -57,3 +57,18 @@ The native loopback tests pair Chromium with Chromium, Firefox with Firefox, and
 A failed attempt now keeps a **Connection failed** card instead of silently restarting setup. Select **Copy connection report** on each device before refreshing. The preview shows the build, failed stage and state transitions without pairing text, network addresses or shared content. **Export redacted diagnostics** in Advanced → Connection health includes this report too. Copying/exporting contacts no server. Reports last only in the current page; a fresh attempt or Disconnect clears them.
 
 Use **Start fresh pairing** only when ready to exchange new details. The report describes the failed stage; it does not automatically prove that a phone setting or network caused it. The Connection header shows the build so both devices can be checked after an update.
+
+## Connection QR exchange (v46)
+
+The default manual pairing flow supports QR exchange for the same offer/answer JSON. It needs no additional account or pairing server. The two devices still need a working network path; use the same Wi-Fi or a permitted hotspot for the simplest setup. This feature does not claim to fix the separately reported Moto-started ICE failure.
+
+1. First device: **Create connection details → Show connection QR**.
+2. Second device: **Scan connection QR** beside Use pasted details. Allow camera access, or choose a saved QR image.
+3. Review the decoded offer JSON in the popup. **Insert** fills the pairing field. Cancel preserves the current field. Insertion does not create a peer or approve a connection.
+4. Second device: **Generate answer QR** becomes enabled when a valid offer is inserted or pasted. It creates the second device’s own answer and displays its QR. Use pasted details also retains the existing manual answer path; Show connection QR can display that answer.
+5. First device: **Scan connection QR**, review the answer and **Insert**, then **Use pasted details**.
+6. Compare verification codes and approve on both screens. Test a message and small PNG in both directions.
+
+Large details are compacted locally. If multiple numbered QR codes are shown, use Next QR and scan every part. The scanner tracks distinct parts and checks the assembled payload before preview. A different set of QR parts requires Reset scan progress. A browser without compact-data decoding can retain copy/paste and the pairing-file alternative.
+
+Camera tracks stop on cancellation, completion, hidden pages, session changes, navigation, core approval review and page exit. Hidden pages require an explicit Start camera action to resume. A late permission grant is released if its scan was cancelled. Scanned links and unrelated/incorrect-role QR data are rejected; no scanned URL is opened. Pairing details remain in page memory and are not saved as a new profile or sent to an external service. Existing file review, permissions, hashes, disconnect and failure reports remain in place.
