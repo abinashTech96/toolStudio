@@ -9,3 +9,11 @@ export function connectionError(error){const next={NotAllowedError:'Allow the br
 // A received channel can already be open when its handler is installed.
 // Rechecking readiness and a later open event must start only one handshake.
 export function channelOpenOnce(channel,isCurrent,action){let started=false;return()=>{if(started||!isCurrent()||channel.readyState!=='open')return;started=true;action()}}
+
+// Repeated greetings acknowledge a ready receiver; they never repeat approval.
+export function validatePeerHello(message,remoteNonce='',peer=''){
+ if(message?.v!==1||typeof message.nonce!=='string'||!/^[-a-zA-Z0-9]{20,64}$/.test(message.nonce)||(message.ack!==undefined&&typeof message.ack!=='boolean'))throw Error('Invalid connection handshake');
+ const name=String(message.name||'Other device').slice(0,40);
+ if(remoteNonce&&(message.nonce!==remoteNonce||name!==peer))throw Error('Connection identity changed; disconnect and pair again');
+ return{name,duplicate:!!remoteNonce};
+}

@@ -10,4 +10,8 @@ Validation is recorded in GitHub Actions and test-results. See [Connection guide
 
 Native Connection coverage uses same-engine Chromium/Firefox peers and a real Chromium counterpart for WebKit, whose Linux runner cannot resolve exchanged mDNS host candidates. Both approval screens, bidirectional messages, reviewed PNG transfer/download in both directions and revocation remain asserted; no peer protocol is mocked or skipped in CI.
 
-The peer handshake now also starts for channels already open when their handlers are installed. An idempotent guard prevents duplicate greetings and ignores stale/closed channels.
+The peer handshake now also starts for channels already open when their handlers are installed. An idempotent guard prevents duplicate initial greetings and ignores stale/closed channels.
+
+New peers request one greeting acknowledgement to cover a greeting sent before the remote receiver is ready. Matching repeated greetings are idempotent; changed nonce/name or malformed flags are rejected. Legacy v1 peers remain accepted without unsolicited acknowledgements. Queued messages from a disconnected channel are discarded. Approval is never automatic.
+
+A native browser regression deliberately drops the first greeting from each side in turn. Both sessions must still verify, require both approvals once, and disconnect cleanly.

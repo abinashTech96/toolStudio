@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {connectionGuides, connectionCapabilities} from '../src/connections/guides.js';
-import {channelOpenOnce} from '../src/connections/operations.js';
+import {channelOpenOnce,validatePeerHello} from '../src/connections/operations.js';
 import {pairingView} from '../src/connections/pairing.js';
 import {validateProfiles, profileCompatibility} from '../src/connections/session-tools.js';
 const passed=[], test=(name, run)=>{run();passed.push(name);console.log('PASS',name)};
@@ -25,4 +25,8 @@ test('USB profile compatibility checks identifiers, alternate and endpoint direc
 test('Already-open channels start one handshake even when the event happened earlier',()=>{let calls=0;const start=channelOpenOnce({readyState:'open'},()=>true,()=>calls++);start();start();assert.equal(calls,1)});
 test('Connecting channels wait for open and ignore duplicate open events',()=>{let calls=0;const dc={readyState:'connecting'},start=channelOpenOnce(dc,()=>true,()=>calls++);start();assert.equal(calls,0);dc.readyState='open';start();start();assert.equal(calls,1)});
 test('Stale and closed channels never send a handshake',()=>{let calls=0;channelOpenOnce({readyState:'open'},()=>false,()=>calls++)();channelOpenOnce({readyState:'closed'},()=>true,()=>calls++)();assert.equal(calls,0)});
+test('Fresh greetings and legacy v1 greetings remain valid without granting approval',()=>{for(const ack of [undefined,true,false])assert.deepEqual(validatePeerHello({v:1,nonce:'a'.repeat(24),name:'Phone',...(ack===undefined?{}:{ack})}),{name:'Phone',duplicate:false})});
+test('Matching greeting acknowledgements are idempotent',()=>assert.deepEqual(validatePeerHello({v:1,nonce:'a'.repeat(24),name:'Phone',ack:false},'a'.repeat(24),'Phone'),{name:'Phone',duplicate:true}));
+test('Repeated greetings cannot change a peer nonce or name',()=>{for(const message of [{v:1,nonce:'b'.repeat(24),name:'Phone'},{v:1,nonce:'a'.repeat(24),name:'Different'}])assert.throws(()=>validatePeerHello(message,'a'.repeat(24),'Phone'),/identity changed/)});
+test('Malformed acknowledgement and handshake fields are rejected',()=>{for(const m of [{v:2,nonce:'a'.repeat(24)},{v:1,nonce:'short'},{v:1,nonce:'a'.repeat(24),ack:'yes'}])assert.throws(()=>validatePeerHello(m),/Invalid/)});
 fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/connection-guide-unit.json',JSON.stringify({checks:passed.length,passed},null,2));
