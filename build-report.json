@@ -1,6 +1,6 @@
 {
   "version": 35,
-  "appVersion": "45.0.0",
+  "appVersion": "45.0.1",
   "categories": 11,
   "workspaces": 84,
   "sourceModules": 97,
@@ -10,5 +10,5 @@
   "runtimeChunkBytes": 2424561,
   "offlineBytes": 26363769,
   "ocrAssetsVerified": 3,
-  "revision": "ddc1de7a47df6184"
+  "revision": "98c770c030b49ae5"
 }

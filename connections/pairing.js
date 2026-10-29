@@ -3,7 +3,9 @@ export function pairingView(state, {method = 'manual', role = 'first', localType
   const connected = !!(state.approved && state.peerApproved);
   const channelOpen = state.dc?.readyState === 'open';
   let step = 0, title = 'Choose your device', instruction = 'Open Connection on both devices. Choose First device here, or Second device if the other device has started.';
-  if (state.pairingBusy) {
+  if (state.peerFailure) {
+    step = 1; title = 'Connection failed';instruction = state.peerFailure.instruction;
+  } else if (state.pairingBusy) {
     step = 1; title = 'Preparing pairing details…';
     instruction = 'Keep this page open. Your next step will appear when preparation finishes.';
   } else if (connected) {
@@ -15,6 +17,9 @@ export function pairingView(state, {method = 'manual', role = 'first', localType
   } else if (method === 'server' && state.pc) {
     step = 1; title = 'Complete code pairing';
     instruction = 'First device: send the code or pairing link. Second device: use the same server address, enter the code and choose Join. Then verify both screens.';
+  } else if (state.pc?.connectionState === 'connecting') {
+    step = 2; title = 'Connecting the devices…';
+    instruction = 'Keep both pages open. Approval appears only after the connection opens.';
   } else if (localType === 'answer') {
     step = 1; title = 'Send your answer to the first device';
     instruction = 'Copy your pairing details below and send them back. On the first device, paste them into Pairing details from the other device and choose Use pasted details.';
