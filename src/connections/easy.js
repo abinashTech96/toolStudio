@@ -53,7 +53,7 @@ export function installEasyConnection(api) {
  const display = detail('Display', [], 'connectionDisplay'), displayActions = node('div', undefined, 'display-actions');
  displayActions.append($('theme'), $('expand'), $('layoutTV'));display.append(displayActions);header.append(display);
  display.addEventListener('click', event => {if (event.target.closest('button')) display.open = false});
- document.querySelector('header>div').append($('peerState'));
+ document.querySelector('header>div').append($('peerState'),node('small','Connection v'+api.CONNECTION_BUILD,'connection-build'));
 
  const pairGrid = peerSetup.querySelector('.grid'), sessionCard = pairGrid.children[0], codeCard = pairGrid.children[1];
  const manualCard = [...peerSetup.children].find(c => c.classList.contains('card'));
@@ -98,6 +98,13 @@ export function installEasyConnection(api) {
  sessionCard.querySelector('h3').textContent = 'Session & verification';
  const support = node('p', '', 'readiness');support.id = 'support-wifi';
  const live = node('p', '', 'connection-live');live.id = 'live-wifi';live.setAttribute('role', 'status');
+ const failure = node('div',undefined,'card pairing-failure');failure.id='pairingFailure';failure.hidden=true;
+ failure.setAttribute('role','alert');
+ const failureMessage=node('p'),reportText=node('pre');reportText.id='pairingReport';
+ const reportDetails=detail('Connection report',[reportText]);
+ const copyReport=button('Copy connection report',()=>api.copy(JSON.stringify(state.peerReport,null,2)));copyReport.id='copyPeerReport';
+ const retry=button('Start fresh pairing',()=>{$('disconnect').click();renderSupport()});retry.id='retryPeerPairing';
+ failure.append(node('h3','Connection failed'),failureMessage,copyReport,retry,reportDetails);
  const share = node('div', undefined, 'card connected-actions');share.id = 'connectedActions';share.hidden = true;
  const shareTitle = node('h3'), shareButtons = node('div', undefined, 'row');
  for (const [id, label, target, focus] of [['shareMessage', 'Send message', 'messages', 'message'], ['sharePhoto', 'Send photo', 'transfer', 'photoFile'], ['shareFile', 'Send file', 'transfer', 'sendFile']]) {const b = button(label, () => goto(target, focus));b.id = id;shareButtons.append(b)}
@@ -106,7 +113,7 @@ export function installEasyConnection(api) {
  workspace.append(roles, pairingOptions, guideStatus, manual, codeCard, network);sessionCard.querySelector('h3').after(nameLabel);
  const sessionDetails = detail('Device name, permissions & session', [sessionCard], 'sessionDetails');
  const wifiHelp = detail('Connection help & network requirements', [support, button('Read sharing guide', () => showGuide('wifi')), button('Read copy & paste guide', () => showGuide('manual'))], 'pairingHelp');
- peerSetup.append(steps, live, share, workspace, sessionDetails, wifiHelp);
+ peerSetup.append(steps, live, failure, share, workspace, sessionDetails, wifiHelp);
  method.onchange = () => renderSupport();
  $('remoteSignal').addEventListener('input', () => renderSupport());
 
@@ -159,7 +166,10 @@ export function installEasyConnection(api) {
   let localType = '';try {localType = JSON.parse($('localSignal').value).description.type} catch {}
   if (previousLocal !== $('localSignal').value) {previousLocal = $('localSignal').value;if (localType === 'answer') role = 'second';else if (localType === 'offer') role = 'first'}
   const view = pairingView(state, {method:method.value, role, localType});
-  text(nextTitle, view.title);text(nextText, view.instruction);text(live, view.connected ? 'Connected to ' + state.peer + ' · approved on both devices' : state.pc || role === 'second' ? view.title : 'Not connected');
+  failure.hidden=!state.peerFailure;text(failureMessage,state.peerFailure?.instruction||'');
+  text(reportText,state.peerReport?JSON.stringify(state.peerReport,null,2):'');
+  if(state.peerFailure)peerSetup.hidden=false;
+  text(nextTitle, view.title);text(nextText, view.instruction);text(live, view.connected ? 'Connected to ' + state.peer + ' · approved on both devices' : state.peerFailure || state.pc || role === 'second' ? view.title : 'Not connected');
   for (const [i, li] of [...steps.children].entries()) {li.classList.toggle('done', i < view.completed);if (i === view.step) li.setAttribute('aria-current', 'step');else li.removeAttribute('aria-current')}
   first.setAttribute('aria-pressed', String(role === 'first'));second.setAttribute('aria-pressed', String(role === 'second'));
   first.disabled = second.disabled = method.disabled = !!state.pairingBusy;
