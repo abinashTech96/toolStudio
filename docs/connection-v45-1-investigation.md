@@ -20,6 +20,7 @@ Validation:
 
 - The lifecycle test first failed against the previous v45 output, which silently reset after the injected native failure.
 - Thirty unit checks and ten browser fault-injection scenarios cover failed-state retention, copy/report redaction, explicit retry, failure during answer import, stale answer/verification callbacks, no-candidate gathering and phone viewport sizing.
+- The primary Chromium peer now uses default WebRTC privacy/IP settings, rather than forcing exposed local addresses. The Linux WebKit counterpart retains its documented direct-route fixture.
 - The existing native peer scenarios remain separate. Fault injection is not a replacement for real RTC or Android certification.
 
 After deployment, if Android pairing still fails, copy the connection report from each phone without refreshing. Those two reports are the next required evidence. It would be incorrect to claim this patch has already resolved the physical Android pairing failure.
