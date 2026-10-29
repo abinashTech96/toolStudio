@@ -53,7 +53,7 @@ export function installEasyConnection(api) {
  const display = detail('Display', [], 'connectionDisplay'), displayActions = node('div', undefined, 'display-actions');
  displayActions.append($('theme'), $('expand'), $('layoutTV'));display.append(displayActions);header.append(display);
  display.addEventListener('click', event => {if (event.target.closest('button')) display.open = false});
- document.querySelector('header>div').append($('peerState'),node('small','Connection v'+api.CONNECTION_BUILD,'connection-build'));
+ document.querySelector('header>div').append($('peerState'),node('small','v'+api.CONNECTION_BUILD,'connection-build'));
 
  const pairGrid = peerSetup.querySelector('.grid'), sessionCard = pairGrid.children[0], codeCard = pairGrid.children[1];
  const manualCard = [...peerSetup.children].find(c => c.classList.contains('card'));

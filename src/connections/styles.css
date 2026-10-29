@@ -13,4 +13,4 @@ header>div:first-child{display:flex;gap:8px 12px;align-items:center;flex-wrap:wr
 
 #devices.pairing-visible>p{display:none}#pairingOptions{margin:8px 0}#pairingOptions>summary{min-height:44px;color:var(--muted);font-size:13px}#pairingOptions label{margin-top:0}
 
-.connection-build{display:block;font-size:.72rem;color:var(--muted);margin-top:.3rem}.pairing-failure{border-inline-start:4px solid var(--accent);margin-block:1rem}.pairing-failure button{margin:.25rem}.pairing-failure pre{max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.connection-build{font-size:.72rem;color:var(--muted);white-space:nowrap}.pairing-failure{border-inline-start:4px solid var(--accent);margin-block:1rem}.pairing-failure button{margin:.25rem}.pairing-failure pre{max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}

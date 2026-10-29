@@ -10,7 +10,7 @@ Confirmed defects fixed:
 - Answer import could report “verify and approve” before a channel had opened, or after an asynchronous operation lost its peer. It now identifies Connecting, checks that the original peer is current after awaits, and cannot overwrite a newer attempt with late success.
 - An old verification digest could update identity and open a review after disconnect. It now checks the peer/channel before committing its result.
 - No-candidate gathering could produce pairing details that could never establish a connection. It now stops with a report before copying unusable details.
-- Answerer instructions could keep saying to send the answer while the transport was already connecting. Native Connecting takes precedence.
+- Answerer instructions retain the required answer handoff even when native ICE starts connecting before the first device imports the answer. Native Connecting alone does not prove that both sides finished the exchange.
 
 The failure card has Copy connection report and an expandable preview. Export redacted diagnostics also contains the last failure report. Reports retain build, timestamps, fixed state names and candidate counts/types, plus a bounded event history. They exclude raw SDP, addresses, ICE passwords/ufrags, certificates/fingerprints, device names and shared content. The report identifies the stage, not a proven underlying cause. No server is contacted by copying/exporting it. A fresh attempt, Disconnect, page refresh or closing the page clears the report. Reports are not saved in browser storage.
 
