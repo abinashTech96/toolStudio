@@ -15,6 +15,8 @@ header>div:first-child{display:flex;gap:8px 12px;align-items:center;flex-wrap:wr
 
 .connection-build{font-size:.72rem;color:var(--muted);white-space:nowrap}.pairing-failure{border-inline-start:4px solid var(--accent);margin-block:1rem}.pairing-failure button{margin:.25rem}.pairing-failure pre{max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
 
+.manual-qr-dialog{width:min(560px,calc(100vw - 24px));max-height:90dvh}.manual-qr-dialog h2{font-size:20px}.manual-qr-dialog p{overflow-wrap:anywhere}.manual-qr-dialog canvas{display:block;width:min(100%,400px);height:auto;margin:12px auto;background:#fff;border-radius:0}.manual-qr-dialog video{display:block;width:100%;max-height:42dvh;object-fit:contain;background:#000}.manual-qr-dialog pre{max-height:35dvh}.manual-qr-dialog .row{margin:10px 0}.manual-qr-dialog label{font-size:13px}.manual-qr-actions{gap:6px}.manual-qr-actions button{font-size:13px;padding:9px 10px}@media(max-width:400px){.manual-qr-dialog{padding:16px}.manual-qr-actions>button{flex:1 1 130px}}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}

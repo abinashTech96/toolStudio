@@ -69,7 +69,7 @@ export function installEasyConnection(api) {
  function chooseRole(value) {role = value;renderSupport()}
  const nameLabel = $('deviceName').closest('label');nameLabel.className = 'pairing-device-name';
  const methodLabel = node('label', 'Pairing method'), method = node('select');method.id = 'pairingMethod';
- for (const [value, label] of [['manual', 'Copy & paste · no pairing server'], ['server', 'Pairing code · server required']]) {const o = node('option', label);o.value = value;method.append(o)}
+ for (const [value, label] of [['manual', 'Copy, paste or scan QR · no pairing server'], ['server', 'Pairing code · server required']]) {const o = node('option', label);o.value = value;method.append(o)}
  methodLabel.append(method);
  const manual = detail('Exchange pairing details', [], 'manualPairing');manual.open = true;manual.className = 'card';
  const createBlock = node('div');createBlock.id = 'pairingCreate';

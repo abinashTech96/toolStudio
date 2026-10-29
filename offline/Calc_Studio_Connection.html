@@ -17,6 +17,8 @@ header>div:first-child{display:flex;gap:8px 12px;align-items:center;flex-wrap:wr
 
 .connection-build{font-size:.72rem;color:var(--muted);white-space:nowrap}.pairing-failure{border-inline-start:4px solid var(--accent);margin-block:1rem}.pairing-failure button{margin:.25rem}.pairing-failure pre{max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
 
+.manual-qr-dialog{width:min(560px,calc(100vw - 24px));max-height:90dvh}.manual-qr-dialog h2{font-size:20px}.manual-qr-dialog p{overflow-wrap:anywhere}.manual-qr-dialog canvas{display:block;width:min(100%,400px);height:auto;margin:12px auto;background:#fff;border-radius:0}.manual-qr-dialog video{display:block;width:100%;max-height:42dvh;object-fit:contain;background:#000}.manual-qr-dialog pre{max-height:35dvh}.manual-qr-dialog .row{margin:10px 0}.manual-qr-dialog label{font-size:13px}.manual-qr-actions{gap:6px}.manual-qr-actions button{font-size:13px;padding:9px 10px}@media(max-width:400px){.manual-qr-dialog{padding:16px}.manual-qr-actions>button{flex:1 1 130px}}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
@@ -158,7 +160,7 @@ Minimum version required to store current data is: `+i+`.
 const inlineQRCache={};async function loadQR(kind){return inlineQRCache[kind]||(inlineQRCache[kind]=inlineQREngines[kind]())}
 // Only fixed state names and counts leave this module. Never include SDP,
 // network addresses, ICE credentials, fingerprints, device names or messages.
-const CONNECTION_BUILD = '45.0.1';
+const CONNECTION_BUILD = '46.0.0';
 const peerStates = new Set(['new','connecting','connected','disconnected','failed','closed']);
 const iceStates = new Set(['new','checking','connected','completed','disconnected','failed','closed']);
 const signalingStates = new Set(['stable','have-local-offer','have-remote-offer','have-local-pranswer','have-remote-pranswer','closed']);
@@ -296,7 +298,7 @@ const connectionGuides={
  wifi:{
   title:'Phone or computer · Wi-Fi / network',
   summary:'Share text, photos, files or a result screen between two browsers. Join your network in the device settings first; this page pairs browsers, not Wi-Fi adapters.',
-  needs:['Two devices with Connection open; use Options → Connection on each device that needs its main Tool Studio tab attached.','A supported browser on HTTPS, or localhost for a single computer. Both devices need a working network path.','For a pairing code, a running pairing server address supplied by the person hosting the tool. GitHub Pages does not supply this server. Without one, choose Copy & paste in the guided setup.'],
+  needs:['Two devices with Connection open; use Options → Connection on each device that needs its main Tool Studio tab attached.','A supported browser on HTTPS, or localhost for a single computer. Both devices need a working network path.','For a pairing code, a running pairing server address supplied by the person hosting the tool. GitHub Pages does not supply this server. Without one, use manual copy/paste or connection QR exchange in the guided setup.'],
   steps:[
    ['Open the page on both devices','Choose First device on one and Second device on the other. For the simplest local setup, put both devices on the same Wi-Fi or permitted hotspot. Being on the same network alone does not pair them.'],
    ['Use the same pairing server','Choose Pairing code in Pairing method, then paste the supplied ws:// or wss:// address on both devices. An HTTPS page requires wss://. Pages served by the included helper fill this in automatically.'],
@@ -310,11 +312,11 @@ const connectionGuides={
  },
  manual:{
   title:'Manual pairing · without a pairing server',
-  summary:'Exchange a small offer and answer through a trusted channel. This replaces the pairing server, but the devices still need a working network path.',
-  needs:['Connection open on both devices in supported browsers with secure pairing available.','A trusted way to exchange pairing text or JSON files. Pairing data includes network addresses; send it only to the intended recipient.','On different or restricted networks, configured STUN/TURN may be necessary. Manual exchange does not bypass network restrictions.'],
-  steps:[['Create the offer on A','Choose Copy & paste, select First device, then Create connection details. Wait until your pairing details appear.'],['Send A’s offer to B','Select Copy connection details or Save pairing file, then send it using a trusted channel.'],['Import on B','Choose Second device. Paste the received text into Pairing details from the other device, or choose the JSON pairing file. Select Use pasted details. Your answer appears below.'],['Send the answer back to A','Copy or save B’s local answer. On the First device paste it into Pairing details from the other device and select Use pasted details.'],['Verify and approve','Compare verification codes on both screens and approve both prompts. Then send a small test message.']],
+  summary:'Exchange the offer and answer through connection QR codes, copy/paste or pairing files. This replaces the pairing server, but the devices still need a working network path.',
+  needs:['Connection open on both devices in supported browsers with secure pairing available.','A camera, saved QR image, or trusted way to exchange pairing text or JSON files. Pairing data includes network addresses; share it only with the intended device.','On different or restricted networks, configured STUN/TURN may be necessary. Manual exchange does not bypass network restrictions.'],
+  steps:[['Create the offer on A','Choose the manual copy/paste or QR method, select First device, then Create connection details. Wait until your pairing details appear.'],['Send A’s offer to B','Select Show connection QR for the other device to scan, or use Copy connection details or Save pairing file through a trusted channel.'],['Import on B','Choose Second device. Use Scan connection QR, review the JSON and Insert; or paste text or load a pairing file. Generate answer QR becomes enabled for a valid offer and creates your own answer QR. Use pasted details also retains the existing manual answer path.'],['Send the answer back to A','On the First device select Scan connection QR, scan B’s answer QR, review and Insert, then select Use pasted details. Copy/paste or a saved answer JSON file also remains available.'],['Verify and approve','Compare verification codes on both screens and approve both prompts. Then send a small test message.']],
   success:'Both screens show Connected. Offers/answers are for this session; refresh or disconnect requires fresh pairing.',
-  issues:[['Create an offer before importing an answer','Only A imports an answer, after A created the offer. B first imports an offer.'],['Network gathering timed out','Check your network/ICE configuration and create a fresh offer.'],['Files opened from disk differ between devices','Local file paths are not portable pairing links. Open the Connection companion file on each device and exchange the JSON data.']],
+  issues:[['Create an offer before importing an answer','Only A imports an answer, after A created the offer. B first imports an offer.'],['Network gathering timed out','Check your network/ICE configuration and create a fresh offer.'],['Files opened from disk differ between devices','Local file paths are not portable pairing links. Open the Connection companion file on each device and exchange the JSON data.'],['QR has multiple numbered parts','Scan every numbered QR before inserting. Use Next QR on the sender after each part is collected.'],['Camera unavailable or permission denied','Choose a saved QR image, copy/paste the JSON, or load its pairing file. Scanning alone never approves a connection.']],
   target:'devices',focus:'pairRoleFirst'
  },
  usb:{
@@ -398,6 +400,207 @@ function pairingView(state, {method = 'manual', role = 'first', localType = ''} 
   return {connected, step, title, instruction, completed: connected ? 4 : channelOpen ? 2 : localType || state.pc ? 1 : 0};
 }
 
+// Server-free transport for the existing offer/answer JSON. Payloads stay in memory.
+const manualQREncoder = new TextEncoder(), manualQRDecoder = new TextDecoder('utf-8',{fatal:true});
+const MANUAL_QR_LIMIT = 65536, MANUAL_QR_PART_SIZE = 800, MANUAL_QR_MAX_PARTS = 128;
+function parseManualPairing(text,expected='') {
+ if(typeof text!=='string'||manualQREncoder.encode(text).length>MANUAL_QR_LIMIT)throw Error('Connection details exceed the 64 KiB limit.');
+ let data;try{data=JSON.parse(text)}catch{throw Error('This QR does not contain valid connection JSON.')}
+ const d=data?.description;
+ if(data?.format!=='calc-studio-connection'||data.version!==1||!['offer','answer'].includes(d?.type)||typeof d.sdp!=='string'||!d.sdp||d.sdp.length>60000)throw Error('Use a ToolStudio connection-details QR containing an offer or answer.');
+ if(expected&&d.type!==expected)throw Error(expected==='offer'?'Scan the first device’s offer QR.':'Scan the second device’s answer QR.');
+ return {format:'calc-studio-connection',version:1,description:{type:d.type,sdp:d.sdp}};
+}
+function manualQRBase64(bytes) {let raw='';for(let at=0;at<bytes.length;at+=8192)raw+=String.fromCharCode(...bytes.subarray(at,at+8192));return btoa(raw).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function manualQRUnbase64(text) {if(!/^[A-Za-z0-9_-]+$/.test(text)||text.length%4===1)throw Error('Invalid QR data.');let raw;try{raw=atob(text.replace(/-/g,'+').replace(/_/g,'/'))}catch{throw Error('Invalid QR data.')}return Uint8Array.from(raw,c=>c.charCodeAt(0))}
+async function manualQRRead(stream,limit) {const reader=stream.getReader(),parts=[];let size=0;try{while(true){const{done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>limit){void reader.cancel().catch(()=>{});throw Error('Decoded QR exceeds the connection-details limit.')}parts.push(value)}const bytes=new Uint8Array(size);let at=0;for(const part of parts){bytes.set(part,at);at+=part.byteLength}return bytes}finally{reader.releaseLock()}}
+async function manualQRHash(text) {if(!globalThis.crypto?.subtle)throw Error('Connection QR requires HTTPS or localhost.');return [...new Uint8Array(await crypto.subtle.digest('SHA-256',manualQREncoder.encode(text)))].map(n=>n.toString(16).padStart(2,'0')).join('')}
+async function encodeManualQR(text,{compress=true}={}) {
+ const data=parseManualPairing(text),json=JSON.stringify(data),raw=manualQREncoder.encode(json);
+ if(raw.length<=MANUAL_QR_PART_SIZE)return {type:data.description.type,frames:[json]};
+ let bytes=raw,codec='R';
+ if(compress&&typeof CompressionStream==='function'){
+  const packed=await manualQRRead(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate')),MANUAL_QR_LIMIT+1024);
+  if(packed.length<raw.length){bytes=packed;codec='D'}
+ }
+ const payload=manualQRBase64(bytes),hash=await manualQRHash(codec+'.'+payload),count=Math.ceil(payload.length/MANUAL_QR_PART_SIZE);
+ if(count>MANUAL_QR_MAX_PARTS)throw Error('Connection QR is too large. Use copy/paste or the pairing file.');
+ return {type:data.description.type,frames:Array.from({length:count},(_,i)=>'TSQR1.'+codec+'.'+hash+'.'+(i+1)+'.'+count+'.'+payload.slice(i*MANUAL_QR_PART_SIZE,(i+1)*MANUAL_QR_PART_SIZE))};
+}
+class ManualQRCollector {
+ constructor(){this.reset()}
+ reset(){this.revision=(this.revision||0)+1;this.id='';this.parts=new Map();this.total=0;this.codec=''}
+ async accept(text,expected='') {
+  if(typeof text!=='string'||text.length>MANUAL_QR_LIMIT)throw Error('QR data is too large.');
+  if(text.trimStart().startsWith('{')){
+   if(this.parts.size)throw Error('A different QR was detected. Reset scan progress before starting another code.');
+   return {received:1,total:1,data:parseManualPairing(text,expected)};
+  }
+  const m=/^TSQR1\.([RD])\.([a-f0-9]{64})\.([1-9]\d{0,2})\.([1-9]\d{0,2})\.([A-Za-z0-9_-]{1,800})$/.exec(text);
+  if(!m)throw Error('Use a ToolStudio connection-details QR. Server pairing links and other QR codes cannot be inserted here.');
+  const[,codec,id,partText,totalText,payload]=m,part=Number(partText),total=Number(totalText);
+  if(total>MANUAL_QR_MAX_PARTS||part>total)throw Error('Invalid connection QR part.');
+  if(this.id&&(id!==this.id||codec!==this.codec||total!==this.total))throw Error('A different QR was detected. Reset scan progress before starting another code.');
+  if(this.parts.has(part)&&this.parts.get(part)!==payload)throw Error('Conflicting QR part. Reset scan progress and scan again.');
+  this.id=id;this.codec=codec;this.total=total;this.parts.set(part,payload);
+  const progress={received:this.parts.size,total};if(this.parts.size!==total)return progress;
+  const revision=this.revision,joined=Array.from({length:total},(_,i)=>this.parts.get(i+1)).join('');
+  if(joined.length>Math.ceil((MANUAL_QR_LIMIT+1024)*4/3))throw Error('QR data is too large.');
+  if(await manualQRHash(codec+'.'+joined)!==id)throw Error('QR integrity check failed. Reset scan progress and scan again.');
+  let bytes=manualQRUnbase64(joined);
+  if(codec==='D'){
+   if(typeof DecompressionStream!=='function')throw Error('This browser cannot read compact QR data. Use copy/paste or a pairing file.');
+   try{bytes=await manualQRRead(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate')),MANUAL_QR_LIMIT)}catch{throw Error('Compact QR is damaged or exceeds the connection-details limit.')}
+  }
+  if(bytes.length>MANUAL_QR_LIMIT)throw Error('Decoded QR exceeds the connection-details limit.');
+  let json;try{json=manualQRDecoder.decode(bytes)}catch{throw Error('Invalid QR text encoding.')}
+  const data=parseManualPairing(json,expected);
+  return revision===this.revision?{...progress,data}:{cancelled:true};
+ }
+}
+
+
+function installManualQR(api) {
+ const {state,$,node,button,notice,importSignal,pairingTask}=api;
+ const remote=$('remoteSignal'),local=$('localSignal'),collector=new ManualQRCollector();
+ let busy=false,disposed=false,stream=null,cameraTicket=0,timer=null,decodeBusy=false,scanContext=null,displayContext=null,reviewContext=null,frameIndex=0,frames=[],displayValue='';
+ const second=()=>$('pairRoleSecond').getAttribute('aria-pressed')==='true';
+ const context=()=>({pc:state.pc,local:local.value,remote:remote.value,role:second(),method:$('pairingMethod').value});
+ const current=c=>!disposed&&c&&c.pc===state.pc&&c.local===local.value&&c.role===second()&&c.method===$('pairingMethod').value;
+ const valid=(text,type='')=>{try{return parseManualPairing(text,type)}catch{return null}};
+ const active=()=>$('pairingMethod').value==='manual'&&!$('devices').hidden&&!$('peerSetup').hidden&&!$('pairingWorkspace').hidden;
+ const dialog=(id,title)=>{const d=node('dialog');d.id=id;d.className='manual-qr-dialog';const h=node('h2',title);h.id=id+'Title';d.setAttribute('aria-labelledby',h.id);d.append(h);document.body.append(d);return d};
+ const showLocal=button('Show connection QR',()=>showCurrentQR());showLocal.id='showConnectionQR';$('copySignal').parentElement.append(showLocal);
+ const actions=node('div',undefined,'row manual-qr-actions');$('applySignal').before(actions);actions.append($('applySignal'));
+ const scan=button('Scan connection QR',()=>openScanner());scan.id='scanConnectionQR';
+ const answer=button('Generate answer QR',()=>generateAnswerQR());answer.id='generateAnswerQR';actions.append(scan,answer);
+
+ const display=dialog('connectionQRDisplay','Connection QR');
+ const displayInfo=node('p'),canvas=node('canvas');canvas.id='connectionQRCanvas';canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Connection details QR');
+ const frameInfo=node('p');frameInfo.id='connectionQRFrame';frameInfo.setAttribute('role','status');
+ const frameActions=node('div',undefined,'row');
+ const previous=button('Previous QR',()=>drawFrame(frameIndex-1)),next=button('Next QR',()=>drawFrame(frameIndex+1));previous.id='connectionQRPrevious';next.id='connectionQRNext';frameActions.append(previous,next);
+ display.append(displayInfo,canvas,frameInfo,frameActions,button('Close',()=>display.close()));
+ display.addEventListener('close',()=>{if(display.open)return;displayContext=null;frames=[];displayValue='';canvas.width=canvas.height=1});
+
+ const scanner=dialog('connectionQRScanner','Scan connection QR');
+ const scanHelp=node('p','Point the camera at the other device’s connection QR. You will review the JSON before inserting it.');
+ const video=node('video');video.id='connectionQRVideo';video.muted=true;video.autoplay=true;video.playsInline=true;video.setAttribute('aria-label','Camera preview for connection QR');
+ const scanStatus=node('p','');scanStatus.id='connectionQRScanStatus';scanStatus.setAttribute('role','status');
+ const restart=button('Start camera',()=>startCamera());restart.id='connectionQRCamera';
+ const imageLabel=node('label','Or scan a QR image'),imageInput=node('input');imageInput.type='file';imageInput.accept='image/*';imageInput.id='connectionQRImage';imageLabel.append(imageInput);
+ const reset=button('Reset scan progress',()=>{collector.reset();scanStatus.textContent='Scan progress cleared. Scan the first QR.'});reset.id='connectionQRReset';
+ const cancelScan=button('Cancel',()=>scanner.close());cancelScan.id='connectionQRScanCancel';
+ const scanActions=node('div',undefined,'row');scanActions.append(restart,reset,cancelScan);scanner.append(scanHelp,video,scanStatus,imageLabel,scanActions);
+ scanner.addEventListener('close',()=>{if(scanner.open)return;stopCamera();collector.reset();scanContext=null;imageInput.value=''});
+
+ const preview=dialog('connectionQRReview','Review connection details');
+ const previewInfo=node('p'),jsonPreview=node('pre');jsonPreview.id='connectionQRJSON';jsonPreview.tabIndex=0;
+ const insert=button('Insert',()=>insertDetails());insert.id='insertConnectionQR';
+ const cancelPreview=button('Cancel',()=>preview.close());cancelPreview.id='cancelConnectionQR';
+ const previewActions=node('div',undefined,'row');previewActions.append(insert,cancelPreview);preview.append(previewInfo,jsonPreview,previewActions);
+ preview.addEventListener('close',()=>{if(preview.open)return;reviewContext=null;jsonPreview.textContent=''});
+
+ function stopCamera() {cameraTicket++;clearTimeout(timer);timer=null;const held=stream;stream=null;for(const track of held?.getTracks()||[])track.stop();video.srcObject=null;video.hidden=true;restart.disabled=false;restart.textContent='Start camera'}
+ function closeAll() {stopCamera();for(const d of [scanner,preview,display])if(d.open)d.close();scanContext=displayContext=reviewContext=null;frames=[];displayValue='';collector.reset();jsonPreview.textContent='';canvas.width=canvas.height=1}
+ function refresh() {
+  const available=active()&&!state.pairingBusy&&!busy&&!state.peerFailure;
+  const outgoing=valid(local.value),incoming=valid(remote.value,'offer');
+  showLocal.disabled=!available||!state.pc||!outgoing;
+  scan.disabled=!available;answer.hidden=!second();
+  answer.disabled=!available||(!incoming&&!(remote.value.trim()===''&&state.pc&&outgoing?.description.type==='answer'));
+  if((scanner.open&&(!active()||!current(scanContext)))||(preview.open&&(!active()||!current(reviewContext)))||(display.open&&(!active()||!current(displayContext)||displayValue!==local.value)))closeAll();
+ }
+ async function drawFrame(index) {
+  if(index<0||index>=frames.length||!display.open)return;
+  const ticket=displayContext,value=frames[index],engine=await loadQR('qrencode');
+  if(!display.open||ticket!==displayContext||!current(ticket))return;
+  const qr=engine.QRCode.create(value,{errorCorrectionLevel:'M'}),n=qr.modules.size,scale=4;
+  canvas.width=canvas.height=(n+8)*scale;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#000';for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(qr.modules.get(y,x))ctx.fillRect((x+4)*scale,(y+4)*scale,scale,scale);
+  frameIndex=index;frameInfo.textContent=frames.length===1?'One QR · scan on the other device':'QR '+(index+1)+' of '+frames.length+' · scan every numbered QR';previous.hidden=next.hidden=frames.length===1;previous.disabled=index===0;next.disabled=index===frames.length-1;
+ }
+ async function showCurrentQR() {
+  if(busy||state.pairingBusy)return;
+  if(!state.pc||!valid(local.value))throw Error('Create current connection details before showing a QR.');
+  busy=true;refresh();const before=context(),value=local.value;
+  try{const encoded=await encodeManualQR(value);if(!current(before)||!active()||value!==local.value)return;
+   closeAll();displayContext=before;displayValue=value;frames=encoded.frames;
+   display.querySelector('h2').textContent=encoded.type==='offer'?'First device · offer QR':'Second device · answer QR';displayInfo.textContent='Scan with the intended device. '+(frames.length>1?'Use Next QR after each part is scanned.':'The other device will review the connection JSON.');
+   display.showModal();await drawFrame(0);
+  }finally{busy=false;refresh()}
+ }
+ async function generateAnswerQR() {
+  if(busy||state.pairingBusy||!second())return;
+  const existing=valid(local.value,'answer');
+  if(remote.value.trim()===''&&existing&&state.pc){await showCurrentQR();return}
+  const data=parseManualPairing(remote.value,'offer');
+  busy=true;refresh();let result;
+  try{result=await pairingTask(()=>importSignal(data))}finally{busy=false;refresh()}
+  if(result&&state.pc&&active()&&valid(local.value,'answer'))await showCurrentQR();
+ }
+ async function openScanner() {
+  if(!active()||busy||state.pairingBusy)return;
+  closeAll();collector.reset();scanContext=context();scanner.querySelector('h2').textContent=second()?'Scan the first device’s offer QR':'Scan the second device’s answer QR';
+  scanStatus.textContent='Opening camera…';scanner.showModal();await startCamera();
+ }
+ async function startCamera() {
+  if(!scanner.open||!current(scanContext))return;
+  stopCamera();const ticket=++cameraTicket;restart.disabled=true;
+  if(!navigator.mediaDevices?.getUserMedia){restart.disabled=false;scanStatus.textContent='Camera scanning is unavailable here. Choose a QR image or use copy/paste.';return}
+  try{
+   const held=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+   if(ticket!==cameraTicket||!scanner.open||!current(scanContext)||document.hidden){for(const track of held.getTracks())track.stop();return}
+   stream=held;video.srcObject=held;video.hidden=false;await video.play();
+   if(ticket!==cameraTicket||!scanner.open||!current(scanContext))return;
+   restart.textContent='Restart camera';restart.disabled=false;scanStatus.textContent=collector.parts.size?'Continue scanning the remaining numbered QR codes.':'Hold the other device’s QR steady inside the camera preview.';
+   tick(ticket);
+  }catch(error){if(ticket!==cameraTicket)return;stopCamera();scanStatus.textContent=error?.name==='NotAllowedError'?'Camera access was not granted. Choose a QR image or use copy/paste.':'Camera could not start. Choose a QR image or try Start camera again.'}
+ }
+ async function decodeCanvas(c) {
+  if(typeof BarcodeDetector==='function'){
+   try{const found=await new BarcodeDetector({formats:['qr_code']}).detect(c);if(found[0]?.rawValue)return found[0].rawValue}catch{}
+  }
+  const pixels=c.getContext('2d',{willReadFrequently:true}).getImageData(0,0,c.width,c.height),result=(await loadQR('qrdecode')).jsQR(pixels.data,c.width,c.height,{inversionAttempts:'attemptBoth'});
+  return result?.data||'';
+ }
+ async function acceptText(text,before,ticket) {
+  if(!scanner.open||ticket!==cameraTicket||!current(before)||before!==scanContext)return;
+  const result=await collector.accept(text,before.role?'offer':'answer');
+  if(!scanner.open||ticket!==cameraTicket||before!==scanContext||!current(before)||result.cancelled)return;
+  scanStatus.textContent='Scanned '+result.received+' of '+result.total+' QR'+(result.total>1?' parts. Show the next numbered QR.':'.');
+  if(!result.data)return;
+  const selected={...before,data:result.data,remote:remote.value};stopCamera();scanner.close();
+  reviewContext=selected;previewInfo.textContent='Review this '+result.data.description.type+' JSON. Insert fills the pairing field; the connection still requires your next action and approval.';jsonPreview.textContent=JSON.stringify(result.data,null,2);preview.showModal();insert.focus();
+ }
+ async function tick(ticket) {
+  if(ticket!==cameraTicket||!scanner.open||document.hidden||!current(scanContext))return;
+  if(!decodeBusy&&video.videoWidth&&video.videoHeight){
+   decodeBusy=true;const before=scanContext;
+   try{const c=document.createElement('canvas'),ratio=Math.min(1,960/Math.max(video.videoWidth,video.videoHeight));c.width=Math.max(1,Math.round(video.videoWidth*ratio));c.height=Math.max(1,Math.round(video.videoHeight*ratio));c.getContext('2d',{willReadFrequently:true}).drawImage(video,0,0,c.width,c.height);const text=await decodeCanvas(c);if(text&&ticket===cameraTicket)await acceptText(text,before,ticket)}catch(error){if(ticket===cameraTicket&&scanner.open)scanStatus.textContent=error.message}finally{decodeBusy=false}
+  }
+  if(ticket===cameraTicket&&scanner.open)timer=setTimeout(()=>tick(ticket),450);
+ }
+ imageInput.onchange=async()=>{
+  const file=imageInput.files[0],before=scanContext;if(!file)return;
+  stopCamera();const ticket=cameraTicket;
+  try{if(file.size>16*1024*1024)throw Error('QR image limit: 16 MiB.');const bitmap=await createImageBitmap(file);
+   try{if(!scanner.open||ticket!==cameraTicket||before!==scanContext||!current(before))return;const c=document.createElement('canvas'),ratio=Math.min(1,1600/Math.max(bitmap.width,bitmap.height));c.width=Math.max(1,Math.round(bitmap.width*ratio));c.height=Math.max(1,Math.round(bitmap.height*ratio));c.getContext('2d',{willReadFrequently:true}).drawImage(bitmap,0,0,c.width,c.height);const text=await decodeCanvas(c);if(!text)throw Error('No QR found. Choose a clearer image.');if(ticket===cameraTicket)await acceptText(text,before,ticket)}finally{bitmap.close()}
+  }catch(error){if(scanner.open&&ticket===cameraTicket)scanStatus.textContent=error.message}finally{imageInput.value=''}
+ };
+ function insertDetails() {
+  const selected=reviewContext;
+  if(!current(selected)||selected.remote!==remote.value){preview.close();notice('Pairing changed while reviewing. Scan the current connection details again.',true);return}
+  remote.value=JSON.stringify(selected.data);remote.dispatchEvent(new Event('input',{bubbles:true}));preview.close();remote.focus();notice('Scanned JSON inserted. '+(second()?'Choose Generate answer QR or Use pasted details.':'Choose Use pasted details to continue.'));
+ }
+ remote.addEventListener('input',refresh);local.addEventListener('input',refresh);$('pairingMethod').addEventListener('change',refresh);
+ window.addEventListener('connection:state',refresh);
+ const observer=new MutationObserver(refresh);for(const id of ['notice','peerState'])observer.observe($(id),{childList:true,subtree:true,characterData:true});observer.observe($('pairRoleFirst'),{attributes:true,attributeFilter:['aria-pressed']});for(const section of document.querySelectorAll('main>section'))observer.observe(section,{attributes:true,attributeFilter:['hidden']});
+ const reviews=new MutationObserver(()=>{if($('review').open)closeAll()});reviews.observe($('review'),{attributes:true,attributeFilter:['open']});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden&&scanner.open){stopCamera();scanStatus.textContent='Camera paused. Tap Start camera to continue.'}});
+ window.addEventListener('pagehide',()=>{disposed=true;closeAll();observer.disconnect();reviews.disconnect();window.removeEventListener('connection:state',refresh)},{once:true});
+ refresh();
+}
+
 
 function installEasyConnection(api) {
  const {state, $, node, button, page} = api;
@@ -466,7 +669,7 @@ function installEasyConnection(api) {
  function chooseRole(value) {role = value;renderSupport()}
  const nameLabel = $('deviceName').closest('label');nameLabel.className = 'pairing-device-name';
  const methodLabel = node('label', 'Pairing method'), method = node('select');method.id = 'pairingMethod';
- for (const [value, label] of [['manual', 'Copy & paste · no pairing server'], ['server', 'Pairing code · server required']]) {const o = node('option', label);o.value = value;method.append(o)}
+ for (const [value, label] of [['manual', 'Copy, paste or scan QR · no pairing server'], ['server', 'Pairing code · server required']]) {const o = node('option', label);o.value = value;method.append(o)}
  methodLabel.append(method);
  const manual = detail('Exchange pairing details', [], 'manualPairing');manual.open = true;manual.className = 'card';
  const createBlock = node('div');createBlock.id = 'pairingCreate';
@@ -712,6 +915,7 @@ const{closeUSB}=installUsb(adapterAPI);
 installSignaling({state,$,wsURL,initPeer,bind,validateSignal,signalData,gathered,notice,review,copy});
 installProtocol({...adapterAPI,packetEncode,packetDecode,download,review,page});
 installEasyConnection({...adapterAPI,page,copy,CONNECTION_BUILD});
+installManualQR({...adapterAPI,importSignal,pairingTask});
 installSessionTools(adapterAPI);
 window.connectionStudio=Object.freeze({version:1,build:CONNECTION_BUILD,disconnect,status:()=>({peer:state.pc?.connectionState||'closed',approved:state.approved&&state.peerApproved,bridge:state.bridge,files:state.received.length,permissions:permissions()}),createOffer:offer,importSignal,shutdown:()=>{disconnect();closeWS();void closeUSB();}});
 window.addEventListener('pagehide',()=>{state.disposed=true;state.port?.postMessage({type:'detach'});disconnect();closeWS();void closeUSB();state.port?.postMessage({type:'revoke'});state.port?.close()});
