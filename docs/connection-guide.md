@@ -58,17 +58,20 @@ A failed attempt now keeps a **Connection failed** card instead of silently rest
 
 Use **Start fresh pairing** only when ready to exchange new details. The report describes the failed stage; it does not automatically prove that a phone setting or network caused it. The Connection header shows the build so both devices can be checked after an update.
 
-## Connection QR exchange (v46)
+## Guided Connect via QR (v47)
 
-The default manual pairing flow supports QR exchange for the same offer/answer JSON. It needs no additional account or pairing server. The two devices still need a working network path; use the same Wi-Fi or a permitted hotspot for the simplest setup. This feature does not claim to fix the separately reported Moto-started ICE failure.
+Open **Advanced → Connect via QR** on both devices. This is a separate view with one step at a time. No account or pairing server is needed; both devices still need a working network path. Use the same Wi-Fi or permitted hotspot for the simplest setup. The separately reported Moto-started ICE failure is not claimed fixed.
 
-1. First device: **Create connection details → Show connection QR**.
-2. Second device: **Scan connection QR** beside Use pasted details. Allow camera access, or choose a saved QR image.
-3. Review the decoded offer JSON in the popup. **Insert** fills the pairing field. Cancel preserves the current field. Insertion does not create a peer or approve a connection.
-4. Second device: **Generate answer QR** becomes enabled when a valid offer is inserted or pasted. It creates the second device’s own answer and displays its QR. Use pasted details also retains the existing manual answer path; Show connection QR can display that answer.
-5. First device: **Scan connection QR**, review the answer and **Insert**, then **Use pasted details**.
-6. Compare verification codes and approve on both screens. Test a message and small PNG in both directions.
+1. On one device tap **Create connection**. Its QR appears automatically.
+2. On the other tap **Join connection**. Allow camera access and scan the first device’s QR. A valid scan generates and displays the reply QR automatically.
+3. On the first device tap **Scan reply QR** and scan that reply. The answer is imported automatically.
+4. Compare the security code and approve on **both** devices.
+5. **Send message** and **Send files** appear immediately after both approvals.
 
-Large details are compacted locally. If multiple numbered QR codes are shown, use Next QR and scan every part. The scanner tracks distinct parts and checks the assembled payload before preview. A different set of QR parts requires Reset scan progress. A browser without compact-data decoding can retain copy/paste and the pairing-file alternative.
+The v46 QR buttons, decoded-JSON popup, Insert and Generate answer QR steps are removed. JSON, pairing methods and network configuration remain in the existing manual setup, reachable from the guided view’s **Advanced → Copy/paste & network settings**. Neither QR scan approves the peer; both security confirmations remain mandatory.
 
-Camera tracks stop on cancellation, completion, hidden pages, session changes, navigation, core approval review and page exit. Hidden pages require an explicit Start camera action to resume. A late permission grant is released if its scan was cancelled. Scanned links and unrelated/incorrect-role QR data are rejected; no scanned URL is opened. Pairing details remain in page memory and are not saved as a new profile or sent to an external service. Existing file review, permissions, hashes, disconnect and failure reports remain in place.
+Camera denial preserves QR image upload and an explicit Start camera action. Cancel scan keeps the current step. Cancel connection ends only the current attempt. Failures remain visible with **Try again**, which explicitly starts a fresh attempt in the same Create/Join role. Redacted reports remain under Advanced until a new attempt or disconnect.
+
+Large details are compacted locally. If numbered QR parts are shown, scan every part; use Next QR after each part. Distinct parts are collected and the full payload is checked before pairing advances. Reset scan progress allows a different QR set. Wrong-role, corrupted, oversized and unrelated QR data are rejected, and no scanned URL is opened.
+
+Tracks stop on cancellation, completion, hidden pages, session changes, navigation, approval review and page exit. Returning to a hidden scan requires Start camera. Late permission/image results cannot advance a cancelled attempt. Camera access is requested only after Join or Scan. Existing transfers, permissions, integrity checks and manual/server pairing remain.

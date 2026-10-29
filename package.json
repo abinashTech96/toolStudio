@@ -1,6 +1,6 @@
 {
   "name": "toolstudio",
-  "version": "46.0.0",
+  "version": "47.0.0",
   "private": true,
   "type": "module",
   "description": "ToolStudio: modular tools for everyday work",
