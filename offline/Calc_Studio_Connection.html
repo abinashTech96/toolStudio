@@ -577,7 +577,8 @@ function installEasyConnection(api) {
   $('createOffer').disabled = !caps.wifi || !!state.pairingBusy;
   $('applySignal').disabled = !caps.wifi || !!state.pairingBusy || !$('remoteSignal').value.trim();
   $('copySignal').disabled = $('saveSignal').disabled = !localType || !!state.pairingBusy;
-  share.hidden = !view.connected;workspace.hidden = view.connected;text(shareTitle, 'Connected to ' + state.peer);
+  live.hidden=!!state.peerFailure;
+  share.hidden = !view.connected;workspace.hidden = view.connected || !!state.peerFailure;text(shareTitle, 'Connected to ' + state.peer);
   for (const id of ['sendMessage', 'offerFile', 'offerText']) $(id).disabled = !view.connected;
   for (const target of ['messages', 'transfer']) {
    const box = $(target + 'Readiness');text(box.querySelector('p'), view.connected ? 'Connected to ' + state.peer : 'Connect and approve both devices before sharing.');box.querySelector('button').hidden = view.connected;
