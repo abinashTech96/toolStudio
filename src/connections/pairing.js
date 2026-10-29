@@ -3,7 +3,9 @@ export function pairingView(state, {method = 'manual', role = 'first', localType
   const connected = !!(state.approved && state.peerApproved);
   const channelOpen = state.dc?.readyState === 'open';
   let step = 0, title = 'Choose your device', instruction = 'Open Connection on both devices. Choose First device here, or Second device if the other device has started.';
-  if (state.pairingBusy) {
+  if (state.peerFailure) {
+    step = 1; title = 'Connection failed';instruction = state.peerFailure.instruction;
+  } else if (state.pairingBusy) {
     step = 1; title = 'Preparing pairing details…';
     instruction = 'Keep this page open. Your next step will appear when preparation finishes.';
   } else if (connected) {

@@ -51,3 +51,9 @@ The standalone Connection companion embeds the same guided sharing, retained tra
 Tests cover roles, offer/answer copy, both approvals, real peer messages, reviewed PNG/text transfer, integrity/downloads, disconnect, server-link setup, live loopback WebSocket echo, simulated USB validation/deadlines/profiles, migration, responsive layouts, accessibility and standalone output. CI runs the Connection tests in Chromium, Firefox and WebKit as well as whole-project regression. Physical USB certification is not claimed.
 
 The native loopback tests pair Chromium with Chromium, Firefox with Firefox, and WebKit with Chromium. The WebKit runner cannot resolve its exchanged `.local` candidates reliably; the Chromium counterpart exposes a direct route inside the CI host. Both engines retain real peer connections, dual approvals, two-way messages and reviewed PNG downloads in both directions. No public STUN/TURN server or mocked peer transport is used. This fixture does not certify WebKit-to-WebKit pairing on every network.
+
+## If Connecting returns to a failure (v45.0.1)
+
+A failed attempt now keeps a **Connection failed** card instead of silently restarting setup. Select **Copy connection report** on each device before refreshing. The preview shows the build, failed stage and state transitions without pairing text, network addresses or shared content. **Export redacted diagnostics** in Advanced → Connection health includes this report too. Copying/exporting contacts no server. Reports last only in the current page; a fresh attempt or Disconnect clears them.
+
+Use **Start fresh pairing** only when ready to exchange new details. The report describes the failed stage; it does not automatically prove that a phone setting or network caused it. The Connection header shows the build so both devices can be checked after an update.
