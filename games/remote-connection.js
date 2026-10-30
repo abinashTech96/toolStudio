@@ -11,16 +11,16 @@ export function installGameConnection({onStatus,onPacket,onNotice}){
   $('playersStatus').textContent=status;$('disconnectPlayers').disabled=!approved&&m.state==='closed';
   const list=$('connectedPlayers');list.replaceChildren();const self=document.createElement('li');self.textContent='This device · You';list.append(self);
   if(approved||m.state!=='closed'||lastPeer!=='Other device'){const peer=document.createElement('li');peer.textContent=lastPeer+' · '+(approved?'Connected':status);list.append(peer);}
-  onStatus(m);if(approved&&dialog.open)dialog.close();
+  dockState(dock.dataset.open==='true');onStatus(m);if(approved&&dialog.open)dialog.close();
  }
  window.addEventListener('message',event=>{
   if(!frame||event.source!==frame.contentWindow||port||event.data?.type!=='toolstudio-games-ready'||event.data.token!==token||(!opaque&&event.origin!==location.origin))return;
   const channel=new MessageChannel();port=channel.port1;port.onmessage=event=>{const m=event.data;if(!m||typeof m!=='object')return;if(m.type==='status')update(m);else if(m.type==='packet')onPacket(m.text);else if(m.type==='send-error')onNotice('The connection is not ready. Reconnect before playing.');else if(m.type==='closed')update({approved:false,state:'closed',peer:lastPeer});else if(m.type==='ready'&&pendingOpen)send({type:'show'});};port.start();frame.contentWindow.postMessage({type:'toolstudio-games-port',token},opaque?'*':location.origin,[channel.port2]);
  });
- $('connectGamesQR').onclick=open;$('closeGamePairing').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{pendingOpen=false;send({type:'pause'});$('connectGamesQR').focus();});
+ $('connectGamesQR').onclick=open;$('closeGamePairing').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{pendingOpen=false;send({type:'pause'});($('connectGamesQR').getClientRects().length?$('connectGamesQR'):$('playersToggle')).focus();});
  $('disconnectPlayers').onclick=()=>{send({type:'disconnect'});};
- function dockState(open){dock.dataset.open=String(open);$('playersToggle').setAttribute('aria-expanded',String(open));$('playersToggle').textContent=open?'Close players':'Players';document.body.classList.toggle('players-open',open);}
- $('playersToggle').onclick=()=>dockState(dock.dataset.open!=='true');dockState(matchMedia('(min-width:1250px)').matches);matchMedia('(min-width:1250px)').addEventListener('change',e=>dockState(e.matches));
+ function dockState(open){dock.dataset.open=String(open);$('playersToggle').setAttribute('aria-expanded',String(open));$('playersToggle').textContent=open?'Close players':approved?'Players · Connected':'Connect via QR';$('playersToggle').setAttribute('aria-controls',!open&&!approved?'gamePairing':'playersDockBody');if(!open&&!approved)$('playersToggle').setAttribute('aria-haspopup','dialog');else $('playersToggle').removeAttribute('aria-haspopup');document.body.classList.toggle('players-open',open);}
+ $('playersToggle').onclick=()=>{if(dock.dataset.open!=='true'&&!approved){open();return;}dockState(dock.dataset.open!=='true');};dockState(matchMedia('(min-width:1250px)').matches);matchMedia('(min-width:1250px)').addEventListener('change',e=>dockState(e.matches));
  dock.addEventListener('keydown',e=>{if(e.key==='Escape')dockState(false);});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)send({type:'pause'});});
  window.addEventListener('pagehide',()=>{send({type:'disconnect'});port?.close();});
