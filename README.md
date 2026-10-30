@@ -124,3 +124,7 @@ Run `npm run test:workflows` for rejected-operation and sharing coverage, `npm r
 ## Guided Connect via QR (v47)
 
 Open Advanced → Connect via QR on both devices. Create connection shows the first QR; Join connection opens the other camera and automatically generates its reply. The first device scans that reply, then both users confirm the matching security code. Send message and Send files appear after both approvals. The old JSON preview/Insert and Generate answer QR controls are removed; manual copy/paste, JSON files, configured-server pairing and network settings remain available. No extra service or dependency is added. See [Connection guide](docs/connection-guide.md).
+
+## Remote friends in Games (v48)
+
+Open Games on both devices and use the right-side Players dock → Connect via QR. Create on one, Join on the other, scan the reply and approve the matching security code on both. Once connected, open one of the six direct multiplayer games → Settings → Remote player. The friend accepts the invitation, then both play from their own devices. Computer and local modes remain. Ludo supports two remote players; local four-player Ludo remains. Remote matches do not write local solo scores or profiles. See [v48 details](docs/release-v48.md). Run `npm run test:remote-games` and full regression.

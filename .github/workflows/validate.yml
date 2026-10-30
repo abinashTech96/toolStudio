@@ -23,6 +23,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run test:connection
+      - run: npm run test:remote-games
       - run: npm run check
       - run: npm test
       - run: npm run test:home
@@ -73,6 +74,7 @@ jobs:
       - run: npx playwright install --with-deps "${{ matrix.browser }}" ${{ matrix.browser == 'webkit' && 'chromium' || '' }}
       - run: npm run build
       - run: npm run test:connection
+      - run: npm run test:remote-games
       - run: npm run test:home-redesign
       - run: npm run test:games-extra
       - run: npm run test:arcade
