@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import {spawn} from 'node:child_process';
 const args=new Set(process.argv.slice(2)),npm=process.platform==='win32'?'npm.cmd':'npm';
-const suites=[...(!args.has('--skip-build')?[['build',npm,['run','publish:root']]]:[]),['check',npm,['run','check']],['smoke',npm,['test']],...['home','home-extras','home-redesign','games','connection','guided','workflows','v39','v40','coverage','pdf-ui','career','navigation','advanced','reliability','updates','budgets','compatibility'].map(name=>[name,npm,['run','test:'+name]]),['connection-server','python3',['tests/server.py']],['published',process.execPath,['scripts/check.mjs','--published']]];
+const suites=[...(!args.has('--skip-build')?[['build',npm,['run','publish:root']]]:[]),['check',npm,['run','check']],['smoke',npm,['test']],...['home','home-extras','home-redesign','games','connection','remote-games','guided','workflows','v39','v40','coverage','pdf-ui','career','navigation','advanced','reliability','updates','budgets','compatibility'].map(name=>[name,npm,['run','test:'+name]]),['connection-server','python3',['tests/server.py']],['published',process.execPath,['scripts/check.mjs','--published']]];
 fs.mkdirSync('test-results',{recursive:true});const results=[];
 for(const[name,command,parameters]of suites){
  const start=Date.now(),log=fs.createWriteStream('test-results/regression-'+name+'.log');process.stdout.write('Running '+name+'…\n');

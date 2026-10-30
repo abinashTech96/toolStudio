@@ -28,6 +28,7 @@ export function installManualQR(api) {
  const report=node('pre');report.id='qrReport';
  const copyReport=button('Copy connection report',()=>copy(JSON.stringify(state.peerReport,null,2)));copyReport.id='qrCopyReport';
  const manual=button('Copy/paste & network settings',()=>{closeScanner();$('connectionMore').open=false;document.querySelector('[data-connect-kind=wifi]').click();$('pairingOptions').open=true;$('pairingNetwork').open=true;});
+ manual.id='qrManualSetup';
  advanced.append(node('p','Use the original manual setup or inspect a connection failure report.','muted'),manual,copyReport,report);
  const card=node('div',undefined,'card qr-guided-card');card.append(status,choices,code,action,failure,connected,cancel);section.append(node('h2','Connect via QR'),intro,card,advanced);document.querySelector('main').append(section);
  function open(){page('qrConnect');$('connectionMore').open=false;refresh();(phase==='choice'?create:title).focus();}
@@ -83,7 +84,7 @@ export function installManualQR(api) {
    else if(ownedPC&&state.dc?.readyState==='open')phase=state.approved&&state.peerApproved?'connected':'verify';
   }
   if(scanner.open&&(!visible()||!current(scanContext)||state.peerFailure||$('review').open))closeScanner();
-  const views={choice:['','Connect another device','Choose Create on one device and Join on the other.'],preparing:['','Preparing connection…','Keep this page open. Your next step will appear automatically.'],offer:['1 of 3','Let the other device scan this QR','On the other device: Advanced → Connect via QR → Join connection.'],scan:['1 of 3','Scan the first device’s QR','The reply QR will appear automatically after a valid scan.'],reply:['2 of 3','Let the first device scan your reply','On the first device, tap Scan reply QR and point its camera at this screen.'],connecting:['3 of 3','Connecting the devices…','Keep both pages open. The security code will appear when the connection opens.'],verify:['3 of 3',state.approved?'Waiting for the other device':'Confirm the matching security code','Compare the code on both devices. Both people must approve before sharing.'],connected:['','Connected to '+state.peer,'You can now send messages and files.'],failed:['','Connection could not complete','Your connection has not been reset. Read the problem below, then try again.']};
+  const views={choice:['','Connect another device','Choose Create on one device and Join on the other.'],preparing:['','Preparing connection…','Keep this page open. Your next step will appear automatically.'],offer:['1 of 3','Let the other device scan this QR',state.gamesOnly?'On the other device: Games → Connect via QR → Join connection.':'On the other device: Advanced → Connect via QR → Join connection.'],scan:['1 of 3','Scan the first device’s QR','The reply QR will appear automatically after a valid scan.'],reply:['2 of 3','Let the first device scan your reply','On the first device, tap Scan reply QR and point its camera at this screen.'],connecting:['3 of 3','Connecting the devices…','Keep both pages open. The security code will appear when the connection opens.'],verify:['3 of 3',state.approved?'Waiting for the other device':'Confirm the matching security code','Compare the code on both devices. Both people must approve before sharing.'],connected:['','Connected to '+state.peer,state.gamesOnly?'Return to Games and choose Remote player in Game settings.':'You can now send messages and files.'],failed:['','Connection could not complete','Your connection has not been reset. Read the problem below, then try again.']};
   const v=views[phase];text(step,v[0]);text(title,v[1]);text(instruction,v[2]);step.hidden=!v[0];
   choices.hidden=phase!=='choice';create.disabled=join.disabled=working||!!state.pairingBusy;
   code.hidden=!['offer','reply'].includes(phase)||!frames.length;
@@ -142,4 +143,5 @@ export function installManualQR(api) {
  window.addEventListener('pagehide',event=>{if(!event.persisted){disposed=true;generation++;}closeScanner();});
  window.addEventListener('pageshow',()=>refresh());
  refresh();
+ return {open,pause:closeScanner,reset:cancelFlow};
 }

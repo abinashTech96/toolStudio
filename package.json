@@ -1,6 +1,6 @@
 {
   "name": "toolstudio",
-  "version": "47.0.0",
+  "version": "48.0.0",
   "private": true,
   "type": "module",
   "description": "ToolStudio: modular tools for everyday work",
@@ -33,7 +33,8 @@
     "test:home-redesign": "node tests/home-redesign.unit.mjs && node tests/home-redesign.browser.mjs && node tests/home-compact.browser.mjs",
     "test:games-extra": "node tests/games-extra.unit.mjs && node tests/games-extra.browser.mjs",
     "test:arcade": "node tests/arcade43.unit.mjs && node tests/arcade43.browser.mjs",
-    "test:play-setup": "node tests/play44.unit.mjs && node tests/play44.browser.mjs"
+    "test:play-setup": "node tests/play44.unit.mjs && node tests/play44.browser.mjs",
+    "test:remote-games": "node tests/games-remote.unit.mjs && node tests/games-remote.browser.mjs"
   },
   "engines": {
     "node": ">=22.13"

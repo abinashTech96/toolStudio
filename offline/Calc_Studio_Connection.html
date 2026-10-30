@@ -25,6 +25,9 @@ header>div:first-child{display:flex;gap:8px 12px;align-items:center;flex-wrap:wr
 .qr-guided-view .shell{display:block}.qr-guided-view nav,.qr-guided-view #notice,.qr-guided-view #connectionStateSummary,.qr-guided-view #connectionGuide{display:none}.qr-guided-view main{max-width:760px;margin:auto}.qr-guided-view header{padding:14px 20px}.qr-guided-view #qrConnect>p{font-size:14px}.qr-guided-status p{font-size:15px}.qr-guided-view #qrConnect>h2{font-size:23px}.qr-guided-view #qrConnect .card{padding:16px}
 @media(max-width:600px){.qr-guided-view main{padding:16px 12px}.qr-guided-view header{padding:12px}.qr-guided-view .qr-guided-code canvas{width:min(100%,250px)}.qr-guided-view .qr-guided-card{margin:12px auto}.qr-guided-status h3{margin-bottom:8px}}
 
+/* The Games pairing frame retains QR and security review, without tool-sharing controls. */
+body.games-embed header,body.games-embed nav,body.games-embed #notice,body.games-embed #connectionStateSummary,body.games-embed #qrManualSetup,body.games-embed #qrConnected{display:none}body.games-embed .shell{display:block}body.games-embed main{padding:8px 12px;max-width:620px}body.games-embed #qrConnect>h2{display:none}body.games-embed dialog{max-height:90dvh}body.games-embed .qr-guided-card{margin:8px auto}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
@@ -166,7 +169,7 @@ Minimum version required to store current data is: `+i+`.
 const inlineQRCache={};async function loadQR(kind){return inlineQRCache[kind]||(inlineQRCache[kind]=inlineQREngines[kind]())}
 // Only fixed state names and counts leave this module. Never include SDP,
 // network addresses, ICE credentials, fingerprints, device names or messages.
-const CONNECTION_BUILD = '47.0.0';
+const CONNECTION_BUILD = '48.0.0';
 const peerStates = new Set(['new','connecting','connected','disconnected','failed','closed']);
 const iceStates = new Set(['new','checking','connected','completed','disconnected','failed','closed']);
 const signalingStates = new Set(['stable','have-local-offer','have-remote-offer','have-local-pranswer','have-remote-pranswer','closed']);
@@ -493,6 +496,7 @@ function installManualQR(api) {
  const report=node('pre');report.id='qrReport';
  const copyReport=button('Copy connection report',()=>copy(JSON.stringify(state.peerReport,null,2)));copyReport.id='qrCopyReport';
  const manual=button('Copy/paste & network settings',()=>{closeScanner();$('connectionMore').open=false;document.querySelector('[data-connect-kind=wifi]').click();$('pairingOptions').open=true;$('pairingNetwork').open=true;});
+ manual.id='qrManualSetup';
  advanced.append(node('p','Use the original manual setup or inspect a connection failure report.','muted'),manual,copyReport,report);
  const card=node('div',undefined,'card qr-guided-card');card.append(status,choices,code,action,failure,connected,cancel);section.append(node('h2','Connect via QR'),intro,card,advanced);document.querySelector('main').append(section);
  function open(){page('qrConnect');$('connectionMore').open=false;refresh();(phase==='choice'?create:title).focus();}
@@ -548,7 +552,7 @@ function installManualQR(api) {
    else if(ownedPC&&state.dc?.readyState==='open')phase=state.approved&&state.peerApproved?'connected':'verify';
   }
   if(scanner.open&&(!visible()||!current(scanContext)||state.peerFailure||$('review').open))closeScanner();
-  const views={choice:['','Connect another device','Choose Create on one device and Join on the other.'],preparing:['','Preparing connection…','Keep this page open. Your next step will appear automatically.'],offer:['1 of 3','Let the other device scan this QR','On the other device: Advanced → Connect via QR → Join connection.'],scan:['1 of 3','Scan the first device’s QR','The reply QR will appear automatically after a valid scan.'],reply:['2 of 3','Let the first device scan your reply','On the first device, tap Scan reply QR and point its camera at this screen.'],connecting:['3 of 3','Connecting the devices…','Keep both pages open. The security code will appear when the connection opens.'],verify:['3 of 3',state.approved?'Waiting for the other device':'Confirm the matching security code','Compare the code on both devices. Both people must approve before sharing.'],connected:['','Connected to '+state.peer,'You can now send messages and files.'],failed:['','Connection could not complete','Your connection has not been reset. Read the problem below, then try again.']};
+  const views={choice:['','Connect another device','Choose Create on one device and Join on the other.'],preparing:['','Preparing connection…','Keep this page open. Your next step will appear automatically.'],offer:['1 of 3','Let the other device scan this QR',state.gamesOnly?'On the other device: Games → Connect via QR → Join connection.':'On the other device: Advanced → Connect via QR → Join connection.'],scan:['1 of 3','Scan the first device’s QR','The reply QR will appear automatically after a valid scan.'],reply:['2 of 3','Let the first device scan your reply','On the first device, tap Scan reply QR and point its camera at this screen.'],connecting:['3 of 3','Connecting the devices…','Keep both pages open. The security code will appear when the connection opens.'],verify:['3 of 3',state.approved?'Waiting for the other device':'Confirm the matching security code','Compare the code on both devices. Both people must approve before sharing.'],connected:['','Connected to '+state.peer,state.gamesOnly?'Return to Games and choose Remote player in Game settings.':'You can now send messages and files.'],failed:['','Connection could not complete','Your connection has not been reset. Read the problem below, then try again.']};
   const v=views[phase];text(step,v[0]);text(title,v[1]);text(instruction,v[2]);step.hidden=!v[0];
   choices.hidden=phase!=='choice';create.disabled=join.disabled=working||!!state.pairingBusy;
   code.hidden=!['offer','reply'].includes(phase)||!frames.length;
@@ -607,6 +611,7 @@ function installManualQR(api) {
  window.addEventListener('pagehide',event=>{if(!event.persisted){disposed=true;generation++;}closeScanner();});
  window.addEventListener('pageshow',()=>refresh());
  refresh();
+ return {open,pause:closeScanner,reset:cancelFlow};
 }
 
 
@@ -811,10 +816,33 @@ function installEasyConnection(api) {
  return {showGuide};
 }
 
+// A dedicated, authenticated parent port for Games. It exposes no main-tab controls.
+function installGameBridge({state,$,send,disconnect,qr}) {
+ const token=globalThis.__toolStudioGamesToken||new URLSearchParams(location.hash.slice(1)).get('games');
+ if(window.parent===window||!token||!/^[a-f0-9]{64}$/.test(token))return null;
+ const parent=window.parent,origin=location.protocol==='file:'||location.origin==='null'?'*':location.origin;
+ let port=null,last='',disposed=false;
+ state.gamesOnly=true;document.body.classList.add('games-embed');
+ function status(){if(!port||disposed)return;const value={type:'status',approved:!!(state.approved&&state.peerApproved),state:state.peerFailure?'failed':state.pc?.connectionState||'closed',peer:String(state.peer).slice(0,40),pair:state.pairID||'',local:$('deviceName').value.slice(0,40)};const signature=JSON.stringify(value);if(signature!==last){last=signature;port.postMessage(value);}}
+ function pause(){qr.pause();}
+ window.addEventListener('connection:state',status);
+ window.addEventListener('message',event=>{
+  if(port||disposed||event.source!==parent||(origin!=='*'&&event.origin!==origin)||event.data?.type!=='toolstudio-games-port'||event.data.token!==token||!event.ports[0])return;
+  port=event.ports[0];port.onmessage=event=>{const m=event.data;if(!m||typeof m!=='object')return;
+   if(m.type==='send'&&typeof m.text==='string'&&new TextEncoder().encode(m.text).length<=32768){try{send({t:'game',v:1,text:m.text});}catch{port.postMessage({type:'send-error'});}}
+   else if(m.type==='show')qr.open();else if(m.type==='pause')pause();else if(m.type==='disconnect'){qr.reset();disconnect();status();}
+  };port.start();port.postMessage({type:'ready'});last='';status();qr.open();
+ });
+ parent.postMessage({type:'toolstudio-games-ready',token},origin);
+ window.addEventListener('pagehide',()=>{disposed=true;port?.postMessage({type:'closed'});port?.close();window.removeEventListener('connection:state',status);});
+ return {receive(m){if(!port||disposed||m.v!==1||typeof m.text!=='string'||new TextEncoder().encode(m.text).length>32768)return;port.postMessage({type:'packet',text:m.text});}};
+}
+
 'use strict';
 (() => {
 const $=id=>document.getElementById(id),MAX=32*1024*1024,TEXT=65536,CHUNK=16384,enc=new TextEncoder(),dec=new TextDecoder();
 const state={pc:null,dc:null,approved:false,peerApproved:false,peer:'Other device',nonce:'',remoteNonce:'',pairID:'',signal:null,room:'',port:null,bridge:false,tools:[],incoming:null,outgoing:null,received:[],logs:[],requests:new Map(),pendingResults:false,stream:null,ws:null,usb:null,usbInterface:null,usbBusy:false,rx:0,tx:0,disposed:false,peerAttempt:null,peerReport:null,peerFailure:null};
+let gameBridge=null;
 const id=()=>crypto.randomUUID?crypto.randomUUID():[...crypto.getRandomValues(new Uint8Array(24))].map(x=>x.toString(16).padStart(2,'0')).join(''),safeName=n=>String(n||'received-file').split(/[\\/]/).pop().replace(/[\x00-\x1f\x7f]/g,'').slice(0,180)||'received-file';
 const fmt=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KiB':(n/1048576).toFixed(1)+' MiB';
 function node(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n}
@@ -840,7 +868,7 @@ function download(name,blob){const url=URL.createObjectURL(blob),a=node('a');a.h
 async function hash(bytes){if(!crypto.subtle)throw Error('SHA-256 requires HTTPS or localhost in this browser');return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('')}
 function bytes(text,mode,max=65536){let out;if(mode==='hex'){const t=text.replace(/\s/g,'');if(!/^(?:[a-fA-F0-9]{2})*$/.test(t))throw Error('Enter complete hex byte pairs');out=Uint8Array.from(t.match(/../g)||[],v=>parseInt(v,16))}else out=enc.encode(text);if(out.length>max)throw Error('Payload limit: '+max+' bytes');return out}
 function describe(data){const b=data instanceof DataView?new Uint8Array(data.buffer,data.byteOffset,data.byteLength):new Uint8Array(data);return 'HEX  '+[...b.slice(0,2048)].map(x=>x.toString(16).padStart(2,'0')).join(' ')+'\nTEXT '+dec.decode(b.slice(0,2048))+(b.length>2048?'\n[Preview truncated]':'')}
-function permissions(){return{files:$('allowFiles').checked,messages:$('allowMessages').checked,remote:$('allowRemote').checked,results:$('allowResults').checked}}
+function permissions(){if(state.gamesOnly)return{files:false,messages:false,remote:false,results:false};return{files:$('allowFiles').checked,messages:$('allowMessages').checked,remote:$('allowRemote').checked,results:$('allowResults').checked}}
 function update(){const s=state.peerFailure?'Connection failed':state.approved&&state.peerApproved?'Connected · '+state.peer:state.dc?.readyState==='open'?'Awaiting approval':state.pc?.connectionState||'closed';$('peerState').textContent=s;$('pairStatus').textContent=s;$('healthState').textContent=s;window.dispatchEvent(new Event('connection:state'));}
 function sendRaw(msg){if(state.dc?.readyState!=='open')throw Error('Pair a device first');const text=JSON.stringify(msg);if(enc.encode(text).length>140000)throw Error('Message too large');if(state.dc.bufferedAmount>2*1024*1024)throw Error('Connection busy; try again shortly');state.dc.send(text);state.tx+=text.length}
 function send(msg){if(!state.approved||!state.peerApproved)throw Error('Approve the connection on both devices first');sendRaw(msg)}
@@ -887,7 +915,7 @@ async function pairingTask(task){if(state.pairingBusy)throw Error('Wait for the 
 bind('createOffer',()=>pairingTask(async()=>{if(state.pc&&!await review('Start a new connection?','This disconnects the current peer and clears this session.','Start again'))return;return offer()}));bind('applySignal',()=>pairingTask(()=>{const text=$('remoteSignal').value;if(text.length>65536)throw Error('Pairing data is too large');let data;try{data=JSON.parse(text)}catch{throw Error('Paste the complete pairing details from the other device, then try again')}return importSignal(data)}));bind('copySignal',()=>copy($('localSignal').value));bind('saveSignal',()=>{if(!$('localSignal').value)throw Error('Create pairing data first');download('calc-studio-pairing.json',new Blob([$('localSignal').value],{type:'application/json'}))});$('signalFile').onchange=async()=>{try{const f=$('signalFile').files[0];if(!f)return;if(f.size>65536)throw Error('Pairing file is too large');$('remoteSignal').value=await f.text();$('remoteSignal').dispatchEvent(new Event('input',{bubbles:true}))}catch(e){notice(e.message,true)}};bind('disconnect',disconnect);bind('copyIdentity',()=>copy(state.pairID));
 async function identity(m){const hello=validatePeerHello(m,state.remoteNonce,state.peer);if(hello.duplicate)return;state.remoteNonce=m.nonce;state.peer=hello.name;if(m.ack===true)sendRaw({t:'hello',v:1,name:$('deviceName').value.slice(0,40),nonce:state.nonce,ack:false});const pc=state.pc,dc=state.dc;const fingerprint=s=>(s?.sdp?.match(/^a=fingerprint:.*$/gm)||[]).sort().join('|');const parts=[fingerprint(pc.localDescription),fingerprint(pc.remoteDescription)].sort();const pairID=(await hash(enc.encode([...parts,...[state.nonce,m.nonce].sort()].join('\n')))).slice(0,24).match(/.{4}/g).join('-');if(state.pc!==pc||state.dc!==dc)return;state.pairID=pairID;$('identity').textContent='Compare on both devices: '+state.pairID;const ok=await review('Approve '+state.peer+'?', 'Verification code: '+state.pairID+'\n\nCompare this code on both devices through a trusted channel. Approve only if they match. Files and text still require a separate review.');if(state.dc!==dc)return;if(!ok){disconnect();return}state.approved=true;sendRaw({t:'approved'});update();log('Peer approved')}
 async function receive(data){if(data instanceof ArrayBuffer){state.rx+=data.byteLength;const x=state.incoming;if(!x||!x.accepted||x.cancelled||data.byteLength>CHUNK||x.loaded+data.byteLength>x.size)throw Error('Unexpected file data');x.chunks.push(data);x.loaded+=data.byteLength;x.progress.value=x.loaded;x.status.textContent='Receiving '+fmt(x.loaded)+' / '+fmt(x.size);return}if(typeof data!=='string'||enc.encode(data).length>140000)throw Error('Oversized protocol message');state.rx+=data.length;let m;try{m=JSON.parse(data)}catch{throw Error('Invalid protocol JSON')}if(!m||typeof m.t!=='string')throw Error('Invalid protocol message');if(m.t==='hello')return identity(m);if(m.t==='approved'){state.peerApproved=true;update();return}if(!state.approved||!state.peerApproved)throw Error('Peer has not been approved');
-switch(m.t){case 'ping':if(typeof m.id==='string')send({t:'pong',id:m.id});break;case 'pong':settle(m.id,m);break;case 'text-offer':await receiveText(m);break;case 'file-offer':await receiveFile(m);break;case 'file-accept':if(state.outgoing?.id===m.id)void transmit(state.outgoing).catch(e=>{notice(e.message,true);abortFile(m.id)});break;case 'file-reject':case 'file-cancel':cancelFile(m.id,m.t==='file-reject'?'Declined':'Cancelled');break;case 'file-end':await finishFile(m);break;case 'file-ok':if(state.outgoing?.id===m.id){state.outgoing.status.textContent='Delivered · SHA-256 verified';state.outgoing.progress.value=state.outgoing.size;state.outgoing=null}break;case 'message':if(!permissions().messages)throw Error('Session messages disabled');if(typeof m.text!=='string'||m.text.length>4000)throw Error('Message is too large');messageLine(state.peer,m.text);break;case 'command':await receiveCommand(m);break;case 'reply':settle(m.id,m);break;case 'result':if(state.pendingResults&&typeof m.text==='string'&&enc.encode(m.text).length<=65536){$('liveResult').textContent=m.text;$('resultLabel').textContent=String(m.label||'Result').slice(0,100)+' · '+new Date().toLocaleTimeString()}break;case 'stop-results':state.port?.postMessage({type:'stop-results'});break;default:throw Error('Unknown connection message')}}
+switch(m.t){case 'game':gameBridge?.receive(m);break;case 'ping':if(typeof m.id==='string')send({t:'pong',id:m.id});break;case 'pong':settle(m.id,m);break;case 'text-offer':await receiveText(m);break;case 'file-offer':await receiveFile(m);break;case 'file-accept':if(state.outgoing?.id===m.id)void transmit(state.outgoing).catch(e=>{notice(e.message,true);abortFile(m.id)});break;case 'file-reject':case 'file-cancel':cancelFile(m.id,m.t==='file-reject'?'Declined':'Cancelled');break;case 'file-end':await finishFile(m);break;case 'file-ok':if(state.outgoing?.id===m.id){state.outgoing.status.textContent='Delivered · SHA-256 verified';state.outgoing.progress.value=state.outgoing.size;state.outgoing=null}break;case 'message':if(!permissions().messages)throw Error('Session messages disabled');if(typeof m.text!=='string'||m.text.length>4000)throw Error('Message is too large');messageLine(state.peer,m.text);break;case 'command':await receiveCommand(m);break;case 'reply':settle(m.id,m);break;case 'result':if(state.pendingResults&&typeof m.text==='string'&&enc.encode(m.text).length<=65536){$('liveResult').textContent=m.text;$('resultLabel').textContent=String(m.label||'Result').slice(0,100)+' · '+new Date().toLocaleTimeString()}break;case 'stop-results':state.port?.postMessage({type:'stop-results'});break;default:throw Error('Unknown connection message')}}
 function request(type,extra={}){if(state.requests.size>=16)return Promise.reject(Error('Too many pending requests'));const reqID=id();return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{state.requests.delete(reqID);reject(Error('The other device did not respond'))},type==='command'?120000:12000);state.requests.set(reqID,{resolve,reject,timer});try{send({t:type,id:reqID,...extra})}catch(e){clearTimeout(timer);state.requests.delete(reqID);reject(e)}})}
 function settle(key,value){const r=state.requests.get(key);if(!r)return;clearTimeout(r.timer);state.requests.delete(key);if(value.error)r.reject(Error(String(value.error).slice(0,300)));else r.resolve(value)}
 function transferCard(name,size){const card=node('div',undefined,'item'),title=node('strong',safeName(name)),status=node('p','Waiting for recipient'),progress=node('progress');progress.max=Math.max(1,size);progress.value=0;card.append(title,status,progress);$('transfers').prepend(card);while($('transfers').children.length>30)$('transfers').lastChild.remove();return{card,status,progress}}
@@ -923,7 +951,8 @@ const{closeUSB}=installUsb(adapterAPI);
 installSignaling({state,$,wsURL,initPeer,bind,validateSignal,signalData,gathered,notice,review,copy});
 installProtocol({...adapterAPI,packetEncode,packetDecode,download,review,page});
 installEasyConnection({...adapterAPI,page,copy,CONNECTION_BUILD});
-installManualQR({...adapterAPI,page,review,copy,offer,disconnect,importSignal,pairingTask});
+const qr=installManualQR({...adapterAPI,page,review,copy,offer,disconnect,importSignal,pairingTask});
+gameBridge=installGameBridge({...adapterAPI,send,disconnect,qr});
 installSessionTools(adapterAPI);
 window.connectionStudio=Object.freeze({version:1,build:CONNECTION_BUILD,disconnect,status:()=>({peer:state.pc?.connectionState||'closed',approved:state.approved&&state.peerApproved,bridge:state.bridge,files:state.received.length,permissions:permissions()}),createOffer:offer,importSignal,shutdown:()=>{disconnect();closeWS();void closeUSB();}});
 window.addEventListener('pagehide',()=>{state.disposed=true;state.port?.postMessage({type:'detach'});disconnect();closeWS();void closeUSB();state.port?.postMessage({type:'revoke'});state.port?.close()});
