@@ -11,3 +11,5 @@ Tic-tac-toe, Connect Four and Reversi highlight the most recently recorded place
 Home can restore this tab’s recorded view position/control without duplicating entered values. Resume builder has optional guided section navigation. JSON tree search reaches indexed leaves beyond the first preview. Image comparison displays the two chosen raster files and their real dimensions/byte sizes, with input-change/cancel cleanup. Existing export verification, redaction proof, row lineage, recovery, workflows and pane controls are reused.
 
 Physical Android camera/network/screen-lock qualification is pending; follow v50-device-qualification.md and keep that evidence separate from automated tests.
+
+Native WebKit regression exposed an initial-greeting timeout after reconnecting. The shared Connection handshake now repeats the same greeting at most eight times over 3.5 seconds, stopping on approval, close, cancellation or replacement. Duplicate greeting validation still prevents repeated approval prompts. This repairs a handshake gap; it does not establish that a phone/router network-path failure is fixed.

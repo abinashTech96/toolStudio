@@ -24,7 +24,7 @@ The earlier seven Games and six Integration Studio backlog entries map to goals 
 | 16 | Completed-match review | Added for three public board games, recorded in this page only | `src/games/board-review.js` | test:v50; test:remote-games |
 | 17 | Moto/Vivo pairing directions | Manual qualification pending; checklist and redacted reporting retained | `docs/v50-device-qualification.md` | Physical phones required |
 | 18 | Background and screen-lock behavior | Automated visibility/clock checks added; physical lock qualification pending | `src/games/remote-session.js` | test:v50; test:remote-games; manual |
-| 19 | Clear connection failures | Retained guided failure/retry diagnostics; game pause text improved | `src/connections/peer-diagnostics.js` | test:connection; test:remote-games |
+| 19 | Clear connection failures | Retained guided diagnostics; bounded initial-greeting retries added; game pause text improved | `src/connections/peer-diagnostics.js` | test:connection; test:remote-games |
 | 20 | Mode/difficulty consistency | Retained 15 local/solo modes and six direct remote games | `src/games/local-play.js` | test:play-setup; test:remote-games |
 | 21 | Simple/Advanced API view | Added without moving or replacing original fields | `src/release50/developer-ui.js` | test:v50 |
 | 22 | Response explorer | Added bounded filtering, exact paths, values and reviewed assertions | `src/release50/developer-ui.js` | test:v50 |
