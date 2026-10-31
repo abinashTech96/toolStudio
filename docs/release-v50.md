@@ -6,7 +6,7 @@ New API controls provide Simple/Advanced view, bounded response exploration, cop
 
 Games invitations choose the starting player and an optional 30/60/120-second turn timer. Seat assignment is independent of the authoritative host. Seats and score remain stable during a series. Timer expiry loses the match; simultaneous RPS remains untimed. The host uses a monotonic clock and pauses it for disconnected/hidden pages, draw/invitation review and Memory’s automatic close. A retained turn shares its remaining allowance. Reloading loses page-memory recovery. Both players must use v50.
 
-Tic-tac-toe, Connect Four and Reversi highlight the most recently recorded placed piece and offer a read-only review of public positions after completion. Review history is bounded and page-local; restored terminal saves may have only one position. It does not reveal Memory decks, private RPS choices or alter scores.
+Tic-tac-toe, Connect Four and Reversi highlight the most recently recorded placed piece and offer a read-only review of public positions after completion. Review history is bounded and page-local; restored terminal saves may have only one position. Ludo additionally marks the last moved token or home area and names its colour/token number. It does not reveal Memory decks, private RPS choices or alter scores.
 
 Home can restore this tab’s recorded view position/control without duplicating entered values. Resume builder has optional guided section navigation. JSON tree search reaches indexed leaves beyond the first preview. Image comparison displays the two chosen raster files and their real dimensions/byte sizes, with input-change/cancel cleanup. Existing export verification, redaction proof, row lineage, recovery, workflows and pane controls are reused.
 

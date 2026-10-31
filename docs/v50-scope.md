@@ -17,7 +17,7 @@ The earlier seven Games and six Integration Studio backlog entries map to goals 
 | 09 | Feature pinning | Retained | `src/core/home.js` | test:home-redesign |
 | 10 | Compact dashboard | Retained | `src/shared/styles/homeStyles.css` | test:home-redesign |
 | 11 | Compact mobile game screen | Improved | `src/games/styles.css` | test:remote-games; test:play-setup |
-| 12 | Last-move highlighting | Added for Tic-tac-toe, Connect Four and Reversi | `src/games/board-review.js` | test:v50; test:remote-games |
+| 12 | Last-move highlighting | Added for Tic-tac-toe, Connect Four, Reversi and Ludo tokens | `src/games/board-review.js` | test:v50; test:remote-games |
 | 13 | Simple game instructions | Retained for all 15 games with controls/mode text | `src/games/app.js` | test:games; test:play-setup |
 | 14 | Starting-player choice | Added to remote invitations; series seats stay consistent | `src/games/remote-session.js` | test:v50; test:remote-games |
 | 15 | Optional turn timer | Added to remote turn-based games; off by default; excludes simultaneous RPS | `src/games/turn-clock.js` | test:v50; test:remote-games |
