@@ -145,3 +145,7 @@ Release checks verify a complete HTML guide, current and previous release entrie
 Ludo board highlights use visual-only piece markers, leaving the playable token controls intact. Narrow review panels use a single-column layout and wrapping actions; the browser matrix verifies their viewport bounds.
 
 Home search keeps keyboard focus when responsive callbacks reposition results. Regression also checks focus after an explicit resize during keyboard navigation.
+
+## Games logic refinements (v51)
+
+Games adds deeper bounded analysis, measured Sudoku techniques, visible-clue Minesweeper risk, page-local word rotation and optional step-by-step hints. Stable board updates retain cells and controls; actual winning/flipped pieces are marked. Protocol 4 pauses a mismatched public view and offers an explicit host-board status check. Both remote devices need v51. See [scope and limits](docs/games-refinements-v51.md); run `npm run test:game-refinements` and full regression. Existing tools, modes, six themes and save formats remain.
