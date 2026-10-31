@@ -149,3 +149,5 @@ Home search keeps keyboard focus when responsive callbacks reposition results. R
 ## Games logic refinements (v51)
 
 Games adds deeper bounded analysis, measured Sudoku techniques, visible-clue Minesweeper risk, page-local word rotation and optional step-by-step hints. Stable board updates retain cells and controls; actual winning/flipped pieces are marked. Protocol 4 pauses a mismatched public view and offers an explicit host-board status check. Both remote devices need v51. See [scope and limits](docs/games-refinements-v51.md); run `npm run test:game-refinements` and full regression. Existing tools, modes, six themes and save formats remain.
+
+Sudoku displays its measured technique rating with the local game summary, including when no remote match is active. The full guide retains the previous release entries and describes search limits, hint stages and explicit board resynchronization.
