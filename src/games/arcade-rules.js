@@ -1,3 +1,4 @@
+import {drawWord} from './reasoning.js';
 import {words} from './word-bank.js';
 export const hands=['rock','paper','scissors'];
 export function rpsResult(human,computer){if(!hands.includes(human)||!hands.includes(computer))throw Error('Choose a valid hand');return human===computer?'draw':hands[(hands.indexOf(computer)+1)%3]===human?'X':'O'}
@@ -12,7 +13,7 @@ export function rpsComputer(history,level='medium',random=Math.random){
 export const createRPS=()=>({history:[]});
 export function playRPS(s,human,level='medium',random=Math.random){if(rpsOutcome(s))return null;const computer=rpsComputer(s.history,level,random);rpsResult(human,computer);return{history:[...s.history,{human,computer}]}}
 export function wordPool(level){return words.flatMap((r,i)=>(level==='easy'?r.word.length<=5:level==='hard'?r.word.length>=8:r.word.length>=6&&r.word.length<=7)?[i]:[])}
-function chooseWord(level,random,exclude=-1){const pool=wordPool(level).filter(i=>i!==exclude);return pool[Math.floor(random()*pool.length)]}
+function chooseWord(level,random,exclude=-1){return drawWord(wordPool(level),random,exclude)}
 export function createHangman(level='medium',random=Math.random,exclude=-1){return{wordIndex:chooseWord(level,random,exclude),guessed:[],limit:{easy:8,medium:7,hard:6}[level]}}
 export const hangmanWrong=s=>s.guessed.filter(c=>!words[s.wordIndex].word.includes(c)).length;
 export const hangmanWon=s=>[...words[s.wordIndex].word].every(c=>s.guessed.includes(c));

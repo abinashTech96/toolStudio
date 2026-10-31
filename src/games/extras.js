@@ -1,3 +1,4 @@
+import {boundedSliding} from './reasoning.js';
 // Rules and bounded, local coaching for the additional Games collection.
 const opposite = p => p === 'X' ? 'O' : 'X';
 const rays = [-1, 0, 1].flatMap(y => [-1, 0, 1].filter(x => x || y).map(x => [x, y]));
@@ -61,7 +62,7 @@ export function reversiMove(board, player = 'O', level = 'medium', random = Math
   moves.sort((a,b)=>Number([0,7,56,63].includes(b))-Number([0,7,56,63].includes(a)));
   let nodes = 0, choice = moves[0];const exhausted=Symbol('budget');
   function search(s,depth,alpha,beta){
-    if(++nodes>16000)throw exhausted;
+    if(++nodes>48000)throw exhausted;
     if(!depth||reversiOutcome(s.board))return reversiValue(s.board,player);
     const choices=reversiMoves(s.board,s.turn);
     if(!choices.length)return search({...s,turn:opposite(s.turn)},depth-1,alpha,beta);
@@ -69,7 +70,7 @@ export function reversiMove(board, player = 'O', level = 'medium', random = Math
     for(const cell of choices){const value=search(playReversi(s,cell),depth-1,alpha,beta);best=max?Math.max(best,value):Math.min(best,value);if(max)alpha=Math.max(alpha,best);else beta=Math.min(beta,best);if(beta<=alpha)break}return best;
   }
   // Only replace the previous recommendation after every root move completes at the same depth.
-  for(let depth=1;depth<=(level==='hard'?4:2);depth++){
+  for(let depth=1;depth<=(level==='hard'?(board.filter(v=>!v).length<=8?board.filter(v=>!v).length*2+2:5):2);depth++){
     let best=-Infinity,next=choice;
     try{for(const cell of moves){const value=search(playReversi({board,turn:player},cell),depth-1,-Infinity,Infinity);if(value>best){best=value;next=cell}}choice=next}
     catch(error){if(error!==exhausted)throw error;break}
@@ -110,30 +111,7 @@ export function slidingDistance(board,size){
  }
  return conflicts*2+board.reduce((sum, v, i) => sum + (v ? Math.abs(i % size - (v - 1) % size) + Math.abs(Math.floor(i / size) - Math.floor((v - 1) / size)) : 0), 0);
 }
-export function slidingHint({board, size}) {
-  if (slidingSolved(board)) return {cells: [], text: 'The puzzle is already complete.'};
-  // A bounded best-first search; a partial search is explicitly not an optimal solution.
-  const open = [], seen = new Map([[board.join(','), 0]]);
-  function push(item) { open.push(item); let i = open.length - 1; while (i) { const p = (i - 1) >> 1; if (open[p].f <= item.f) break; open[i] = open[p]; i = p; } open[i] = item; }
-  function pop() { const first = open[0], last = open.pop(); if (open.length) { let i = 0; while (i * 2 + 1 < open.length) { let c = i * 2 + 1; if (c + 1 < open.length && open[c + 1].f < open[c].f) c++; if (open[c].f >= last.f) break; open[i] = open[c]; i = c; } open[i] = last; } return first; }
-  let best = null, solved = false;
-  push({board, g: 0, h: slidingDistance(board, size), f: slidingDistance(board, size), first: -1});
-  for (let count = 0; open.length && count < 4000; count++) {
-    const current = pop();
-    if(current.g!==(seen.get(current.board.join(','))??Infinity))continue;
-    if (current.first >= 0 && (!best || current.h < best.h || current.h === best.h && current.g < best.g)) best = current;
-    if (!current.h) { best = current; solved = true; break; }
-    if (current.g >= 70) continue;
-    for (const cell of slidingNeighbors(current.board, size)) {
-      const next = slidePuzzle(current.board, size, cell), key = next.join(','), g = current.g + 1;
-      if ((seen.get(key) ?? Infinity) <= g) continue;
-      seen.set(key, g); const h = slidingDistance(next, size);
-      push({board: next, g, h, f: g + h, first: current.first < 0 ? cell : current.first});
-    }
-  }
-  const cell = best?.first ?? slidingNeighbors(board, size)[0];
-  return {cells: [cell], text: 'Slide tile ' + board[cell] + (solved ? '. Bounded search found a path to the goal.' : '. Bounded search favors progress toward the goal; this move is not guaranteed optimal.')};
-}
+export function slidingHint({board,size}){if(slidingSolved(board))return{cells:[],text:'The puzzle is already complete.'};return boundedSliding(board,size,slidingNeighbors,slidePuzzle,slidingDistance);}
 
 export function toggleLights(board, size, cell) {
   if(!Number.isInteger(cell)||cell<0||cell>=board.length)return board.slice();
@@ -205,15 +183,18 @@ export function codeCandidates(colors, history) {
 export function codeHint({colors, history}) {
   const possible = codeCandidates(colors, history);
   if (!possible.length) return {cells: [], text: 'No code matches this feedback.'};
+  if(possible.length===1)return{cells:[],guess:possible[0].slice(),remaining:1,worstGroup:1,text:'1 code remains consistent with your feedback. Try '+possible[0].join(' ')+'.'};
   let guess = possible[0], best = Infinity,bestWorst=Infinity;
   const tried = new Set(history.map(r => r.guess.join('')));
   const options = possible.filter(g => !tried.has(g.join('')));
-  // At most 80 candidate guesses × 1,296 possibilities; never inspect the secret.
-  for (let i = 0; i < Math.min(80, options.length); i++) {
-    const candidate = options[Math.floor(i * options.length / Math.min(80, options.length))], buckets = new Map();
-    for (const secret of possible) { const f = codeFeedback(secret, candidate), k = f.exact + ':' + f.misplaced; buckets.set(k, (buckets.get(k) || 0) + 1); }
-    const sizes=[...buckets.values()],worst=Math.max(...sizes),cost=sizes.reduce((sum,n)=>sum+n*n,0);
-    if(worst<bestWorst||worst===bestWorst&&cost<best){bestWorst=worst;best=cost;guess=candidate;}
+  // Explore possible answers and informative non-answer probes within a fixed comparison budget.
+  const all=codeCandidates(colors,[]).filter(g=>!tried.has(g.join(''))), pool=possible.length<=24?all:[...options,...all.filter(g=>!possible.some(p=>p.join('')===g.join('')))];
+  const count=Math.min(pool.length,possible.length<=24?1296:Math.max(80,Math.floor(220000/possible.length)));
+  for(let i=0;i<count;i++){
+    const candidate=pool[Math.floor(i*pool.length/count)],buckets=new Map();
+    for(const secret of possible){const f=codeFeedback(secret,candidate),k=f.exact+':'+f.misplaced;buckets.set(k,(buckets.get(k)||0)+1);}
+    const sizes=[...buckets.values()],worst=Math.max(...sizes),cost=sizes.reduce((sum,n)=>sum+n*n,0),answer=possible.some(g=>g.join('')===candidate.join(''));
+    if(worst<bestWorst||worst===bestWorst&&(cost<best||cost===best&&answer)){bestWorst=worst;best=cost;guess=candidate;}
   }
-  return {cells: [], text: possible.length + (possible.length === 1 ? ' code remains' : ' codes remain') + ' consistent with your feedback. Try ' + guess.join(' ') + '. The coach minimizes the largest remaining feedback group, then expected ambiguity, without reading the hidden code.'};
+  return {cells: [], guess:guess.slice(),remaining:possible.length,worstGroup:bestWorst,text: possible.length + (possible.length === 1 ? ' code remains' : ' codes remain') + ' consistent with your feedback. Try ' + guess.join(' ') + '. The coach compares answer candidates and informative probe guesses, minimizing the largest feedback group among those examined, without reading the hidden code.'};
 }
