@@ -19,10 +19,18 @@ export function moveLudo(state,token){if(!ludoMoves(state).includes(token))retur
  if(s.tokens[p].every(v=>v===ludoFinish)){s.winner=p;s.die=null;s.streak=0;s.last=name+' wins! All four tokens are home.';return s}
  s.die=null;if(!bonus){s.turn=(p+1)%s.players;s.streak=0}else s.last+=' Bonus roll.';return s;
 }
-export function chooseLudo(s,level='medium',random=Math.random){const moves=ludoMoves(s);if(!moves.length)return-1;if(level==='easy')return moves[Math.floor(random()*moves.length)];let best=-Infinity,choice=moves[0];for(const token of moves){const n=moveLudo(s,token),position=n.tokens[s.turn][token],captures=n.tokens.reduce((count,a,p)=>count+(p===s.turn?0:a.filter((v,i)=>v===-1&&s.tokens[p][i]!==-1).length),0);let score=(position===57?500:position>=51?90:position)*2+captures*220+(s.tokens[s.turn][token]===-1?35:0);
- if(n.winner===s.turn)score+=100000;
- if(level==='hard'){const risk=board=>board.tokens[s.turn].reduce((sum,v,t)=>{if(v<0||v>50)return sum;const target=ludoCell(board,s.turn,t);if(safeCells.includes(target))return sum;let threats=0;for(let p=0;p<board.players;p++)if(p!==s.turn)for(let other=0;other<4;other++){const from=board.tokens[p][other];if(from<0||from>50)continue;const distance=(target-ludoCell(board,p,other)+52)%52;if(distance>0&&distance<=6&&from+distance<=50)threats++}return sum+threats*(60+v);},0);score+=(risk(s)-risk(n))*.8;}
- if(level==='hard'&&position>=0&&position<=50){const target=ludoCell(n,s.turn,token);if(safeCells.includes(target))score+=60;else for(let p=0;p<s.players;p++)if(p!==s.turn)for(let t=0;t<4;t++)if(n.tokens[p][t]>=0&&n.tokens[p][t]<=50){const distance=(target-ludoCell(n,p,t)+52)%52;if(distance>0&&distance<=6&&n.tokens[p][t]+distance<=50)score-=45}}
- if(score>best){best=score;choice=token}}return choice;
+function ludoValue(s,root){
+ if(s.winner!==null)return s.winner===root?1e7:-1e7;
+ let value=0;for(let p=0;p<s.players;p++){let score=0;for(let t=0;t<4;t++){const progress=s.tokens[p][t];score+=progress<0?-35:progress===57?420:progress*2+(progress>=51?110:0);if(progress>=0&&progress<=50){const cell=ludoCell(s,p,t);if(safeCells.includes(cell))score+=35;else for(let other=0;other<s.players;other++)if(other!==p)for(let i=0;i<4;i++){const from=s.tokens[other][i];if(from<0||from>50)continue;const distance=(cell-ludoCell(s,other,i)+52)%52;if(distance>0&&distance<=6&&from+distance<=50)score-=(35+progress)/6;}}}value+=(p===root?1:-1/Math.max(1,s.players-1))*score;}return value;
 }
-export function ludoHint(s){if(s.die===null)return{text:'Roll first. The coach never predicts the next die.',token:-1};const token=chooseLudo(s,'hard');return{token,text:token<0?'There is no legal token move.':'Try token '+(token+1)+'. The coach weighs captures, safe squares, home progress and nearby threats; future dice remain random.'}}
+export function chooseLudo(s,level='medium',random=Math.random){
+ const moves=ludoMoves(s);if(!moves.length)return -1;if(level==='easy')return moves[Math.floor(random()*moves.length)];
+ const root=s.turn;let choice=moves[0],best=-Infinity;for(const token of moves){const n=moveLudo(s,token),score=ludoValue(n,root);if(score>best){best=score;choice=token;}}
+ if(level!=='hard')return choice;
+ let nodes=0;const stop=Symbol('budget');
+ function expected(board,depth){if(++nodes>1400)throw stop;if(!depth||board.winner!==null)return ludoValue(board,root);let total=0;for(let die=1;die<=6;die++){const rolled=rollLudo(board,die),legal=ludoMoves(rolled);if(!legal.length){total+=expected(rolled,depth-1)/6;continue;}let rank=rolled.turn===root?-Infinity:Infinity;for(const token of legal){const value=expected(moveLudo(rolled,token),depth-1);rank=rolled.turn===root?Math.max(rank,value):Math.min(rank,value);}total+=rank/6;}return total;}
+ for(let depth=1;depth<=2;depth++){let candidate=choice,score=-Infinity;try{for(const token of moves){const value=expected(moveLudo(s,token),depth);if(value>score){score=value;candidate=token;}}choice=candidate;}catch(e){if(e!==stop)throw e;break;}}
+ return choice;
+}
+
+export function ludoHint(s){if(s.die===null)return{text:'Roll first. The coach never predicts the next die.',token:-1};const token=chooseLudo(s,'hard');return{token,text:token<0?'There is no legal token move.':'Try token '+(token+1)+'. Bounded expected-roll analysis weighs captures, safe squares, home progress and bonus turns across possible future dice. Future rolls remain random.'}}
