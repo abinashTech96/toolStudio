@@ -128,3 +128,9 @@ Open Advanced → Connect via QR on both devices. Create connection shows the fi
 ## Remote friends in Games (v48)
 
 Open Games on both devices and use the right-side Players dock → Connect via QR. Create on one, Join on the other, scan the reply and approve the matching security code on both. Once connected, open one of the six direct multiplayer games → Settings → Remote player. The friend accepts the invitation, then both play from their own devices. Computer and local modes remain. Ludo supports two remote players; local four-player Ludo remains. Remote matches do not write local solo scores or profiles. See [v48 details](docs/release-v48.md). Run `npm run test:remote-games` and full regression.
+
+## Games lobby and board feedback (v49)
+
+Name yourself in the right Players dock, connect via QR, choose a game and Single / Best of three, then Invite friend. Their acceptance opens the game on both devices. The active player's board receives a soft green tint. Results appear over the board in Remote, Computer and Local modes, with View board and Play again. Existing text turn cues and all fifteen games remain. Sound/vibration turn alerts are optional and off by default.
+
+Remote matches support resignation, mutually accepted draws, shared series scores and reviewed recovery after reconnecting. Keep both Games pages open: reconnect by QR, then both confirm Continue interrupted match. Closing/reloading loses recovery state. Both devices need v49. See [v49 details](docs/release-v49.md). Run `npm run test:remote-games`, `npm run test:game-feedback` and full regression.

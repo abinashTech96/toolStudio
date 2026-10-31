@@ -12,6 +12,7 @@ export function installGameBridge({state,$,send,disconnect,qr}) {
   if(port||disposed||event.source!==parent||(origin!=='*'&&event.origin!==origin)||event.data?.type!=='toolstudio-games-port'||event.data.token!==token||!event.ports[0])return;
   port=event.ports[0];port.onmessage=event=>{const m=event.data;if(!m||typeof m!=='object')return;
    if(m.type==='send'&&typeof m.text==='string'&&new TextEncoder().encode(m.text).length<=32768){try{send({t:'game',v:1,text:m.text});}catch{port.postMessage({type:'send-error'});}}
+   else if(m.type==='name'&&!state.pc&&typeof m.name==='string'&&m.name.trim()&&m.name.length<=24){$('deviceName').value=m.name.replace(/[\u0000-\u001f\u007f]/g,'').trim();last='';status();}
    else if(m.type==='show')qr.open();else if(m.type==='pause')pause();else if(m.type==='disconnect'){qr.reset();disconnect();status();}
   };port.start();port.postMessage({type:'ready'});last='';status();qr.open();
  });
