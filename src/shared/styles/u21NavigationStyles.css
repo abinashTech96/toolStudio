@@ -4,7 +4,7 @@
 html body{transition:background-color .2s}
 .u21-picker{display:block;flex:1 1 150px;min-width:0;max-width:260px}
 .u21-picker:nth-child(2){flex:1.4 1 180px;max-width:340px}
-.u21-picker>span{display:none}
+.u21-picker>span:not(.studio-searchable-picker){display:none}
 .compact-nav .u21-picker select{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;text-overflow:ellipsis}
 .studio-header .compact-nav{min-width:0;flex:1 1 320px}
 .studio-header .top-actions{flex-wrap:wrap;min-width:0;margin-left:0;gap:6px}
@@ -26,7 +26,7 @@ html .main-card.editor-fullscreen{backdrop-filter:none!important;transform:none!
 html[data-device-layout=mobile] .top.studio-header{grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;position:relative!important;top:auto!important}
 html[data-device-layout=mobile] .studio-header .compact-nav{grid-column:1 / -1;grid-row:2;display:grid!important;grid-template-columns:minmax(0,1fr);gap:8px;flex:none;border:0}
 html[data-device-layout=mobile] .u21-picker,html[data-device-layout=mobile] .u21-picker:nth-child(2){max-width:none;width:100%}
-html[data-device-layout=mobile] .u21-picker>span{display:block;font-size:11px;font-weight:650;color:var(--muted);margin-bottom:3px}
+html[data-device-layout=mobile] .u21-picker>span:not(.studio-searchable-picker){display:block;font-size:11px;font-weight:650;color:var(--muted);margin-bottom:3px}
 html[data-device-layout=mobile] .studio-header .top-actions{grid-column:1 / -1;grid-row:3;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:6px;margin:0}
 html[data-device-layout=mobile] .studio-header .top-actions>*{min-width:0;width:100%;margin:0}
 html[data-device-layout=mobile] .studio-header .top-actions button,html[data-device-layout=mobile] .studio-header .studio-menu>summary{width:100%!important;font-size:12px!important;padding:8px 4px!important;min-height:48px!important;text-align:center}
@@ -44,5 +44,5 @@ html[data-device-layout=tv] #commandOverlay .command-box{width:min(1000px,100%)!
 html[data-device-layout=tv] .studio-header .brand strong{font-size:24px!important}
 html[data-device-layout=tv] .theme-choice .mini-keys i{font-size:15px;width:32px}
 @media(min-width:600px){html[data-device-layout=mobile] .studio-header .compact-nav{grid-template-columns:repeat(2,minmax(0,1fr))}html[data-device-layout=mobile] .studio-header .top-actions{grid-template-columns:repeat(5,minmax(0,1fr))}html[data-device-layout=mobile] .studio-header .top-actions>.studio-menu{grid-column:auto}}
-@media(max-height:500px){html[data-device-layout=mobile] .studio-header .compact-nav{grid-template-columns:repeat(2,minmax(0,1fr))}html[data-device-layout=mobile] .u21-picker>span{display:none}html[data-device-layout=mobile] .studio-header .top-actions{grid-template-columns:repeat(5,minmax(0,1fr))}html[data-device-layout=mobile] .studio-header .top-actions>.studio-menu{grid-column:auto}html[data-device-layout=mobile] #commandOverlay .hint{display:none}}
+@media(max-height:500px){html[data-device-layout=mobile] .studio-header .compact-nav{grid-template-columns:repeat(2,minmax(0,1fr))}html[data-device-layout=mobile] .u21-picker>span:not(.studio-searchable-picker){display:none}html[data-device-layout=mobile] .studio-header .top-actions{grid-template-columns:repeat(5,minmax(0,1fr))}html[data-device-layout=mobile] .studio-header .top-actions>.studio-menu{grid-column:auto}html[data-device-layout=mobile] #commandOverlay .hint{display:none}}
 

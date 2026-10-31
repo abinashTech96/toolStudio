@@ -8,7 +8,7 @@ The earlier seven Games and six Integration Studio backlog entries map to goals 
 | --- | --- | --- | --- | --- |
 | 01 | Compact controls | Fixed selection actions squeezing editor width; collapsed below the editor | `src/shared/styles/workspace.css` | test:pdf-ui |
 | 02 | Consistent action order | Retained | `src/core/workspace-ui.js` | test:pdf-ui |
-| 03 | Searchable dropdowns | Improved: search from 12 choices; Enter accepts a sole match | `src/core/workspace-ui.js` | test:v50; test:pdf-ui |
+| 03 | Searchable dropdowns | Improved: search from 12 choices; Enter accepts a sole match; caption CSS excludes picker wrappers | `src/core/workspace-ui.js` | test:v50; test:pdf-ui |
 | 04 | Adjustable editor/result panes | Improved: spoken width and complete reset | `src/core/workspace-ui.js` | test:pdf-ui; test:v40 |
 | 05 | Clear keyboard focus | Retained | `src/shared/styles/workspace.css` | test:pdf-ui |
 | 06 | Task shortcuts | Retained | `src/core/home-extras.js` | test:home-extras |
