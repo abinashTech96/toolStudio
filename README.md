@@ -141,3 +141,5 @@ v50 adds reviewed API exploration, scenario and Composite editing, optional mult
 The shared Connection handshake uses bounded greeting retries while retaining separate approval on both devices. Native tests deliberately drop the initial greeting on either side and on both sides; physical phone/network qualification remains separate.
 
 Release checks verify a complete HTML guide, current and previous release entries, and an exact match between the guide source and built copy.
+
+Ludo board highlights use visual-only piece markers, leaving the playable token controls intact. Narrow review panels use a single-column layout and wrapping actions; the browser matrix verifies their viewport bounds.
