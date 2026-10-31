@@ -169,7 +169,7 @@ Minimum version required to store current data is: `+i+`.
 const inlineQRCache={};async function loadQR(kind){return inlineQRCache[kind]||(inlineQRCache[kind]=inlineQREngines[kind]())}
 // Only fixed state names and counts leave this module. Never include SDP,
 // network addresses, ICE credentials, fingerprints, device names or messages.
-const CONNECTION_BUILD = '48.0.0';
+const CONNECTION_BUILD = '49.0.0';
 const peerStates = new Set(['new','connecting','connected','disconnected','failed','closed']);
 const iceStates = new Set(['new','checking','connected','completed','disconnected','failed','closed']);
 const signalingStates = new Set(['stable','have-local-offer','have-remote-offer','have-local-pranswer','have-remote-pranswer','closed']);
@@ -830,6 +830,7 @@ function installGameBridge({state,$,send,disconnect,qr}) {
   if(port||disposed||event.source!==parent||(origin!=='*'&&event.origin!==origin)||event.data?.type!=='toolstudio-games-port'||event.data.token!==token||!event.ports[0])return;
   port=event.ports[0];port.onmessage=event=>{const m=event.data;if(!m||typeof m!=='object')return;
    if(m.type==='send'&&typeof m.text==='string'&&new TextEncoder().encode(m.text).length<=32768){try{send({t:'game',v:1,text:m.text});}catch{port.postMessage({type:'send-error'});}}
+   else if(m.type==='name'&&!state.pc&&typeof m.name==='string'&&m.name.trim()&&m.name.length<=24){$('deviceName').value=m.name.replace(/[\u0000-\u001f\u007f]/g,'').trim();last='';status();}
    else if(m.type==='show')qr.open();else if(m.type==='pause')pause();else if(m.type==='disconnect'){qr.reset();disconnect();status();}
   };port.start();port.postMessage({type:'ready'});last='';status();qr.open();
  });

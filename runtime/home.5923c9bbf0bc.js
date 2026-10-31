@@ -92,7 +92,7 @@ function installHomeExtras({ c, registry, options, home, personal, browse, foote
     } else window.open(new URL("./guide.html" + fragment, location.href), "_blank", "noopener");
   };
   const guide = button("Guide", () => openGuide());
-  footer.append(button("What\u2019s new", () => openGuide("#edition48")));
+  footer.append(button("What\u2019s new", () => openGuide("#edition49")));
   const headerGuide = c.$("u18GuideOpen");
   headerGuide?.addEventListener("click", (event) => {
     if (document.body.dataset.home === "true") {
