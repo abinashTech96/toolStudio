@@ -1,0 +1,35 @@
+name: Prepare Games v52 published files
+on:
+  push:
+    branches: [codex/games-compact-ready]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - run: npm run publish:root
+      - name: Commit only generated output and remove preparation workflow
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, subprocess
+          old=set(json.loads(subprocess.check_output(['git','show','HEAD:.generated-files.json'])))
+          current=set(json.loads(pathlib.Path('.generated-files.json').read_text()))
+          workflow='.github/workflows/prepare-games-v52.yml'
+          pathlib.Path(workflow).unlink()
+          changed=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())
+          new=set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
+          assert not ((changed|new)-(old|current|{'.generated-files.json',workflow})), 'Unexpected source change'
+          subprocess.run(['git','add','-A'],check=True)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Publish v52 online and offline Games assets"
+          git push origin HEAD:codex/games-compact-ready
