@@ -103,7 +103,8 @@ export function installHome(c,registry,options={}) {
     for(const card of categoryGrid.querySelectorAll('.home-category')){const selected=category===card.dataset.category&&!search.value.trim();card.setAttribute('aria-pressed',String(selected));card.setAttribute('aria-expanded',String(selected))}
   }
   function placeResults(){
-    if(search.value.trim()){searchBox.after(results);return}if(!category){browse.after(results);return}
+    const moveAfter=anchor=>{if(anchor.nextElementSibling===results)return;const focus=results.contains(document.activeElement)?document.activeElement:null;anchor.after(results);focus?.focus({preventScroll:true})};
+    if(search.value.trim()){moveAfter(searchBox);return}if(!category){moveAfter(browse);return}
     const tiles=[...categoryGrid.querySelectorAll('.home-category-tile')],index=tiles.findIndex(tile=>tile.dataset.categoryTile===category);if(index<0)return;
     const columns=getComputedStyle(categoryGrid).gridTemplateColumns.split(' ').length,rowEnd=Math.min(tiles.length-1,Math.floor(index/columns)*columns+columns-1);
     if(tiles[rowEnd].nextElementSibling!==results){const focus=results.contains(document.activeElement)?document.activeElement:null;tiles[rowEnd].after(results);focus?.focus({preventScroll:true})}
