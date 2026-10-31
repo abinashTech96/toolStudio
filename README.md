@@ -139,3 +139,5 @@ Remote matches support resignation, mutually accepted draws, shared series score
 v50 adds reviewed API exploration, scenario and Composite editing, optional multiplayer turn clocks/starting-player choice, public completed-board review, guided resume sections and image comparison. See [the 50-goal audit](docs/v50-scope.md), [release notes](docs/release-v50.md) and [Android qualification checklist](docs/v50-device-qualification.md). Existing tools, saves, themes and routes are retained; physical Moto/Vivo verification remains separate from browser CI.
 
 The shared Connection handshake uses bounded greeting retries while retaining separate approval on both devices. Native tests deliberately drop the initial greeting on either side and on both sides; physical phone/network qualification remains separate.
+
+Release checks verify a complete HTML guide, current and previous release entries, and an exact match between the guide source and built copy.
