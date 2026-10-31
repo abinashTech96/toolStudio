@@ -1,7 +1,9 @@
+import {ludoSeats,ludoColors} from './ludo.js';
 const supported=new Set(['ttt','connect4','reversi']);
 export function installBoardReview(){
  const histories=new Map(),button=document.createElement('button'),note=document.createElement('p');button.type='button';button.className='board-review50';button.textContent='Review completed match';note.className='last-move-note50';let current;
  function observe({anchor,run,game,values,result}){
+  if(game==='ludo'&&Array.isArray(values)){button.remove();let h=histories.get(run);if(!h){h={tokens:null,last:null};histories.set(run,h);if(histories.size>20)histories.delete(histories.keys().next().value);}if(h.tokens)for(let player=0;player<values.length;player++)for(let token=0;token<values[player].length;token++)if(values[player][token]>h.tokens[player][token])h.last={player,token};h.tokens=structuredClone(values);anchor.querySelectorAll('.last-move50').forEach(e=>e.classList.remove('last-move50'));if(h.last){const{player,token}=h.last,target=values[player][token]===57?anchor.querySelector('[data-ludo-home50]'):anchor.querySelector('[data-ludo-player="'+player+'"][data-ludo-token="'+token+'"]');target?.classList.add('last-move50');note.textContent='Last move: '+ludoColors[ludoSeats(values.length)[player]]+' · token '+(token+1)+(values[player][token]===57?' reached home':'');anchor.after(note);}else note.remove();return;}
   if(!supported.has(game)||!Array.isArray(values)){button.remove();note.remove();return;}
   let h=histories.get(run);if(!h){h={game,frames:[],last:-1};histories.set(run,h);if(histories.size>20)histories.delete(histories.keys().next().value);}
   const before=h.frames.at(-1);if(!before||JSON.stringify(before)!==JSON.stringify(values)){h.last=before?values.findIndex((v,i)=>v&&before[i]===''):-1;h.frames.push(values.slice());if(h.frames.length>200)h.frames.shift();}

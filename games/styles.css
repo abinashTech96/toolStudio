@@ -122,6 +122,8 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 
 [data-remote-options50]{font-size:13px;margin-block:10px}[data-remote-options50] label{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-block:8px}[data-remote-options50] p{font-size:12px;max-width:55ch}
 
+.ludo-visual .last-move50{outline:none!important;stroke:var(--accent);stroke-width:5;filter:drop-shadow(0 0 2px var(--ink))}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
