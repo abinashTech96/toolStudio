@@ -53,3 +53,5 @@ Connect Four no longer rejects its own pending computer-turn saves; the player c
 ## v44 local play and reviewed logic
 
 All fifteen games expose a same-device friends option in header Settings. Six have direct two/four-player play; nine have two-round individual challenges. See [the complete configuration and rules table](release-v44.md) for every game, private-choice behavior, challenge ranking, save migration and bounded strategy refinements. Online multiplayer is not implemented. `npm run test:play-setup` runs alongside every earlier Games suite.
+
+The header uses a compact 44 × 44 px Game settings gear button in both the library and play views. Its tooltip and accessible name identify it; Enter/Space opens the existing options, and Escape returns focus to the gear. Difficulty, Computer/Local/Remote modes and appearance remain in those options.
