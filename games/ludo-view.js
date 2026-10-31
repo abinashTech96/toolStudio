@@ -22,7 +22,7 @@ export function drawLudo(s){
  }
  for(const group of groups.values())for(let index=0;index<group.length;index++){
   const {xy,color,token,player}=group[index],spread=group.length>1?.2:0,x=(xy[0]+.5+(index%2?spread:-spread))*size,y=(xy[1]+.5+(index>1?spread:-spread))*size,r=group.length>1?8:11;
-  svg.append(el('circle',{cx:x,cy:y,r,fill:paint[color],stroke:'#fff','stroke-width':1.8,'data-ludo-player':player,'data-ludo-token':token}));svg.append(el('text',{x,y,class:'token-text',style:'font-size:'+(group.length>1?7:10)+'px'},ludoColors[color][0]+(token+1)));
+  svg.append(el('circle',{cx:x,cy:y,r,fill:paint[color],stroke:'#fff','stroke-width':1.8,'data-ludo-player':player,'data-ludo-piece50':token}));svg.append(el('text',{x,y,class:'token-text',style:'font-size:'+(group.length>1?7:10)+'px'},ludoColors[color][0]+(token+1)));
  }
  return svg;
 }
