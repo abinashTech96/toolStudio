@@ -1,7 +1,7 @@
 import{featurePinKey}from'./home-discovery.js';
 import{displayVersion,fileTargets}from'./home-state.js';
 
-export function installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render}){
+export function installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render,resumeWork}){
   const node=(tag,text,className)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e};
   const button=(label,run,className='home-chip')=>{const e=node('button',label,className);e.type='button';e.onclick=run;return e};
   let inputRevision=0,navigationRevision=0;document.addEventListener('input',()=>inputRevision++,true);
@@ -10,7 +10,7 @@ export function installHomeExtras({c,registry,options,home,personal,browse,foote
   const openGuide=(fragment='')=>{
     if(options.guideHTML){const url=URL.createObjectURL(new Blob([options.guideHTML],{type:'text/html'}));window.open(url+fragment,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000)}
     else window.open(new URL('./guide.html'+fragment,location.href),'_blank','noopener');
-  };const guide=button('Guide',()=>openGuide());footer.append(button('What’s new',()=>openGuide('#edition49')));const headerGuide=c.$('u18GuideOpen');headerGuide?.addEventListener('click',event=>{if(document.body.dataset.home==='true'){event.preventDefault();event.stopImmediatePropagation();guide.click()}},true);guide.id='homeGuide';guide.setAttribute('aria-label','Open guide');
+  };const guide=button('Guide',()=>openGuide());footer.append(button('What’s new',()=>openGuide('#edition50')));const headerGuide=c.$('u18GuideOpen');headerGuide?.addEventListener('click',event=>{if(document.body.dataset.home==='true'){event.preventDefault();event.stopImmediatePropagation();guide.click()}},true);guide.id='homeGuide';guide.setAttribute('aria-label','Open guide');
   const actions=node('div',undefined,'home-hero-actions');const versionLabel=node('span',version,'home-version');versionLabel.title='Application version '+(registry.appVersion||'35.0.0');actions.append(guide,versionLabel);home.querySelector('.home-hero').append(actions);
   const tasks=node('section',undefined,'home-task-shortcuts');tasks.setAttribute('aria-label','Task shortcuts');
   for(const[label,id]of[['Format JSON','jsonformatter'],['Analyze Apex log','logs'],['Compare files','excel'],['Calculate EMI','tools']])tasks.append(button(label,()=>{if(id==='tools')c.n28FeatureOpen(c.n28Entry('home:task:emi','tools','Loan / EMI','',{loan:true}));else c.openTab(id)}));
@@ -68,7 +68,7 @@ export function installHomeExtras({c,registry,options,home,personal,browse,foote
   return{
     categories:orderedCategories,
     remember(id){navigationRevision++;if(prefs().lastTool!==id)save({lastTool:id},false)},
-    renderPersonal(){const id=prefs().lastTool;if(id&&Object.hasOwn(c.views,id)){const section=node('section',undefined,'home-continue');section.append(node('h2','Continue working'),button(c.views[id],()=>c.openTab(id)));personal.prepend(section)}},
+    renderPersonal(){const id=prefs().lastTool;if(id&&Object.hasOwn(c.views,id)){const section=node('section',undefined,'home-continue');section.append(node('h2','Continue working'),button(c.views[id],()=>resumeWork.reopen(id)));personal.prepend(section)}},
     render(){renderProjects();renderCustomize();statusUpdate()}
   };
 }

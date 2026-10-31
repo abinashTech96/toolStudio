@@ -10,6 +10,15 @@ export function connectionError(error){const next={NotAllowedError:'Allow the br
 // Rechecking readiness and a later open event must start only one handshake.
 export function channelOpenOnce(channel,isCurrent,action){let started=false;return()=>{if(started||!isCurrent()||channel.readyState!=='open')return;started=true;action()}}
 
+// A ready channel's first packet may precede installation of the other listener.
+// Repeat the same identity briefly; approval remains a separate, explicit step.
+export function repeatPeerGreeting(channel,isCurrent,send,{schedule=setTimeout,cancel=clearTimeout,max=8,interval=500}={}){
+ let timer=null,attempts=0,stopped=false;
+ const stop=()=>{if(stopped)return;stopped=true;if(timer!==null)cancel(timer);timer=null;channel.removeEventListener?.('close',stop);};
+ const tick=()=>{timer=null;if(stopped||!isCurrent()||channel.readyState!=='open'||attempts>=max){stop();return;}attempts++;try{send();}catch{stop();return;}timer=schedule(tick,interval);};
+ channel.addEventListener?.('close',stop,{once:true});tick();return stop;
+}
+
 // Repeated greetings acknowledge a ready receiver; they never repeat approval.
 export function validatePeerHello(message,remoteNonce='',peer=''){
  if(message?.v!==1||typeof message.nonce!=='string'||!/^[-a-zA-Z0-9]{20,64}$/.test(message.nonce)||(message.ack!==undefined&&typeof message.ack!=='boolean'))throw Error('Invalid connection handshake');

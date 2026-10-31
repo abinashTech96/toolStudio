@@ -116,6 +116,14 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 
 #turnFeedbackOptions label{flex-wrap:wrap}#turnFeedbackOptions input:not([type=checkbox]){min-width:0}
 
+/* v50: compact match controls, clear move feedback and a read-only review. */
+.last-move50{outline:3px solid var(--accent)!important;outline-offset:-4px}.last-move-note50{font-size:12px;margin:6px 0}.board-review50{font-size:13px;padding:8px 12px}.match-review50{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px;width:560px;max-width:calc(100vw - 24px);max-height:90dvh;overflow:auto}.review-grid50{display:grid;grid-template-columns:repeat(var(--review-columns),1fr);gap:3px;max-width:420px;margin:12px auto}.review-grid50 span{display:grid;place-items:center;min-height:28px;background:var(--bg);border:1px solid var(--line);border-radius:5px}.match-review50 button{margin:4px}.match-review50 input{width:100%}#remoteTurnClock:empty{display:none}#remoteTurnClock{font-size:13px;font-variant-numeric:tabular-nums;border:1px solid var(--line);padding:6px 10px;border-radius:8px}
+@media(max-width:700px){body.remote-playing .play-card{padding:12px}body.remote-playing .game-heading{gap:6px;margin-bottom:8px}body.remote-playing #remoteMatchTitle{font-size:17px;margin:8px 0}body.remote-playing #remotePlayers,body.remote-playing #remoteSeriesScore,body.remote-playing #remoteGameStatus{font-size:12px;margin:6px 0}body.remote-playing #remoteRules{font-size:12px}body.remote-playing .remote-board-scroll{padding:7px;margin:10px 0}body.remote-playing .remote-game-actions{gap:5px}body.remote-playing .remote-game-actions button{padding:7px 9px;font-size:12px}.match-review50{padding:12px}}
+
+[data-remote-options50]{font-size:13px;margin-block:10px}[data-remote-options50] label{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-block:8px}[data-remote-options50] p{font-size:12px;max-width:55ch}
+
+.ludo-visual .last-move50{outline:none!important;stroke:var(--accent);stroke-width:5;filter:drop-shadow(0 0 2px var(--ink))}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
@@ -223,3 +231,17 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
 .a35-update>span{flex:1 1 300px;min-width:0;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
 .a35-update>button{border:1px solid var(--accent);border-radius:9px;padding:10px 14px;background:var(--accent);color:var(--on);font-weight:650}
 @media(max-width:600px){.a35-update>button{width:100%;min-height:48px}}
+
+/* v50 review controls use the existing six theme palettes. */
+.studio-graph50{display:grid;gap:10px;grid-column:1/-1;min-width:0}.studio-graph50 section{display:grid;gap:6px;min-width:0}.studio-graph50 button{text-align:start;white-space:pre-wrap;overflow-wrap:anywhere;border-inline-start:4px solid var(--accent)}.studio-graph50 button[data-issue=true]{border-style:dashed}.studio-review-body select,.studio-review-body input,.studio-review-body textarea{max-width:100%}.studio-image-compare50{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;grid-column:1/-1}.studio-image-compare50 figure{margin:0;min-width:0}.studio-image-compare50 img{width:100%;max-height:400px;object-fit:contain}.studio-image-compare50 figcaption{font-size:12px;overflow-wrap:anywhere}.career-guidance50{margin-block:10px}[data-api-view50]{display:flex;gap:10px;align-items:center;flex-wrap:wrap}[data-api-view50] p{font-size:12px;margin:4px 0}.lc-panel[data-api-view=simple]>.fields,.lc-panel[data-api-view=simple]>.fields+.hint{display:none}.lc-panel[data-api-view=simple] #lcBodyPane{display:block}.studio-review50-note{font-size:12px;color:var(--muted)}
+@media(max-width:700px){.studio-image-compare50{grid-template-columns:1fr}.studio-review-actions{gap:6px}.studio-review-actions button{flex:1 1 140px}.studio-graph50 button{font-size:12px}}
+
+.a34-selection{width:100%;min-width:0;margin-block:6px}.a34-selection>summary{font-size:12px}.a34-selection>.row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.a34-selection button{flex:0 1 auto;min-height:32px;padding:6px 9px}.u15-numbered>textarea{min-width:0}
+
+.studio-graph-section50{position:relative;padding-inline-start:28px}.studio-edges50{position:absolute;inset:0 auto 0 0;width:24px;height:100%;pointer-events:none}.studio-graph-section50>button{position:relative}
+
+.studio-graph50{max-height:560px;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+
+/* Explicit single-column review tracks avoid intrinsic control widths on small WebKit viewports. */
+[data-release50] .studio-review-actions>button{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+@media(max-width:700px){[data-release50] .studio-review-body{grid-template-columns:minmax(0,1fr)}[data-release50] .studio-review-body :is(input,select,textarea){min-width:0;width:100%;box-sizing:border-box}}

@@ -1,3 +1,4 @@
+import {installHomeResume} from './home-resume.js';
 import {isEarlierWorkspace} from './catalog.js';
 import {installGamesLauncher} from './games-launcher.js';
 import {installHomeExtras} from './home-extras.js';
@@ -6,6 +7,7 @@ import {greetingFor,featurePinKey,discoveryResults} from './home-discovery.js';
 /** Presentation only: tool routes, entered work and storage keys stay stable. */
 export function installHome(c,registry,options={}) {
   installGamesLauncher(c);
+  const resumeWork=installHomeResume(c);
   const node=(tag,text,className)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e};
   const button=(text,run,className='home-chip')=>{const e=node('button',text,className);e.type='button';e.onclick=run;return e};
   const categories=new Map(registry.categories.map(cat=>[cat.id,cat]));
@@ -48,7 +50,7 @@ export function installHome(c,registry,options={}) {
   for(const[label,href]of[['Connection','./connections/index.html'],['Games','./games/index.html']]){const link=node('a',label,'home-chip');link.href=href;link.target='_blank';link.rel='noopener';footer.append(link)}
   home.append(footer);document.querySelector('.main-card').prepend(home);
   const homeButton=button('Home',()=>showHome(true),'pill home-button');homeButton.id='homeButton';document.querySelector('.brand').after(homeButton);
-  const extras=installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render});
+  const extras=installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render,resumeWork});
   const auxiliary=node('details',undefined,'home-auxiliary');auxiliary.append(node('summary','Recent work, quick actions & files'));
   auxiliary.append(personal,home.querySelector('.home-task-shortcuts'),home.querySelector('.home-drop'),home.querySelector('.home-projects'));footer.before(auxiliary);
   footer.append(button('Open a file',()=>{auxiliary.open=true;home.querySelector('#homeFile').click()}));
@@ -101,7 +103,8 @@ export function installHome(c,registry,options={}) {
     for(const card of categoryGrid.querySelectorAll('.home-category')){const selected=category===card.dataset.category&&!search.value.trim();card.setAttribute('aria-pressed',String(selected));card.setAttribute('aria-expanded',String(selected))}
   }
   function placeResults(){
-    if(search.value.trim()){searchBox.after(results);return}if(!category){browse.after(results);return}
+    const moveAfter=anchor=>{if(anchor.nextElementSibling===results)return;const focus=results.contains(document.activeElement)?document.activeElement:null;anchor.after(results);focus?.focus({preventScroll:true})};
+    if(search.value.trim()){moveAfter(searchBox);return}if(!category){moveAfter(browse);return}
     const tiles=[...categoryGrid.querySelectorAll('.home-category-tile')],index=tiles.findIndex(tile=>tile.dataset.categoryTile===category);if(index<0)return;
     const columns=getComputedStyle(categoryGrid).gridTemplateColumns.split(' ').length,rowEnd=Math.min(tiles.length-1,Math.floor(index/columns)*columns+columns-1);
     if(tiles[rowEnd].nextElementSibling!==results){const focus=results.contains(document.activeElement)?document.activeElement:null;tiles[rowEnd].after(results);focus?.focus({preventScroll:true})}
@@ -133,6 +136,7 @@ export function installHome(c,registry,options={}) {
   }
   function showHome(focus=false,write=true) {
     if(!visible) {
+      resumeWork.remember();
       c.cs29RememberScroll(c.activeView);c.cs29Observer.disconnect();c.cs31Leave('home');c.beforeStudioToolChange('home');
       c.u22StopInspect();c.u19StopEditing();c.v13CloseEditor();
       c.$advanced?.release(c.u23Home(c.activeView));
@@ -147,6 +151,7 @@ export function installHome(c,registry,options={}) {
   const previousOpen=c.openTab;
   c.openTab=function(id) {
     if(id==='home'){showHome(true);return 'home'}
+    resumeWork.remember();
     if(!Object.hasOwn(c.views,id))return;
     if(visible)home.getAnimations?.({subtree:true}).forEach(a=>a.cancel());closeFeatureDrawer();visible=false;clearTimeout(clockTimer);home.hidden=true;delete document.body.dataset.home;homeButton.setAttribute('aria-current','false');
     const result=previousOpen(id);extras.remember(c.activeView);

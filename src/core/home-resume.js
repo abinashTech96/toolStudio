@@ -1,0 +1,10 @@
+// Only view position and control IDs are retained; input values stay in their tools.
+export function installHomeResume(c){
+ const key='toolstudio-work-positions-v50';let positions={},token=0;
+ try{const value=JSON.parse(sessionStorage.getItem(key)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value))for(const[id,p]of Object.entries(value).slice(0,160))if(Object.hasOwn(c.views,id)&&p&&Number.isFinite(p.y)&&p.y>=0&&p.y<1e7&&typeof p.focus==='string'&&p.focus.length<=200)positions[id]={y:p.y,focus:p.focus};}catch{}
+ const remember=()=>{if(document.body.dataset.home==='true'||!Object.hasOwn(c.views,c.activeView))return;const root=c.$(c.activeView),focus=document.activeElement;positions[c.activeView]={y:Math.max(0,Math.round(scrollY)),focus:root?.contains(focus)?focus.id||'':positions[c.activeView]?.focus||''};try{sessionStorage.setItem(key,JSON.stringify(positions))}catch{}};
+ document.addEventListener('focusin',event=>{const root=c.$(c.activeView);if(document.body.dataset.home!=='true'&&root?.contains(event.target)&&event.target.id)positions[c.activeView]={y:Math.max(0,Math.round(scrollY)),focus:event.target.id};});
+ for(const event of ['pointerdown','keydown','input'])document.addEventListener(event,()=>token++,true);
+ window.addEventListener('pagehide',remember);window.addEventListener('toolstudio:guided-reset',event=>{if(['settings','all','cache'].includes(event.detail?.scope)){positions={};token++;try{sessionStorage.removeItem(key)}catch{}}});
+ return{remember,async reopen(id){c.openTab(id);const ticket=++token,p=positions[id];if(!p)return;try{await window.calcStudio.ensureToolResources(id);}catch{return;}let attempts=0;const restore=()=>{if(token!==ticket||c.activeView!==id||document.body.dataset.home==='true')return;const focus=p.focus?document.getElementById(p.focus):null;if(p.focus&&!focus&&attempts++<60){requestAnimationFrame(restore);return;}if(focus?.getClientRects().length&&!focus.closest('[hidden],[inert]'))focus.focus({preventScroll:true});scrollTo({top:p.y,behavior:'instant'});};requestAnimationFrame(restore);}};
+}

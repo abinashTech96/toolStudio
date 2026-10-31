@@ -134,3 +134,14 @@ Open Games on both devices and use the right-side Players dock → Connect via Q
 Name yourself in the right Players dock, connect via QR, choose a game and Single / Best of three, then Invite friend. Their acceptance opens the game on both devices. The active player's board receives a soft green tint. Results appear over the board in Remote, Computer and Local modes, with View board and Play again. Existing text turn cues and all fifteen games remain. Sound/vibration turn alerts are optional and off by default.
 
 Remote matches support resignation, mutually accepted draws, shared series scores and reviewed recovery after reconnecting. Keep both Games pages open: reconnect by QR, then both confirm Continue interrupted match. Closing/reloading loses recovery state. Both devices need v49. See [v49 details](docs/release-v49.md). Run `npm run test:remote-games`, `npm run test:game-feedback` and full regression.
+
+
+v50 adds reviewed API exploration, scenario and Composite editing, optional multiplayer turn clocks/starting-player choice, public completed-board review, guided resume sections and image comparison. See [the 50-goal audit](docs/v50-scope.md), [release notes](docs/release-v50.md) and [Android qualification checklist](docs/v50-device-qualification.md). Existing tools, saves, themes and routes are retained; physical Moto/Vivo verification remains separate from browser CI.
+
+The shared Connection handshake uses bounded greeting retries while retaining separate approval on both devices. Native tests deliberately drop the initial greeting on either side and on both sides; physical phone/network qualification remains separate.
+
+Release checks verify a complete HTML guide, current and previous release entries, and an exact match between the guide source and built copy.
+
+Ludo board highlights use visual-only piece markers, leaving the playable token controls intact. Narrow review panels use a single-column layout and wrapping actions; the browser matrix verifies their viewport bounds.
+
+Home search keeps keyboard focus when responsive callbacks reposition results. Regression also checks focus after an explicit resize during keyboard navigation.
