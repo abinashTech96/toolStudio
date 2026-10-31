@@ -385,6 +385,11 @@ function mount(api, root) {
         });
       }
     }
+    const guidance=details(tools,'Guided editing steps');guidance.classList.add('career-guidance50');
+    const steps=[...sectionInputs.keys()],stepSelect=select(guidance,'Resume editing step','contact',steps.map(k=>[k,k==='contact'?'Contact & headline':sectionNames[k]]),v=>visit(v));
+    const stepStatus=node('p','Step 1 of '+steps.length,{role:'status'});guidance.append(stepStatus);
+    function visit(key){const index=steps.indexOf(key),target=sectionInputs.get(key);if(!target)return;stepSelect.value=key;stepStatus.textContent='Step '+(index+1)+' of '+steps.length;target.open=true;target.scrollIntoView({block:'nearest'});target.querySelector('input,textarea,button')?.focus({preventScroll:true});}
+    const stepActions=row(guidance);button(stepActions,'Previous editing step',()=>visit(steps[Math.max(0,steps.indexOf(stepSelect.value)-1)]));button(stepActions,'Next editing step',()=>visit(steps[Math.min(steps.length-1,steps.indexOf(stepSelect.value)+1)]));button(stepActions,'Review resume output',()=>chooseArea('profile','exports'));
     const design = details(advanced, "Design, language & public-copy controls");
     layoutControls(design,doc,s);
     button(design, "Preview template gallery", () => modal("Template gallery", (c, actions2, d) => {

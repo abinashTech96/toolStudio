@@ -1,3 +1,4 @@
+import {installHomeResume} from './home-resume.js';
 import {isEarlierWorkspace} from './catalog.js';
 import {installGamesLauncher} from './games-launcher.js';
 import {installHomeExtras} from './home-extras.js';
@@ -6,6 +7,7 @@ import {greetingFor,featurePinKey,discoveryResults} from './home-discovery.js';
 /** Presentation only: tool routes, entered work and storage keys stay stable. */
 export function installHome(c,registry,options={}) {
   installGamesLauncher(c);
+  const resumeWork=installHomeResume(c);
   const node=(tag,text,className)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e};
   const button=(text,run,className='home-chip')=>{const e=node('button',text,className);e.type='button';e.onclick=run;return e};
   const categories=new Map(registry.categories.map(cat=>[cat.id,cat]));
@@ -48,7 +50,7 @@ export function installHome(c,registry,options={}) {
   for(const[label,href]of[['Connection','./connections/index.html'],['Games','./games/index.html']]){const link=node('a',label,'home-chip');link.href=href;link.target='_blank';link.rel='noopener';footer.append(link)}
   home.append(footer);document.querySelector('.main-card').prepend(home);
   const homeButton=button('Home',()=>showHome(true),'pill home-button');homeButton.id='homeButton';document.querySelector('.brand').after(homeButton);
-  const extras=installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render});
+  const extras=installHomeExtras({c,registry,options,home,personal,browse,footer,search,grid,render,resumeWork});
   const auxiliary=node('details',undefined,'home-auxiliary');auxiliary.append(node('summary','Recent work, quick actions & files'));
   auxiliary.append(personal,home.querySelector('.home-task-shortcuts'),home.querySelector('.home-drop'),home.querySelector('.home-projects'));footer.before(auxiliary);
   footer.append(button('Open a file',()=>{auxiliary.open=true;home.querySelector('#homeFile').click()}));
@@ -133,6 +135,7 @@ export function installHome(c,registry,options={}) {
   }
   function showHome(focus=false,write=true) {
     if(!visible) {
+      resumeWork.remember();
       c.cs29RememberScroll(c.activeView);c.cs29Observer.disconnect();c.cs31Leave('home');c.beforeStudioToolChange('home');
       c.u22StopInspect();c.u19StopEditing();c.v13CloseEditor();
       c.$advanced?.release(c.u23Home(c.activeView));
@@ -147,6 +150,7 @@ export function installHome(c,registry,options={}) {
   const previousOpen=c.openTab;
   c.openTab=function(id) {
     if(id==='home'){showHome(true);return 'home'}
+    resumeWork.remember();
     if(!Object.hasOwn(c.views,id))return;
     if(visible)home.getAnimations?.({subtree:true}).forEach(a=>a.cancel());closeFeatureDrawer();visible=false;clearTimeout(clockTimer);home.hidden=true;delete document.body.dataset.home;homeButton.setAttribute('aria-current','false');
     const result=previousOpen(id);extras.remember(c.activeView);
