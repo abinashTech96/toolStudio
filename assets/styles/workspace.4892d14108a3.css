@@ -113,3 +113,5 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
 .a34-selection{width:100%;min-width:0;margin-block:6px}.a34-selection>summary{font-size:12px}.a34-selection>.row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.a34-selection button{flex:0 1 auto;min-height:32px;padding:6px 9px}.u15-numbered>textarea{min-width:0}
 
 .studio-graph-section50{position:relative;padding-inline-start:28px}.studio-edges50{position:absolute;inset:0 auto 0 0;width:24px;height:100%;pointer-events:none}.studio-graph-section50>button{position:relative}
+
+.studio-graph50{max-height:560px;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
