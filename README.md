@@ -151,3 +151,9 @@ Home search keeps keyboard focus when responsive callbacks reposition results. R
 Games adds deeper bounded analysis, measured Sudoku techniques, visible-clue Minesweeper risk, page-local word rotation and optional step-by-step hints. Stable board updates retain cells and controls; actual winning/flipped pieces are marked. Protocol 4 pauses a mismatched public view and offers an explicit host-board status check. Both remote devices need v51. See [scope and limits](docs/games-refinements-v51.md); run `npm run test:game-refinements` and full regression. Existing tools, modes, six themes and save formats remain.
 
 Sudoku displays its measured technique rating with the local game summary, including when no remote match is active. The full guide retains the previous release entries and describes search limits, hint stages and explicit board resynchronization.
+
+## Compact Games and readiness (v52)
+
+Games adds a slim match bar, settings popup/mobile sheet and a width-aware landscape layout. Remote boards and clocks wait for a separate Ready from each player. Optional move previews require explicit confirmation and are discarded when their board/turn/lease becomes stale. Both remote pages need v52 / protocol 5. Save formats, 15 games, all modes and six themes remain. See [scope and usage](docs/games-compact-v52.md); run `npm run test:v52` and full regression.
+
+For a remote match, accept the invitation, review the agreed settings and choose I’m ready on both screens. Move previews are local to the choosing player until confirmed; the turn timer continues while deciding.
