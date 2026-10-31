@@ -2985,7 +2985,7 @@ html[data-motion=off] *,html[data-motion=off] *::before,html[data-motion=off] *:
         board3 = live;
         reconcileBoard(live, draft);
         const m = session.match, v = m?.view;
-        $2("gameLogicRating").textContent = "";
+        if (ownsView()) $2("gameLogicRating").textContent = "";
         if (v) $2("gameMoveRules").textContent = explainBoard(live, { game: v.game, state: v.ludo || v, waiting: !session.canAct(), finished: !!v.winner });
         if (pendingFeedback) feedback2?.update(pendingFeedback);
         if (focused && !focus.isConnected) live.focus({ preventScroll: true });
