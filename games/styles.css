@@ -130,6 +130,36 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 /* Board reasoning cues retain text labels and respect reduced-motion preferences. */
 .winning-cell51{box-shadow:inset 0 0 0 4px var(--accent)!important;text-decoration:underline;text-decoration-thickness:3px}.flipped-cell51{outline:2px dashed var(--accent);outline-offset:-3px}#gameMoveRules,#gameLogicRating{font-size:12px;line-height:1.6;overflow-wrap:anywhere}#gameLogicRating:empty{display:none}
 
+/* v52: one compact match bar and board-first responsive play. */
+.play-card{container-type:inline-size;max-width:min(100%,1040px);padding:18px}
+.game-heading{align-items:center;padding-bottom:10px}.game-heading h1{font-size:clamp(22px,2.5vw,28px);margin:0}.game-heading .eyebrow{display:none}
+.match-bar{margin:10px 0 14px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:13px;overflow-wrap:anywhere}
+.match-bar p{margin:0!important;min-height:0!important;line-height:1.5}
+#localMatchSummary,#remoteMatchSummary{display:flex;align-items:center;gap:5px 14px;flex-wrap:wrap}
+#localMatchSummary #playSetup{font-size:12px;color:var(--muted);flex:1 1 180px}#localMatchSummary #gameStatus{font-size:13px;flex:1 1 220px}
+#remotePlayers{font-size:13px}#remoteSeriesScore{font-size:12px;flex:1}#remoteGameStatus{flex-basis:100%;font-size:13px}#remoteTurnClock{padding:2px 7px;font-size:12px;white-space:nowrap}
+.play-layout,.play-board-column,.play-controls-column{min-width:0;max-width:100%}.play-controls-column:empty{display:none}
+.play-board-column #board,.play-board-column .remote-board{margin:8px auto}.play-controls-column .coach{margin-top:10px}.play-controls-column .hint{text-align:left;margin:10px 0}
+#remoteMatchTitle{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0}
+.remote-game-actions{margin:8px 0}.remote-game-actions button{font-size:13px;padding:8px 10px}
+.remote-ready-panel{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:13px;margin-bottom:10px}.remote-ready-panel p{margin:0 0 8px;overflow-wrap:anywhere}.remote-ready-panel .hint{text-align:left;margin:8px 0 0}
+.move-confirmation{padding:10px 12px;margin-top:10px;border:2px solid var(--accent);border-radius:12px;background:var(--paper);font-size:13px}.move-confirmation p{margin:0 0 8px}.move-confirmation>div{display:flex;gap:8px;flex-wrap:wrap}.move-confirmation button{padding:8px 12px;min-height:44px}#confirmMove{background:var(--accent);color:var(--game-on)}
+.pending-move52{outline:3px dashed var(--accent)!important;outline-offset:-4px!important}.ludo-visual .pending-move52{outline:none!important;stroke:var(--ink);stroke-dasharray:3 2;stroke-width:5}
+@container (min-width:680px){.play-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,.5fr);gap:18px;align-items:start}.play-controls-column{padding-left:16px;border-left:1px solid var(--line)}.play-controls-column #gameControls{justify-content:start}.play-controls-column .coach{margin-top:0}.play-controls-column .keypad{grid-template-columns:repeat(3,minmax(44px,1fr))}.play-controls-column .remote-game-actions{margin-top:0;flex-direction:column}.play-controls-column .remote-game-actions button{width:100%}}
+#settingsDialog{position:fixed;inset:auto;margin:0;width:420px;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);padding:0;border:1px solid var(--line);border-radius:16px;background:var(--paper);color:var(--ink);overflow:auto;overscroll-behavior:contain;box-shadow:0 16px 50px #0003}
+#settingsDialog::backdrop{background:#14231b50}#settingsDialog .settings-panel{margin:0;padding:18px;width:100%;max-width:none;border:0;border-radius:0;background:transparent}.settings-heading{position:sticky;top:-18px;z-index:2;background:var(--paper);padding:8px 0}.settings-heading h2{font-size:19px}.confirm-moves-label{display:flex;align-items:center;gap:10px;font-size:14px;min-height:44px}.confirm-moves-label input{width:20px;height:20px;flex-shrink:0}#settingsDialog .hint{text-align:left;font-size:12px;margin:6px 0 14px}#settingsDialog .save-panel{margin:16px 0 0;padding:12px}#settingsDialog .theme-label{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap;margin:12px 0}#settingsDialog select{max-width:100%;min-width:0}
+@media(max-width:650px){#settingsDialog{inset:auto 0 0;margin:0;width:100%;max-width:100%;max-height:85dvh;border-radius:20px 20px 0 0;padding-bottom:env(safe-area-inset-bottom)}body.settings-open{overflow:hidden}#settingsDialog .settings-panel{padding:16px}.play-card{padding:12px 10px}.match-bar{padding:8px 10px}.play-heading-actions{flex:none}.move-confirmation>div>button{flex:1}}
+@media(prefers-reduced-motion:no-preference){#settingsDialog[open]{animation:settings-enter52 .14s ease-out}@keyframes settings-enter52{from{transform:translateY(6px)}to{transform:translateY(0)}}}
+
+@media (max-height:500px) and (max-width:1100px){body,body[data-dock=collapsed]{--dock-width:56px;padding-bottom:72px}#gameDock{padding:12px 6px}body[data-dock=expanded]{--dock-width:56px}body[data-dock=expanded] #gameDock{width:216px;box-shadow:8px 0 25px #0002}body.dock-overlay{overflow:hidden}#dockBackdrop{position:fixed;inset:0;z-index:25;border:0;border-radius:0;background:#101b2470;padding:0}#arcadeMain{padding:16px 10px}#playersDock{top:auto;bottom:12px;max-height:80dvh;width:min(290px,calc(100vw - 24px))}#playersDock[data-open=false]{width:auto}#settingsDialog{inset:auto 0 0;width:100%;max-width:100%;max-height:85dvh;border-radius:20px 20px 0 0;padding-bottom:env(safe-area-inset-bottom)}body.settings-open{overflow:hidden}}
+#localPlayersSummary:empty{display:none}#localPlayersSummary{font-weight:700;font-size:13px}
+
+/* Light game pieces keep their own readable ink in every palette. */
+#board.memory button,#board.ttt button{color:#203e35}
+@media (max-height:500px) and (max-width:1100px){#board.ttt{width:min(100%,max(180px,calc(100dvh - 170px)))}#remoteBoard[data-game=ttt]{width:min(100%,max(180px,calc(100dvh - 180px)))}#remoteBoard[data-game=ttt] button{height:clamp(44px,calc((100dvh - 216px)/3),90px)}}
+
+@media (max-height:500px) and (max-width:1100px){#arcadeMain{padding:10px}.play-card{padding:12px}.game-heading{padding-bottom:6px}.match-bar{margin:8px 0 10px;padding:7px 10px}#board.ttt{width:min(100%,max(180px,calc(100dvh - 190px)))}}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}
