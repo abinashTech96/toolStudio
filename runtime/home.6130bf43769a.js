@@ -758,12 +758,18 @@ function installHome(c, registry, options = {}) {
     }
   }
   function placeResults() {
+    const moveAfter = (anchor) => {
+      if (anchor.nextElementSibling === results) return;
+      const focus = results.contains(document.activeElement) ? document.activeElement : null;
+      anchor.after(results);
+      focus?.focus({ preventScroll: true });
+    };
     if (search.value.trim()) {
-      searchBox.after(results);
+      moveAfter(searchBox);
       return;
     }
     if (!category) {
-      browse.after(results);
+      moveAfter(browse);
       return;
     }
     const tiles = [...categoryGrid.querySelectorAll(".home-category-tile")], index = tiles.findIndex((tile) => tile.dataset.categoryTile === category);
