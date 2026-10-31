@@ -41,7 +41,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('#gameStatus').textContent.includes('X to play'));
   assert.equal(await page.locator('#board .X,#board .O').count(),6);
   await page.locator('#hint').click();await page.locator('#board .suggested').waitFor();
-  assert.equal(await page.locator('#board .suggested:not(:disabled)').count(),1);assert((await page.locator('#hintText').innerText()).includes('four-ply'));
+  assert.equal(await page.locator('#board .suggested:not(:disabled)').count(),1);assert((await page.locator('#hintText').innerText()).includes('small-endgame'));
  });
  await test('Reversi two-player mode alternates, while switching cancels stale computer replies',async()=>{
   await page.getByLabel('Opponent',{exact:true}).selectOption('two');await page.locator('#board button:not(:disabled)').first().click();assert((await page.locator('#gameStatus').innerText()).includes('O to play'));

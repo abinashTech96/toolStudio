@@ -127,6 +127,9 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 
 .ludo-visual .last-move50{outline:none!important;stroke:var(--accent);stroke-width:5;filter:drop-shadow(0 0 2px var(--ink))}
 
+/* Board reasoning cues retain text labels and respect reduced-motion preferences. */
+.winning-cell51{box-shadow:inset 0 0 0 4px var(--accent)!important;text-decoration:underline;text-decoration-thickness:3px}.flipped-cell51{outline:2px dashed var(--accent);outline-offset:-3px}#gameMoveRules,#gameLogicRating{font-size:12px;line-height:1.6;overflow-wrap:anywhere}#gameLogicRating:empty{display:none}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}

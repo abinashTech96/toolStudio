@@ -1,3 +1,4 @@
+import {winningCells} from './board-ui.js';
 import {ludoSeats,ludoColors} from './ludo.js';
 const supported=new Set(['ttt','connect4','reversi']);
 export function installBoardReview(){
@@ -7,7 +8,7 @@ export function installBoardReview(){
   if(!supported.has(game)||!Array.isArray(values)){button.remove();note.remove();return;}
   let h=histories.get(run);if(!h){h={game,frames:[],last:-1};histories.set(run,h);if(histories.size>20)histories.delete(histories.keys().next().value);}
   const before=h.frames.at(-1);if(!before||JSON.stringify(before)!==JSON.stringify(values)){h.last=before?values.findIndex((v,i)=>v&&before[i]===''):-1;h.frames.push(values.slice());if(h.frames.length>200)h.frames.shift();}
-  current=h;const board=anchor.querySelector('#board,#remoteBoard');if(board){board.querySelectorAll('.last-move50').forEach(e=>e.classList.remove('last-move50'));const cells=game==='connect4'?board.querySelectorAll('.disc'):board.children;if(h.last>=0){cells[h.last]?.classList.add('last-move50');const columns=game==='ttt'?3:game==='connect4'?7:8;note.textContent='Last move: row '+(Math.floor(h.last/columns)+1)+', column '+(h.last%columns+1);anchor.after(note);}else note.remove();}
+  current=h;const winning=winningCells(game,values);const board=anchor.querySelector('#board,#remoteBoard');if(board){board.querySelectorAll('.last-move50').forEach(e=>e.classList.remove('last-move50'));const cells=game==='connect4'?board.querySelectorAll('.disc'):board.children;board.querySelectorAll('.winning-cell51,.flipped-cell51').forEach(e=>e.classList.remove('winning-cell51','flipped-cell51'));for(const i of winning)cells[i]?.classList.add('winning-cell51');const previous=h.frames.at(-2);if(game==='reversi'&&previous)values.forEach((v,i)=>{if(previous[i]&&v&&previous[i]!==v)cells[i]?.classList.add('flipped-cell51');});if(h.last>=0){cells[h.last]?.classList.add('last-move50');const columns=game==='ttt'?3:game==='connect4'?7:8;note.textContent='Last move: row '+(Math.floor(h.last/columns)+1)+', column '+(h.last%columns+1);anchor.after(note);}else note.remove();}
   if(result)note.isConnected?note.after(button):anchor.after(button);else button.remove();
  }
  button.onclick=()=>{

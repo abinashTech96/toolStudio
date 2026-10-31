@@ -25,6 +25,7 @@ jobs:
       - run: npm run test:connection
       - run: npm run test:remote-games
       - run: npm run test:game-feedback
+      - run: npm run test:game-refinements
       - run: npm run test:v50
       - run: npm run check
       - run: npm test
@@ -78,6 +79,7 @@ jobs:
       - run: npm run test:connection
       - run: npm run test:remote-games
       - run: npm run test:game-feedback
+      - run: npm run test:game-refinements
       - run: npm run test:v50
       - run: npm run test:home-redesign
       - run: npm run test:games-extra
