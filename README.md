@@ -143,3 +143,5 @@ The shared Connection handshake uses bounded greeting retries while retaining se
 Release checks verify a complete HTML guide, current and previous release entries, and an exact match between the guide source and built copy.
 
 Ludo board highlights use visual-only piece markers, leaving the playable token controls intact. Narrow review panels use a single-column layout and wrapping actions; the browser matrix verifies their viewport bounds.
+
+Home search keeps keyboard focus when responsive callbacks reposition results. Regression also checks focus after an explicit resize during keyboard navigation.
