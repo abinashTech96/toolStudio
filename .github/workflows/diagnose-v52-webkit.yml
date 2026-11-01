@@ -1,0 +1,31 @@
+name: Diagnose v52 WebKit resume
+on:
+  push:
+    branches: [codex/v52-webkit-check]
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      REVIEW_BROWSER: webkit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - run: npx playwright install --with-deps webkit
+      - run: npm run build
+      - name: Reproduce saved computer turn with failure diagnostics
+        run: |
+          for attempt in 1 2 3; do
+            node tests/arcade43.browser.mjs
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webkit-diagnostic-results
+          path: test-results/
