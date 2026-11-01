@@ -159,3 +159,5 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 @media (max-height:500px) and (max-width:1100px){#board.ttt{width:min(100%,max(180px,calc(100dvh - 170px)))}#remoteBoard[data-game=ttt]{width:min(100%,max(180px,calc(100dvh - 180px)))}#remoteBoard[data-game=ttt] button{height:clamp(44px,calc((100dvh - 216px)/3),90px)}}
 
 @media (max-height:500px) and (max-width:1100px){#arcadeMain{padding:10px}.play-card{padding:12px}.game-heading{padding-bottom:6px}.match-bar{margin:8px 0 10px;padding:7px 10px}#board.ttt{width:min(100%,max(180px,calc(100dvh - 190px)))}}
+
+body:not(.remote-playing) #remoteRules{display:none}
