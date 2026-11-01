@@ -57,3 +57,5 @@ All fifteen games expose a same-device friends option in header Settings. Six ha
 The header uses a compact 44 × 44 px Game settings gear button in both the library and play views. Its tooltip and accessible name identify it; Enter/Space opens the existing options, and Escape returns focus to the gear. Difficulty, Computer/Local/Remote modes and appearance remain in those options.
 
 See [v51 logic refinements](games-refinements-v51.md) for adaptive coaches, measured Sudoku ratings, progressive hints, stable board cells and explicit public-board consistency recovery. Both remote devices need v51.
+
+See [v52 compact play and readiness](games-compact-v52.md) for the shared match bar, settings overlay, landscape controls, two-player Ready and optional move confirmation. Current remote pages require v52 / protocol 5.
