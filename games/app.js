@@ -147,7 +147,7 @@ let fallbackFullscreen=false;
 function syncFullscreen(){const on=!!document.fullscreenElement||fallbackFullscreen;$('fullscreen').hidden=on;$('exitFullscreen').hidden=!on;document.body.classList.toggle('game-fullscreen',on)}
 $('fullscreen').onclick=async()=>{try{if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else fallbackFullscreen=true}catch{fallbackFullscreen=true}syncFullscreen()};
 $('exitFullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen()}catch{}fallbackFullscreen=false;syncFullscreen()};
-document.addEventListener('fullscreenchange',syncFullscreen);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&fallbackFullscreen){fallbackFullscreen=false;syncFullscreen()}});
+document.addEventListener('fullscreenchange',syncFullscreen);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&fallbackFullscreen&&!$('settingsDialog').open&&$('moveConfirmation').hidden){fallbackFullscreen=false;syncFullscreen()}});
 if(location.protocol==='file:'){$('studioLink').href='./Calc_Studio_Offline.html';$('guideLink').hidden=true}
 moveConfirm=installMoveConfirmation();
 arcadeShell=installLibrary({getProfile:()=>profile,play:id=>start(id),onLeave:()=>{feedback?.hide();leave();stop()},onPause:()=>{moveConfirm.cancel();if(state&&game==='snake')pauseSnake()},persist:saveSoon});

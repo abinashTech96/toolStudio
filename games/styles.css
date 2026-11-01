@@ -160,6 +160,8 @@ body[data-dock=collapsed] #gameDock{padding:16px 8px}body[data-dock=collapsed] .
 
 @media (max-height:500px) and (max-width:1100px){#arcadeMain{padding:10px}.play-card{padding:12px}.game-heading{padding-bottom:6px}.match-bar{margin:8px 0 10px;padding:7px 10px}#board.ttt{width:min(100%,max(180px,calc(100dvh - 190px)))}}
 
+body:not(.remote-playing) #remoteRules{display:none}
+
 /* Shared controls retain native semantics, original nodes and existing theme palettes. */
 :root{--studio-control-radius:9px;--studio-control-height:36px;--studio-control-gap:8px;--studio-space:12px;--studio-dialog-shadow:0 12px 48px #0004}
 :where(button,input,select,textarea,summary){font:inherit;box-sizing:border-box}

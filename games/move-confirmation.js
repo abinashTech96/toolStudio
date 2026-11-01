@@ -10,6 +10,7 @@ export class MovePreview {
 
 export function installMoveConfirmation(){
  const $=id=>document.getElementById(id),panel=$('moveConfirmation'),toggle=$('confirmMoves');
+ toggle.checked=false;
  const clear=()=>document.querySelectorAll('.pending-move52').forEach(e=>e.classList.remove('pending-move52'));
  const preview=new MovePreview(()=>{clear();const p=preview.pending;panel.hidden=!p;if(p){$('movePreviewText').textContent=p.label;for(const el of p.targets?.()||[])el?.classList.add('pending-move52');}});
  const cancel=(restore=false)=>{const p=preview.cancel();if(restore){const target=p?.origin?.isConnected?p.origin:p?.board?.();target?.focus({preventScroll:true});}};
