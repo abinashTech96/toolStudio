@@ -21,3 +21,5 @@ Readiness packets use protocol 5: both Games pages need v52. Existing QR securit
 All 84 workspaces, 139 routes including 105 legacy IDs, 15 games, six themes and v2 save/profile formats are retained. No dependency, account, theme or server is added. Preview preference is not serialized. Desktop WebRTC and simulated transport results do not certify actual Moto/Vivo cameras, Wi-Fi/hotspots, app switching or phone screen locks.
 
 `npm run test:v52` adds logic/protocol and real UI cases to full regression and the native browser matrix. The PR records final exact-head regression and browser evidence. Existing gameplay fixtures now navigate the real settings overlay and explicitly complete Ready; dedicated v52 tests independently exercise the waiting and modal states.
+
+The preview checkbox resets after a reload and is excluded from browser form restoration. Escape dismisses the current settings or move-preview layer before fallback fullscreen exits; local How to play hides remote-only rules. These cases are covered alongside the retained v50 completed-board review workflow.
